@@ -52,6 +52,12 @@ export default {
           active1: "hangqing"
         },
         {
+          name: "/Register",
+          title: "历史",
+          normal: "hangqing",
+          active1: "hangqing"
+        },
+        {
           name: "/",
           title: "账户",
           normal: "zhanghu",
