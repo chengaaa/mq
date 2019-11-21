@@ -34,31 +34,31 @@ export default {
       active: 0,
       tabbars: [
         {
-          name: "/",
+          name: "/home",
           title: "首页",
           normal: "ai-home",
           active1: "ai-home"
         },
         {
-          name: "/login",
+          name: "/transaction",
           title: "交易",
           normal: "jiaoyi",
           active1: "jiaoyi"
         },
         {
-          name: "/Register",
+          name: "/quotation",
           title: "行情",
           normal: "hangqing",
           active1: "hangqing"
         },
         {
-          name: "/Register",
+          name: "/history",
           title: "历史",
           normal: "hangqing",
           active1: "hangqing"
         },
         {
-          name: "/",
+          name: "/account",
           title: "账户",
           normal: "zhanghu",
           active1: "zhanghu"
@@ -79,8 +79,9 @@ export default {
 
   methods: {
     tab(index) {
+      
       this.active = index;
-      console.log(this.active);
+      // console.log(this.active);
       window.sessionStorage.setItem("tab", this.active);
     // console.log(JSON.parse(window.localStorage.getItem("tab")) ) 
       // console.log(index);

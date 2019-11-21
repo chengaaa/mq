@@ -5,7 +5,9 @@ import router from './router'
 import store from './store'
 import fastclick from 'fastclick'
 import Vant from 'vant';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from './http'
+
 import MintUI from 'mint-ui'
 import 'vant/lib/index.css';
 import "./assets/icon/iconfont.css";
@@ -18,8 +20,8 @@ Vue.use(Vant);
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
-axios.defaults.timeout = 5000 // 请求超时
-axios.defaults.baseURL = '/api'
+// axios.defaults.timeout = 5000 // 请求超时
+// axios.defaults.baseURL = '/api'
 
 
 

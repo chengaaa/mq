@@ -9,12 +9,16 @@
     </van-swipe>
     
     <div class="home-btn">
+      <router-link to="/login">
       <div class="btn" id="login-btn">
-        <a href>登录</a>
+        <a >登录</a>
       </div>
+      </router-link>
+      <router-link to="/register">
       <div class="btn" id="regist-btn">
         <a href>立即注册</a>
       </div>
+      </router-link>
     </div>
     <btch class="margin"></btch>
   </div>
