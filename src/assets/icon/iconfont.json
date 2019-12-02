@@ -20,11 +20,32 @@
       "unicode_decimal": 59102
     },
     {
+      "icon_id": "1111274",
+      "name": "mac",
+      "font_class": "mac",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
       "icon_id": "1117630",
       "name": "交易",
       "font_class": "jiaoyi",
       "unicode": "e87c",
       "unicode_decimal": 59516
+    },
+    {
+      "icon_id": "1200329",
+      "name": "历史",
+      "font_class": "lishi",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "2325971",
+      "name": "安卓",
+      "font_class": "anzhuo",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
     },
     {
       "icon_id": "2467524",
@@ -137,6 +158,20 @@
       "font_class": "BTC",
       "unicode": "e62d",
       "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "8809068",
+      "name": "交易",
+      "font_class": "jiaoyi2",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "9339998",
+      "name": "行情",
+      "font_class": "zichancopy",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
     }
   ]
 }

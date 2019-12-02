@@ -171,13 +171,13 @@
 import Button from "../components/Button";
 import { checkUser } from "../tools/check.js";
 import { mapMutations } from "vuex";
-import Qs from "qs";
+// import Qs from "qs";
 
 export default {
   data() {
     return {
       data: {
-        account: "100104",
+        account: "100111",
         password: "abcd1234"
       }
     };
@@ -189,12 +189,14 @@ export default {
     check() {
       checkUser();
     },
-    ...mapMutations(["changeLogin"]),
-
+    // ...mapMutations(["changeLogin"]),
+...mapMutations(['setToken']),
     login() {
       // this.data = JSON.stringify(this.data);
       //  var data = Qs.stringify(this.data);
-      let _this = this;
+     
+      let username = document.getElementById("username")
+      let password = document.getElementById("password")
 
       if (username.value == "" || password.value == "") {
         alert("用户名密码不能为空");
@@ -206,17 +208,19 @@ export default {
           .post("/login", this.data)
           // 监听数据返回
           .then(({ data }) => {
-            // console.log(data);
             // 如果登录成功
             if (data.code === 0) {
-              _this.userToken = "Bearer" + data.access_token;
-              _this.changeLogin({ Authorization: _this.userToken });
-              // let redirect = decodeURIComponent(_this.$router.query.redirect || '/')
-              // console.log(redirect)
-              // this.$router.push({query:{redirect:this.$router.currentRoute.fullPath}  });
+                console.log(data.access_token)
+              this.setToken("Bearer" + " " + data.access_token)
+  
               let hostName = this.$route.query.redirect;//获取域名
-              console.log(hostName)
-              this.$router.push(hostName);
+              // console.log(hostName)
+              if (hostName) {
+                   this.$router.push(hostName);
+              } else {
+                this.$router.push('/');
+              }
+             
 
     //          this.$router.replace({
     //     path: '/transaction',      
@@ -231,8 +235,8 @@ export default {
             }
           });
       }
+      
 
-      // console.log("登录")
     }
   },
   computed: {

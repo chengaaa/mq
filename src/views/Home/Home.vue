@@ -92,14 +92,14 @@
 }
 </style>
 <script>
-import Fixed from "../components/Fixed";
-import Btch from "../components/Btch";
-import Enlig from "../components/Enlig";
+import Fixed from "../../components/Fixed";
+import Btch from "../../components/Btch";
+import Enlig from "../../components/Enlig";
 
 export default {
   data() {
     return {
-      images: [require("../assets/lunbo1.jpg"), require("../assets/lunbo2.jpg")]
+      images: [require("../../assets/lunbo1.jpg"), require("../../assets/lunbo2.jpg")]
     };
   },
   components: {

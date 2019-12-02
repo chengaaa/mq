@@ -16,7 +16,7 @@
 </template>
 <style lang="scss" scoped>
 .iconfont {
-  font-size: 0.506667rem /* 38/75 */;
+  font-size: .533333rem /* 40/75 */;
 }
 .van-tabbar {
   height: 1.493333rem /* 112/75 */;
@@ -48,14 +48,14 @@ export default {
         {
           name: "/quotation",
           title: "行情",
-          normal: "hangqing",
-          active1: "hangqing"
+          normal: "zichancopy",
+          active1: "zichancopy"
         },
         {
           name: "/history",
           title: "历史",
-          normal: "hangqing",
-          active1: "hangqing"
+          normal: "lishi",
+          active1: "lishi"
         },
         {
           name: "/account",

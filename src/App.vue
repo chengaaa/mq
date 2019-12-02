@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
+    	<keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+
+  
     
      <tabbar v-if="tabbarShow"></tabbar>
   </div>
@@ -31,10 +36,15 @@ export default {
    watch:{
     $route(to,from){
       //判断是否显示tabbar
-      if(to.path == '/login' || to.path == '/register'){
-        this.$store.commit('updateTabbarShow',false);
-      }else{
+      // if(to.path == '/login' || to.path == '/register'){
+      //   this.$store.commit('updateTabbarShow',false);
+      // }else{
+      //   this.$store.commit('updateTabbarShow',true);
+      // }
+       if(to.path == '/home' || to.path == '/transaction' || to.path == '/quotation' || to.path == '/history'|| to.path == '/account'){
         this.$store.commit('updateTabbarShow',true);
+      }else{
+        this.$store.commit('updateTabbarShow',false);
       }
 
     }
@@ -43,6 +53,14 @@ export default {
     tabbarShow(){
       return this.$store.getters.getTabbarShow
     }
+  },
+  methods: {
+      reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+  },
   }
   
 }

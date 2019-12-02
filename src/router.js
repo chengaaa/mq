@@ -23,7 +23,7 @@ const router = new Router({
     { //首页
       path: '/home',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue')
 
     },
     {//交易
@@ -41,7 +41,7 @@ const router = new Router({
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Quotation.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Quotation.vue'),
     },
     {//历史
       path: '/history',
@@ -70,19 +70,39 @@ const router = new Router({
     {//注册
       path: '/register',
       name: 'Register',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/Register.vue')
-    }
+    },
+    {//下载app
+      path: '/download',
+      name: 'download',
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/Download.vue')
+    },
+      {//添加全部
+        path: '/addall',
+        name: 'Addall',
+        component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Addall.vue'),
+        meta: {
+        	keepAlive: true  // 需要缓存
+      	  }
+      },
+       {//全部详情
+        path: '/detail/:id',
+        name: 'detail',
+        component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Detail.vue'),
+        props: true
+      }
   ]
 });
 //使用router.beforeEach,注册一个全局前置守卫,判断用户是否登录
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
     console.log("存在")
-      if (store.state.Authorization) { 
-        console.log(store.state.Authorization) // 通过vuex state获取当前的token是否存在
+    // let token = localStorage.getItem('Authorization'); 
+    let token = store.state.Authorization
+    console.log(token)
+    console.log(token)
+      if (token) { 
+        console.log(localStorage.getItem('Authorization')) // 获取当前的token是否存在
           next();
       }
       else {

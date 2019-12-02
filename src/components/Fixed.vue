@@ -65,24 +65,7 @@ width: 2.666667rem /* 200/75 */;
       
   }
 }
-// .enlig {
-//     width: 100%;
-//     background: rgba(0,0,0,.9);
-//     // background: white;
-//     height: 100px;
-//     border-bottom: 1px solid #eeeeee;
-//     h2 {
-//     width: 100%;
-//     height: 100px;
-//     font-size: 58px;
-//     color:black;
-//     color:#ff6537;
-//     color:white;
-//     padding-left: 40px;
 
-
-//     }
-// }
 }
 </style>
 <script>
@@ -94,7 +77,7 @@ export default {
     },
     methods: {
         but() {
-            console.log("nihao")
+           this.$router.push('/download')
         }
     }
 };

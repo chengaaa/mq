@@ -5,7 +5,7 @@
 
 import axios from 'axios'
 import store from './store'
-// import * as types from './store/types'
+// import * as store from './store'
 import router from './router'
 
 // axios 配置
@@ -15,8 +15,17 @@ axios.defaults.baseURL =  '/api';
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-        if (store.state.Authorization) {
-            config.headers.Authorization = `token ${store.state.Authorization}`;
+         if (store.state.Authorization) {
+            // console.log(config)
+             let token = store.state.Authorization;
+           // let token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzYWNjIjoiMjY5aG9peDdBWGs9IiwiaWF0IjoxNTc0NjU2NjM4fQ.yaM_G9n5dP81FTuqpoe7oPp4UQaxNg3BUuNU8hlxkfs'
+
+
+            // console.log(token)
+
+          config.headers.Authorization = token;
+        // config.headers.common['Authorization'] = token;
+
         }
         return config;
     },
@@ -34,7 +43,7 @@ axios.interceptors.response.use(
             switch (error.response.status) {
                 case 401:
                     // 401 清除token信息并跳转到登录页面
-                    store.commit(logout);
+                    store.commit(store.logout);
                     router.replace({
                         path: '/login',
                         // query: {redirect: router.currentRoute.fullPath}
@@ -45,7 +54,7 @@ axios.interceptors.response.use(
             }
         }
         // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
-        return Promise.reject(error.response.data)
+        return Promise.reject(error.response)
     });
 
 export default axios;
