@@ -1,6 +1,11 @@
 <template>
   <div class="addall-page">
-    <Navheader class="navbar" ref="child" @click="back"></Navheader>
+    <!-- <Navheader class="navbar" ref="child" @click="back"></Navheader> -->
+    <div class="navheader">
+      <div class="arrow">
+        <van-icon name="arrow-left" size="80" color="blue" @click="go" />
+      </div>
+    </div>
 
     <div v-for="(item,index) in list" :key="index" class="addall-a" @click="detail">
       <div>
@@ -47,8 +52,9 @@
 }
 </style>
 <script>
-import Navheader from "../../components/Navheader";
+// import Navheader from "../../components/Navheader";
 import { mapMutations } from "vuex";
+import store from "../../store";
 
 export default {
   data() {
@@ -62,6 +68,10 @@ export default {
   },
   methods: {
     ...mapMutations(["setArr"]),
+    go() {
+      this.$router.push({ name: "quotation" });
+      console.log("go");
+    },
 
     detail() {
       //   this.$router.push("/detail");
@@ -72,34 +82,32 @@ export default {
     getData() {
       // let { params } = this.$route;
       // console.log("你好",params)
-      console.log("你好", this.$route);
+      //  console.log("你好", this.$route);
 
       this.$http.get("/market/symbols").then(({ data }) => {
         this.list = data.data;
-        console.log(data);
-        console.log(this.list);
+        //    console.log(data);
+        //    console.log(this.list);
       });
     },
     add(index) {
-      this.list.splice(index, 1);
-
       this.other.push(this.list.splice(index, 1));
-      console.log("other", this.other);
       var arr = this.other;
-      // arr[index][0].ask = 0;
-      // console.log("index",arr[index])
-      this.setArr(arr);
-      console.log(arr[index][0],"arrarr");
+      // arr[0][0].ask = '0.00';
+      for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < arr[i].length; j++) {
+          arr[i][j].bid = "0.00";
+          arr[i][j].ask = "0.00";
+        }
+      }
 
-      // localStorage.setItem("temp", arr);
-      // console.log(typeof localStorage.getItem("temp"))
+      this.setArr(arr);
 
       console.log("add", index);
     }
   },
-
   components: {
-    Navheader
+    // Navheader
   }
 };
 </script>

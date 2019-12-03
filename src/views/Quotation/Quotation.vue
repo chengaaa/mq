@@ -3,27 +3,25 @@
     <div>
       <Header class="quotation-header"></Header>
     </div>
-    <div v-for="(itema, indexs) in QuotationArr" :key="indexs">
+    <div v-for="(itema, indexs) in QuotationArr" :key="indexs" scope="scope">
       <!-- <div v-for="(items, ind) in item" :key="ind"> -->
 
       <div class="div" v-for="(itemss, indexx) in itema" :key="indexx">
-      <div class="hh" v-for="(itemsss, indexxx) in itema" :key="indexxx">
-
-
-      <h1>{{itemsss.symbolName}}</h1>
-        <p>{{itemsss.ask}}</p>
-        <span>{{itemsss.bid}}</span>
-      </div>
+        <div class="hh" v-for="(itemsss, indexxx) in itema" :key="indexxx">
+          <h1>{{itemsss.symbolName}}</h1>
+          <p :class="itemsss.active ?  'active':'noactive'" >{{itemsss.ask}}</p>
+          <span id="span">{{itemsss.bid}}</span>
         </div>
+      </div>
       <!-- </div> -->
     </div>
 
     <!-- <div v-for="(item,index) in dataArr" :key="index"> -->
     <!-- <div> -->
-      <!-- <div v-for="(itemb, indexa) in QuotationArr" :key="indexa"> -->
-       
-        <!-- </div> -->
-      <!-- </div> -->
+    <!-- <div v-for="(itemb, indexa) in QuotationArr" :key="indexa"> -->
+
+    <!-- </div> -->
+    <!-- </div> -->
     <!-- </div> -->
   </div>
 </template>
@@ -31,13 +29,19 @@
 .quotation {
   padding-top: 1.6rem /* 120/75 */;
   padding-left: 0.666667rem /* 50/75 */;
+  .active {
+    color: blue;
+  }
+  .noactive {
+    color: brown;
+  }
   .hh {
     display: flex;
     justify-content: space-around;
   }
-  p {
-    color: red;
-  }
+  // p {
+  //   color: red;
+  // }
   .quotation-header {
     background: white;
     position: fixed;
@@ -68,6 +72,8 @@ import { mapMutations } from "vuex";
 export default {
   data() {
     return {
+       num0 : "0",
+      isActive: true,
       QuotationArr: [],
       dataArr: [],
       ws: null, //建立的连接
@@ -82,24 +88,22 @@ export default {
     Header
   },
 
-
-  mounted() {
+  created() {
     this.get();
     this.initWebpack();
-    
-    
   },
-  // mounted() {},
+  mounted() {},
   methods: {
     ...mapMutations(["setdataArr"]),
+    ...mapMutations(["setArr"]),
 
     get() {
       console.log(store.state.arr);
-      this.QuotationArr = store.state.arr;
+      this.QuotationArr = JSON.parse(JSON.stringify(store.state.arr));
+      //
       console.log(this.QuotationArr, "第一个数组");
-     
     },
-   
+
     initWebpack() {
       var token = store.state.Authorization.substring(7);
       console.log(token);
@@ -170,47 +174,92 @@ export default {
       });
       this.ws.send(ms);
 
-
       console.log("open");
       // this.getNoReadRecords();
       //开启心跳
       // this.start();
     },
     onmessage(e) {
-       console.log(e.data)
-
       this.mydata = JSON.parse(e.data).data;
-      console.log(this.mydata);
       if (this.mydata) {
-        this.setdataArr(this.mydata);
+        var mydata = this.mydata;
+        this.setdataArr(mydata);
         this.dataArr = store.state.dataArr;
+        console.log(this.mydata, "实时");
         console.log(this.dataArr, "第二个数组");
-           
-
-
+        console.log(this.QuotationArr, "第三个");
+        //  debugger
         for (let i = 0; i < this.QuotationArr.length; i++) {
-            for (let j = 0; j < this.dataArr.length; j++) {
-             console.log(this.QuotationArr[i],"222symbolName")
-             var data1 = this.QuotationArr[i][0];
-             var data2 = this.dataArr[j];
-            //  console.log(data1,"data1")
-            //  console.log(data2.ask, "data2")
-
-          if (data1.symbolName == data2.symbol) {
+          for (let j = 0; j < this.dataArr.length; j++) {
+            var data1 = this.QuotationArr[i][0];
+            var data2 = this.dataArr[j];
+            if (data1.symbolName == data2.symbol) {
               data1.ask = data2.ask;
               data1.bid = data2.bid;
-        this.setdataArr(this.QuotationArr);
-          }
-             
-              
-            
+            }
           }
         }
-
-        this.QuotationArr = this.QuotationArr;
-              console.log(this.QuotationArr,"datatat")
-
       }
+        // this.QuotationArr = JSON.parse(this.QuotationArr);
+          console.log(this.QuotationArr,"datatat")
+        // this.setdataArr(this.QuotationArr);
+        console.log(store.state.arr, "lastlast")
+
+         for (let i = 0; i < this.QuotationArr.length; i++) {
+          for (let j = 0; j < this.dataArr.length; j++) {
+            var sym1 = this.QuotationArr[i][0];
+            console.log(sym1,"fffffffffff")
+            var sym2 = this.dataArr[j];
+            console.log(sym2,"eeeeeeeeeeeeeee")
+
+            if (sym1.symbolName == sym2.symbol) {
+              console.log(this.QuotationArr[i]
+) 
+              var ask = this.QuotationArr[i][0].ask;
+              console.log(ask,"askaskaskaskask")
+              if(this.num0 < ask) {
+                 sym1.isActive = true;
+                 console.log("nijijijiji")
+              } else {
+                 sym1.isActive = false;
+
+              }
+            }
+              this.num0 = ask;
+          }
+        }
+      
+        
+        // for (let k = 0; k < this.QuotationArr.length; k++) {
+        //    for (let l =0; l < this.QuotationArr[k].length; l++) {
+        //   //  console.log(this.QuotationArr[k][l],"55555555555555")
+
+        //   console.log(this.QuotationArr[k], "2222222222222");
+        //   console.log(this.QuotationArr[k][l], "111111111111");
+
+        //   //  $(#num[k].index)
+        //   // console.log(parseInt(num[k][l].ask),"88888888888888")
+        //   var ask = this.QuotationArr[k][l].ask;
+        //   // console.log(ask,"pppp")
+        //   // console.log(this.num0,"77777777777777")
+        //   if (this.num0 < ask) {
+        //     // console.log(this.num0, "00000000000");
+        //     // console.log(ask, "9999999999999999");
+            
+        //     this.isActive = '';
+        //     // this.num0 = ask
+        //   } else {
+        //     // console.log(this.num0, "33333333");
+        //     // console.log(ask, "44444444444444444");
+        //     // this.isActive = true;
+        //     // // this.num0 = ask;
+          // }
+        
+          //  }
+        // }
+        //    this.num0 = ask;
+      
+         
 
       // console.log(this.QuotationArr, "新的数据");
 
