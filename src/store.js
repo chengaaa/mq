@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
+import { reset } from '_ansi-colors@3.2.4@ansi-colors'
 
 Vue.use(Vuex)
 const vuexLocal = new VuexPersistence({storage: window.localStorage })
@@ -10,7 +11,11 @@ export default new Vuex.Store({
      Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : "",
     tabbarShow: true,
     arr:[],
-    dataArr: []
+    dataArr: [],
+    order:[],
+    mydata: [],
+    //60条数据
+    addall:[]
     
   },
   getters:{
@@ -34,8 +39,8 @@ export default new Vuex.Store({
     },
   
     delToken (state) {
-      state.token = '';
-      localStorage.removeItem("Authorization");    //删除token
+      state.Authorization = '';
+      window.localStorage.clear()    //删除token
     },
     setArr (state, arr) {
       state.arr = arr;
@@ -43,7 +48,22 @@ export default new Vuex.Store({
     },
     setdataArr (state, dataArr) {
       state.dataArr = dataArr;
-      console.log("dataArr", dataArr)
+      // console.log("dataArr", dataArr)
+    },
+    setorder(state,order) {
+      state.order = order
+    },
+    setAddall(state, addall) {
+      state.addall = addall
+    },
+
+    //mydata
+    MYDATA (state,mydata) {
+       state.mydata = mydata;
+    },
+    //清空mydata
+    RESET (state) {
+      state.mydata = []
     }
 
 
@@ -51,7 +71,12 @@ export default new Vuex.Store({
   },
  
   actions: {
-
+    SAVE_MYDATA ({commit},mydata) {
+      commit("MYDATA",mydata)
+    },
+    REAET_MYDATA ({commit}) {
+      commit("RESET")
+    }
   },
   //vuex持久化
   plugins: [vuexLocal.plugin]

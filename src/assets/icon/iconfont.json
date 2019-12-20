@@ -146,6 +146,20 @@
       "unicode_decimal": 58938
     },
     {
+      "icon_id": "6119227",
+      "name": "对勾",
+      "font_class": "confirm-line",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "8017123",
+      "name": "图标_基药-小三角",
+      "font_class": "tubiao_jiyao-xiaosanjiao",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
       "icon_id": "8017783",
       "name": "eth",
       "font_class": "eth1",
@@ -172,6 +186,13 @@
       "font_class": "zichancopy",
       "unicode": "e6b5",
       "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "9512701",
+      "name": "加号",
+      "font_class": "add-fill",
+      "unicode": "e644",
+      "unicode_decimal": 58948
     }
   ]
 }

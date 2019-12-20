@@ -31,8 +31,32 @@ const router = new Router({
       name: 'transaction',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        // keepAlive: true
+
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Transaction.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction.vue'),
+     
+    },
+     {//下单
+      path: '/transaction-place',
+      name: 'transaction-place',
+      meta: {
+        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        // keepAlive: true
+
+    },
+      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-place.vue'),
+     
+    },
+    {//下单全部
+      path: '/transaction-placeall',
+      name: 'transaction-placeall',
+      meta: {
+        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        // keepAlive: true
+
+    },
+      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-placeall.vue'),
      
     },
     {//行情
@@ -40,6 +64,8 @@ const router = new Router({
       name: 'quotation',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        // keepAlive: true
+
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Quotation.vue'),
     },
@@ -48,6 +74,9 @@ const router = new Router({
       name: 'history',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        keepAlive: true
+
+
     },
       component: () => import(/* webpackChunkName: "about" */ './views/History.vue')
     },
@@ -57,7 +86,15 @@ const router = new Router({
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Account.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Account/Account.vue')
+    },
+     {//账户
+      path: '/language',
+      name: 'language',
+    //   meta: {
+    //     requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+    // },
+      component: () => import(/* webpackChunkName: "about" */ './views/Account/Language.vue')
     },
    
     {//登录
@@ -81,6 +118,14 @@ const router = new Router({
         path: '/addall',
         name: 'Addall',
         component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Addall.vue'),
+        meta: {
+        	keepAlive: true  // 需要缓存
+      	  }
+      },
+       {//删除
+        path: '/delete',
+        name: 'Delete',
+        component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Delete.vue'),
         meta: {
         	keepAlive: true  // 需要缓存
       	  }

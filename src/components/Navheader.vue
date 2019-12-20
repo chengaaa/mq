@@ -7,7 +7,7 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
+<style lang="scss" scoped >
 .navheader {
   // display: flex;
     // padding: 30px 60px 30px 60px;
@@ -17,6 +17,7 @@
   left:0;
   right:0;
   z-index: 1;
+ 
 
   
   

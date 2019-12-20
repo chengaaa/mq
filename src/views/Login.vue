@@ -5,11 +5,11 @@
         <div class="login-logo">
           <h1>BLITZ BOOK</h1>
           <router-link to="/register">
-          <h5>注册</h5>
+          <h5>{{$t('m.Register')}}</h5>
           </router-link>
         </div>
         <div class="login-A1">
-          <h4>登录</h4>
+          <h4>{{$t('m.Login')}}</h4>
         </div>
         <div class="login-A2">
           <div>
@@ -39,11 +39,11 @@
             :class="{btnBg:btnState}"
           >
             <!-- <div slot="login">登录</div> -->
-            <div slot="login">登录</div>
+            <div slot="login">{{$t('m.Login')}}</div>
           </Button>
         </div>
         <div class="forget">
-          <a href>忘记密码？</a>
+          <a href="">{{$t('m.Forgetthepassword')}}</a>
         </div>
       </div>
     </div>
@@ -134,6 +134,7 @@
         a {
           color: #6095f2;
           text-align: center;
+          font-size:.32rem /* 24/75 */;
         }
       }
     }

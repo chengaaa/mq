@@ -11,12 +11,12 @@
     <div class="home-btn">
       <router-link to="/login">
       <div class="btn" id="login-btn">
-        <a >登录</a>
+        <a >{{$t('m.Login')}}</a>
       </div>
       </router-link>
       <router-link to="/register">
       <div class="btn" id="regist-btn">
-        <a href>立即注册</a>
+        <a href>{{$t('m.Registernow')}}</a>
       </div>
       </router-link>
     </div>

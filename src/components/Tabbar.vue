@@ -9,7 +9,7 @@
         :name="props.active ? item.active1:item.normal"
         @click="tab(index)"
       ></van-icon>
-      <span>{{item.title}}</span>
+      <span>{{$t(item.title)}}</span>
       <!-- <img slot="icon" slot-scope="props" :src="props.active ? item.active : item.normal" /> -->
     </van-tabbar-item>
   </van-tabbar>
@@ -35,31 +35,31 @@ export default {
       tabbars: [
         {
           name: "/home",
-          title: "首页",
+          title: "m.Home",
           normal: "ai-home",
           active1: "ai-home"
         },
         {
           name: "/transaction",
-          title: "交易",
+          title: "m.Trade",
           normal: "jiaoyi",
           active1: "jiaoyi"
         },
         {
           name: "/quotation",
-          title: "行情",
+          title: "m.Quotes",
           normal: "zichancopy",
           active1: "zichancopy"
         },
         {
           name: "/history",
-          title: "历史",
+          title: "m.History",
           normal: "lishi",
           active1: "lishi"
         },
         {
           name: "/account",
-          title: "账户",
+          title: "m.Account",
           normal: "zhanghu",
           active1: "zhanghu"
         }
