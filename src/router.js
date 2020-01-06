@@ -31,10 +31,10 @@ const router = new Router({
       name: 'transaction',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        // keepAlive: true
+        keepAlive: true
 
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/success.vue'),
      
     },
      {//下单
@@ -67,7 +67,7 @@ const router = new Router({
         // keepAlive: true
 
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Quotation.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Quotation/succ.vue'),
     },
     {//历史
       path: '/history',
@@ -78,8 +78,21 @@ const router = new Router({
 
 
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/History.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/History/History.vue')
     },
+     {//历史
+      path: '/history-time/:id',
+      name: 'history-time',
+      meta: {
+        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        // keepAlive: true
+
+
+    },
+      component: () => import(/* webpackChunkName: "about" */ './views/History/History-time.vue')
+    },
+    
+   
     {//账户
       path: '/account',
       name: 'account',
@@ -166,4 +179,6 @@ router.beforeEach((to, from, next) => {
         next();
       }
 })
+
+
 export default router

@@ -38,7 +38,7 @@
     </div>
     <div class="transaction-D">
       <div
-        v-for="(items,indexs) in contractsList"
+        v-for="(items,indexs) in datalist"
         :key="indexs"
         class="transaction-D1"
         @click="shows(indexs)"
@@ -114,7 +114,7 @@
       />-->
       <!-- <div v-for="(items,indexs) in ordersList" :key="indexs"> -->
       <div
-        v-for="(item, index) in orderArr"
+        v-for="(item, index) in dataorder"
         :key="index"
         @click="up(index)"
         @touchstart="showDeleteButton2(item.symbol,item.orderID,index)"
@@ -193,6 +193,7 @@
       v-else
     />
   </div>
+ 
 </template>
 
 <style lang="scss">
@@ -215,7 +216,7 @@
 <style lang="scss" scoped>
 .transaction {
   min-height: 17.333333rem /* 1300/75 */;
-  background:#eee;
+  background: #eee;
   .iconfont {
     font-size: 0.666667rem /* 50/75 */;
   }
@@ -256,7 +257,7 @@
       font-weight: 600;
       font-size: 0.466667rem /* 35/75 */;
       background: #eee;
-     padding: .2rem /* 15/75 */ 0rem /* 0/75 */;
+      padding: 0.2rem /* 15/75 */ 0rem /* 0/75 */;
     }
   }
   .transaction-D {
@@ -436,7 +437,7 @@ export default {
       orderID: "",
 
       index: 0,
-      indexs:0,
+      indexs: 0,
       //删除项数组
       actions: [
         { name: "平仓" },
@@ -457,44 +458,105 @@ export default {
     //     }
   },
   mounted() {
-    console.log("data")
+    // console.log("data")
     this.get();
-    this.getdata1();
+    // this.getdata1();
+    //  this.getnewArr();
+    //    this.addallList = store.state.addall;
     // this.getdata2();
     // this.getdata3()
-    
   },
-  computed: {
-    gettttcontractsList() {
 
-    }
-  },
- 
   activated() {
-    console.log("激活了")
+    console.log("激活了");
     this.$nextTick(() => {
       this.get();
-     this.getContractsList()
+      //  this.getContractsList()
 
-    this.getdata1();
-    })
+      this.getdata1();
+    });
     //     this.getAddall();
     // this.activatedgetdata()
     // this.activatedgetdata2()
-     
-   
   },
   deactivated() {
-    console.log("失效了")
+    console.log("失效了");
+  },
+  computed: {
+    datalist: function() {
+      if (this.positionList) {
+        for (let a = 0; a < this.positionList.length; a++) {
+          for (let b = 0; b < store.state.contractsLists.length; b++) {
+            var data5 = this.positionList[a];
+            var data6 = store.state.contractsLists[b];
+            if (data5.symbol == data6.symbol) {
+              //   // console.log("ask");
+
+              data6.ask = data5.ask;
+              data6.bid = data5.bid;
+            }
+          }
+          // console.log(this.contractsList, "11111");
+          // console.log(this.positionList, "0000");
+        }
+      }
+      if (this.newArr) {
+        for (let i = 0; i < store.state.contractsLists.length; i++) {
+          for (let j = 0; j < this.newArr.length; j++) {
+            var arr1 = this.newArr[j];
+            var arr2 = store.state.contractsLists[i];
+            if (arr1.symbolName === arr2.symbol) {
+              //  console.log(arr1.symbolName,arr2.symbol)
+              arr2.contractSize = arr1.contractSize;
+              arr2.data1 = (
+                arr2.contractSize *
+                arr2.volume *
+                (arr2.ask - arr2.openPrice)
+              ).toFixed(2);
+              arr2.data2 = (
+                arr2.contractSize *
+                arr2.volume *
+                (arr2.bid - arr2.openPrice)
+              ).toFixed(2);
+            }
+          }
+        }
+        // this.contractsList = this.contractsList;
+        // console.log(this.contractsList, "vvvvvvvv");
+      }
+
+      return store.state.contractsLists;
+    },
+    dataorder: function() {
+         if (this.positionList) {
+        for (let h = 0; h < this.positionList.length; h++) {
+          for (let j = 0; j < store.state.order.length; j++) {
+            // console.log(this.positionList[h], "0000");
+            // console.log(this.orderArr[j], "11111");
+            var data3 = this.positionList[h];
+            var data4 = store.state.order[j];
+            if (data3.symbol == data4.symbol) {
+              // console.log("ask");
+              data4.ask = data3.ask;
+              data4.bid = data3.bid;
+            }
+          }
+        }
+        
+        // console.log(this.orderArr, "orderArr");
+      }
+    return  store.state.order
+
+    }
   },
 
   methods: {
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
 
-ha() {
-console.log(this.$route.params,"ha")
-},
+    ha() {
+      console.log(this.$route.params, "ha");
+    },
     // getdata2() {
     //   this.$http.get("/position/contracts").then(({ data }) => {
     //     //store........
@@ -517,26 +579,26 @@ console.log(this.$route.params,"ha")
       });
     },
     activatedgetdata() {
-       this.$http.get("/position/orders").then(({ data }) => {
-        this.orderArr = data.data
-         for (var i = 0; i <this.orderArr.length; i++) {
+      this.$http.get("/position/orders").then(({ data }) => {
+        this.orderArr = data.data;
+        for (var i = 0; i < this.orderArr.length; i++) {
           console.log(this.orderArr[i], "iiiii");
-         this.orderArr[i].bid = "0.00";
-         this.orderArr[i].ask = "0.00";
+          this.orderArr[i].bid = "0.00";
+          this.orderArr[i].ask = "0.00";
         }
-        })
-        console.log( this.orderArr," this.orderArr")
+      });
+      console.log(this.orderArr, " this.orderArr");
     },
     activatedgetdata2() {
-       this.$http.get("/position/contracts").then(({ data }) => {
+      this.$http.get("/position/contracts").then(({ data }) => {
         this.contractsList = data.data;
         for (var f = 0; f < this.contractsList.length; f++) {
           this.contractsList[f].bid = "0.00";
           this.contractsList[f].ask = "0.00";
         }
-      })
-      this.getContractsList()
-      console.log(this.contractsList ,"this.contractsList ")
+      });
+      //   this.getContractsList()
+      console.log(this.contractsList, "this.contractsList ");
     },
     //  getdata3() {
     //   this.$http.get("/position/orders").then(({ data }) => {
@@ -579,11 +641,11 @@ console.log(this.$route.params,"ha")
     get() {
       this.orderArr = store.state.order;
       this.addallList = store.state.addall;
-      this.contractsList = store.state.contractsLists
-      console.log(this.contractsList,"contractsList")
+      this.contractsList = store.state.contractsLists;
+      console.log(this.contractsList, "contractsList");
 
-      console.log(this.contractsList,"555555555555")
-        this.getnewArr();
+      console.log(this.contractsList, "555555555555");
+      this.getnewArr();
     },
     shows(indexs) {
       if (this.thisIndex === null) {
@@ -599,71 +661,8 @@ console.log(this.$route.params,"ha")
         this.nullIndex = null;
       }
     },
-    getOrderArr() {
-      if (this.positionList) {
-        for (let h = 0; h < this.positionList.length; h++) {
-          for (let j = 0; j < this.orderArr.length; j++) {
-            // console.log(this.positionList[h], "0000");
-            // console.log(this.orderArr[j], "11111");
-            var data3 = this.positionList[h];
-            var data4 = this.orderArr[j];
-            if (data3.symbol == data4.symbol) {
-              // console.log("ask");
-              data4.ask = data3.ask;
-              data4.bid = data3.bid;
-            }
-          }
-        }
-        this.orderArr = this.orderArr;
-        // console.log(this.orderArr, "orderArr");
-      }
-    },
-    getContractsList() {
-      if (this.positionList) {
-        for (let a = 0; a < this.positionList.length; a++) {
-          for (let b = 0; b < this.contractsList.length; b++) {
-            var data5 = this.positionList[a];
-            var data6 = this.contractsList[b];
-            if (data5.symbol == data6.symbol) {
-              //   // console.log("ask");
-
-              data6.ask = data5.ask;
-              data6.bid = data5.bid;
-            }
-          }
-          // console.log(this.contractsList, "11111");
-          // console.log(this.positionList, "0000");
-        }
-        this.contractsList = this.contractsList;
-      }
-    },
-    //有合约数量的数组
-    getAddall() {
-      if (this.newArr) {
-        for (let i = 0; i < this.contractsList.length; i++) {
-          for (let j = 0; j < this.newArr.length; j++) {
-            var arr1 = this.newArr[j];
-            var arr2 = this.contractsList[i];
-            if (arr1.symbolName === arr2.symbol) {
-              //  console.log(arr1.symbolName,arr2.symbol)
-              arr2.contractSize = arr1.contractSize;
-              arr2.data1 = (
-                arr2.contractSize *
-                arr2.volume *
-                (arr2.ask - arr2.openPrice)
-              ).toFixed(2);
-              arr2.data2 = (
-                arr2.contractSize *
-                arr2.volume *
-                (arr2.bid - arr2.openPrice)
-              ).toFixed(2);
-            }
-          }
-        }
-        this.contractsList = this.contractsList;
-        // console.log(this.contractsList, "vvvvvvvv");
-      }
-    },
+ 
+  
 
     getaccount() {
       this.result = this.contractsList.map((item, value) => {
@@ -692,7 +691,7 @@ console.log(this.$route.params,"ha")
     },
     //长按
     showDeleteButton(e, e1, e2) {
-      console.log(e2)
+      console.log(e2);
       clearTimeout(this.Loop); //再次清空定时器，防止重复注册定时器
       this.Loop = setTimeout(
         function() {
@@ -706,13 +705,13 @@ console.log(this.$route.params,"ha")
           console.log(e, "succe");
           console.log(e1, "succe1");
           console.log(this.comment, "succe2");
-          console.log( this.index, "successss");
+          console.log(this.index, "successss");
           // alert("长按了")
         }.bind(this),
         1000
       );
     },
-    showDeleteButton2(e, e4,index) {
+    showDeleteButton2(e, e4, index) {
       clearTimeout(this.Loop); //再次清空定时器，防止重复注册定时器
       this.Loop = setTimeout(
         function() {
@@ -742,13 +741,13 @@ console.log(this.$route.params,"ha")
       if (item.name === "交易") {
         this.$router.push("/transaction-place");
       } else if (item.name === "平仓") {
-        console.log(this.index)
+        console.log(this.index);
         this.close(this.index);
       }
       if (item.name === "删除") {
-        this.delete(this.indexs)
-        console.log("删除");
-       
+        this.delete(this.indexs);
+        console.log("删除",this.indexs);
+
         // this.deleteorder();
       }
       //   Toast(item.name);
@@ -772,7 +771,7 @@ console.log(this.$route.params,"ha")
           console.log(this.positionId);
           console.log(data.code, "data.code");
           if (data.code == 0) {
-            this.contractsList.splice(this.index, 1);
+          store.state.contractsLists.splice(this.index, 1);
             this.getdata1();
 
             // this.getContractsList()
@@ -780,46 +779,32 @@ console.log(this.$route.params,"ha")
         });
     },
     delete(indexs) {
-      console.log(indexs,"shabi")
-        this.$http.delete("/trade/order/" + this.orderID).then(({ data }) => {
-           console.log(data, "data");
-          if (data.code == 0) {
-           this.orderArr.splice(this.indexs, 1);
-           }
-         });
-
-
+      console.log(indexs, "shabi");
+      this.$http.delete("/trade/order/" + this.orderID).then(({ data }) => {
+        console.log(data, "data");
+        if (data.code == 0) {
+          store.state.order.splice(this.indexs, 1);
+        }
+      });
     },
     transaction() {
-      this.$router.push({name:"transaction-place",params:{symbol:this.$route.params.symbol}});
+      this.$router.push({
+        name: "transaction-place",
+        params: { symbol: this.$route.params.symbol }
+      });
     }
   },
   watch: {
     "$store.state.mydata": function(newer, old) {
       // console.log(newer, old, "nnnnnnnn");
       this.positionList = newer;
-      this.getOrderArr();
-      this.getContractsList();
-      this.getAddall();
+    //   this.getOrderArr();
       this.getaccount();
     },
-     $route: {
-       
-    handler(val, oldVal){
-      console.log(val.path);
-      if(val.path === "/transaction") {
-         this.$nextTick(()=>{
-           this.get()
-          this.getContractsList()
-        this.getAddall();
-    });
-        
-      }
-    },
-    // 深度观察监听
-    deep: true
-  }
-   
+    
   }
 };
 </script>
+
+
+ 

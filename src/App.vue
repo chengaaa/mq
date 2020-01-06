@@ -43,8 +43,8 @@ export default {
         to.path == "/quotation" ||
         to.path == "/history" ||
         to.path == "/account" ||
-        to.path == "/language" ||
-        to.path == "/transaction-place"
+        to.path == "/language" 
+        // to.path == "/transaction-place"
       ) {
         this.$store.commit("updateTabbarShow", true);
       } else {
@@ -60,10 +60,14 @@ export default {
   created() {
     this.initWebpack();
     this.getdata3();
+    this.getdata2();
   },
   methods: {
     ...mapMutations(["setdataArr"]),
     ...mapMutations(["setorder"]),
+    ...mapMutations(["setcontractsList"]),
+
+    
     initWebpack() {
       var token = store.state.Authorization.substring(7);
       console.log(token, "apptoken");
@@ -143,7 +147,7 @@ export default {
       var mydata = JSON.parse(e.data).data;
       store.dispatch("REAET_MYDATA");
       store.dispatch("SAVE_MYDATA", mydata);
-      // console.log(mydata,"aaaaaaaaaaaaaa")
+      console.log(mydata,"aaaaaaaaaaaaaa")
 
       // if (this.mydata) {
       //   console.log(mydata);
@@ -229,14 +233,14 @@ export default {
       //重连
       this.reconnect();
     },
-    over() {
-      this.ws.close();
-    },
+    // over() {
+    //   this.ws.close();
+    // },
     getdata3() {
       this.$http.get("/position/orders").then(({ data }) => {
         this.ordersList = data.data;
         var order = this.ordersList;
-        console.log( this.ordersList,"111111111")
+        // console.log( this.ordersList,"111111111")
         for (var i = 0; i < order.length; i++) {
           console.log(order[i], "iiiii");
           order[i].bid = "0.00";
@@ -245,7 +249,39 @@ export default {
 
         this.setorder(order);
       });
-    }
+    },
+     getdata2() {
+          this.$http.get("/position/contracts").then(({ data }) => {
+        this.contractsList = data.data;
+        var contractsLists = this.contractsList
+        for (var f = 0; f < this.contractsList.length; f++) {
+          // console.log(this.contractsList[f], "fffff");
+          this.contractsList[f].bid = "0.00";
+          this.contractsList[f].ask = "0.00";
+        }
+       this.setcontractsList(contractsLists)
+       console.log(store.state.contractsLists,"存上了")
+        // this.getnewArr();
+      });
+    },
+  },
+  watch: {
+     $route: {
+    handler: function(val, oldVal){
+      console.log(val.path);
+      if(val.path === "/transaction") {
+        console.log("101")
+        this.getdata2()
+        this.getdata3()
+
+      }else if (oldVal.path === "/login") {
+    this.initWebpack();
+          
+      }
+    },
+  //   // 深度观察监听
+  //   deep: true
   }
+},
 };
 </script>

@@ -7,7 +7,10 @@ import fastclick from 'fastclick'
 import Vant from 'vant';
 // import axios from 'axios';
 import axios from './http'
+import ws from './tools/websocket'
+
 import VueI18n from 'vue-i18n'
+
 Vue.use(VueI18n)
 
 import MintUI from 'mint-ui'
@@ -22,6 +25,7 @@ Vue.use(Vant);
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
+Vue.prototype.ws = ws;
 // axios.defaults.timeout = 5000 // 请求超时
 // axios.defaults.baseURL = '/api'
 const i18n = new VueI18n({

@@ -188,6 +188,13 @@
       "unicode_decimal": 59061
     },
     {
+      "icon_id": "9384063",
+      "name": "历史",
+      "font_class": "lishi1",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
       "icon_id": "9512701",
       "name": "加号",
       "font_class": "add-fill",

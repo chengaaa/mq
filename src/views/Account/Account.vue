@@ -93,9 +93,10 @@ export default {
     },
     logout() {
         this.$http.post("/logout").then(({data})=> {
-           console.log(data.code)
+           console.log(data)
            if (data.code == 0) {
                this.delToken();
+               this.$router.push("/login")
            }
         })
     },

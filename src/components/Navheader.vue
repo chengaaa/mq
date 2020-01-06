@@ -1,7 +1,7 @@
 <template>
   <div class="navheader">
     <div class="arrow">
-      <van-icon name="arrow-left" size="80" color="blue" @click="navback"/>
+      <van-icon name="arrow-left"  color="blue" @click="navback"/>
       
       
     </div>
@@ -24,6 +24,12 @@
 }
   
 
+  
+</style>
+<style lang="scss">
+.van-icon-arrow-left {
+  font-size:1rem /* 75/75 */;
+}
   
 </style>
 <script>

@@ -1,20 +1,22 @@
 <template>
-    <div>
-        
-    </div>
+  <div>
+    <div @click="ha">nihao</div>
+  </div>
 </template>
-<style lang="scss" scoped>
-    div {
-        width: 1.333333rem /* 100/75 */;
-        height: 1.333333rem /* 100/75 */;
-        // background: red;
-    }
+<style lang="">
 </style>
 <script>
-
+import { Toast } from "mint-ui";
 export default {
-    components: {
-       
-}
-}
+  components: {},
+  methods: {
+    ha() {
+      // this.$toast("下单成功")
+      Toast({
+        message: "下单成功",
+        duration: 1000
+      });
+    }
+  }
+};
 </script>

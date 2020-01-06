@@ -18,7 +18,9 @@
     </div>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped >
+// .download {
+
 
 body {
   background: #ff6537;
@@ -78,7 +80,17 @@ body {
     }
   }
 }
+
 </style>
 <script>
-export default {};
+export default {
+  beforeRouteEnter(to,from, next) {
+    window.document.body.style.backgroundColor = "#ff6537"
+    next()
+  },
+  beforeRouteLeave(to,from,next) {
+   window.document.body.style.backgroundColor = ""
+   next()
+  }
+};
 </script>

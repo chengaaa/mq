@@ -13,6 +13,7 @@ export default new Vuex.Store({
     arr:[],
     dataArr: [],
     order:[],
+    contractsLists:[],
     mydata: [],
     //60条数据
     addall:[]
@@ -40,7 +41,7 @@ export default new Vuex.Store({
   
     delToken (state) {
       state.Authorization = '';
-      window.localStorage.clear()    //删除token
+      window.localStorage.clear(state)    //删除token
     },
     setArr (state, arr) {
       state.arr = arr;
@@ -53,6 +54,10 @@ export default new Vuex.Store({
     setorder(state,order) {
       state.order = order
     },
+    setcontractsList(state,contractsLists) {
+     state.contractsLists = contractsLists
+    },
+
     setAddall(state, addall) {
       state.addall = addall
     },
