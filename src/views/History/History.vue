@@ -12,8 +12,13 @@
         <router-link class="iconfont" tag="div" :to="'/history-time/' + this.params">&#xe608;</router-link>
       </div>
     </div>
-    <p v-show="page1">page1</p>
-    <p v-show="page2">page2</p>
+    <div v-show="page1" @click="ha">
+     <div v-for="(item, index) in arrList" :key="index">
+       <h4>{{item.symbol}}</h4>
+     </div>
+
+    </div>
+    <div v-show="page2">page2</div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -66,13 +71,18 @@ export default {
       page2: false,
       date: new Date(),
       Monthdate: "",
-      params:"Orders"
+      params:"Orders",
+      arrList:[]
     };
   },
   created() {
     this.getdate();
-    this.getMonthdate();
+    // this.getMonthdate();
     this.getList();
+  },
+  mounted() {
+    console.log(this.$route.params.begin,"params")
+
   },
   methods: {
     Orders(O) {
@@ -106,7 +116,7 @@ export default {
           .replace(" ", "T") + "Z";
       console.log(this.date);
     },
-    
+
     getMonthdate() {
       this.Monthdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
       var date2 =
@@ -122,11 +132,38 @@ export default {
     },
 
     getList() {
+      if(this.$route.params.begin) {
+        this.Monthdate = this.$route.params.begin
+
+      }else {
+        this.getMonthdate()
+      }
+      console.log( this.Monthdate)
       this.$http
         .get("/history/orders?from=" + this.Monthdate + "&to=" + this.date)
         .then(({ data }) => {
-          console.log(data.data);
+          if (data.code === 0) {
+            this.arrList = data.data
+            console.log(this.arrList)
+            // console.log(data.data);
+
+          }
         });
+    },
+    ha() {
+    console.log(this.$route.params.begin,"params")
+
+    }
+  },
+  watch:{
+    $route: {
+      handler: function(val, oldVal) {
+        console.log(oldVal)
+          if(oldVal.path === "/history-time/Orders") {
+           this.getList()
+          }
+      }
+
     }
   }
 };

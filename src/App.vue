@@ -147,7 +147,7 @@ export default {
       var mydata = JSON.parse(e.data).data;
       store.dispatch("REAET_MYDATA");
       store.dispatch("SAVE_MYDATA", mydata);
-      console.log(mydata,"aaaaaaaaaaaaaa")
+      // console.log(mydata,"aaaaaaaaaaaaaa")
 
       // if (this.mydata) {
       //   console.log(mydata);

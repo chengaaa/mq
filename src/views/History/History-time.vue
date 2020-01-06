@@ -65,13 +65,10 @@ export default {
   },
   created() {
     console.log(this.$route.params);
+    console.log(this.newdate,"123")
   },
   methods: {
-    place() {
-      // this.$router.go(-1)
-      this.$router.push("/history");
-      console.log("back");
-    },
+    
     choose(item) {
       this.ischoose = item.last;
       if (item.last === "Last month") {
@@ -80,6 +77,10 @@ export default {
         this.getWeekdate();
       } else if(item.last === "Last 3 months") {
           this.get3Monthdate()
+      } else if (item.last === "Last 6 months") {
+          this.get6Monthdate()
+      } else if(item.last === "Last year") {
+          this.getFullYear()
       }
       console.log(item.last);
     },
@@ -138,6 +139,28 @@ export default {
           .join("-")
           .replace(" ", "T") + "Z";
       console.log(this.newdate);
+    },
+    //上一年
+    getFullYear() {
+      this.newdate =new Date(new Date().setFullYear((new Date().getFullYear()-1)));
+      var date6 =  
+      this.newdate.toLocaleDateString() +
+        " " +
+        this.newdate.toTimeString().substring(0, 8);
+      this.newdate =
+        date6
+          .split("/")
+          .join("-")
+          .replace(" ", "T") + "Z";
+      console.log(this.newdate);
+
+    },
+    place() {
+      // this.$router.go(-1)
+      this.$router.push({name:"history",
+      params:{ begin:this.newdate}});
+      console.log("back");
+      console.log(this.newdate)
     },
 
 

@@ -71,8 +71,8 @@ module.exports = {
   devServer: {
     open: true,
   //  host: '192.168.1.226',
-  //  host: '127.0.0.1',
-    host: '192.168.31.174',
+   host: '127.0.0.1',
+    // host: '192.168.31.174',
   //  host: '192.168.1.7',
     port: 8080,
     https: false,
