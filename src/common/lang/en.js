@@ -32,6 +32,19 @@ export const m = {
     Password: 'Password',
     Forgetthepassword: 'Forget the password?',
     Registernow: 'Register now',
-    DownloadAPP:'DownloadAPP'
+    DownloadAPP:'DownloadAPP',
+    //
+    Orders: 'Orders',
+    Deals: 'Deals',
+    //Orders
+    Filled:'Filled',
+    Canceled:'Canceled',
+    Total:'Total',
+    //Deals
+    Deposit:'Deposit',
+    Profit:'Profit',
+    Swap:'Swap',
+    Commission:'Commission',
+    balance:'balance'
 
   }

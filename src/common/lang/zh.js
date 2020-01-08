@@ -30,7 +30,22 @@ export const m = {
     Password: '密码',
     Forgetthepassword: '忘记密码？',
     Registernow: '立即注册',
-    DownloadAPP:'下载APP'
+    DownloadAPP:'下载APP',
+    //
+    Orders:'订单',
+    Deals:'成交',
+
+    //Orders
+    Filled:'成交',
+    Canceled:'被取消',
+    Total:'全部',
+    //Deals
+    Deposit:'入金',
+    Profit:'利润',
+    Swap:'库存费',
+    Commission:'手续费',
+    balance:'结余'
+
 
 
 

@@ -89,7 +89,9 @@
     <div class="transactionplace-g" v-show="order">
       <p @click="placeorder">下单</p>
     </div>
-    <van-datetime-picker
+    <!-- <van-datetime-picker
+    position="bottom"
+     :formatter="formatter"
       cancel-button-text="取消"
       confirm-button-text="确认"
       @cancel="datePicker = false"
@@ -99,7 +101,18 @@
       :min-date="minDate"
       :max-date="maxDate"
       @confirm="onCon"
-    />
+    /> -->
+     <van-popup   v-model="datePicker" position="bottom">
+      <van-datetime-picker
+        v-model="currentDate"
+        type="datetime"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :formatter="formatter"
+        @confirm="onCon"
+       @cancel="datePicker = false"
+      />
+       </van-popup>
   </div>
 </template>
 <style lang="scss" >
@@ -196,12 +209,7 @@
       // border-right: none;
     }
   }
-  // .transactionplace-cd {
-  //   display: flex;
-  //   justify-content: space-between;
-  //   padding: .466667rem /* 35/75 */ .4rem /* 30/75 */;
-  //   border-bottom: 1px solid black;
-  // }
+  
   .transactionplace-e {
     .box {
       display: flex;
@@ -252,28 +260,27 @@
 }
 </style>
 <style lang="scss">
-.van-field__control {
-  text-align: end;
+ .van-field__control {
+   text-align: end;
 }
-.van-cell {
-  font-size: .333333rem /* 25/75 */;
+ .van-cell {
+   font-size: .333333rem /* 25/75 */;
   padding: 0.466667rem /* 35/75 */ 0.533333rem /* 40/75 */;
-  border-bottom: 1px solid #c9c9cb;
-}
-.van-picker {
-  height: 5.333333rem /* 400/75 */;
-}
-.van-hairline--top-bottom {
-  height: 1.066667rem /* 80/75 */;
-}
-.van-picker__cancel {
-  font-size:.4rem /* 30/75 */
-}
-.van-picker__confirm {
-  font-size: .4rem /* 30/75 */;
+   border-bottom: 1px solid #c9c9cb;
+ }
+ .van-picker__confirm, .van-picker__cancel {
+ font-size: .346667rem /* 26/75 */;
+ }
+
+.van-picker__toolbar {
+  height: 1.333333rem /* 100/75 */;
+  font-size: .466667rem /* 35/75 */;
 }
 .van-ellipsis {
-  font-size: .4rem /* 30/75 */;
+  font-size: .346667rem /* 26/75 */;
+}
+.van-popup {
+  height: 6.666667rem /* 500/75 */;
 }
 
 
@@ -357,6 +364,16 @@ export default {
   },
 
   methods: {
+    formatter(type, value) {
+      if (type === "year") {
+        return `${value}年`;
+      } else if (type === "month") {
+        return `${value}月`;
+      } else if (type === "day") {
+        return `${value}日`;
+      }
+      return value;
+    },
     all() {
       this.$router.push("/transaction-placeall");
     },
@@ -569,7 +586,6 @@ export default {
         this.expirationDate = "";
         console.log(this.OrderDuration, "88888");
       } else {
-        // this.datePicker = true;
         this.datePicker = true;
         this.OrderDuration = 2;
         console.log(this.OrderDuration, "88888");
