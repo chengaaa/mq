@@ -1,10 +1,10 @@
 <template>
     <div class="header">
-        <router-link to="/delete">
+        <!-- <router-link to="/delete"> -->
     <div class="header-left">
         <van-icon name="edit"  color="blue" id="van-icon"/>
     </div>
-    </router-link>
+    <!-- </router-link> -->
     <router-link to="/addall">
     <div class="header-right">
        <van-icon name="plus" color="blue" id="van-icon" />

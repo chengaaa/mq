@@ -4,9 +4,11 @@
       <van-icon id="van-icon" name="arrow-left" color="blue" @click="place" />
       <h4>history</h4>
     </div>
+    <div class="pad">
     <div v-for="(item,index) in list" :key="index" class="history-timecontent">
       <p @click="choose(item)">{{item.last}}</p>
       <i class="iconfont" v-show="ischoose === item.last">&#xe62a;</i>
+    </div>
     </div>
     <div class="Start-End" v-show="StartEnd">
       <div class="Start">
@@ -43,15 +45,6 @@
         @cancel="show = false"
       />
     </van-popup>
-    <!-- <van-datetime-picker
-      cancel-button-text="取消"
-      confirm-button-text="确认"
-      @cancel="picker = false"
-      v-show="picker"
-      v-model="timenow"
-      type="datetime"
-      @confirm="onCon"
-    />-->
   </div>
 </template>
 <style lang="scss" scoped>
@@ -62,7 +55,7 @@
 }
 .history-time {
   padding-top: 0.4rem /* 30/75 */;
-  padding-left: 0.4rem /* 30/75 */;
+  padding-left: 0.1rem /* 30/75 */;
   padding-right: 0.4rem /* 30/75 */;
   .history-timeheader {
     display: flex;
@@ -71,6 +64,9 @@
       font-size: 0.533333rem /* 40/75 */;
     }
   }
+  .pad {
+padding-left: 0.3rem;
+
   .history-timecontent {
     display: flex;
     border-bottom: 1px solid black;
@@ -84,6 +80,7 @@
       padding-left: 0.133333rem /* 10/75 */;
     }
   }
+    }
 
   #van-icon {
     font-size: 0.733333rem /* 55/75 */;
@@ -101,6 +98,7 @@
       input {
         text-align:end;
         width: 80%;
+        font-size: .32rem /* 24/75 */;
       }
     }
   }
@@ -150,10 +148,6 @@ export default {
       maxDate: new Date(2030, 1, 1),
       currentDate: new Date(),
       StartEnd: false,
-      // term1:true,
-      // term2:true,
-      // picker: true,
-      // timenow: new Date(),
     };
   },
   created() {
@@ -343,6 +337,7 @@ export default {
       console.log("back");
       console.log(this.newdate);
     }
-  }
+  },
+  
 };
 </script>

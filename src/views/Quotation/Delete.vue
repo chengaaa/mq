@@ -76,27 +76,7 @@ export default {
     },
 
     deletea(index) {
-//         var arrr = []
-//          for (let j = 0; j < this.result.length; j++) {
-//    for (let i = 0; i < this.deleteArr.length; i++) {
-
-        
-    //    console.log(this.deleteArr[i][0])
-        // if (this.deleteArr[i][0].symbolName !== this.result[j]) {
-            
-            // arrr.push( this.deleteArr[i][0])
-            // }
        this.deleteArr.splice(index,1)
-   
-
-     
-
-    //   console.log("删除");
-    //   console.log(this.deleteArr)
-    //   console.log(this.result);
-    // }}
-    
-     
      console.log(this.deleteArr,"777")
     }
   }

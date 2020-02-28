@@ -5,7 +5,7 @@ export const m = {
     Freemargin: '可用预付款:',
     Marginlevel: '预付款比率(%):',
     //价位
-    Position: '价位',
+    Position: '价位 (长按关闭)',
     StopLoss: '止损:',
     Swap: '库存费:',
     TakeProfit: '获利:',
@@ -13,7 +13,7 @@ export const m = {
     orderID: 'ID:',
     Charges: '手续费:',
     //订单
-    Orders: '订单',
+    Orderss: '订单 (长按删除)',
     Price: '价格:',
     Date: '日期:',
     Time: '时间:',

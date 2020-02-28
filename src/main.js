@@ -6,7 +6,9 @@ import store from './store'
 import fastclick from 'fastclick'
 import Vant from 'vant';
 // import axios from 'axios';
-import axios from './http'
+import axios from './http';
+import qs from 'qs'
+Vue.prototype.$qs = qs;
 import ws from './tools/websocket'
 
 import VueI18n from 'vue-i18n'

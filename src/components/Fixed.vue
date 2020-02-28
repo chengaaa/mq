@@ -44,15 +44,15 @@
     .fixed-button {
       input {
         -webkit-appearance: none;
-        width: 4rem /* 300/75 */;
-        height: 0.933333rem /* 70/75 */;
-        //   background:rgba($color: #ff7349, $alpha: 0.95);
-        background: #ff6537;
-
-        border-radius: 0.666667rem /* 50/75 */;
-        color: white;
-        font-size: 0.373333rem /* 28/75 */;
-        font-weight: 700;
+    width: 2.5rem;
+    height: 0.933333rem;
+    background: #2e2e2f;
+    /* border-radius: 0.666667rem; */
+    color: white;
+    font-size: 0.373333rem;
+    /* font-weight: 700; */
+    /* border-color: white; */
+    border: 1px solid white;
       }
     }
   }

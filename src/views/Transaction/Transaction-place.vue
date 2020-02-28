@@ -3,8 +3,8 @@
     <div class="transactionplace-a">
       <van-icon id="van-icon" name="arrow-left" color="blue" @click="back" />
       <div class="tab">
-        <h3 @click="all" v-if="headerName">{{headerName}}</h3>
-        <h3 @click="all" v-else>CADCHF</h3>
+        <h3 @click="all" v-show="headerName">{{headerName}}</h3>
+        <!-- <h3 @click="all" v-else>ETHUSD</h3> -->
         <!-- <h3 @click="all" v-for="header in headerName" :key="header.symbol">{{header.symbol}}</h3> -->
         <i class="iconfont">&#xe60d;</i>
       </div>
@@ -24,9 +24,18 @@
       <span @click="cut">-0.01</span>
       <!-- <p>{{this.num.toFixed(2)}}</p> -->
       <!-- <input type="num" :value="this.num.toFixed(2)" /> -->
-      <input type="num" v-model="num" />
+      <input type="num" @input="la()" id="number1" :value="num"/>
       <span @click="add">+0.01</span>
       <span @click="raise">+0.1</span>
+    </div>
+        <div class="transactionplace-name">
+      <div class="transactionplace-name1"></div>
+      <div class="transactionplace-name2">
+<!-- <input :value="num * contractSize"> -->
+<input type="num" @input="lb()" id="number2" placeholder="请输入" />
+      <h6>{{headerName.substring(0,3)}}</h6>
+      </div>
+      
     </div>
     <div class="transactionplace-d" v-show="prices">
       <h6>价格</h6>
@@ -36,6 +45,7 @@
         <span @click="priceadd">+</span>
       </div>
     </div>
+
     <div class="transactionplace-d">
       <h6>止损</h6>
       <div class="flex-1">
@@ -76,10 +86,12 @@
       />
     </van-popup>
 
-    <div class="transactionplace-e" v-for="(item,index) in newdata1" :key="index">
-      <div v-for="(items,indexs) in item" :key="indexs" class="box">
-        <h2 v-show="items.symbolName === headerName">{{parseFloat(items.bid).toFixed(3)}}</h2>
-        <h2 v-show="items.symbolName === headerName">{{parseFloat(items.ask).toFixed(3)}}</h2>
+    <!-- <div class="transactionplace-e" v-for="(item,index) in newdata1" :key="index"> -->
+      <div class="transactionplace-e">
+      <div v-for="(items,indexs) in newdata1" :key="indexs" class="box">
+        <div  class="math" v-show="items.symbolName === headerName"><h2>{{parseFloat(items.bid).toFixed(2).substring(0,parseFloat(items.bid).toFixed(2).indexOf(".")+1)}}</h2><span>{{parseFloat(items.bid).toFixed(2).substring(parseFloat(items.bid).toFixed(2).indexOf(".")+1,parseFloat(items.bid).toFixed(2).indexOf(".")+2)}}</span><h6>{{parseFloat(items.bid).toFixed(2).substring(parseFloat(items.bid).toFixed(2).indexOf(".")+2)}}</h6></div>
+        <div class="math" v-show="items.symbolName === headerName"><h2>{{parseFloat(items.ask).toFixed(2).substring(0,parseFloat(items.ask).toFixed(2).indexOf(".")+1)}}</h2><span>{{parseFloat(items.ask).toFixed(2).substring(parseFloat(items.ask).toFixed(2).indexOf(".")+1,parseFloat(items.ask).toFixed(2).indexOf(".")+2)}}</span><h6>{{parseFloat(items.ask).toFixed(2).substring(parseFloat(items.ask).toFixed(2).indexOf(".")+2)}}</h6></div>
+
       </div>
     </div>
     <div class="transactionplace-f" v-show="button">
@@ -116,11 +128,42 @@
   </div>
 </template>
 <style lang="scss" >
+.blue {
+color:blue;
+}
+.red {
+color: red;
+}
 .transactionplace {
   padding-top: 0.4rem /* 30/75 */;
+  .transactionplace-name {
+     display: flex;
+        height: 1.333333rem /* 100/75 */;
+    line-height: 1.333333rem /* 100/75 */;
+    // padding: 0rem /* 0/75 */ 0.466667rem /* 35/75 */;
+    font-size: 0.373333rem /* 28/75 */;
+    border-bottom: 1px solid #c9c9cb;
+     .transactionplace-name1 {
+       flex: 1;
+     }
+       .transactionplace-name2 {
+         display: flex;
+         justify-content: space-around;
+         align-items: center;
+        //  width: 3.333333rem /* 250/75 */;
+         width: 2.933333rem /* 220/75 */;
+        input {
+          width: 1.333333rem /* 100/75 */;
+          height:.666667rem /* 50/75 */;
+          line-height:.666667rem /* 50/75 */;
+          text-align: center;
+        }
+       } 
+  }
   .transactionplace-a {
     display: flex;
     padding-left: 0.2rem /* 15/75 */;
+    height: 1.066667rem /* 80/75 */;
     #van-icon {
       font-size: 0.733333rem /* 55/75 */;
       width: 40%;
@@ -142,8 +185,18 @@
     width: 100%;
     text-align: center;
     font-size: 0.466667rem /* 35/75 */;
+    ul:nth-child(2) {
+      li {
+ border-top:none;
+      }
+    }  
+   
+
     h4 {
-      margin-bottom: 0.533333rem /* 40/75 */;
+          border-top: 1px solid #b9b6b6;
+    border-bottom: 1px solid #b9b6b6;
+    padding-top: .333333rem /* 25/75 */;
+    padding-bottom: .333333rem /* 25/75 */;
     }
     li {
       height: 1.333333rem /* 100/75 */;
@@ -167,8 +220,12 @@
     justify-content: space-around;
     height: 1.333333rem /* 100/75 */;
     line-height: 1.333333rem /* 100/75 */;
+    border-bottom: 1px solid #b9b6b6;
+    align-items: center;
     input {
       text-align: center;
+      height: .666667rem /* 50/75 */;
+      line-height: .666667rem /* 50/75 */;
       font-size: 0.4rem /* 30/75 */;
     }
     span {
@@ -192,7 +249,10 @@
       justify-content: space-between;
       align-items: center;
       input {
-        text-align: center;
+         width: 1.333333rem /* 100/75 */;
+          height:.666667rem /* 50/75 */;
+          line-height:.666667rem /* 50/75 */;
+          text-align: center;
       }
     }
     span {
@@ -216,9 +276,20 @@
       justify-content: space-around;
       font-size: 0.666667rem /* 50/75 */;
       color: blue;
-      h2 {
-        line-height: 1.066667rem /* 80/75 */;
+      .math {
+        display: flex;
+       line-height: 1.066667rem /* 80/75 */;
+        h2 {
+          font-size: .533333rem /* 40/75 */;
+        }
+        h6 {
+          font-size: .48rem /* 36/75 */;
+          position: relative;
+          top:-0.213333rem;
+        }
+    
       }
+     
     }
   }
   .transactionplace-f {
@@ -333,12 +404,13 @@ export default {
       isShow: false,
       term: false,
       is: false,
-      num: 0.01,
-      OrderType: 3,
+      num:0.01,
+      contractSize:null,
+      OrderType:3,
       num1: null,
       num2: null,
       num3: null,
-      headerName: "",
+      headerName: "BTCUSD.",
       newName: [],
       newdata1: [],
       arrdata: [],
@@ -350,18 +422,35 @@ export default {
       expirationDate: "",
       minHour: 10,
       maxHour: 20,
-      minDate: new Date(),
-      maxDate: new Date(9998, 10, 1),
+      minDate:new Date(new Date().getFullYear(),0,1),
+      maxDate: new Date(new Date().getFullYear(),11,31),
+      a1:"0",
+      a2:"0",
+      // minDate:new Date(2020,0,1),
+
+    
+
+      // maxDate: new Date(9998, 10, 1),
       currentDate: new Date()
     };
   },
 
   created() {
     this.getarr();
+  
   },
   mounted() {
     this.headerName = window.localStorage.getItem("params");
+    this.getcontractSize()
+
+
+
+
+
+    console.log(this.headerName ,"000000111")
   },
+
+  
 
   methods: {
     formatter(type, value) {
@@ -373,6 +462,29 @@ export default {
         return `${value}日`;
       }
       return value;
+    },
+    la() {
+   document.getElementById("number2").value=document.getElementById("number1").value * this.contractSize
+   this.num = document.getElementById("number1").value 
+   
+
+    },
+    lb() {
+   document.getElementById("number1").value=document.getElementById("number2").value / this.contractSize
+   this.num = document.getElementById("number1").value 
+
+    },
+    getcontractSize() {
+      for (let i = 0; i < this.newdata1.length; i++) {
+        if(this.headerName === this.newdata1[i].symbolName){
+          console.log(this.headerName,  this.newdata1[i].symbolName)
+            console.log(this.newdata1[i],"this.newdata1[]i")
+            this.contractSize = this.newdata1[i].contractSize
+            console.log(this.contractSize ,"this.contractSize ")
+              
+        }
+
+      }
     },
     all() {
       this.$router.push("/transaction-placeall");
@@ -408,11 +520,13 @@ export default {
       console.log(this.unitName)
     },
     reduce() {
-      this.num = (JSON.parse(this.num) - 0.1).toFixed(2);
 
+      this.num = (JSON.parse(this.num) - 0.1).toFixed(2);
       if (this.num < 0.01) {
         this.num = 0.01;
       }
+     document.getElementById("number2").value= this.num * this.contractSize
+
     },
     cut() {
       this.num = (JSON.parse(this.num) - 0.01).toFixed(2);
@@ -420,13 +534,19 @@ export default {
       if (this.num < 0.01) {
         this.num = 0.01;
       }
+      document.getElementById("number2").value= this.num * this.contractSize
+
     },
     add() {
       console.log(this.num);
       this.num = (JSON.parse(this.num) + 0.01).toFixed(2);
+   document.getElementById("number2").value= this.num * this.contractSize
+
     },
     raise() {
       this.num = (JSON.parse(this.num) + 0.1).toFixed(2);
+     document.getElementById("number2").value= this.num * this.contractSize
+
 
       console.log(this.num);
     },
@@ -440,12 +560,16 @@ export default {
         if (this.num1 < 0.1) {
           this.num1 = 0.1;
         }
+     document.getElementById("number2").value= this.num * this.contractSize
+
       }
     },
     numadd() {
       //   this.num1 += 0.1;
       this.num1 = (JSON.parse(this.num1) + 0.1).toFixed(2);
       console.log(this.num1, "shzi");
+     document.getElementById("number2").value= this.num * this.contractSize
+
     },
     jianshao() {
       console.log(this.num2);
@@ -458,11 +582,15 @@ export default {
         if (this.num2 < 0.1) {
           this.num2 = 0.1;
         }
+      document.getElementById("number2").value= this.num * this.contractSize
+
       }
     },
     zengjia() {
       //   this.num2 += 0.1;
       this.num2 = (JSON.parse(this.num2) + 0.1).toFixed(2);
+      document.getElementById("number2").value= this.num * this.contractSize
+
 
       console.log(this.$route.params, "采纳数");
       console.log(this.num);
@@ -471,10 +599,14 @@ export default {
     price() {
       // this.num3 -= 0.1;
       this.num3 = (JSON.parse(this.num3) - 0.1).toFixed(2);
+     document.getElementById("number2").value= this.num * this.contractSize
+
     },
     priceadd() {
       this.num3 += 0.1;
       this.num3 = (JSON.parse(this.num3) + 0.1).toFixed(2);
+     document.getElementById("number2").value= this.num * this.contractSize
+
       console.log(this.num3);
     },
     getarr() {
@@ -569,6 +701,14 @@ export default {
         fillType: 1,
         stopLoss: this.num1,
         takeProfit: this.num2
+      }).then(({data}) => {
+        if(data.code === 0) {
+          Toast({
+            message:"下单成功"
+          })
+          
+          this.$router.push("/transaction")
+        }
       });
     },
 
@@ -613,7 +753,7 @@ export default {
         this.OrderType === 7 &&
         this.orderDirection === -1 &&
         this.unitName === "Sell Limit" &&
-        this.num3 < this.sellnum * 1.1
+        this.num3 < this.sellnum
       ) {
         console.log("hhhhhh");
         Toast({
@@ -642,7 +782,7 @@ export default {
         this.OrderType === 7 &&
         this.orderDirection === 1 &&
         this.unitName === "Buy Limit" &&
-        this.num3 > this.buynum * 0.9
+        this.num3 > this.buynum
       ) {
         console.log("hhhhhh");
         Toast({
@@ -671,7 +811,7 @@ export default {
         this.OrderType === 9 &&
         this.orderDirection === 1 &&
         this.unitName === "Buy Stop" &&
-        this.num3 < this.buynum * 1.1
+        this.num3 < this.buynum
       ) {
         Toast({
           message: "价格过低",
@@ -699,7 +839,7 @@ export default {
         this.OrderType === 9 &&
         this.orderDirection === -1 &&
         this.unitName === "Sell Stop" &&
-        this.num3 > this.sellnum * 0.9
+        this.num3 > this.sellnum
       ) {
         console.log("1111")
         Toast({
@@ -780,28 +920,75 @@ console.log(data)
           for (let j = 0; j < this.newName.length; j++) {
             // console.log(this.newdata1[i][0], "zhangzhang");
             // console.log(this.newName[j], "lili");
-            var middle = this.newdata1[i][0];
+            var middle = this.newdata1[i];
             var dabble = this.newName[j];
+            console.log(middle,"dabble")
+            console.log(dabble,"dabble")
 
             if (middle.symbolName == dabble.symbol) {
               middle.ask = dabble.ask;
               middle.bid = dabble.bid;
+               
+              
             }
+            this.a1 = middle.ask 
+            this.a2 = middle.bid 
+            
+            
             if (middle.symbolName === this.headerName) {
+              console.log(this.headerName,"")
               this.buynum = middle.ask;
               this.sellnum = middle.bid;
-              // console.log(this.buynum, "qiqiqiqiqi");
             }
+
+            // if(dabble.symbol === this.headerName) {
+            //   console.log(dabble.symbol === this.headerName,"bbbbb")
+
+            //    if (this.a1 <  dabble.ask) {
+            //    console.log(document.getElementById("items.symbolName"))
+            //    document.getElementById("items.symbolName").style.color = "blue";
+            //   } else if (this.a1 >  dabble.ask) {
+            //     document.getElementById("items.symbolName").style.color = "red";
+            //   }
+            //   this.a1 =  dabble.ask;
+            //   console.log(this.a1,"middle")
+            //    if (this.a2 <  dabble.bid) {
+            //     document.getElementById("items").style.color = "blue";
+            //   } else if (this.a2 >  dabble.bid) {
+            //     document.getElementById("items").style.color = "red";
+            //   }
+            //   this.a2 =  dabble.bid;
+            //   console.log(this.a2,"middle")
+            //   // console.log(this.buynum, "qiqiqiqiqi");
+            // }
             // this.sellnum = this.newdata1[0][0].bid
             // console.log(this.buynum,"22222")
             // console.log(this.sellnum,"333333333")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
             //  }
           }
+
+
+
         }
       }
     },
 
   }
-};
+
 </script>

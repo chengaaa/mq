@@ -1,78 +1,90 @@
 <template>
   <div id="app">
+    <!-- <loading v-show="LOADING"></loading> -->
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive"></router-view>
 
-    <tabbar v-if="tabbarShow"></tabbar>
+    <tabbar class="tab" v-if="tabbarShow"></tabbar>
   </div>
 </template>
 <style lang="scss">
 @import "./common/resect.scss";
-* {
-  margin: 0;
-  padding: 0;
+
+body {
+  font-size: 0;
 }
+#app {
+  width: 100%;
+  height: 100%;
+}
+// .tab {
+//  height: 1.493333rem /* 112/75 */;
+//     font-size: 0.32rem /* 24/75 */;
+
+
+// }
 </style>
 <script>
 import Tabbar from "./components/Tabbar";
+import Loading from "./components/Loading";
 import store from "./store";
 import { mapMutations } from "vuex";
-
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
-      ordersList: []
+      ordersList: [],
+      userid:"",
+      all:[]
     };
   },
   components: {
-    Tabbar
+    Tabbar,
+    Loading
   },
-  watch: {
-    $route(to, from) {
-      //判断是否显示tabbar
-      // if(to.path == '/login' || to.path == '/register'){
-      //   this.$store.commit('updateTabbarShow',false);
-      // }else{
-      //   this.$store.commit('updateTabbarShow',true);
-      // }
-      if (
-        to.path == "/home" ||
-        to.path == "/transaction" ||
-        to.path == "/quotation" ||
-        to.path == "/history" ||
-        to.path == "/account" ||
-        to.path == "/language" 
-        // to.path == "/transaction-place"
-      ) {
-        this.$store.commit("updateTabbarShow", true);
-      } else {
-        this.$store.commit("updateTabbarShow", false);
-      }
-    }
-  },
+ 
   computed: {
     tabbarShow() {
       return this.$store.getters.getTabbarShow;
-    }
+    },
+     ...mapState([
+                'LOADING'
+            ])
   },
   created() {
     this.initWebpack();
     this.getdata3();
     this.getdata2();
+    this.getdata6()
+    this.getuserId()
+    // localStorage.setItem("lang", "zh-CN");
+    
+
   },
+  
+
   methods: {
     ...mapMutations(["setdataArr"]),
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
+    ...mapMutations(["setArr"]),
+    getuserId() {
+      this.userid = store.state.userId.account
+    },
 
     
     initWebpack() {
       var token = store.state.Authorization.substring(7);
       console.log(token, "apptoken");
       this.ws = new WebSocket(
-        "ws://47.90.39.115:8001/v1/streaming?access_token=" + token
+        // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
+        // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
+        // "ws://52.209.109.96:80/ws/v1/streaming?access_token=" + token
+        "ws://trade.blitzbook8.com/ws/v1/streaming?access_token=" + token
+        
+       
       );
       this.ws.onopen = this.onopen;
       this.ws.onmessage = this.onmessage;
@@ -103,28 +115,9 @@ export default {
       //重启心跳
       // that.start();
     },
-    //   start(){//开启心跳
-    //     var self = this;
-    //     self.timeoutObj && clearTimeout(self.timeoutObj);
-    //     self.serverTimeoutObj && clearTimeout(self.serverTimeoutObj);
-    //     self.timeoutObj = setTimeout(function(){
-    //       //这里发送一个心跳，后端收到后，返回一个心跳消息，
-    //     //   if (self.ws.readyState == 1) {//如果连接正常
-    //       var msg = JSON.stringify({"reqId":"BB8SubQuote1574841247958","id":"100111","topic":1,"action":11})
-    //         this.ws.send(msg);
-    //     //   }else{//否则重连
-    //         // self.reconnect(msg);
-    //     //   }
-    //       self.serverTimeoutObj = setTimeout(function() {
-    //         //超时关闭
-    //         self.ws.close();
-    //       }, self.timeout);
-
-    //     }, self.timeout)
-    //   },
     onopen() {
       var msg = JSON.stringify({
-        id: "100111",
+        id: this.userid,
         action: 1,
         reqId: "BB8Ping1574840837127",
         topic: 1
@@ -132,90 +125,21 @@ export default {
       this.ws.send(msg);
       var ms = JSON.stringify({
         reqId: "BB8SubQuote1574841247958",
-        id: "100111",
+        id: this.userid,
         topic: 1,
         action: 11
       });
       this.ws.send(ms);
 
       console.log("open");
-      // this.getNoReadRecords();
-      //开启心跳
-      // this.start();
     },
     onmessage(e) {
+      console.log("message")
       var mydata = JSON.parse(e.data).data;
+      console.log(mydata)
       store.dispatch("REAET_MYDATA");
       store.dispatch("SAVE_MYDATA", mydata);
-      // console.log(mydata,"aaaaaaaaaaaaaa")
-
-      // if (this.mydata) {
-      //   console.log(mydata);
-      //   this.setdataArr(mydata);
-      //   this.dataArr = store.state.dataArr;
-      // console.log(this.dataArr,"shishihsishishih")
-      // console.log(this.mydata, "实时");
-      // console.log(this.dataArr, "第二个数组");
-      // console.log(this.QuotationArr, "第三个");
-      //  debugger
-      //   for (let i = 0; i < this.QuotationArr.length; i++) {
-      //     for (let j = 0; j < this.dataArr.length; j++) {
-      //       var data1 = this.QuotationArr[i][0];
-      //       var data2 = this.dataArr[j];
-      //       if (data1.symbolName == data2.symbol) {
-      //         data1.ask = data2.ask;
-      //         data1.bid = data2.bid;
-      //       }
-      //     }
-      //   }
-      // }
-      // this.QuotationArr = JSON.parse(this.QuotationArr);
-
-      // this.setdataArr(this.QuotationArr);
-
-      // for (let i = 0; i < this.QuotationArr.length; i++) {
-      //   for (let j = 0; j < this.dataArr.length; j++) {
-      //     var sym1 = this.QuotationArr[i][0];
-      //     var sym2 = this.dataArr[j];
-
-      //     if (sym1.symbolName == sym2.symbol) {
-      //       console.log(this.QuotationArr[i]);
-      //       var ask = this.QuotationArr[i][0].ask;
-      //       // console.log(ask,"askaskaskaskask")
-      //       if (this.num0 < ask) {
-      //         document.getElementById(sym1.symbolName).style.color = "blue";
-      //       } else if (this.num0 > ask) {
-      //         document.getElementById(sym1.symbolName).style.color = "red";
-      //       }
-      //else{
-      //     document.getElementById(sym1.symbolName).style.color="red";
-      // }
-      //       this.num0 = ask;
-      //     }
-      //     //bid
-      //     if (sym1.symbolName == sym2.symbol) {
-      //       var bid = this.QuotationArr[i][0].bid;
-      //       if (this.num1 < bid) {
-      //         document.getElementById(sym1.path).style.color = "blue";
-      //       } else if (this.num1 > bid) {
-      //         document.getElementById(sym1.path).style.color = "red";
-      //       }
-      //       //else{
-      //       //     document.getElementById(sym1.symbolName).style.color="red";
-      //       // }
-      //       this.num1 = bid;
-      //     }
-      //   }
-      // }
-
-      // if(this.mydata.fromID == this.states.customerId){
-      //   this.mydata.chatType = 2;
-      // }else{
-      //   this.mydata.chatType = 1;
-      //  }
-      // var content =this.getContentTypes(this.mydata.content,this.mydata.chatType);
-      // this.records.push(this.mydata);
-      //收到服务器信息，心跳重置
+     
       this.reset();
     },
     onclose(e) {
@@ -223,9 +147,6 @@ export default {
       console.log(
         "websocket 断开: " + e.code + " " + e.reason + " " + e.wasClean
       );
-      // var msg = JSON.stringify({cmd: 'out_chatting', token:this.COOKIE.getCookie("token")});
-      // this.ws.send(msg);
-      //重连
       this.reconnect();
     },
     onerror(e) {
@@ -233,9 +154,6 @@ export default {
       //重连
       this.reconnect();
     },
-    // over() {
-    //   this.ws.close();
-    // },
     getdata3() {
       this.$http.get("/position/orders").then(({ data }) => {
         this.ordersList = data.data;
@@ -264,24 +182,83 @@ export default {
         // this.getnewArr();
       });
     },
-  },
-  watch: {
-     $route: {
-    handler: function(val, oldVal){
-      console.log(val.path);
-      if(val.path === "/transaction") {
-        console.log("101")
-        this.getdata2()
-        this.getdata3()
-
-      }else if (oldVal.path === "/login") {
-    this.initWebpack();
-          
+    getdata6() {
+       this.$http.get("/market/symbols").then(({data}) => {
+         this.all = data.data
+         console.log(this.all,"shazi ")
+             for (var i = 0; i < this.all.length; i++) {
+               
+               console.log(this.all[i],"zuil")
+            this.all[i].bid = "0.00";
+          this.all[i].ask = "0.00";
+       
       }
+      console.log(this.all,"dahsabi")
+          this.setArr(this.all)
+
+       })
+       
+      
     },
-  //   // 深度观察监听
-  //   deep: true
-  }
-},
+    haha() {
+      
+    }
+
+  },
+  // watch: {
+  //    $route (to, from) {
+
+  //     console.log(to.path);
+  //     if(val.path === "/transaction") {
+  //       console.log("101")
+  //       this.getdata2()
+  //       this.getdata3()
+
+  //     }else if (oldVal.path === "/login") {
+  //          this.initWebpack();
+  //          console.log(oldVal.path,"oldVal.path")
+          
+  //     }
+  //   }
+  // //   // 深度观察监听
+  // //   deep: true
+  
+  // },
+
+
+watch: {
+   $route(to, from) {
+      //判断是否显示tabbar
+      // if(to.path == '/login' || to.path == '/register'){
+      //   this.$store.commit('updateTabbarShow',false);
+      // }else{
+      //   this.$store.commit('updateTabbarShow',true);
+      // }
+      if (
+        to.path == "/home" ||
+        to.path == "/transaction" ||
+        to.path == "/quotation" ||
+        to.path == "/history" ||
+        to.path == "/account" ||
+        to.path == "/language" 
+        // to.path == "/transaction-place"
+      ) {
+        this.$store.commit("updateTabbarShow", true);
+      } else {
+        this.$store.commit("updateTabbarShow", false);
+      }
+    if(to.path === "/transaction") {
+        this.getdata2()
+         this.getdata3()
+    } else if(from.path === "/login") {
+       this.initWebpack();
+      history.go(0)
+      window.localStorage.setItem("params", "BTCUSD.")
+      
+
+
+    }
+    }
+}
 };
 </script>

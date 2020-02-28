@@ -1,15 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store'
-
-// import Login from './views/Login.vue'
-// import Register from './views/Register.vue'
-// import Home from './views/Home.vue'
-import ceshi from './views/ceshi.vue'
-
-
-
-
 Vue.use(Router)
 
 const router = new Router({
@@ -23,7 +14,9 @@ const router = new Router({
     { //首页
       path: '/home',
       name: 'home',
+      // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
       component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue')
+    
 
     },
     {//交易
@@ -34,7 +27,7 @@ const router = new Router({
         keepAlive: true
 
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/success.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction.vue'),
      
     },
      {//下单
@@ -67,14 +60,14 @@ const router = new Router({
         // keepAlive: true
 
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Quotation/succ.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Quotation.vue'),
     },
     {//历史
       path: '/history',
       name: 'history',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        keepAlive: true
+        // keepAlive: true
 
 
     },
@@ -84,8 +77,8 @@ const router = new Router({
       path: '/history-time/:id',
       name: 'history-time',
       meta: {
-        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        // keepAlive: true
+        // requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+        keepAlive: true
 
 
     },
@@ -163,7 +156,7 @@ router.beforeEach((to, from, next) => {
         console.log(localStorage.getItem('Authorization')) // 获取当前的token是否存在
           next();
       }
-      else {
+      else if(!token){
         // next(false);
           next({
               path: '/login',
@@ -179,6 +172,7 @@ router.beforeEach((to, from, next) => {
         next();
       }
 })
+
 
 
 export default router

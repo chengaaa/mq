@@ -4,8 +4,9 @@
       <van-icon id="van-icon" name="arrow-left" color="blue" @click="gos" />
     </div>
     <div class="content-a">
-      <div v-for="(item,index) in getdata" :key="index" class="concent">
-        <div v-for="(items,indexs) in item" :key="indexs" class="concent-b">
+      <!-- <div v-for="(item,index) in getdata" :key="index" class="concent"> -->
+        <div class="concent">
+        <div v-for="(items,indexs) in getdata" :key="indexs" class="concent-b">
           <p @click="choose(items.symbolName)">{{items.symbolName}}</p>
           <i class="iconfont" v-show="isshows === items.symbolName ">&#xe62a;</i>
         </div>
@@ -35,7 +36,7 @@
 
         background: white;
         padding: 0.333333rem /* 25/75 */ 0.4rem /* 30/75 */;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #b9b6b6;
 
         p {
             width:100%;

@@ -1,4 +1,7 @@
 const px2rem = require('postcss-px2rem')
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const productionGzipExtensions = ['js', 'css'];
+const isProduction = process.env.NODE_ENV === 'production';
 
 const postcss = px2rem({
   remUnit:  75  //基准大小 baseSize，需要和rem.js中相同
@@ -21,7 +24,19 @@ css: {
 
 const path = require('path')
 
+var proEnv = require('./config/pro.env');  // 生产环境
+var devEnv = require('./config/dev.env');  // 开发环境
+const env = process.env.NODE_ENV;
+// let target = '';
+// if(env==='production'){  // 生产环境
+//     target = proEnv.hosturl;
+//     console.log(target,"target1")
+// }else{ 
+//    // 开发环境
+//     target = devEnv.hosturl;
+//     console.log(target,"target2")
 
+// }
 module.exports = {  
   // 部署应用包时的基本 URL,用法和 webpack 本身的 output.publicPath 一致
   publicPath: './',  
@@ -41,15 +56,25 @@ module.exports = {
   //     .set('vue$', 'vue/dist/vue.esm.js')
   //     .set('@', path.resolve(__dirname, './src'))
   // },
-  configureWebpack: (config) => {    
-  if (process.env.NODE_ENV === 'production') {      
-      // 生产环境
-      config.mode = 'production'
-    } else {      
-      // 开发环境
-      config.mode = 'development'
+  // configureWebpack: (config) => {    
+  // if (process.env.NODE_ENV === 'production') {      
+  //     // 生产环境
+  //     config.mode = 'production'
+  //   } else {      
+  //     // 开发环境
+  //     config.mode = 'development'
+  //   }
+  // },  
+  configureWebpack: config => {
+    if (isProduction) {
+    config.plugins.push(new CompressionWebpackPlugin({
+    algorithm: 'gzip',
+    test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+    threshold: 10240,
+    minRatio: 0.8
+    }))
     }
-  },  
+    },
  
   // css相关配置
   // css: {    
@@ -71,22 +96,23 @@ module.exports = {
   devServer: {
     open: true,
   //  host: '192.168.1.226',
-   host: '127.0.0.1',
-    // host: '192.168.31.174',
+  //  host: '127.0.0.1',
+    host: '192.168.31.174',
   //  host: '192.168.1.7',
-    port: 8080,
+  //  host: '172.20.10.1',
+    port: 8001,
     https: false,
     hotOnly: false,   
     // http 代理配置
     proxy: {      
       '/api': {
-        target: 'http://47.90.39.115:8001/v1',
-      //  target: 'http://192.168.1.169:8004/web/v1',
-
-        // target: 'www.baidu.com',
+        // target: 'http://47.90.39.115:8001/v1',
+      //  target: 'http://mt5test.tinytech.com.hk:8001/v1',
+       target:'http://35.180.177.89:8001/v1',
+      //  target: target,
         changeOrigin: true,
         pathRewrite: {          
-            '^/api': ''
+            '^/api': ""
         }
       }
     },
@@ -94,16 +120,10 @@ module.exports = {
   }, 
  
   // 第三方插件配置
-  pluginOptions: {
-
-   
+  pluginOptions: {  
   
 
   }
   
 }
-// if (process.env.NODE_ENV == 'development') {//开发环境
-//   axios.defaults.baseURL = '/api';
-// } else if (process.env.NODE_ENV == 'production') {//生产环境
-//   axios.defaults.baseURL = 'http://xxx.com:2086/';
-// }
+

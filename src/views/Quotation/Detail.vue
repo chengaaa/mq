@@ -1,24 +1,24 @@
 <template>
   <div class="detail">
-      <div  v-for="(item,index) in list" :key="index">
-    <div class="detail-a">
-      <Navheader class="navbar" ref="child" @click="backgo"></Navheader>
-      <h2>{{item.symbolName}}</h2>
-    </div>
-    <div class="detail-b">
-      <p>{{item.description.toUpperCase()}}</p>
-    </div>
-    <div class="detail-c">
-      <div class="top">
-        <p>小数位</p>
-        <span>{{item.digits}}</span>
+    <div v-for="(item,index) in list" :key="index" v-show="item.symbolName === listName">
+      <div class="detail-a">
+        <Navheader class="navbar" ref="child" @click="backgo"></Navheader>
+        <h2>{{item.symbolName}}</h2>
       </div>
-      <div class="bottom">
-        <p>合约数量</p>
-        <span>{{item.contractSize}}</span>
+      <div class="detail-b">
+        <p>{{item.description.toUpperCase()}}</p>
+      </div>
+      <div class="detail-c">
+        <div class="top">
+          <p>小数位</p>
+          <span>{{item.digits}}</span>
+        </div>
+        <div class="bottom">
+          <p>合约数量</p>
+          <span>{{item.contractSize}}</span>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -37,7 +37,6 @@ body {
       h2 {
         text-align: center;
         font-size: 0.426667rem /* 32/75 */;
-        // font-weight: 600;
       }
     }
     .detail-b {
@@ -79,20 +78,26 @@ body {
 
     .navbar {
       padding-top: 0.266667rem /* 20/75 */;
+      font-size: 0.3333333333333rem;
     }
   }
 }
 </style>
+<style lang="scss" >
+.van-icon-arrow-left {
+  font-size: 0.7rem;
+}
+</style>
 <script>
 import Navheader from "../../components/Navheader";
-// import mixin from "../../common/mixin/mixin.js";
+import store from "../../store";
 export default {
-    //  mixins: [mixin],
-    data() {
-        return{
-        list:[]
-        }
-    },
+  data() {
+    return {
+      list: [],
+      listName: ""
+    };
+  },
   components: {
     Navheader
   },
@@ -102,13 +107,9 @@ export default {
     }
   },
   created() {
-    let params = this.$route.params.id;
-    console.log(params);
-    this.$http.get("/market/symbol/" + params).then(({ data }) => {
-        this.list.push(data.data)
-        console.log(this.list)
-      
-    });
+    this.list = store.state.arr;
+    console.log(this.list);
+    this.listName = this.$route.params.id;
   }
 };
 </script>

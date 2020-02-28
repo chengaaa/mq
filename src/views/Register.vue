@@ -47,8 +47,8 @@
     background: #0066ff;
     color: white;
     text-align: center;
-    padding: 0px;
-    font-size: 0px;
+    padding: 0rem /* 0/75 */;
+    font-size: 0rem /* 0/75 */;
     cursor: pointer;
   }
   .disabled {
@@ -60,8 +60,8 @@
   #message {
     color: red;
     position: relative;
-    top: -50px;
-    left: 20px;
+    top: -0.666667rem;
+    left: .266667rem /* 20/75 */;
   }
 
   display: flex;
@@ -71,13 +71,13 @@
   align-items: center;
   .login-A {
     background: white;
-    width: 640px;
+    width: 8.533333rem /* 640/75 */;
     // height: 772px;
-    margin-top: 50px;
+    margin-top: .666667rem /* 50/75 */;
 
     border-radius: 2%;
     .login-AA {
-      width: 572px;
+      width: 7.626667rem /* 572/75 */;
       // height: 644px;
       // border: 1px solid black;
       margin: auto;
@@ -86,31 +86,31 @@
       .login-A1 {
         display: flex;
         justify-content: space-between;
-        line-height: 184px;
+        line-height: 2.453333rem /* 184/75 */;
         h4 {
-          font-size: 60px;
+          font-size: .8rem /* 60/75 */;
           color: #787878;
         }
         h5 {
-          font-size: 32px;
+          font-size: .426667rem /* 32/75 */;
           color: #6095f2;
         }
       }
       .login-A2 {
         .button1 input {
-          font-size: 40px;
+          font-size: .533333rem /* 40/75 */;
           text-align: center;
         }
 
         input {
-          width: 572px;
-          height: 110px;
-          border: 1px solid #cccccc;
-          margin-bottom: 60px;
+          width: 7.626667rem /* 572/75 */;
+          height: 1.466667rem /* 110/75 */;
+          border: .013333rem /* 1/75 */ solid #cccccc;
+          margin-bottom: .8rem /* 60/75 */;
           box-sizing: border-box;
           border-radius: 4%;
-          padding-left: 28px;
-          font-size: 28px;
+          padding-left: .373333rem /* 28/75 */;
+          font-size: .373333rem /* 28/75 */;
 
           // 去除未选中状态边框
           outline: none;
@@ -125,14 +125,14 @@
           display: flex;
           justify-content: space-between;
           input {
-            width: 240px;
+            width: 3.2rem /* 240/75 */;
           }
         }
       }
       .mt-button {
-        height: 100px;
-        font-size: 30px;
-        margin-bottom: 50px;
+         height: 1.333333rem /* 100/75 */;
+  font-size: 0.4rem /* 30/75 */;
+  margin-bottom: 0.333333rem /* 25/75 */;
       }
     }
   }

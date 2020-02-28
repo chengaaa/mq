@@ -14,7 +14,7 @@
     </van-tabbar-item>
   </van-tabbar>
 </template>
-<style lang="scss" scoped>
+<style lang="scss"scoped >
 .iconfont {
   font-size: .533333rem /* 40/75 */;
 }
@@ -39,17 +39,18 @@ export default {
           normal: "ai-home",
           active1: "ai-home"
         },
-        {
-          name: "/transaction",
-          title: "m.Trade",
-          normal: "jiaoyi",
-          active1: "jiaoyi"
-        },
+       
         {
           name: "/quotation",
           title: "m.Quotes",
           normal: "zichancopy",
           active1: "zichancopy"
+        },
+         {
+          name: "/transaction",
+          title: "m.Trade",
+          normal: "jiaoyi",
+          active1: "jiaoyi"
         },
         {
           name: "/history",

@@ -25,7 +25,7 @@
             <div id="message" class="message none"></div>
           </div>
           <div>
-            <input type="text" placeholder="密码" id="password" v-model="data.password" />
+            <input type="password" placeholder="密码" id="password" v-model="data.password" />
           </div>
           <!-- <div class="button1">
             <input type="button" value="登录" />
@@ -69,6 +69,19 @@
       // border: 1px solid black;
       margin: auto;
       // margin-top: 60px;
+      .mt-button {
+  height: 1.333333rem /* 100/75 */;
+  font-size: 0.4rem /* 30/75 */;
+  margin-bottom: 0.333333rem /* 25/75 */;
+  // background: #ff6537;
+  // background: rgba($color: #ff6537, $alpha: 0.4);
+
+  margin-bottom: 0.533333rem /* 40/75 */;
+  // cursor: not-allowed;
+  cursor: not-allowed;
+  // border-radius: 55px;
+}
+      
       .login-logo {
         display: flex;
         justify-content: space-between;
@@ -151,6 +164,7 @@
 <style lang="scss">
 #message {
   color: red;
+  font-size: .32rem /* 24/75 */;
   position: relative;
   top: -0.666667rem;
   left: 0.266667rem /* 20/75 */;
@@ -164,7 +178,7 @@
 
   margin-bottom: 0.533333rem /* 40/75 */;
   // cursor: not-allowed;
-  cursor: not-allowed;
+  // cursor: not-allowed;
   // border-radius: 55px;
 }
 </style>
@@ -178,8 +192,8 @@ export default {
   data() {
     return {
       data: {
-        account: "100111",
-        password: "abcd1234"
+        account:"",
+        password: ""
       }
     };
   },
@@ -192,6 +206,7 @@ export default {
     },
     // ...mapMutations(["changeLogin"]),
 ...mapMutations(['setToken']),
+...mapMutations(['setUserId']),
     login() {
       // this.data = JSON.stringify(this.data);
       //  var data = Qs.stringify(this.data);
@@ -200,19 +215,24 @@ export default {
       let password = document.getElementById("password")
 
       if (username.value == "" || password.value == "") {
-        alert("用户名密码不能为空");
+        // alert("用户名密码不能为空");
+        this.$toast({
+          message:"用户名或密码不能为空"
+        })
         return;
       } else {
-        // console.log(this.data)
+        this.setUserId(this.data)
+        console.log(this.data,"55555555555")
         this.$http
           // post请求
-          .post("/login", this.data)
+          .post("/login", this.$qs.stringify(this.data))
           // 监听数据返回
           .then(({ data }) => {
             // 如果登录成功
             if (data.code === 0) {
-                console.log(data.access_token)
+              console.log(data.access_token)
               this.setToken("Bearer" + " " + data.access_token)
+
   
               let hostName = this.$route.query.redirect;//获取域名
               // console.log(hostName)

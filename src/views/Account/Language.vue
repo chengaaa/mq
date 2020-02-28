@@ -17,13 +17,17 @@
 </template>
 <style lang="scss" scoped>
 .language {
-  padding-top: 0.4rem /* 30/75 */;
+  // padding-top: 0.4rem /* 30/75 */;
   background:#eee;
   min-height: 14.666667rem /* 1100/75 */;
   .arrow {
     display: flex;
     justify-content: space-between;
-    padding-left: 0.2rem /* 15/75 */;
+  padding-top: .2rem /* 15/75 */;
+  padding-bottom: .2rem;
+  background: white;
+
+    padding-left: 0.1rem /* 15/75 */;
     margin-bottom: 0.266667rem /* 20/75 */;
     .arrow-right {
       margin-right: 0.533333rem /* 40/75 */;
@@ -33,15 +37,16 @@
   }
   .english,
   .chinese {
-    height: 1.333333rem /* 100/75 */;
-    line-height: 1.333333rem /* 100/75 */;
+    height: 1.1rem /* 100/75 */;
+    line-height: 1.1rem /* 100/75 */;
     background: white;
-    margin-bottom: 0.2rem /* 15/75 */;
+    // margin-bottom: 0.2rem /* 15/75 */;
     font-size: 0.533333rem /* 40/75 */;
-    padding-left: 0.266667rem /* 20/75 */;
+    padding-left: 0.5rem /* 20/75 */;
     display: flex;
     justify-content: space-between;
     padding-right: 0.266667rem /* 20/75 */;
+    border-bottom: 1px solid #eee;
     
   }
  
@@ -54,7 +59,7 @@
     color: blue;
   }
   .van-icon {
-    font-size: .853333rem /* 64/75 */;
+    font-size: 0.75rem /* 64/75 */;
   }
   
 </style>
@@ -62,8 +67,8 @@
 export default {
   data() {
     return {
-      show:""
-    };
+      show:false
+    }
   },
   methods: {
     goo() {

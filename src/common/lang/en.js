@@ -6,7 +6,7 @@ export const m = {
     Marginlevel: 'Margin level(%):',
     
     //position
-    Position: 'Position',
+    Position: 'Position (Long press to close)',
     StopLoss: 'S/L:',
     Swap: 'Swap:',
     TakeProfit: 'T/P:',
@@ -15,7 +15,7 @@ export const m = {
     Charges: 'Charges:',
     //Orders
      
-     Orders: 'Orders',
+     Orderss: 'Orders (Long click deletion)',
      Price: 'Price:',
      Date: 'Date:',
      Time: 'Time:',

@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <div class="page">
+      <div class="h">
     <div class="history-header">
       <div class="left"></div>
 
@@ -12,7 +14,8 @@
         <router-link class="iconfont" tag="div" :to="'/history-time/' + this.params">&#xe608;</router-link>
       </div>
     </div>
-    <div v-show="page1">
+      </div>
+    <div v-show="page1" class="con">
       <div v-for="(item, index) in arrList" :key="index">
         <div class="border">
           <div @click="open(index)">
@@ -28,7 +31,7 @@
             <div class="bot">
               <p>{{item.volume.toFixed(2)}} / {{(item.volume - item.remainingVolume).toFixed(2)}} at {{item.orderPrice}}</p>
 
-              <span v-if="item.orderStatus === 11">filed</span>
+              <span v-if="item.orderStatus === 11">filled</span>
               <span v-else-if="item.orderStatus === 7">canceled</span>
               <span v-else-if="item.orderStatus === 17">expired</span>
               <span v-else>placed</span>
@@ -51,23 +54,24 @@
           </div>
         </div>
       </div>
-
-      <div class="fixed">
+         <div class="fixed">
         <div>
           <h2>{{$t('m.Filled')}}</h2>
           <h2>{{$t('m.Canceled')}}</h2>
           <h2>{{$t('m.Total')}}</h2>
         </div>
         <div>
-          <p>{{flied}}</p>
-
-          <p>{{canceled}}</p>
-          <p>{{sum}}</p>
+          <p>{{flied?flied:"0"}}</p>
+          <p>{{canceled? canceled:"0"}}</p>
+          <p>{{sum?sum:"0"}}</p>
         </div>
-      </div>
+        </div>
     </div>
 
-    <div v-show="page2">
+
+     
+
+    <div v-show="page2" class="con">
       <div v-for="(item, index) in dealList" :key="index">
         <div class="border">
           <div @click="open(index)">
@@ -83,11 +87,6 @@
             <div class="bot">
               <p>{{item.volume.toFixed(2)}} at {{item.price}}</p>
               <p :class="{'hong': item.pnl < 0,'lan': item.pnl > 0}">{{item.pnl == 0? '':item.pnl}}</p>
-
-              <!-- <span v-if="item.orderStatus === 11">filed</span>
-            <span v-else-if="item.orderStatus === 7">canceled</span>
-            <span v-else-if="item.orderStatus === 17">expired</span>
-              <span v-else>placed</span>-->
             </div>
           </div>
           <div class="history-deail" v-show="index === openIndex">
@@ -123,17 +122,23 @@
        <h3>{{$t('m.balance')}}</h3> 
       </div>
       <div>
-        <p>0.00</p>
-        <p>{{pnlsum}}</p>
-        <p>{{kucun}}</p>
+        <p>{{deposit?deposit:"0.00"}}</p>
+        <p>{{pnlsum?pnlsum:"0.00"}}</p>
+        <p>{{kucun?kucun:"0.00"}}</p>
         <p>0.00</p>
         <p>0.00</p>
       </div>
       </div>
     </div>
+    
+  
+      </div>
   </div>
 </template>
 <style lang="scss" scoped>
+.con {
+  padding-top: 1.2rem /* 90/75 */;
+}
 .hong {
   color: red;
 }
@@ -141,33 +146,43 @@
   color: blue;
 }
 .fixed {
-  width: 100%;
-  height: 1.466667rem /* 110/75 */;
-  background: white;
-  position: fixed;
-  bottom: 1.466667rem /* 110/75 */;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.346667rem /* 26/75 */;
-  padding: .133333rem /* 10/75 */ 0rem /* 0/75 */;
+width: 100%;
+    height: 1.466667rem;
+    background: white;
+    /* position: fixed; */
+    /* bottom: 1.466667rem; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    font-size: 0.346667rem;
+    padding-bottom: 1.5rem;
+    padding-top: 0.35rem;
+        // border-top: 1px solid #969799;
   h2 {
     padding-left: 0.133333rem /* 10/75 */;
-    margin-bottom: 0.066667rem /* 5/75 */;
+    margin-bottom: .173333rem /* 13/75 */;
   }
   p {
     padding-right: 0.133333rem /* 10/75 */;
-    margin-bottom: 0.066667rem /* 5/75 */;
+    margin-bottom: .173333rem /* 13/75 */;
   }
 }
 .fixed2 {
-  width: 100%;
-  height: 4rem /* 300/75 */;
-  background: white;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  padding:.133333rem /* 10/75 */ 0rem /* 0/75 */;
+     width: 100%;
+    height: 4rem;
+    background: white;
+    /* position: fixed; */
+    /* bottom: 0; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0.133333rem 0rem;
   h3 ,p{
     margin-bottom: .133333rem /* 10/75 */;
     font-size: .346667rem /* 26/75 */;
@@ -183,6 +198,12 @@
   font-size: 0.533333rem /* 40/75 */;
   color: blue;
 }
+.page {
+  height: 100%;
+.h {
+position: fixed;
+width: 100%;
+background: white;
 .history-header {
   display: flex;
   justify-content: space-between;
@@ -199,8 +220,9 @@
     }
   }
 }
+}
+
 .border {
-  //  height: .933333rem /* 70/75 */;
   line-height: 0.4rem /* 30/75 */;
   padding: 0.133333rem /* 10/75 */ 0.133333rem /* 10/75 */;
   border: 0.013333rem /* 1/75 */ solid #eeeeee;
@@ -236,6 +258,8 @@
     }
   }
 }
+}
+
 .history-deail {
   padding-top: 0.533333rem /* 40/75 */;
   display: flex;
@@ -280,6 +304,8 @@
 }
 }
 
+
+
 .blue {
   background: blue;
   color: white;
@@ -317,18 +343,14 @@ export default {
       sum: null,
       openIndex: -1,
       pnlsum:null,
-      kucun:null
+      kucun:null,
+      deposit: null
     };
   },
   created() {
-    this.getdate();
-    // this.getMonthdate();
-    this.getList();
-    // this.list()
-  },
-  mounted() {
-    console.log(this.$route.params.begin, "params");
-    console.log(this.$route.params.end, "params1");
+    this.getdate(); 
+   this.getList();
+   this.getdealsList()
   },
   methods: {
     Orders(O) {
@@ -336,10 +358,7 @@ export default {
       this.white1 = true;
       (this.page2 = false), (this.page1 = true);
       this.params = O;
-      console.log("orders", O);
-      console.log(this.date);
-      console.log(new Date(), "hhhhhhhhhhhhhhh");
-      console.log(new Date().setMonth(new Date().getMonth() - 1), "减一个月");
+      this.getList()
     },
     Deals(D) {
       (this.blue1 = true), (this.white1 = false);
@@ -347,8 +366,6 @@ export default {
       (this.page2 = true), (this.page1 = false);
       this.params = D;
       this.getdealsList();
-
-      console.log("deail");
     },
     getdate() {
       this.date.toLocaleDateString();
@@ -361,21 +378,20 @@ export default {
           .split("/")
           .join("-")
           .replace(" ", "T") + "Z";
-      console.log(this.date);
     },
 
-    getMonthdate() {
-      this.Monthdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  getMonthdate() {
+      this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
       var date2 =
-        this.Monthdate.toLocaleDateString() +
+        this.newdate.toLocaleDateString() +
         " " +
-        this.Monthdate.toTimeString().substring(0, 8);
-      this.Monthdate =
+        this.newdate.toTimeString().substring(0, 8);
+      this.newdate =
         date2
           .split("/")
           .join("-")
           .replace(" ", "T") + "Z";
-      console.log(this.Monthdate);
+      console.log(this.newdate);
     },
 
     getList() {
@@ -385,7 +401,6 @@ export default {
       } else {
         this.getMonthdate();
       }
-      console.log(this.Monthdate);
 
       this.$http
         .get("/history/orders?from=" + this.Monthdate + "&to=" + this.date)
@@ -393,8 +408,6 @@ export default {
           if (data.code === 0) {
             this.arrList = data.data;
             this.list();
-            console.log(this.arrList);
-            // console.log(data.data);
           }
         });
     },
@@ -408,14 +421,12 @@ export default {
         if (item.symbol) {
           this.sum += 1;
         }
-
-        console.log(this.flied);
-        console.log(this.canceled);
       });
     },
     getdealsList() {
        this.pnlsum = null
        this.kucun = null
+       this.deposit = null
       if (this.$route.params.begin) {
         this.Monthdate = this.$route.params.begin;
       } else {
@@ -424,20 +435,30 @@ export default {
       this.$http
         .get("history/executions?from=" + this.Monthdate + "&to=" + this.date)
         .then(({ data }) => {
+          console.log(data.data,"executions")
           if (data.code === 0) {
             this.dealList = data.data;
             this.executionsList()
-            console.log(this.dealList);
           }
-        });
+        }).catch(error => {
+        if(error.status === 403) {
+          this.$router.push("/login")
+          console.log("/login")
+        }
+        })
     },
     executionsList() {
      this.dealList.forEach((item)=>{
+       console.log(item,"shshshhshshshh")
        this.pnlsum += JSON.parse(item.pnl)
        this.kucun += JSON.parse(item.swap)
+       if(item.comment) {
+       this.deposit += JSON.parse(item.pnl)
+
+         console.log(this.deposit,"item")
+       }
 
      })
-      console.log(this.kucun)
     },
     open(index) {
       if (this.openIndex === null) {
@@ -452,7 +473,11 @@ export default {
       handler: function(val, oldVal) {
         console.log(oldVal);
         if (oldVal.path === "/history-time/Orders") {
-          this.getList();
+             this.getList();
+        } else if (oldVal.path === "/history-time/Deals"){
+          
+          this.getdealsList()
+          
         }
       }
     }

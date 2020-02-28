@@ -16,7 +16,9 @@ export default new Vuex.Store({
     contractsLists:[],
     mydata: [],
     //60条数据
-    addall:[]
+    addall:[],
+    userId:"",
+    LOADING:false
     
   },
   getters:{
@@ -33,6 +35,10 @@ export default new Vuex.Store({
       state.Authorization = token;
       // localStorage.setItem("Authorization",token.Authorization);    
     },
+    setUserId(state,userId) {
+      state.userId = userId
+    },
+    
 
     //控制tabbar显隐
     updateTabbarShow(state, payload){
@@ -40,6 +46,7 @@ export default new Vuex.Store({
     },
   
     delToken (state) {
+      console.log("zhixingl")
       state.Authorization = '';
       window.localStorage.clear(state)    //删除token
     },
@@ -69,7 +76,16 @@ export default new Vuex.Store({
     //清空mydata
     RESET (state) {
       state.mydata = []
-    }
+    },
+    //控制loading
+    showLoading(state){
+      state.LOADING = true    
+  },
+  hideLoading (state) {
+    state.LOADING = false
+}
+
+
 
 
 

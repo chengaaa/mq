@@ -1,5 +1,8 @@
 <template>
   <div class="account">
+
+    <loading v-show="LOADING"></loading>
+
       <div class="account-A">
           <h3>账户</h3>
       </div>
@@ -15,6 +18,7 @@
       <div class="account-D">
           <router-link tag="h6" @click.native="logout" to="/">退出</router-link>
       </div>
+
 
     
   </div>
@@ -32,14 +36,13 @@
         
     }
     .account-B {
-        // height: 1.333333rem /* 100/75 */;
         background: white;
         width: 100%;
         padding: .266667rem /* 20/75 */  0rem /* 0/75 */;
         box-sizing: border-box;
         text-align: center;
         line-height: .4rem /* 30/75 */;
-        border-bottom:1px solid black;
+        border-bottom:.013333rem /* 1/75 */ solid #b9b6b6;
         h5 {
             font-size: .466667rem /* 35/75 */;
         }
@@ -71,6 +74,13 @@
 </style>
 <script>
 import { mapMutations } from "vuex";
+import Loading from "../../components/Loading";
+
+import {mapState} from 'vuex'
+
+
+
+
 
 export default {
   data() {
@@ -79,17 +89,33 @@ export default {
     };
   },
   created() {
+      this.$store.commit('showLoading')
+
     this.getdata();
   },
+  components: {
+Loading
+  },
+  computed:{
+
+  ...mapState([
+                'LOADING'
+            ])
+  },
+  
   methods: {
     ...mapMutations(["delToken"]),
 
     getdata() {
+      this.$store.commit('showLoading')
+     
       this.$http.get("/account").then(({ data }) => {
-        console.log(data);
+         this.$store.commit('hideLoading')
+        console.log(data,"dadtadtadta");
         this.accountList.push(data.data)
         console.log(this.accountList);
       });
+     
     },
     logout() {
         this.$http.post("/logout").then(({data})=> {
