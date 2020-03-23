@@ -44,7 +44,7 @@
     .fixed-button {
       input {
         -webkit-appearance: none;
-    width: 2.5rem;
+    width: 2.65rem;
     height: 0.933333rem;
     background: #2e2e2f;
     /* border-radius: 0.666667rem; */

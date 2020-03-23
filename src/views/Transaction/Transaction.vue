@@ -1,8 +1,9 @@
 <template>
   <div class="transaction">
     <div class="transaction-A">
-      <h3 v-if="this.titlenum">{{this.titlenum.toFixed(2)}} USD</h3>
-      <h3 v-else-if="!this.titlenum">0.00 USD</h3>
+      <!-- <h3 v-for="(items,index) in gettitle">{{items}}</h3> -->
+      <h3 v-if="this.tit">{{tit.toFixed(2)}} USD</h3>
+      <h3 v-else-if="!this.tit">0.00 USD</h3>
       <span>
         <img src="../../assets/add.png" alt @click="transaction" />
         <!-- <i class="iconfont" @click="transaction">&#xe644;</i> -->
@@ -212,6 +213,7 @@
       v-model="show"
       :actions="actions"
       @select="onSelect"
+      :close-on-click-overlay="false"
       v-if="active"
     />
     <van-action-sheet
@@ -219,12 +221,16 @@
       v-model="show"
       :actions="actionss"
       @select="onSelect"
+      :close-on-click-overlay="false"
       v-else
     />
   </div>
 </template>
 
 <style lang="scss">
+.van-popup--bottom.van-popup--round {
+  padding-bottom: 0.533333rem /* 40/75 */;
+}
 .van-popup--safe-area-inset-bottom {
   // height: 4.666667rem /* 350/75 */;
   // background: red;
@@ -235,8 +241,9 @@
   }
   .van-action-sheet__cancel,
   .van-action-sheet__item {
-    height: 1.6rem /* 120/75 */;
-    line-height: 1.333333rem /* 100/75 */;
+    // height: 1.6rem /* 120/75 */;
+    // height: 1.333333rem /* 100/75 */;
+    //  line-height: 1.333333rem /* 100/75 */;
     font-size: 0.533333rem /* 40/75 */;
   }
 }
@@ -481,15 +488,17 @@
 <script>
 import store from "../../store";
 import { mapMutations } from "vuex";
+import { baseURL1,baseURL2 } from "../../utls";
 import mixin from "../../common/mixin/mixin";
 
 export default {
   mixins: [mixin],
   data() {
     return {
+      tit: 0,
       hal: true,
-      ino: false,
-      out: false,
+      ino: "",
+      out: "",
       titles: "",
       titlenum: "",
       accountList: [],
@@ -517,7 +526,8 @@ export default {
       //删除项数组
       actions: [
         { name: "平仓" },
-        { name: "交易" }
+        { name: "交易" },
+        { name: "修改价位" }
         // { name: '选项', subname: '描述信息' }
       ],
       actionss: [
@@ -528,35 +538,23 @@ export default {
       ]
     };
   },
-  computed: {
-    //     params() {
-    //  this.params =  this.contractsList[symbol]
-    //     }
-  },
 
   mounted() {
-    // console.log("data")
+    console.log(this.newArr, "datassssssssssss");
     this.get();
-    this.gettitle();
-
-    // this.getdata1();
-    //  this.getnewArr();
-    //    this.addallList = store.state.addall;
-    // this.getdata2();
-    // this.getdata3()
+  },
+  brforeUpdate() {
+    // this.gettitle()
   },
 
   activated() {
     console.log("激活了");
     this.$nextTick(() => {
-      this.get();
+      // this.get();
       //  this.getContractsList()
 
       this.getdata1();
     });
-    //     this.getAddall();
-    // this.activatedgetdata()
-    // this.activatedgetdata2()
   },
   deactivated() {
     console.log("失效了");
@@ -564,15 +562,14 @@ export default {
   computed: {
     datalist: function() {
       if (this.positionList) {
-            this.ino = true;
+        // this.ino = true;
         for (let a = 0; a < this.positionList.length; a++) {
           for (let b = 0; b < store.state.contractsLists.length; b++) {
             var data5 = this.positionList[a];
             var data6 = store.state.contractsLists[b];
             if (data5.symbol == data6.symbol) {
-              console.log(data6, "data5");
+              // console.log(data6, "data5");
 
-          
               data6.ask = data5.ask;
               data6.bid = data5.bid;
             }
@@ -582,12 +579,15 @@ export default {
         }
       }
       if (this.newArr) {
+        this.tit = 0;
+        // this.ino = true;
+
         for (let i = 0; i < store.state.contractsLists.length; i++) {
           for (let j = 0; j < this.newArr.length; j++) {
             var arr1 = this.newArr[j];
             var arr2 = store.state.contractsLists[i];
             if (arr1.symbolName === arr2.symbol) {
-              //  console.log(arr1.symbolName,arr2.symbol)
+               console.log( this.newArr,"00000000")
               arr2.contractSize = arr1.contractSize;
               arr2.data1 = (
                 arr2.contractSize *
@@ -600,10 +600,22 @@ export default {
                 (arr2.bid - arr2.openPrice)
               ).toFixed(2);
             }
+            console.log(store.state.contractsLists,"store.state.contractsLists")
+            if (arr1.symbolName === arr2.symbol) {
+              if (arr2.orderDirection === -1) {
+                // console.log(arr2.orderDirection === -1)
+                this.tit = this.tit + arr2.data1 * 1;
+                this.tit = this.tit;
+              }
+            }
+            if (arr1.symbolName === arr2.symbol) {
+              if (arr2.orderDirection === 1) {
+                this.tit = this.tit + arr2.data2 * 1;
+                this.tit = this.tit;
+              }
+            }
           }
         }
-        // this.contractsList = this.contractsList;
-        // console.log(this.contractsList, "vvvvvvvv");
       }
 
       return store.state.contractsLists;
@@ -612,21 +624,14 @@ export default {
       if (this.positionList) {
         for (let h = 0; h < this.positionList.length; h++) {
           for (let j = 0; j < store.state.order.length; j++) {
-          this.out = true;
-            // console.log(this.positionList[h], "0000");
-            // console.log(this.orderArr[j], "11111");
             var data3 = this.positionList[h];
             var data4 = store.state.order[j];
             if (data3.symbol == data4.symbol) {
-              console.log(data4, "data4");
               data4.ask = data3.ask;
               data4.bid = data3.bid;
-            
             }
           }
         }
-
-        // console.log(this.orderArr, "orderArr");
       }
       return store.state.order;
     }
@@ -636,85 +641,17 @@ export default {
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
 
-    ha() {
-      console.log(this.$route.params, "ha"),
-        console.log(this.contractsList, "haaaaaaaaaaaa");
-      console.log(store.state.userId, "44444444444444");
-    },
-    // getdata2() {
-    //   this.$http.get("/position/contracts").then(({ data }) => {
-    //     //store........
-    //     this.contractsList = data.data;
-    //     for (var f = 0; f < this.contractsList.length; f++) {
-    //       console.log(this.contractsList[f], "fffff");
-    //       this.contractsList[f].bid = "0.00";
-    //       this.contractsList[f].ask = "0.00";
-    //     }
-    //     this.getnewArr();
-    //   });
-    // },
     getdata1() {
-      this.$http.get("/account").then(({ data }) => {
-        // this.accountList.push(data.data);
+      this.$http.get(baseURL1 + "/account").then(({ data }) => {
         this.hal = false;
         this.accountList = [data.data];
-        // this.accountList[0].data3 = '0.00'
-        // console.log(this.accountList, "111");
       });
     },
-    activatedgetdata() {
-      this.$http.get("/position/orders").then(({ data }) => {
-        this.orderArr = data.data;
-        for (var i = 0; i < this.orderArr.length; i++) {
-          console.log(this.orderArr[i], "iiiii");
-          this.orderArr[i].bid = "0.00";
-          this.orderArr[i].ask = "0.00";
-        }
-      });
-      console.log(this.orderArr, " this.orderArr");
-    },
-    activatedgetdata2() {
-      this.$http.get("/position/contracts").then(({ data }) => {
-        this.contractsList = data.data;
-        for (var f = 0; f < this.contractsList.length; f++) {
-          this.contractsList[f].bid = "0.00";
-          this.contractsList[f].ask = "0.00";
-        }
-      });
-      //   this.getContractsList()
-      console.log(this.contractsList, "this.contractsList ");
-    },
-    //  getdata3() {
-    //   this.$http.get("/position/orders").then(({ data }) => {
-    //     this.ordersList = data.data;
-    //     var order = this.ordersList;
-    //     console.log( this.ordersList,"111111111")
-    //     for (var i = 0; i < order.length; i++) {
-    //       console.log(order[i], "iiiii");
-    //       order[i].bid = "0.00";
-    //       order[i].ask = "0.00";
-    //     }
-
-    //     this.setorder(order);
-    //   });
-    // },
-    //  getdata2() {
-    //   this.$http.get("/position/contracts").then(({ data }) => {
-    //     this.contractsList = data.data;
-    //     var contractsLists = this.contractsList
-    //     for (var f = 0; f < this.contractsList.length; f++) {
-    //       // console.log(this.contractsList[f], "fffff");
-    //       this.contractsList[f].bid = "0.00";
-    //       this.contractsList[f].ask = "0.00";
-    //     }
-    //     // this.getnewArr();
-    //    this.setcontractsList(contractsLists)
-    //   });
-    // },
 
     getnewArr() {
       for (let i = 0; i < this.addallList.length; i++) {
         for (let j = 0; j < this.contractsList.length; j++) {
+          // console.log(this.contractsList[j].symbol === this.addallList[i].symbolName)
           if (this.contractsList[j].symbol === this.addallList[i].symbolName) {
             this.newArr.push(this.addallList[i]);
           }
@@ -726,9 +663,9 @@ export default {
       this.orderArr = store.state.order;
       this.addallList = store.state.addall;
       this.contractsList = store.state.contractsLists;
-      console.log(this.contractsList, "contractsList");
+      // console.log(this.contractsList, "contractsList");
 
-      console.log(this.contractsList, "555555555555");
+      // console.log(this.contractsList, "555555555555");
       this.getnewArr();
     },
     shows(indexs) {
@@ -748,17 +685,17 @@ export default {
 
     getaccount() {
       this.result = this.contractsList.map((item, value) => {
-        // console.log(item, value, "niaho");
+        console.log(item, value, "niaho");
 
         return item.orderDirection === 1 ? item.data2 : item.data1;
       });
+      console.log(this.result, "hhahaahahah");
       this.resultnum();
-      // console.log(this.result, "hhahaahahah");
 
       let reduce = this.result.reduce((pre, item) => {
         return pre + item;
       }, 0);
-      // console.log(reduce, "reduce");
+      console.log(reduce, "reduce");
       if (this.accountList[0]) {
         this.accountList[0].data3 =
           parseInt(this.accountList[0].balance) + reduce;
@@ -774,7 +711,6 @@ export default {
     //长按
     showDeleteButton(e, e1, e2, e3) {
       window.localStorage.setItem("params", e3);
-
       clearTimeout(this.Loop); //再次清空定时器，防止重复注册定时器
       this.Loop = setTimeout(
         function() {
@@ -785,14 +721,17 @@ export default {
           this.volume = e1;
           this.index = e2;
 
-          console.log(e, "succe");
-          console.log(e1, "succe1");
-          console.log(this.comment, "succe2");
-          console.log(this.index, "successss");
+          // console.log(e, "succe");
+          // console.log(e1, "succe1");
+          // console.log(this.comment, "succe2");
+          // console.log(this.index, "successss");
           // alert("长按了")
         }.bind(this),
         1000
       );
+    },
+    gotouchmove() {
+      clearTimeout(this.Loop); //清除定时器
     },
     showDeleteButton2(e, e4, index) {
       clearTimeout(this.Loop); //再次清空定时器，防止重复注册定时器
@@ -801,16 +740,13 @@ export default {
           this.selectType();
 
           this.active = false;
-          console.log(e, "eeeeeeeeeeee");
-          console.log(index, "eeeeeeeeeeee");
-          console.log(e4, "eeeeeeeeeeee");
           this.id = e;
           this.orderID = e4;
           this.indexs = index;
 
           // alert("长按了")
         }.bind(this),
-        1000
+        1500
       );
     },
     emptyTime(e) {
@@ -820,39 +756,41 @@ export default {
       // 默认情况下，点击选项时不会自动关闭菜单
       // 可以通过 close-on-click-action 属性开启自动关闭
       this.show = false;
-      console.log(item);
+      // console.log(item);
       if (item.name === "交易") {
         this.$router.push("/transaction-place");
       } else if (item.name === "平仓") {
-        console.log(this.index);
+        // console.log(this.index);
         this.close(this.index);
+      } else if (item.name === "修改价位") {
+        this.$router.push("/transaction-modify");
       }
       if (item.name === "删除") {
         this.delete(this.indexs);
-        console.log("删除", this.indexs);
+        // console.log("删除", this.indexs);
 
         // this.deleteorder();
       }
       //   Toast(item.name);
     },
     selectType(item) {
-      console.log(item);
+      // console.log(item);
       this.show = true;
       this.itemw = item;
     },
     //删除
 
     close(index) {
-      console.log(index, "taibangle");
+      // console.log(index, "taibangle");
       this.$http
-        .post("/position/contract/close", {
+        .post(baseURL1 +"/position/contract/close", {
           volume: this.volume,
           positionId: this.positionId,
           comment: ""
         })
         .then(({ data }) => {
-          console.log(this.positionId);
-          console.log(data.code, "data.code");
+          // console.log(this.positionId);
+          // console.log(data.code, "data.code");
           if (data.code == 0) {
             store.state.contractsLists.splice(this.index, 1);
             this.getdata1();
@@ -862,9 +800,9 @@ export default {
         });
     },
     delete(indexs) {
-      console.log(indexs, "shabi");
-      this.$http.delete("/trade/order/" + this.orderID).then(({ data }) => {
-        console.log(data, "data");
+      // console.log(indexs, "shabi");
+      this.$http.delete(baseURL1 + "/trade/order/" + this.orderID).then(({ data }) => {
+        // console.log(data, "data");
         if (data.code == 0) {
           store.state.order.splice(this.indexs, 1);
         }
@@ -875,29 +813,35 @@ export default {
         name: "transaction-place",
         params: { symbol: this.$route.params.symbol }
       });
-    },
-    gettitle() {
-      this.title = this.contractsList.map((item, value) => {
-        console.log(item, value, "niaho");
-
-        return Number(item.pnl);
-      });
-
-      console.log(this.title, "hhahaahahah");
-
-      let reducetitle = this.title.reduce((pre, item) => {
-        return pre + item;
-      });
-      this.titlenum = reducetitle;
-      console.log(this.titlenum);
     }
+   
   },
   watch: {
     "$store.state.mydata": function(newer, old) {
-      // console.log(newer, old, "nnnnnnnn");
+      console.log(newer, old, "nnnnnnnn");
       this.positionList = newer;
       //   this.getOrderArr();
       this.getaccount();
+      // this.gettitle()
+    },
+    "$store.state.contractsLists": function(news, old) {
+      console.log(news, old, "5");
+
+      if (news.length == 0) {
+        this.ino = false;
+      } else if (old.length != 0 || news.length != 0) {
+        this.ino = true;
+      }
+    },
+    "$store.state.order": function(newss, olds) {
+      console.log(newss, olds, "1");
+      if (newss.length == 0) {
+        this.out = false;
+      } else if (olds.length != 0 || newss.length != 0) {
+        console.log(newss, olds, "2");
+
+        this.out = true;
+      }
     }
   }
 };

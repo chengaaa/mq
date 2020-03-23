@@ -31,6 +31,8 @@ export const m = {
     Forgetthepassword: '忘记密码？',
     Registernow: '立即注册',
     DownloadAPP:'下载APP',
+    PhoneLogin:'手机登录',
+    EmailLogin:'邮箱登录',
     //
     Orders:'订单',
     Deals:'成交',
@@ -44,7 +46,25 @@ export const m = {
     Profit:'利润',
     Swap:'库存费',
     Commission:'手续费',
-    balance:'结余'
+    balance:'结余',
+    //日期选择
+    Lastweek: "上一周",
+    Lastmonth: "上个月",
+    Last3months: "最近3个月",
+    Last6months: "最近6个月",
+    Lastyear: "去年",
+    Custom: "自定义",
+    //开始时间
+    StartDate: "开始日期:",
+    //结束时间
+    EndDate: "截止日期:",
+
+    //界面
+    Interface: "界面",
+    //退出
+    Logout: "退出",
+    //账户
+    Account: "账户"
 
 
 

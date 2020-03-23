@@ -2,9 +2,10 @@
   <div id="app">
     <!-- <loading v-show="LOADING"></loading> -->
     <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
+      <router-view v-if="$route.meta.keepAlive "></router-view>
     </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <router-view v-if="!$route.meta.keepAlive  "></router-view>
+    <!-- <router-view v-if="isRouterAlive"></router-view> -->
 
     <tabbar class="tab" v-if="tabbarShow"></tabbar>
   </div>
@@ -31,15 +32,21 @@ import Tabbar from "./components/Tabbar";
 import Loading from "./components/Loading";
 import store from "./store";
 import { mapMutations } from "vuex";
-import {mapState} from 'vuex'
+import {mapState} from 'vuex';
+import { baseURL1,baseURL2 } from "./utls";
+
 export default {
   data() {
     return {
       ordersList: [],
       userid:"",
-      all:[]
+      all:[],
+ 
+      
+      
     };
   },
+  
   components: {
     Tabbar,
     Loading
@@ -49,20 +56,21 @@ export default {
     tabbarShow() {
       return this.$store.getters.getTabbarShow;
     },
-     ...mapState([
-                'LOADING'
-            ])
+     
   },
   created() {
-    this.initWebpack();
-    this.getdata3();
-    this.getdata2();
-    this.getdata6()
+    // this.initWebpack();
+    this.getdata2()
+    this.getdata3()
     this.getuserId()
-    // localStorage.setItem("lang", "zh-CN");
-    
+
 
   },
+  mounted() {
+
+  },
+ 
+  
   
 
   methods: {
@@ -71,18 +79,27 @@ export default {
     ...mapMutations(["setcontractsList"]),
     ...mapMutations(["setArr"]),
     getuserId() {
-      this.userid = store.state.userId.account
+      this.userid = store.state.userId
+      console.log(this.userid," this.userid")
     },
+ 
 
     
-    initWebpack() {
+    initWebpack() { 
+      // console.log(store.state.Authorization,"store.state.Authorization")
       var token = store.state.Authorization.substring(7);
-      console.log(token, "apptoken");
+      // console.log(token, "apptoken");
+   
+
+    this.getuserId()
+    
+
+   
       this.ws = new WebSocket(
-        // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
+        "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
         // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
         // "ws://52.209.109.96:80/ws/v1/streaming?access_token=" + token
-        "ws://trade.blitzbook8.com/ws/v1/streaming?access_token=" + token
+        // "ws://www.blitzbook8.com/ws/v1/streaming?access_token=" + token
         
        
       );
@@ -90,9 +107,11 @@ export default {
       this.ws.onmessage = this.onmessage;
       this.ws.onclose = this.onclose;
       this.ws.onerror = this.onerror;
+      
     },
     reconnect() {
       //重新连接
+      console.log("重新咯按揭")
       var that = this;
       if (that.lockReconnect) {
         return;
@@ -103,8 +122,8 @@ export default {
       that.timeoutnum = setTimeout(function() {
         that.initWebpack();
         //新连接
-        // that.lockReconnect = false;
-      }, 10000);
+        that.lockReconnect = false;
+      }, 5000);
     },
     reset() {
       //重置心跳
@@ -131,16 +150,16 @@ export default {
       });
       this.ws.send(ms);
 
-      console.log("open");
+      // console.log("open");
     },
     onmessage(e) {
-      console.log("message")
+      // console.log("message")
       var mydata = JSON.parse(e.data).data;
-      console.log(mydata)
+      // console.log(mydata)
       store.dispatch("REAET_MYDATA");
       store.dispatch("SAVE_MYDATA", mydata);
      
-      this.reset();
+      // this.reset();
     },
     onclose(e) {
       console.log("连接关闭");
@@ -148,19 +167,23 @@ export default {
         "websocket 断开: " + e.code + " " + e.reason + " " + e.wasClean
       );
       this.reconnect();
+    
     },
     onerror(e) {
+      
       console.log("出现错误");
       //重连
       this.reconnect();
+     
+
     },
-    getdata3() {
-      this.$http.get("/position/orders").then(({ data }) => {
+      getdata3() {
+      this.$http.get(baseURL1 + "/position/orders").then(({ data }) => {
         this.ordersList = data.data;
         var order = this.ordersList;
         // console.log( this.ordersList,"111111111")
         for (var i = 0; i < order.length; i++) {
-          console.log(order[i], "iiiii");
+          // console.log(order[i], "iiiii");
           order[i].bid = "0.00";
           order[i].ask = "0.00";
         }
@@ -169,7 +192,7 @@ export default {
       });
     },
      getdata2() {
-          this.$http.get("/position/contracts").then(({ data }) => {
+          this.$http.get(baseURL1 + "/position/contracts").then(({ data }) => {
         this.contractsList = data.data;
         var contractsLists = this.contractsList
         for (var f = 0; f < this.contractsList.length; f++) {
@@ -178,28 +201,12 @@ export default {
           this.contractsList[f].ask = "0.00";
         }
        this.setcontractsList(contractsLists)
-       console.log(store.state.contractsLists,"存上了")
+      //  console.log(store.state.contractsLists,"存上了")
         // this.getnewArr();
       });
     },
-    getdata6() {
-       this.$http.get("/market/symbols").then(({data}) => {
-         this.all = data.data
-         console.log(this.all,"shazi ")
-             for (var i = 0; i < this.all.length; i++) {
-               
-               console.log(this.all[i],"zuil")
-            this.all[i].bid = "0.00";
-          this.all[i].ask = "0.00";
-       
-      }
-      console.log(this.all,"dahsabi")
-          this.setArr(this.all)
-
-       })
-       
-      
-    },
+    
+   
     haha() {
       
     }
@@ -240,7 +247,9 @@ watch: {
         to.path == "/quotation" ||
         to.path == "/history" ||
         to.path == "/account" ||
-        to.path == "/language" 
+        to.path == "/language" ||
+        to.path == "/apply"
+         
         // to.path == "/transaction-place"
       ) {
         this.$store.commit("updateTabbarShow", true);
@@ -250,14 +259,20 @@ watch: {
     if(to.path === "/transaction") {
         this.getdata2()
          this.getdata3()
-    } else if(from.path === "/login") {
-       this.initWebpack();
-      history.go(0)
+    } else if((from.path === "/loginphone" && to.path === "/home") || (from.path === "/loginemail" && to.path === "/home")) {
+      console.log(from.path,"from.path")
+      console.log(to.path,"to.path")
+      //  window.history.go(0) 
+       location.reload()
+        this.initWebpack();
+
+        
+      
       window.localStorage.setItem("params", "BTCUSD.")
       
 
 
-    }
+    } 
     }
 }
 };

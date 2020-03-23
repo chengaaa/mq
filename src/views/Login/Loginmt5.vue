@@ -4,9 +4,9 @@
       <div class="login-AA">
         <div class="login-logo">
           <h1>BLITZ BOOK</h1>
-          <router-link to="/register">
-          <h5>{{$t('m.Register')}}</h5>
-          </router-link>
+          <!-- <router-link to="/register"> -->
+          <h5 @click="register">{{$t('m.Register')}}</h5>
+          <!-- </router-link> -->
         </div>
         <div class="login-A1">
           <h4>{{$t('m.Login')}}</h4>
@@ -15,17 +15,19 @@
           <div>
             <input
               type="text"
-              placeholder="手机/邮箱"
+              placeholder="手机号"
               autofocus="autofocus"
               autocomplete="off"
               id="username"
               v-model="data.account"
-              @blur="check"
+          
             />
             <div id="message" class="message none"></div>
           </div>
           <div>
-            <input type="password" placeholder="密码" id="password" v-model="data.password" />
+            <input  type="password" placeholder="密码" id="password" v-model="data.password" />
+            <div id="message4" class="message none"></div>
+         
           </div>
           <!-- <div class="button1">
             <input type="button" value="登录" />
@@ -169,30 +171,41 @@
   top: -0.666667rem;
   left: 0.266667rem /* 20/75 */;
 }
+#message4 {
+   color: red;
+  font-size: .32rem /* 24/75 */;
+  position: relative;
+  top: -0.666667rem;
+  left: 0.266667rem /* 20/75 */;
+}
 .mt-button {
   height: 1.333333rem /* 100/75 */;
   font-size: 0.4rem /* 30/75 */;
   margin-bottom: 0.333333rem /* 25/75 */;
   // background: #ff6537;
-  background: rgba($color: #ff6537, $alpha: 0.4);
+  // background: rgba($color: #ff6537, $alpha: 0.4);
 
   margin-bottom: 0.533333rem /* 40/75 */;
   // cursor: not-allowed;
   // cursor: not-allowed;
   // border-radius: 55px;
 }
+.mint-toast-text{
+    font-size: 16px;
+}
 </style>
 <script>
-import Button from "../components/Button";
-import { checkUser } from "../tools/check.js";
+import Button from "../../components/Button";
+import { checklogin } from "../../tools/check.js";
 import { mapMutations } from "vuex";
+import { baseURL1,baseURL2 } from "../../utls";
 // import Qs from "qs";
 
 export default {
   data() {
     return {
       data: {
-        account:"",
+        account:"60001",
         password: ""
       }
     };
@@ -201,31 +214,39 @@ export default {
     Button
   },
   methods: {
-    check() {
-      checkUser();
+    ...mapMutations(['setToken']),
+    ...mapMutations(['setUserId']),
+    register() {
+   this.$router.push("/registerphone")
     },
     // ...mapMutations(["changeLogin"]),
-...mapMutations(['setToken']),
-...mapMutations(['setUserId']),
     login() {
       // this.data = JSON.stringify(this.data);
       //  var data = Qs.stringify(this.data);
-     
+     checklogin();
       let username = document.getElementById("username")
       let password = document.getElementById("password")
+      let phoneNumberReg = /^[1]{1}[3|5|7|8]{1}\d{9}$/;
+
 
       if (username.value == "" || password.value == "") {
         // alert("用户名密码不能为空");
-        this.$toast({
-          message:"用户名或密码不能为空"
-        })
+        // this.$toast({
+        //   message:"用户名或密码不能为空"
+        // })
         return;
-      } else {
+      // } else if (phoneNumberReg.test(username) === false){
+      //        this.$toast({
+      //     message:"请输入正确手机号"
+      //   })
+      //    return;
+      }
+      else {
         this.setUserId(this.data)
         console.log(this.data,"55555555555")
         this.$http
           // post请求
-          .post("/login", this.$qs.stringify(this.data))
+          .post(baseURL1 + "/login", this.$qs.stringify(this.data))
           // 监听数据返回
           .then(({ data }) => {
             // 如果登录成功

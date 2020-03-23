@@ -33,6 +33,8 @@ export const m = {
     Forgetthepassword: 'Forget the password?',
     Registernow: 'Register now',
     DownloadAPP:'DownloadAPP',
+    PhoneLogin:'PhoneLogin',
+    EmailLogin:'EmailLogin',
     //
     Orders: 'Orders',
     Deals: 'Deals',
@@ -45,6 +47,24 @@ export const m = {
     Profit:'Profit',
     Swap:'Swap',
     Commission:'Commission',
-    balance:'balance'
+    balance:'balance',
+     //日期选择
+     Lastweek: "Last week",
+     Lastmonth: "Last month",
+     Last3months: "Last 3 months",
+     Last6months: "Last 6 months",
+     Lastyear: "Last year",
+     Custom: "Custom",
+     //开始时间
+     StartDate: "Start Date:",
+     //结束时间
+     EndDate: "End Date:",
+     //界面
+    Interface: "Interface",
+    //退出
+    Logout: "Logout",
+    //账户
+    Account: "Account"
+
 
   }

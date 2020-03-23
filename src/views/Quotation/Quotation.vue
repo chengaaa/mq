@@ -99,7 +99,9 @@ export default {
       itemw: "",
       actions: [
         { name: "交易" },
-        { name: "详细情况" }
+        { name: "图表" },
+        { name: "详细情况" },
+
         // { name: '选项', subname: '描述信息' }
       ]
     };
@@ -109,6 +111,7 @@ export default {
   },
 
   created() {
+    this.p()
     this.get();
     console.log(this.newMydata, "my");
     console.log( store.state.arr, "myaaaaa");
@@ -170,9 +173,13 @@ export default {
   methods: {
     ...mapMutations(["setdataArr"]),
     ...mapMutations(["setArr"]),
+    p() {
+      console.log(store.state.arr)
+ 
+    },
 
     get() {
-      console.log(store.state.arr);
+      console.log(store.state.arr,"s");
       //   this.QuotationArr = store.state.arr;
     },
 
@@ -187,6 +194,11 @@ export default {
         this.$router.push({
           path: "/detail/" + this.itemw
         });
+      } else if(item.name === "图表") {
+         this.$router.push({
+          path: "/echarts/" + this.itemw
+        });
+      
       }
       //   Toast(item.name);
     },

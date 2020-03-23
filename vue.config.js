@@ -97,8 +97,8 @@ module.exports = {
     open: true,
   //  host: '192.168.1.226',
   //  host: '127.0.0.1',
-    host: '192.168.31.174',
-  //  host: '192.168.1.7',
+    // host: '192.168.31.174',
+   host: '192.168.1.7',
   //  host: '172.20.10.1',
     port: 8001,
     https: false,
@@ -112,9 +112,21 @@ module.exports = {
       //  target: target,
         changeOrigin: true,
         pathRewrite: {          
-            '^/api': ""
+            '^/api': "/"
         }
-      }
+      },
+      '/tw': {
+        // target: 'http://47.90.39.115:8001/v1',
+      //  target: 'http://mt5test.tinytech.com.hk:8001/v1',
+       target:'https://account.api.lwork.com/v1/api',
+       
+      //  target: target,
+        changeOrigin: true,
+        pathRewrite: {          
+            '^/tw': ""
+        }
+      },
+
     },
     before: (app) => {}
   }, 

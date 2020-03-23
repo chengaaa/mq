@@ -4,11 +4,11 @@ import VuexPersistence from 'vuex-persist'
 import { reset } from '_ansi-colors@3.2.4@ansi-colors'
 
 Vue.use(Vuex)
-const vuexLocal = new VuexPersistence({storage: window.localStorage })
+const vuexLocal = new VuexPersistence({storage: sessionStorage})
 
 export default new Vuex.Store({
   state: {
-     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : "",
+     Authorization: sessionStorage.getItem('Authorization') ? sessionStorage.getItem('Authorization') : "",
     tabbarShow: true,
     arr:[],
     dataArr: [],
@@ -17,8 +17,10 @@ export default new Vuex.Store({
     mydata: [],
     //60条数据
     addall:[],
-    userId:"",
-    LOADING:false
+    // userId:"",
+    LOADING:false,
+    user:"",
+    word:""
     
   },
   getters:{
@@ -38,6 +40,9 @@ export default new Vuex.Store({
     setUserId(state,userId) {
       state.userId = userId
     },
+    delUserId(state) {
+      state.userId = ""
+    },
     
 
     //控制tabbar显隐
@@ -48,7 +53,7 @@ export default new Vuex.Store({
     delToken (state) {
       console.log("zhixingl")
       state.Authorization = '';
-      window.localStorage.clear(state)    //删除token
+      window.sessionStorage.removeItem(state)    //删除token
     },
     setArr (state, arr) {
       state.arr = arr;
@@ -83,6 +88,24 @@ export default new Vuex.Store({
   },
   hideLoading (state) {
     state.LOADING = false
+},
+
+
+//baseURL2
+setUser(state,user) {
+  state.user = user
+},
+//userid
+delUser(state) {
+  state.user = ""
+},
+//存储password
+setPassword(state,word) {
+   state.word = word
+},
+//清除password
+delPassword(state) {
+  state.word = ""
 }
 
 

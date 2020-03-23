@@ -4,19 +4,22 @@
     <loading v-show="LOADING"></loading>
 
       <div class="account-A">
-          <h3>账户</h3>
+          <h3>{{$t("m.Account")}}</h3>
+          <!-- <a href="http://www.blitzbook8.com/">账户</a> -->
       </div>
       <div class="account-B" v-for="(item,index) in accountList" :key="index">
           <h5 >{{item.accountName}}</h5>
           <span>{{item.account}}</span><span>-{{item.group}}</span>
           
       </div>
+      <div class="account-C" @click=entry>入金</div>
+      <div class="account-C">出金</div>
       <div class="account-C" @click="language">
-         界面
+         {{$t("m.Interface")}}
       </div>
      
       <div class="account-D">
-          <router-link tag="h6" @click.native="logout" to="/">退出</router-link>
+          <router-link tag="h6" @click.native="logout" to="/">{{$t("m.Logout")}}</router-link>
       </div>
 
 
@@ -57,14 +60,20 @@
         line-height: 1.333333rem /* 100/75 */;
         margin-bottom: .8rem /* 60/75 */;
         padding-left:.266667rem /* 20/75 */;
+        font-size: .48rem /* 36/75 */;
 
     } 
     .account-D {
-        height: 1.066667rem /* 80/75 */;
+        height: 1.2rem /* 90/75 */;
         background: white;
         font-size:.4rem /* 30/75 */;
         padding-left:.266667rem /* 20/75 */;
         line-height: 1.2rem /* 90/75 */;
+
+        h6 {
+        font-size: .48rem /* 36/75 */;
+
+        }
 
 
 
@@ -75,6 +84,8 @@
 <script>
 import { mapMutations } from "vuex";
 import Loading from "../../components/Loading";
+import { baseURL1,baseURL2 } from "../../utls";
+
 
 import {mapState} from 'vuex'
 
@@ -85,13 +96,14 @@ import {mapState} from 'vuex'
 export default {
   data() {
     return {
-      accountList: []
+      accountList: [],
+      accounts:[]
     };
   },
   created() {
       this.$store.commit('showLoading')
-
-    this.getdata();
+     this.getdata();
+     console.log(this.$store.state.word,"word")
   },
   components: {
 Loading
@@ -105,29 +117,41 @@ Loading
   
   methods: {
     ...mapMutations(["delToken"]),
+    ...mapMutations(["delUserId"]),
+    ...mapMutations(["delUser"]),
+    ...mapMutations(["delPassword"]),
 
     getdata() {
       this.$store.commit('showLoading')
-     
-      this.$http.get("/account").then(({ data }) => {
+  
+      this.$http.get(baseURL1 + "/account").then(({ data }) => {
          this.$store.commit('hideLoading')
         console.log(data,"dadtadtadta");
         this.accountList.push(data.data)
         console.log(this.accountList);
       });
+      
+
      
     },
     logout() {
-        this.$http.post("/logout").then(({data})=> {
+        this.$http.post(baseURL1 +"/logout").then(({data})=> {
            console.log(data)
            if (data.code == 0) {
                this.delToken();
-               this.$router.push("/login")
+               this.delUserId();
+               this.delUser();
+               this.delPassword();
+               this.$router.push("/loginphone")
            }
         })
     },
     language() {
       this.$router.push({name:"language"})
+    },
+    entry() {
+      this.$router.push("/entry")
+
     }
   },
   beforeCreate() {

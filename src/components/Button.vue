@@ -24,6 +24,13 @@ export default {
               isDisabled: false
              
          }
+    },
+    methods: {
+            
+          sendisDisabled(){
+             //func: 是父组件指定的传数据绑定的函数，this.msg:子组件给父组件传递的数据
+             this.$emit('func',this.isDisabled)
+         }
     }
 }
 </script>

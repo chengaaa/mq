@@ -189,7 +189,7 @@ export default {
         console.log(data);
         if (data.code == 0) {
           this.delToken();
-          this.$router.push("/login");
+          this.$router.push("/phone");
         }
       });
     },

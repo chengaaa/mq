@@ -6,17 +6,17 @@
     </div>
     <div class="pad">
     <div v-for="(item,index) in list" :key="index" class="history-timecontent">
-      <p @click="choose(item)">{{item.last}}</p>
+      <p @click="choose(item)">{{$t(item.last)}}</p>
       <i class="iconfont" v-show="ischoose === item.last">&#xe62a;</i>
     </div>
     </div>
     <div class="Start-End" v-show="StartEnd">
       <div class="Start">
-        <label for="Start Date">Start Date:</label>
+        <label for="Start Date">{{$t("m.StartDate")}}</label>
         <input type="text" :value="value1" id="Start Date" @click="showdata('start')" />
       </div>
       <div class="Start">
-        <label for="End Date">End Date:</label>
+        <label for="End Date">{{$t("m.EndDate")}}</label>
         <input type="text" :value="value2" id="End Date" @click="showdata('end')" />
       </div>
     </div>
@@ -69,7 +69,7 @@ padding-left: 0.3rem;
 
   .history-timecontent {
     display: flex;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #c9c9cb;
     p {
       width: 100%;
       height: 1.066667rem /* 80/75 */;
@@ -121,18 +121,20 @@ padding-left: 0.3rem;
 </style>
 <script>
 import { Popup } from "vant";
+import { getNowFormatDate } from "../../tools/check.js";
+
 export default {
   data() {
     return {
       list: [
-        { last: "Last week" },
-        { last: "Last month" },
-        { last: "Last 3 months" },
-        { last: "Last 6 months" },
-        { last: "Last year" },
-        { last: "Custom" }
+        { last: "m.Lastweek" },
+        { last: "m.Lastmonth" },
+        { last: "m.Last3months" },
+        { last: "m.Last6months" },
+        { last: "m.Lastyear" },
+        { last: "m.Custom" }
       ],
-      ischoose: "Last month",
+      ischoose: "m.Lastmonth",
       //params开始时间
       newdate: "",
       //params结束时间
@@ -179,7 +181,7 @@ export default {
       this.show = false;
       this.newdate = value1;
       this.startvalue();
-      console.log(this.newdate);
+    
     },
     onCon1(value2) {
       this.value2 = value2;
@@ -187,38 +189,39 @@ export default {
       this.show1 = false;
       this.enddate = value2;
       this.endvalue();
-      console.log(this.enddate);
+     
     },
     //params开始时间
     startvalue() {
       var data0 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
+        getNowFormatDate( this.newdate)
       this.newdate =
         data0
           .split("/")
           .join("-")
           .replace(" ", "T") + "Z";
+          console.log(this.newdate,"ttttt")
     },
 //params 结束时间
     endvalue() {
+         
+
       var data9 =
-        this.enddate.toLocaleDateString() +
-        " " +
-        this.enddate.toTimeString().substring(0, 8);
+       getNowFormatDate( this.enddate)
+         
       this.enddate =
         data9
           .split("/")
           .join("-")
           .replace(" ", "T") + "Z";
+
     },
     //开始时间
     val() {
       var a =
         this.value1.toLocaleDateString() +
         " " +
-        this.value1.toTimeString().substring(0, 8);
+        this.value1.toTimeString().substring(0, 9);
       this.value1 = a.split("/").join(".");
 
       console.log(this.value1);
@@ -228,7 +231,7 @@ export default {
       var b =
         this.value2.toLocaleDateString() +
         " " +
-        this.value2.toTimeString().substring(0, 8);
+        this.value2.toTimeString().substring(0, 9);
       this.value2 = b.split("/").join(".");
 
       console.log(this.value2);
@@ -237,22 +240,22 @@ export default {
     choose(item) {
       this.ischoose = item.last;
       console.log(item)
-      if (item.last === "Last month") {
+      if (item.last === "m.Lastmonth") {
         this.getMonthdate();
          this.StartEnd = false
-      } else if (item.last === "Last week") {
+      } else if (item.last === "m.Lastweek") {
         this.getWeekdate();
          this.StartEnd = false
-      } else if (item.last === "Last 3 months") {
+      } else if (item.last === "m.Last3months") {
         this.get3Monthdate();
          this.StartEnd = false
-      } else if (item.last === "Last 6 months") {
+      } else if (item.last === "m.Last6months") {
         this.get6Monthdate();
          this.StartEnd = false
-      } else if (item.last === "Last year") {
+      } else if (item.last === "m.Lastyear") {
         this.getFullYear();
          this.StartEnd = false
-      } else if(item.last === "Custom") {
+      } else if(item.last === "m.Custom") {
        this.StartEnd = true
       }
     },
@@ -260,9 +263,7 @@ export default {
     getMonthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
       var date2 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
+        getNowFormatDate( this.newdate)
       this.newdate =
         date2
           .split("/")
@@ -274,9 +275,7 @@ export default {
     getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
       var date3 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
+        getNowFormatDate( this.newdate)
       this.newdate =
         date3
           .split("/")
@@ -288,9 +287,7 @@ export default {
     get3Monthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 3));
       var date4 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
+       getNowFormatDate( this.newdate)
       this.newdate =
         date4
           .split("/")
@@ -302,9 +299,7 @@ export default {
     get6Monthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 6));
       var date5 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
+       getNowFormatDate( this.newdate)
       this.newdate =
         date5
           .split("/")
@@ -318,9 +313,7 @@ export default {
         new Date().setFullYear(new Date().getFullYear() - 1)
       );
       var date6 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
+       getNowFormatDate( this.newdate)
       this.newdate =
         date6
           .split("/")

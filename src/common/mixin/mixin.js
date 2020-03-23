@@ -1,4 +1,6 @@
 import { mapMutations } from "vuex";
+import { baseURL1,baseURL2 } from "../../utls";
+
 
 
 export default {
@@ -11,7 +13,7 @@ export default {
     created() {
         console.log('mixin...', this.name);
       
-        this.$http.get("/market/symbols").then(({ data }) => {
+        this.$http.get(baseURL1 + "/market/symbols").then(({ data }) => {
             this.list = data.data;
             //    console.log(data);
        this.setAddall(this.list)

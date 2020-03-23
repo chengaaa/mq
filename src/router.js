@@ -15,7 +15,20 @@ const router = new Router({
       path: '/home',
       name: 'home',
       // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
-      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue'),
+      meta: {
+        
+        keepAlive: true
+      }
+    
+
+    },
+    { //首页
+      path: '/apply',
+      name: 'apply',
+      // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/Apply.vue'),
+    
     
 
     },
@@ -52,6 +65,19 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-placeall.vue'),
      
     },
+       {//修改单价
+        path: '/transaction-modify',
+        name: 'transaction-modify',
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+          // keepAlive: true
+  
+      },
+        component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-modify.vue'),
+       
+      },
+      
+    
     {//行情
       path: '/quotation',
       name: 'quotation',
@@ -94,7 +120,23 @@ const router = new Router({
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Account/Account.vue')
     },
-     {//账户
+     {//入金
+      path: '/entry',
+      name: 'entry',
+      meta: {
+        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+    },
+      component: () => import(/* webpackChunkName: "about" */ './views/Account/Entry.vue')
+    },
+     {//echarts
+      path: '/echarts/:id',
+      name: 'echarts',
+      meta: {
+        // requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+    },
+      component: () => import(/* webpackChunkName: "about" */ './views/Echarts/Echarts.vue')
+    },
+     {//语言
       path: '/language',
       name: 'language',
     //   meta: {
@@ -104,16 +146,28 @@ const router = new Router({
     },
    
     {//登录
-      path: '/login',
-      name: 'login',
+      path: '/loginphone',
+      name: 'loginphone',
       // component: Home,
-      component: () => import(/* webpackChunkName: "about" */ './views/Login.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Login/Loginphone.vue')
 
     },
-    {//注册
-      path: '/register',
-      name: 'Register',
-      component: () => import(/* webpackChunkName: "about" */ './views/Register.vue')
+    {//邮箱登录
+      path: '/loginemail',
+      name: 'loginemail',
+      // component: Home,
+      component: () => import(/* webpackChunkName: "about" */ './views/Login/Loginemail.vue')
+
+    },
+    {//注册手机
+      path: '/registerphone',
+      name: 'registerphone',
+      component: () => import(/* webpackChunkName: "about" */ './views/Register/Registerphone.vue')
+    },
+    {//注册邮箱
+      path: '/registeremail',
+      name: 'registeremail',
+      component: () => import(/* webpackChunkName: "about" */ './views/Register/Registeremail.vue')
     },
     {//下载app
       path: '/download',
@@ -153,16 +207,16 @@ router.beforeEach((to, from, next) => {
     console.log(token)
     console.log(token)
       if (token) { 
-        console.log(localStorage.getItem('Authorization')) // 获取当前的token是否存在
+        console.log(sessionStorage.getItem('Authorization')) // 获取当前的token是否存在
           next();
       }
       else if(!token){
         // next(false);
           next({
-              path: '/login',
-              query: {
-                redirect: to.fullPath
-              }, // 将跳转的路由path作为参数，登录成功后跳转到该路由
+              path: '/apply',
+              // query: {
+              //   redirect: to.fullPath
+              // }, // 将跳转的路由path作为参数，登录成功后跳转到该路由
               
             })
             // console.log("query",this.$router.query)

@@ -1,5 +1,5 @@
 <template>
-  <van-tabbar v-model="active" inactive-color="white" active-color="#ff6537">
+  <van-tabbar route v-model="active" inactive-color="white" active-color="#ff6537">
     <van-tabbar-item v-for="(item,index) in tabbars" :key="index" :to="(item.name)">
       <van-icon
         class="iconfont"

@@ -2,137 +2,135 @@
   <div id="app">
     <div class="page">
       <div class="h">
-    <div class="history-header">
-      <div class="left"></div>
+        <div class="history-header">
+          <div class="left"></div>
 
-      <div class="right-left">
-        <span :class="{blue, white}" @click="Orders('Orders')">{{$t('m.Orders')}}</span>
+          <div class="right-left">
+            <span :class="{blue, white}" @click="Orders('Orders')">{{$t('m.Orders')}}</span>
 
-        <span :class="{blue1, white1}" @click="Deals('Deals')">{{$t('m.Deals')}}</span>
+            <span :class="{blue1, white1}" @click="Deals('Deals')">{{$t('m.Deals')}}</span>
+          </div>
+          <div class="right-right">
+            <router-link class="iconfont" tag="div" :to="'/history-time/' + this.params">&#xe608;</router-link>
+          </div>
+        </div>
       </div>
-      <div class="right-right">
-        <router-link class="iconfont" tag="div" :to="'/history-time/' + this.params">&#xe608;</router-link>
+      <div v-show="page1" class="con">
+        <div v-for="(item, index) in arrList" :key="index">
+          <div class="border">
+            <div @click="open(index)">
+              <div class="top">
+                <div class="top1">
+                  <h4>{{item.symbol}},</h4>
+                  <span
+                    :class="{'hong':item.orderDirection == -1,'lan': item.orderDirection == 1 }"
+                  >{{item.orderDirection == -1? "sell":"buy"}}</span>
+                </div>
+                <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","")}}</h5>
+              </div>
+              <div class="bot">
+                <p>{{item.volume.toFixed(2)}} / {{(item.volume - item.remainingVolume).toFixed(2)}} at {{item.orderPrice}}</p>
+
+                <span v-if="item.orderStatus === 11">filled</span>
+                <span v-else-if="item.orderStatus === 7">canceled</span>
+                <span v-else-if="item.orderStatus === 17">expired</span>
+                <span v-else>placed</span>
+              </div>
+            </div>
+            <div class="history-deail" v-show="index === openIndex">
+              <div class="deail-left">
+                <div class="deail-left1">
+                  <p>S/L:</p>
+                  <span>{{item.stopLoss == 0? "-":item.stopLoss}}</span>
+                </div>
+                <div class="deail-left2">
+                  <p>T/P:</p>
+                  <span>{{item.takeProfit == 0? "-":item.takeProfit}}</span>
+                </div>
+              </div>
+              <div class="deail-right">
+                <h5>#{{item.orderID}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+        <div class="fixed">
+          <div>
+            <h2>{{$t('m.Filled')}}</h2>
+            <h2>{{$t('m.Canceled')}}</h2>
+            <h2>{{$t('m.Total')}}</h2>
+          </div>
+          <div>
+            <p>{{flied?flied:"0"}}</p>
+            <p>{{canceled? canceled:"0"}}</p>
+            <p>{{sum?sum:"0"}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div v-show="page2" class="con">
+        <div v-for="(item, index) in dealList" :key="index">
+          <div class="border">
+            <div @click="open(index)">
+              <div class="top">
+                <div class="top1">
+                  <h4>{{item.symbol?item.symbol:"买入"}},</h4>
+                  <span
+                    :class="{'hong':item.orderDirection == -1,'lan': item.orderDirection == 1 }"
+                  >{{item.orderDirection == -1? "sell,out":"buy,in"}}</span>
+                </div>
+                <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","")}}</h5>
+              </div>
+              <div class="bot">
+                <p>{{item.volume.toFixed(2)}} at {{item.price}}</p>
+                <p
+                  :class="{'hong': item.pnl < 0,'lan': item.pnl > 0}"
+                >{{item.pnl == 0? '':item.pnl}}</p>
+              </div>
+            </div>
+            <div class="history-deail" v-show="index === openIndex">
+              <div class="deail-left">
+                <div class="deail-left1">
+                  <p>Deal:</p>
+                  <span>{{item.executionId}}</span>
+                </div>
+                <div class="deail-left2">
+                  <p>Order:</p>
+                  <span>{{item.positionId}}</span>
+                </div>
+              </div>
+              <div class="order-right">
+                <div class="order-left1">
+                  <p>Swap:</p>
+                  <span>{{item.swap}}</span>
+                </div>
+                <div class="order-left2">
+                  <p>Charges:</p>
+                  <span>-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fixed2">
+          <div>
+            <h3>{{$t('m.Deposit')}}</h3>
+            <h3>{{$t('m.Profit')}}</h3>
+            <h3>{{$t('m.Swap')}}</h3>
+            <h3>{{$t('m.Commission')}}</h3>
+            <h3>{{$t('m.balance')}}</h3>
+          </div>
+          <div>
+            <p>{{deposit?deposit:"0.00"}}</p>
+            <p>{{pnlsum?pnlsum:"0.00"}}</p>
+            <p>{{kucun?kucun:"0.00"}}</p>
+            <p>0.00</p>
+            <p>0.00</p>
+          </div>
+        </div>
       </div>
     </div>
-      </div>
-    <div v-show="page1" class="con">
-      <div v-for="(item, index) in arrList" :key="index">
-        <div class="border">
-          <div @click="open(index)">
-            <div class="top">
-              <div class="top1">
-                <h4>{{item.symbol}},</h4>
-                <span
-                  :class="{'hong':item.orderDirection == -1,'lan': item.orderDirection == 1 }"
-                >{{item.orderDirection == -1? "sell":"buy"}}</span>
-              </div>
-              <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","")}}</h5>
-            </div>
-            <div class="bot">
-              <p>{{item.volume.toFixed(2)}} / {{(item.volume - item.remainingVolume).toFixed(2)}} at {{item.orderPrice}}</p>
-
-              <span v-if="item.orderStatus === 11">filled</span>
-              <span v-else-if="item.orderStatus === 7">canceled</span>
-              <span v-else-if="item.orderStatus === 17">expired</span>
-              <span v-else>placed</span>
-            </div>
-          </div>
-          <div class="history-deail" v-show="index === openIndex">
-            <div class="deail-left">
-              <div class="deail-left1">
-                <p>S/L:</p>
-                <span>{{item.stopLoss == 0? "-":item.stopLoss}}</span>
-              </div>
-              <div class="deail-left2">
-                <p>T/P:</p>
-                <span>{{item.takeProfit == 0? "-":item.takeProfit}}</span>
-              </div>
-            </div>
-            <div class="deail-right">
-              <h5>#{{item.orderID}}</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-         <div class="fixed">
-        <div>
-          <h2>{{$t('m.Filled')}}</h2>
-          <h2>{{$t('m.Canceled')}}</h2>
-          <h2>{{$t('m.Total')}}</h2>
-        </div>
-        <div>
-          <p>{{flied?flied:"0"}}</p>
-          <p>{{canceled? canceled:"0"}}</p>
-          <p>{{sum?sum:"0"}}</p>
-        </div>
-        </div>
-    </div>
-
-
-     
-
-    <div v-show="page2" class="con">
-      <div v-for="(item, index) in dealList" :key="index">
-        <div class="border">
-          <div @click="open(index)">
-            <div class="top">
-              <div class="top1">
-                <h4>{{item.symbol}},</h4>
-                <span
-                  :class="{'hong':item.orderDirection == -1,'lan': item.orderDirection == 1 }"
-                >{{item.orderDirection == -1? "sell,out":"buy,in"}}</span>
-              </div>
-              <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","")}}</h5>
-            </div>
-            <div class="bot">
-              <p>{{item.volume.toFixed(2)}} at {{item.price}}</p>
-              <p :class="{'hong': item.pnl < 0,'lan': item.pnl > 0}">{{item.pnl == 0? '':item.pnl}}</p>
-            </div>
-          </div>
-          <div class="history-deail" v-show="index === openIndex">
-            <div class="deail-left">
-              <div class="deail-left1">
-                <p>Deal:</p>
-                <span>{{item.executionId}}</span>
-              </div>
-              <div class="deail-left2">
-                <p>Order:</p>
-                <span>{{item.positionId}}</span>
-              </div>
-            </div>
-            <div class="order-right">
-              <div class="order-left1">
-                <p>Swap:</p>
-                <span>{{item.swap}}</span>
-              </div>
-              <div class="order-left2">
-                <p>Charges:</p>
-                <span>-</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="fixed2">
-      <div>
-       <h3>{{$t('m.Deposit')}}</h3> 
-       <h3>{{$t('m.Profit')}}</h3> 
-       <h3>{{$t('m.Swap')}}</h3> 
-       <h3>{{$t('m.Commission')}}</h3> 
-       <h3>{{$t('m.balance')}}</h3> 
-      </div>
-      <div>
-        <p>{{deposit?deposit:"0.00"}}</p>
-        <p>{{pnlsum?pnlsum:"0.00"}}</p>
-        <p>{{kucun?kucun:"0.00"}}</p>
-        <p>0.00</p>
-        <p>0.00</p>
-      </div>
-      </div>
-    </div>
-    
-  
-      </div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -146,52 +144,52 @@
   color: blue;
 }
 .fixed {
-width: 100%;
-    height: 1.466667rem;
-    background: white;
-    /* position: fixed; */
-    /* bottom: 1.466667rem; */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    font-size: 0.346667rem;
-    padding-bottom: 1.5rem;
-    padding-top: 0.35rem;
-        // border-top: 1px solid #969799;
+  width: 100%;
+  height: 1.466667rem;
+  background: white;
+  /* position: fixed; */
+  /* bottom: 1.466667rem; */
+
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  font-size: 0.346667rem;
+  padding-bottom: 1.5rem;
+  padding-top: 0.35rem;
+  // border-top: 1px solid #969799;
   h2 {
     padding-left: 0.133333rem /* 10/75 */;
-    margin-bottom: .173333rem /* 13/75 */;
+    margin-bottom: 0.173333rem /* 13/75 */;
   }
   p {
     padding-right: 0.133333rem /* 10/75 */;
-    margin-bottom: .173333rem /* 13/75 */;
+    margin-bottom: 0.173333rem /* 13/75 */;
   }
 }
 .fixed2 {
-     width: 100%;
-    height: 4rem;
-    background: white;
-    /* position: fixed; */
-    /* bottom: 0; */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    padding: 0.133333rem 0rem;
-  h3 ,p{
-    margin-bottom: .133333rem /* 10/75 */;
-    font-size: .346667rem /* 26/75 */;
+  width: 100%;
+  height: 4rem;
+  background: white;
+  /* position: fixed; */
+  /* bottom: 0; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0.133333rem 0rem;
+  h3,
+  p {
+    margin-bottom: 0.133333rem /* 10/75 */;
+    font-size: 0.346667rem /* 26/75 */;
   }
   h3 {
-    padding-left: .133333rem /* 10/75 */;
+    padding-left: 0.133333rem /* 10/75 */;
   }
   p {
-    padding-right: .133333rem /* 10/75 */;
+    padding-right: 0.133333rem /* 10/75 */;
   }
 }
 .iconfont {
@@ -200,64 +198,64 @@ width: 100%;
 }
 .page {
   height: 100%;
-.h {
-position: fixed;
-width: 100%;
-background: white;
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.266667rem /* 20/75 */ 0.266667rem /* 20/75 */;
-  .right-left {
-    span {
-      display: inline-block;
-      width: 1.333333rem /* 100/75 */;
-      height: 0.666667rem /* 50/75 */;
-      line-height: 0.666667rem /* 50/75 */;
-      font-size: 0.333333rem /* 25/75 */;
-      text-align: center;
-      border: 1px solid blue;
+  .h {
+    position: fixed;
+    width: 100%;
+    background: white;
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.266667rem /* 20/75 */ 0.266667rem /* 20/75 */;
+      .right-left {
+        span {
+          display: inline-block;
+          width: 1.333333rem /* 100/75 */;
+          height: 0.666667rem /* 50/75 */;
+          line-height: 0.666667rem /* 50/75 */;
+          font-size: 0.333333rem /* 25/75 */;
+          text-align: center;
+          border: 1px solid blue;
+        }
+      }
     }
   }
-}
-}
 
-.border {
-  line-height: 0.4rem /* 30/75 */;
-  padding: 0.133333rem /* 10/75 */ 0.133333rem /* 10/75 */;
-  border: 0.013333rem /* 1/75 */ solid #eeeeee;
+  .border {
+    line-height: 0.4rem /* 30/75 */;
+    padding: 0.133333rem /* 10/75 */ 0.133333rem /* 10/75 */;
+    border: 0.013333rem /* 1/75 */ solid #eeeeee;
 
-  .top {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.133333rem /* 10/75 */;
-    h5 {
-      font-size: 0.293333rem /* 22/75 */;
-      font-weight: 700;
-    }
-    .top1 {
+    .top {
       display: flex;
-      h4 {
-        font-size: 0.4rem /* 30/75 */;
+      justify-content: space-between;
+      margin-bottom: 0.133333rem /* 10/75 */;
+      h5 {
+        font-size: 0.293333rem /* 22/75 */;
         font-weight: 700;
+      }
+      .top1 {
+        display: flex;
+        h4 {
+          font-size: 0.4rem /* 30/75 */;
+          font-weight: 700;
+        }
+        span {
+          font-size: 0.32rem /* 24/75 */;
+          font-weight: 700;
+        }
+      }
+    }
+    .bot {
+      display: flex;
+      justify-content: space-between;
+      p {
+        font-size: 0.346667rem /* 26/75 */;
       }
       span {
         font-size: 0.32rem /* 24/75 */;
-        font-weight: 700;
       }
     }
   }
-  .bot {
-    display: flex;
-    justify-content: space-between;
-    p {
-      font-size: 0.346667rem /* 26/75 */;
-    }
-    span {
-      font-size: 0.32rem /* 24/75 */;
-    }
-  }
-}
 }
 
 .history-deail {
@@ -292,19 +290,19 @@ background: white;
   }
 }
 .order-right {
- width: 35%;
+  width: 35%;
 
-.order-left1, .order-left2 {
-  display: flex;
- justify-content: space-between;
- p, span {
-   font-size: .346667rem /* 26/75 */;
-   color: #c6c5ca;
- }
+  .order-left1,
+  .order-left2 {
+    display: flex;
+    justify-content: space-between;
+    p,
+    span {
+      font-size: 0.346667rem /* 26/75 */;
+      color: #c6c5ca;
+    }
+  }
 }
-}
-
-
 
 .blue {
   background: blue;
@@ -324,6 +322,10 @@ background: white;
 }
 </style>
 <script>
+import { getNowFormatDate } from "../../tools/check.js";
+import { baseURL1,baseURL2 } from "../../utls";
+import { FormatDate } from "../../tools/check.js";
+
 export default {
   data() {
     return {
@@ -342,15 +344,15 @@ export default {
       canceled: null,
       sum: null,
       openIndex: -1,
-      pnlsum:null,
-      kucun:null,
+      pnlsum: null,
+      kucun: null,
       deposit: null
     };
   },
   created() {
-    this.getdate(); 
-   this.getList();
-   this.getdealsList()
+    this.getdate();
+    this.getList();
+    this.getdealsList();
   },
   methods: {
     Orders(O) {
@@ -358,7 +360,7 @@ export default {
       this.white1 = true;
       (this.page2 = false), (this.page1 = true);
       this.params = O;
-      this.getList()
+      this.getList();
     },
     Deals(D) {
       (this.blue1 = true), (this.white1 = false);
@@ -368,30 +370,25 @@ export default {
       this.getdealsList();
     },
     getdate() {
-      this.date.toLocaleDateString();
-      var date1 =
-        this.date.toLocaleDateString() +
-        " " +
-        this.date.toTimeString().substring(0, 8);
-      this.date =
-        date1
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
+      var date1 = FormatDate(this.date);
+      console.log(date1, "date1");
+
+      this.date = date1.replace(" ", "T") + "Z";
+      console.log(this.date, "date");
     },
 
-  getMonthdate() {
+    getMonthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
-      var date2 =
-        this.newdate.toLocaleDateString() +
-        " " +
-        this.newdate.toTimeString().substring(0, 8);
-      this.newdate =
+      console.log(this.newdate, "上一个月");
+      var date2 = getNowFormatDate(this.newdate);
+      console.log(date2, "new Date");
+      this.Monthdate =
         date2
           .split("/")
           .join("-")
           .replace(" ", "T") + "Z";
-      console.log(this.newdate);
+
+      console.log(this.Monthdate, "this.Monthdate");
     },
 
     getList() {
@@ -403,10 +400,11 @@ export default {
       }
 
       this.$http
-        .get("/history/orders?from=" + this.Monthdate + "&to=" + this.date)
+        .get(baseURL1 + "/history/orders?from=" + this.Monthdate + "&to=" + this.date)
         .then(({ data }) => {
           if (data.code === 0) {
             this.arrList = data.data;
+            this.splices2()
             this.list();
           }
         });
@@ -424,42 +422,59 @@ export default {
       });
     },
     getdealsList() {
-       this.pnlsum = null
-       this.kucun = null
-       this.deposit = null
+      this.pnlsum = null;
+      this.kucun = null;
+      this.deposit = null;
       if (this.$route.params.begin) {
         this.Monthdate = this.$route.params.begin;
       } else {
         this.getMonthdate();
       }
       this.$http
-        .get("history/executions?from=" + this.Monthdate + "&to=" + this.date)
+        .get(baseURL1 + "/history/executions?from=" + this.Monthdate + "&to=" + this.date)
         .then(({ data }) => {
-          console.log(data.data,"executions")
+          // console.log(data.data,"executions")
           if (data.code === 0) {
             this.dealList = data.data;
-            this.executionsList()
+            this.splices();
+            console.log(this.dealList, "this.dealList");
+            this.executionsList();
           }
-        }).catch(error => {
-        if(error.status === 403) {
-          this.$router.push("/login")
-          console.log("/login")
-        }
         })
+        .catch(error => {
+          if (error.status === 403) {
+            this.$router.push("/apply");
+            console.log("/");
+          }
+        });
     },
     executionsList() {
-     this.dealList.forEach((item)=>{
-       console.log(item,"shshshhshshshh")
-       this.pnlsum += JSON.parse(item.pnl)
-       this.kucun += JSON.parse(item.swap)
-       if(item.comment) {
-       this.deposit += JSON.parse(item.pnl)
+      this.dealList.forEach(item => {
+        //  console.log(item,"shshshhshshshh")s
+        this.pnlsum += JSON.parse(item.pnl);
+        this.kucun += JSON.parse(item.swap);
+        if (item.comment) {
+          this.deposit += JSON.parse(item.pnl);
 
-         console.log(this.deposit,"item")
-       }
-
-     })
+          //  console.log(this.deposit,"item")
+        }
+      });
     },
+    //去除dealList symbol的点
+    splices() {
+      for (let i = 0; i < this.dealList.length; i++) {
+        this.dealList[i].symbol = this.dealList[i].symbol.replace(/\./, "");
+        this.dealList = this.dealList;
+      }
+    },
+       //去除arrList symbol的点
+    splices2() {
+      for (let i = 0; i < this.arrList.length; i++) {
+        this.arrList[i].symbol = this.arrList[i].symbol.replace(/\./, "");
+        this.arrList = this.arrList;
+      }
+    },
+    
     open(index) {
       if (this.openIndex === null) {
         this.openIndex = index;
@@ -473,11 +488,9 @@ export default {
       handler: function(val, oldVal) {
         console.log(oldVal);
         if (oldVal.path === "/history-time/Orders") {
-             this.getList();
-        } else if (oldVal.path === "/history-time/Deals"){
-          
-          this.getdealsList()
-          
+          this.getList();
+        } else if (oldVal.path === "/history-time/Deals") {
+          this.getdealsList();
         }
       }
     }

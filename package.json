@@ -12,6 +12,7 @@
     "array-find-index": "^1.0.2",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "echarts": "^4.6.0",
     "fastclick": "^1.0.6",
     "lib-flexible": "^0.3.2",
     "miniprogram-datepicker": "^0.3.0",
