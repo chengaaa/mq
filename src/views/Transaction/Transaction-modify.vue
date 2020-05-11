@@ -390,7 +390,6 @@
 <script>
 import store from "../../store";
 import { baseURL1,baseURL2 } from "../../utls";
-import { Toast } from "mint-ui";
 
 export default {
   data() {

@@ -24,16 +24,13 @@
 <style lang="scss" scoped>
 body {
   background: #efeef3;
-
   .detail {
     background: #efeef3;
-
     .detail-a {
       width: 100%;
       height: 1.2rem /* 90/75 */;
       line-height: 1.2rem /* 90/75 */;
       background: white;
-      //  padding-top: .266667rem /* 20/75 */;
       h2 {
         text-align: center;
         font-size: 0.426667rem /* 32/75 */;
@@ -75,7 +72,6 @@ body {
         padding-left: 0.466667rem /* 35/75 */;
       }
     }
-
     .navbar {
       padding-top: 0.266667rem /* 20/75 */;
       font-size: 0.3333333333333rem;
@@ -89,7 +85,7 @@ body {
 }
 </style>
 <script>
-import Navheader from "../../components/Navheader";
+const Navheader = ()=> import("../../components/Navheader");
 import store from "../../store";
 export default {
   data() {

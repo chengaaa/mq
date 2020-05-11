@@ -1,5 +1,5 @@
 <template>
-  <van-tabbar route v-model="active" inactive-color="white" active-color="#ff6537">
+  <van-tabbar route v-model="active" inactive-color="white" active-color="#127df6">
     <van-tabbar-item v-for="(item,index) in tabbars" :key="index" :to="(item.name)">
       <van-icon
         class="iconfont"
@@ -29,6 +29,10 @@
 
 <script>
 export default {
+  components:{
+// Tabbar,
+// TabbarItem
+  },
   data() {
     return {
       active: 0,
@@ -36,15 +40,22 @@ export default {
         {
           name: "/home",
           title: "m.Home",
-          normal: "ai-home",
-          active1: "ai-home"
+          normal: "shouye2",
+          active1: "shouye2"
+        },
+         {
+      
+          name: "/echarts",
+          title: "m.Chart",
+          normal: "tubiao1",
+          active1: "tubiao1"
         },
        
         {
-          name: "/quotation",
+          name: "/quotation-order",
           title: "m.Quotes",
-          normal: "zichancopy",
-          active1: "zichancopy"
+          normal: "hangqing3",
+          active1: "hangqing3"
         },
          {
           name: "/transaction",
@@ -52,12 +63,12 @@ export default {
           normal: "jiaoyi",
           active1: "jiaoyi"
         },
-        {
-          name: "/history",
-          title: "m.History",
-          normal: "lishi",
-          active1: "lishi"
-        },
+        // {
+        //   name: "/history",
+        //   title: "m.History",
+        //   normal: "lishi",
+        //   active1: "lishi"
+        // },
         {
           name: "/account",
           title: "m.Account",

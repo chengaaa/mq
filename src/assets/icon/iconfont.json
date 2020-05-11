@@ -6,6 +6,83 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10217264",
+      "name": "行情",
+      "font_class": "hangqing3",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "11264132",
+      "name": "图表",
+      "font_class": "tubiao1",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "9975160",
+      "name": "小圆点",
+      "font_class": "xiaoyuandian",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "3199012",
+      "name": "QQ",
+      "font_class": "QQ",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "4829629",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "6474625",
+      "name": "telegram",
+      "font_class": "telegram",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "12794988",
+      "name": "小眼睛-闭",
+      "font_class": "xiaoyanjing-bi",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "3816139",
+      "name": "交易",
+      "font_class": "jiaoyi3",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "8611898",
+      "name": "首 页",
+      "font_class": "shouye2",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "11629533",
+      "name": "行情",
+      "font_class": "hangqing2",
+      "unicode": "e790",
+      "unicode_decimal": 59280
+    },
+    {
+      "icon_id": "13284684",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
       "icon_id": "4129819",
       "name": "提现",
       "font_class": "tixian1",

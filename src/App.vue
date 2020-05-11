@@ -5,13 +5,23 @@
       <router-view v-if="$route.meta.keepAlive "></router-view>
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive  "></router-view>
-    <!-- <router-view v-if="isRouterAlive"></router-view> -->
-
     <tabbar class="tab" v-if="tabbarShow"></tabbar>
   </div>
 </template>
 <style lang="scss">
 @import "./common/resect.scss";
+@font-face {
+  font-family:  HelveticaNeueLT-Pro-57-Cn;
+  src: url("./assets/font/Helvetica\ Neue\ Condensed\ Bold.ttf");
+}
+@font-face {
+  font-family: Tahoma;
+  src: url("./assets/font/tahoma.ttf");
+}
+@font-face {
+  font-family: Sans Serif;
+  src: url("./assets/font/Microsoft\ Sans\ Serif.ttf");
+}
 
 body {
   font-size: 0;
@@ -19,99 +29,112 @@ body {
 #app {
   width: 100%;
   height: 100%;
+  font-family: Tahoma, Sans Serif, HelveticaNeueLT-Pro-57-Cn;
 }
-// .tab {
-//  height: 1.493333rem /* 112/75 */;
-//     font-size: 0.32rem /* 24/75 */;
-
-
-// }
 </style>
 <script>
-import Tabbar from "./components/Tabbar";
-import Loading from "./components/Loading";
+const Tabbar = () => import("./components/Tabbar");
+const Loading = () => import("./components/Loading");
 import store from "./store";
 import { mapMutations } from "vuex";
-import {mapState} from 'vuex';
-import { baseURL1,baseURL2 } from "./utls";
+import { mapState } from "vuex";
+import { baseURL1, baseURL2 } from "./utls";
 
 export default {
   data() {
     return {
       ordersList: [],
-      userid:"",
-      all:[],
- 
-      
+      userid: "",
+      all: [],
       
     };
   },
-  
+
   components: {
     Tabbar,
     Loading
   },
- 
+
   computed: {
     tabbarShow() {
       return this.$store.getters.getTabbarShow;
-    },
-     
+    }
   },
   created() {
-    // this.initWebpack();
-    this.getdata2()
-    this.getdata3()
-    this.getuserId()
-
-
+    this.sheet();
+    this.getuserId();
+    this.load();
+    this.fnResize();
+    localStorage.getItem("engs")
+      ? localStorage.setItem("engs", localStorage.getItem("engs"))
+      : localStorage.setItem("engs", "中文");
   },
-  mounted() {
-
-  },
- 
-  
-  
-
   methods: {
     ...mapMutations(["setdataArr"]),
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
     ...mapMutations(["setArr"]),
-    getuserId() {
-      this.userid = store.state.userId
-      console.log(this.userid," this.userid")
+    ...mapMutations(["setActions"]),
+    ...mapMutations(["setActionss"]),
+    fnResize() {
+      var deviceWidth =
+        document.documentElement.clientWidth || window.innerWidth;
+      if (deviceWidth >= 750) {
+        deviceWidth = 750;
+      }
+      if (deviceWidth <= 320) {
+        deviceWidth = 320;
+      }
+      document.documentElement.style.fontSize = deviceWidth / 10 + "px";
+      console.log("nij");
+      console.log(deviceWidth);
     },
- 
-
-    
-    initWebpack() { 
+    getuserId() {
+      this.userid = store.state.userId;
+      console.log(this.userid, " this.userid");
+    },
+    load() {
+      let token = store.state.Authorization;
+      if (token) {
+        // console.log(init)
+        // this.onopen()
+        this.initWebpack();
+        this.getdata2();
+        this.getdata3();
+        this.getdata6();
+      } else {
+        return;
+      }
+    },
+    sheet() {
+      let arr = [
+        { name: "Close" },
+        { name: "Trade" },
+        { name: "Price revision" }
+      ];
+      this.setActions(arr);
+      let arrs = [{ name: "Delete" }, { name: "Modify" }, { name: "Trade" }];
+      this.setActionss(arrs);
+    },
+    initWebpack() {
+      this.ws = null;
       // console.log(store.state.Authorization,"store.state.Authorization")
       var token = store.state.Authorization.substring(7);
       // console.log(token, "apptoken");
-   
-
-    this.getuserId()
-    
-
-   
+      this.getuserId();
       this.ws = new WebSocket(
-        "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
         // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
         // "ws://52.209.109.96:80/ws/v1/streaming?access_token=" + token
-        // "ws://www.blitzbook8.com/ws/v1/streaming?access_token=" + token
-        
-       
+        "wss://www.blitzbook8.com/ws/v1/streaming?access_token=" + token
       );
       this.ws.onopen = this.onopen;
       this.ws.onmessage = this.onmessage;
       this.ws.onclose = this.onclose;
       this.ws.onerror = this.onerror;
-      
     },
     reconnect() {
       //重新连接
-      console.log("重新咯按揭")
+      console.log("重新咯按揭");
       var that = this;
       if (that.lockReconnect) {
         return;
@@ -149,8 +172,6 @@ export default {
         action: 11
       });
       this.ws.send(ms);
-
-      // console.log("open");
     },
     onmessage(e) {
       // console.log("message")
@@ -158,7 +179,6 @@ export default {
       // console.log(mydata)
       store.dispatch("REAET_MYDATA");
       store.dispatch("SAVE_MYDATA", mydata);
-     
       // this.reset();
     },
     onclose(e) {
@@ -166,18 +186,15 @@ export default {
       console.log(
         "websocket 断开: " + e.code + " " + e.reason + " " + e.wasClean
       );
-      this.reconnect();
-    
+      console.log(e, "app");
+      // this.reconnect();
     },
     onerror(e) {
-      
       console.log("出现错误");
       //重连
-      this.reconnect();
-     
-
+      // this.reconnect();
     },
-      getdata3() {
+    getdata3() {
       this.$http.get(baseURL1 + "/position/orders").then(({ data }) => {
         this.ordersList = data.data;
         var order = this.ordersList;
@@ -187,93 +204,72 @@ export default {
           order[i].bid = "0.00";
           order[i].ask = "0.00";
         }
-
         this.setorder(order);
       });
     },
-     getdata2() {
-          this.$http.get(baseURL1 + "/position/contracts").then(({ data }) => {
+    getdata2() {
+      this.$http.get(baseURL1 + "/position/contracts").then(({ data }) => {
         this.contractsList = data.data;
-        var contractsLists = this.contractsList
+        var contractsLists = this.contractsList;
         for (var f = 0; f < this.contractsList.length; f++) {
           // console.log(this.contractsList[f], "fffff");
           this.contractsList[f].bid = "0.00";
           this.contractsList[f].ask = "0.00";
         }
-       this.setcontractsList(contractsLists)
-      //  console.log(store.state.contractsLists,"存上了")
+        this.setcontractsList(contractsLists);
+        //  console.log(store.state.contractsLists,"存上了")
         // this.getnewArr();
       });
     },
-    
-   
-    haha() {
-      
+    getdata6() {
+      this.$http.get(baseURL1 + "/market/symbols").then(({ data }) => {
+        this.all = data.data;
+        //  console.log(this.all,"shazi ")
+        for (var i = 0; i < this.all.length; i++) {
+          //  console.log(this.all[i],"zuil")
+          this.all[i].bid = "0.00";
+          this.all[i].ask = "0.00";
+        }
+
+        this.setArr(this.all);
+      });
     }
-
   },
-  // watch: {
-  //    $route (to, from) {
 
-  //     console.log(to.path);
-  //     if(val.path === "/transaction") {
-  //       console.log("101")
-  //       this.getdata2()
-  //       this.getdata3()
-
-  //     }else if (oldVal.path === "/login") {
-  //          this.initWebpack();
-  //          console.log(oldVal.path,"oldVal.path")
-          
-  //     }
-  //   }
-  // //   // 深度观察监听
-  // //   deep: true
-  
-  // },
-
-
-watch: {
-   $route(to, from) {
+  watch: {
+    $route(to, from) {
       //判断是否显示tabbar
       // if(to.path == '/login' || to.path == '/register'){
       //   this.$store.commit('updateTabbarShow',false);
       // }else{
       //   this.$store.commit('updateTabbarShow',true);
       // }
+     
       if (
         to.path == "/home" ||
         to.path == "/transaction" ||
-        to.path == "/quotation" ||
-        to.path == "/history" ||
+        to.path == "/quotation-order" ||
+        to.path == "/quotation-deail" ||
         to.path == "/account" ||
         to.path == "/language" ||
-        to.path == "/apply"
-         
-        // to.path == "/transaction-place"
+        to.path == "/apply" || 
+        to.path == "/echarts"
+        
       ) {
         this.$store.commit("updateTabbarShow", true);
       } else {
         this.$store.commit("updateTabbarShow", false);
       }
-    if(to.path === "/transaction") {
-        this.getdata2()
-         this.getdata3()
-    } else if((from.path === "/loginphone" && to.path === "/home") || (from.path === "/loginemail" && to.path === "/home")) {
-      console.log(from.path,"from.path")
-      console.log(to.path,"to.path")
-      //  window.history.go(0) 
-       location.reload()
-        this.initWebpack();
-
-        
-      
-      window.localStorage.setItem("params", "BTCUSD.")
-      
-
-
-    } 
+      if (to.path === "/transaction") {
+        this.getdata2();
+        this.getdata3();
+      } else if (
+        (from.path === "/login" && to.path === "/home") ||
+        (from.path === "/login" && to.path === "/home")
+      ) {
+        window.localStorage.setItem("params", "BTCUSD.");
+      }
     }
-}
+  }
 };
 </script>

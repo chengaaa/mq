@@ -7,7 +7,7 @@
       <!-- <div v-for="(item,index) in getdata" :key="index" class="concent"> -->
         <div class="concent">
         <div v-for="(items,indexs) in getdata" :key="indexs" class="concent-b">
-          <p @click="choose(items.symbolName)">{{items.symbolName}}</p>
+          <p @click="choose(items.symbolName)">{{(items.symbolName).slice(0,items.symbolName.indexOf('.'))}}</p>
           <i class="iconfont" v-show="isshows === items.symbolName ">&#xe62a;</i>
         </div>
       </div>
@@ -16,6 +16,7 @@
 </template>
 <style lang="scss" scoped>
 .transaction-placeall {
+
   .arrow {
     padding-top: 0.4rem /* 30/75 */;
     padding-bottom: 0.4rem /* 30/75 */;
@@ -40,7 +41,9 @@
 
         p {
             width:100%;
-          font-size: .506667rem /* 38/75 */;
+          font-size: .426667rem /* 32/75 */;
+     font-family: 'Tahoma','Sans Serif';
+
         }
       }
     }

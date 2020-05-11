@@ -1,5 +1,4 @@
 <template>
-
   <div class="addall-page">
     <!-- <Navheader class="navbar" ref="child" @click="back"></Navheader> -->
     <div class="navheader">
@@ -8,10 +7,8 @@
       </div>
     </div>
   </div>
-
 </template>
 <style lang="scss" scoped>
-
 .addall-page {
   padding-top: .4rem /* 30/75 */;
     #van-icon {
@@ -47,13 +44,9 @@
 import { mapMutations } from "vuex";
 import store from "../../store";
 import mixin from "../../common/mixin/mixin"
-
 export default {
- mixins: [mixin],
-
   data() {
     return {
-      // list: [],
       other: []
     };
   },
@@ -63,12 +56,10 @@ export default {
   beforeUpdate() {},
   methods: {
     ...mapMutations(["setArr"]),
-    // ...mapMutations(["setAddall"]),
     go() {
       this.$router.push({ name: "quotation" });
       console.log("go");
     },
-
     detail(symbolName) {
       console.log()
     },
@@ -77,24 +68,7 @@ export default {
     },
     getData() {    
        this.setAddall(this.list)
-      
     },
-    
-    // add(index) {
-    //   console.log(this.list,"nima")
- 
-    //   this.other.push(this.list.splice(index, 1));
-    //   for (var i = 0; i < this.other.length; i++) {
-    //     for (var j = 0; j < this.other[i].length; j++) {
-    //       this.other[i][j].bid = "0.00";
-    //       this.other[i][j].ask = "0.00";
-    //     }
-    //   }
-
-    //   this.setArr(this.other);
-
-    //   console.log("add", index);
-    // }
   },
   components: {
   }

@@ -1,13 +1,14 @@
 <template>
   <div id="app">
+    <loading v-show="LOADING"></loading>
     <div class="page">
       <div class="h">
         <div class="history-header">
-          <div class="left"></div>
-
+          <div class="left">
+            <van-icon id="van-icon" name="arrow-left" color="blue" @click="back" />
+          </div>
           <div class="right-left">
             <span :class="{blue, white}" @click="Orders('Orders')">{{$t('m.Orders')}}</span>
-
             <span :class="{blue1, white1}" @click="Deals('Deals')">{{$t('m.Deals')}}</span>
           </div>
           <div class="right-right">
@@ -26,11 +27,10 @@
                     :class="{'hong':item.orderDirection == -1,'lan': item.orderDirection == 1 }"
                   >{{item.orderDirection == -1? "sell":"buy"}}</span>
                 </div>
-                <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","")}}</h5>
+                <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","").substring(0,19)}}</h5>
               </div>
               <div class="bot">
                 <p>{{item.volume.toFixed(2)}} / {{(item.volume - item.remainingVolume).toFixed(2)}} at {{item.orderPrice}}</p>
-
                 <span v-if="item.orderStatus === 11">filled</span>
                 <span v-else-if="item.orderStatus === 7">canceled</span>
                 <span v-else-if="item.orderStatus === 17">expired</span>
@@ -68,22 +68,28 @@
           </div>
         </div>
       </div>
-
       <div v-show="page2" class="con">
         <div v-for="(item, index) in dealList" :key="index">
           <div class="border">
             <div @click="open(index)">
               <div class="top">
-                <div class="top1">
+                <div class="top1" v-show="item.symbol !='' ">
                   <h4>{{item.symbol?item.symbol:"买入"}},</h4>
                   <span
                     :class="{'hong':item.orderDirection == -1,'lan': item.orderDirection == 1 }"
                   >{{item.orderDirection == -1? "sell,out":"buy,in"}}</span>
                 </div>
-                <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","")}}</h5>
+                <div class="top1" v-show="item.symbol ==='' ">
+                  <h4>{{item.comment.indexOf("d-") === 0?"入金":""}}</h4>
+                  <h4>{{item.comment.indexOf("w-") === 0?"出金":""}}</h4>
+                  <h4>{{item.comment.indexOf("Credit out") === 0?"信用出金":""}}</h4>
+                  <h4>{{item.comment.indexOf("Credit in") === 0?"信用入金":""}}</h4>
+                </div>
+                <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","").substring(0,19)}}</h5>
               </div>
               <div class="bot">
-                <p>{{item.volume.toFixed(2)}} at {{item.price}}</p>
+                <p v-show="item.symbol !=''">{{item.volume.toFixed(2)}} at {{item.price}}</p>
+                <p v-show="item.symbol ===''"></p>
                 <p
                   :class="{'hong': item.pnl < 0,'lan': item.pnl > 0}"
                 >{{item.pnl == 0? '':item.pnl}}</p>
@@ -122,11 +128,12 @@
             <h3>{{$t('m.balance')}}</h3>
           </div>
           <div>
-            <p>{{deposit?deposit:"0.00"}}</p>
-            <p>{{pnlsum?pnlsum:"0.00"}}</p>
-            <p>{{kucun?kucun:"0.00"}}</p>
+            <p>{{deposit?(deposit).toFixed(2):"0.00"}}</p>
+            <p>{{pnlsum?(pnlsum).toFixed(2):"0.00"}}</p>
+            <p>{{kucun?(kucun).toFixed(2):"0.00"}}</p>
             <p>0.00</p>
-            <p>0.00</p>
+            <p v-show="balance">{{balance}}</p>
+            <p v-show="balance === ''">0.00</p>
           </div>
         </div>
       </div>
@@ -147,32 +154,29 @@
   width: 100%;
   height: 1.466667rem;
   background: white;
-  /* position: fixed; */
-  /* bottom: 1.466667rem; */
-
   display: flex;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  font-size: 0.346667rem;
   padding-bottom: 1.5rem;
   padding-top: 0.35rem;
-  // border-top: 1px solid #969799;
+ color:#666;
+     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
   h2 {
     padding-left: 0.133333rem /* 10/75 */;
     margin-bottom: 0.173333rem /* 13/75 */;
+      font-size:.4rem /* 30/75 */;
   }
   p {
     padding-right: 0.133333rem /* 10/75 */;
     margin-bottom: 0.173333rem /* 13/75 */;
+    font-size:.4rem /* 30/75 */;
   }
 }
 .fixed2 {
   width: 100%;
   height: 4rem;
   background: white;
-  /* position: fixed; */
-  /* bottom: 0; */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -180,10 +184,12 @@
   -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 0.133333rem 0rem;
+  color:#666;
+     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
   h3,
   p {
     margin-bottom: 0.133333rem /* 10/75 */;
-    font-size: 0.346667rem /* 26/75 */;
+    font-size: .4rem /* 30/75 */;
   }
   h3 {
     padding-left: 0.133333rem /* 10/75 */;
@@ -197,7 +203,6 @@
   color: blue;
 }
 .page {
-  height: 100%;
   .h {
     position: fixed;
     width: 100%;
@@ -205,7 +210,12 @@
     .history-header {
       display: flex;
       justify-content: space-between;
-      padding: 0.266667rem /* 20/75 */ 0.266667rem /* 20/75 */;
+      padding: 0.266667rem /* 20/75 */ 0.266667rem /* 20/75 */ 0.266667rem
+        /* 20/75 */ 0.01rem;
+      .van-icon {
+        font-size: 0.733333rem;
+        width: 40%;
+      }
       .right-left {
         span {
           display: inline-block;
@@ -215,32 +225,34 @@
           font-size: 0.333333rem /* 25/75 */;
           text-align: center;
           border: 1px solid blue;
+     font-family: 'Tahoma','Sans Serif';
+
         }
       }
     }
   }
-
   .border {
-    line-height: 0.4rem /* 30/75 */;
+    line-height: 0.43rem /* 30/75 */;
     padding: 0.133333rem /* 10/75 */ 0.133333rem /* 10/75 */;
     border: 0.013333rem /* 1/75 */ solid #eeeeee;
-
     .top {
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.133333rem /* 10/75 */;
+     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
       h5 {
-        font-size: 0.293333rem /* 22/75 */;
-        font-weight: 700;
+        font-size: .32rem /* 24/75 */;
+        // font-weight: 700;
+        color:#4c4c4c;
       }
       .top1 {
         display: flex;
         h4 {
-          font-size: 0.4rem /* 30/75 */;
+          font-size: .426667rem /* 32/75 */;
           font-weight: 700;
         }
         span {
-          font-size: 0.32rem /* 24/75 */;
+          font-size: .373333rem /* 28/75 */;
           font-weight: 700;
         }
       }
@@ -248,8 +260,9 @@
     .bot {
       display: flex;
       justify-content: space-between;
+     font-family: 'Tahoma','Sans Serif';
       p {
-        font-size: 0.346667rem /* 26/75 */;
+        font-size: .32rem /* 24/75 */;
       }
       span {
         font-size: 0.32rem /* 24/75 */;
@@ -257,20 +270,20 @@
     }
   }
 }
-
 .history-deail {
   padding-top: 0.533333rem /* 40/75 */;
   display: flex;
   justify-content: space-between;
+     font-family: 'Tahoma','Sans Serif';
   .deail-left {
     width: 30%;
     padding-top: 0.133333rem /* 10/75 */;
     p {
-      font-size: 0.346667rem /* 26/75 */;
       color: #c6c5ca;
+      font-size:.32rem /* 24/75 */;
     }
     span {
-      font-size: 0.346667rem /* 26/75 */;
+      font-size:.32rem /* 24/75 */;
     }
     .deail-left1 {
       display: flex;
@@ -291,7 +304,6 @@
 }
 .order-right {
   width: 35%;
-
   .order-left1,
   .order-left2 {
     display: flex;
@@ -322,10 +334,11 @@
 }
 </style>
 <script>
-import { getNowFormatDate } from "../../tools/check.js";
-import { baseURL1,baseURL2 } from "../../utls";
+import { getNowFormatDate, getUTCtime, getCNAtime } from "../../tools/check.js";
+import { baseURL1, baseURL2 } from "../../utls";
 import { FormatDate } from "../../tools/check.js";
-
+const Loading = ()=> import("../../components/Loading");
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
@@ -339,6 +352,7 @@ export default {
       Monthdate: "",
       params: "Orders",
       arrList: [],
+      arrLists: [],
       dealList: [],
       flied: null,
       canceled: null,
@@ -346,68 +360,91 @@ export default {
       openIndex: -1,
       pnlsum: null,
       kucun: null,
-      deposit: null
+      deposit: null,
+      balance: ""
     };
+  },
+   components: {
+Loading
+  },
+   computed:{
+  ...mapState([
+                'LOADING'
+            ])
   },
   created() {
     this.getdate();
     this.getList();
     this.getdealsList();
+    this.getAccount();
   },
   methods: {
+    back() {
+      this.$router.push("/account");
+    },
     Orders(O) {
       (this.blue = true), (this.white = false);
       this.white1 = true;
       (this.page2 = false), (this.page1 = true);
       this.params = O;
-      this.getList();
     },
     Deals(D) {
       (this.blue1 = true), (this.white1 = false);
       this.white = true;
       (this.page2 = true), (this.page1 = false);
       this.params = D;
-      this.getdealsList();
     },
     getdate() {
-      var date1 = FormatDate(this.date);
-      console.log(date1, "date1");
-
-      this.date = date1.replace(" ", "T") + "Z";
-      console.log(this.date, "date");
+      //结束时间
+      var date1 = new Date(new Date().setHours(new Date().getHours() + 2));
+      this.date = getUTCtime(date1);
     },
-
-    getMonthdate() {
-      this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
-      console.log(this.newdate, "上一个月");
-      var date2 = getNowFormatDate(this.newdate);
-      console.log(date2, "new Date");
-      this.Monthdate =
-        date2
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-
-      console.log(this.Monthdate, "this.Monthdate");
+ getWeekdate() {
+      this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.Monthdate = getUTCtime(this.newdate)
     },
-
     getList() {
       (this.flied = null), (this.canceled = null), (this.sum = null);
       if (this.$route.params.begin) {
         this.Monthdate = this.$route.params.begin;
       } else {
-        this.getMonthdate();
+        this.getWeekdate();
       }
-
+      this.$store.commit('showLoading')
       this.$http
-        .get(baseURL1 + "/history/orders?from=" + this.Monthdate + "&to=" + this.date)
+        .get(
+          baseURL1 +
+            "/history/orders?from=" +
+            this.Monthdate +
+            "&to=" +
+            this.date
+        )
         .then(({ data }) => {
           if (data.code === 0) {
-            this.arrList = data.data;
-            this.splices2()
+      this.$store.commit('hideLoading')
+            this.arrLists = data.data;
+            this.arrListreg();
+            this.splices2();
             this.list();
           }
         });
+    },
+    arrListreg() {
+      this.arrList = this.arrLists.reverse();
+      for (var i in this.arrList) {
+        this.arrList[i].dateTime = new Date(
+          new Date(this.arrList[i].dateTime).getTime()
+        );
+        this.arrList[i].dateTime = moment(this.arrList[i].dateTime)
+          .subtract(2, 'h')
+          .format();
+      }
+    },
+    getAccount() {
+      this.$http.get(baseURL1 + "/account").then(({ data }) => {
+        this.balance = data.data.balance;
+      });
     },
     list() {
       this.arrList.forEach(item => {
@@ -428,14 +465,20 @@ export default {
       if (this.$route.params.begin) {
         this.Monthdate = this.$route.params.begin;
       } else {
-        this.getMonthdate();
+        this.getWeekdate();
       }
       this.$http
-        .get(baseURL1 + "/history/executions?from=" + this.Monthdate + "&to=" + this.date)
+        .get(
+          baseURL1 +
+            "/history/executions?from=" +
+            this.Monthdate +
+            "&to=" +
+            this.date
+        )
         .then(({ data }) => {
-          // console.log(data.data,"executions")
           if (data.code === 0) {
             this.dealList = data.data;
+            this.dealListreg();
             this.splices();
             console.log(this.dealList, "this.dealList");
             this.executionsList();
@@ -450,15 +493,26 @@ export default {
     },
     executionsList() {
       this.dealList.forEach(item => {
-        //  console.log(item,"shshshhshshshh")s
-        this.pnlsum += JSON.parse(item.pnl);
-        this.kucun += JSON.parse(item.swap);
-        if (item.comment) {
-          this.deposit += JSON.parse(item.pnl);
-
-          //  console.log(this.deposit,"item")
+        if (item.symbol === "") {
+          if (item.comment) {
+            this.deposit += JSON.parse(item.pnl);
+          }
+        } else {
+          this.kucun += JSON.parse(item.swap);
+          this.pnlsum += JSON.parse(item.pnl);
         }
       });
+    },
+    dealListreg() {
+      this.dealList = this.dealList.reverse();
+      for (var i in this.dealList) {
+        this.dealList[i].dateTime = new Date(
+          new Date(this.dealList[i].dateTime).getTime()
+        );
+        this.dealList[i].dateTime = moment(this.dealList[i].dateTime)
+          .subtract(2,"h")
+          .format();
+      }
     },
     //去除dealList symbol的点
     splices() {
@@ -467,14 +521,14 @@ export default {
         this.dealList = this.dealList;
       }
     },
-       //去除arrList symbol的点
+    //去除arrList symbol的点
     splices2() {
       for (let i = 0; i < this.arrList.length; i++) {
         this.arrList[i].symbol = this.arrList[i].symbol.replace(/\./, "");
         this.arrList = this.arrList;
       }
     },
-    
+
     open(index) {
       if (this.openIndex === null) {
         this.openIndex = index;
@@ -484,16 +538,6 @@ export default {
     }
   },
   watch: {
-    $route: {
-      handler: function(val, oldVal) {
-        console.log(oldVal);
-        if (oldVal.path === "/history-time/Orders") {
-          this.getList();
-        } else if (oldVal.path === "/history-time/Deals") {
-          this.getdealsList();
-        }
-      }
-    }
   }
 };
 </script>

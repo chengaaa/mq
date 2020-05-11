@@ -44,7 +44,6 @@
       font-size: 0.733333rem /* 55/75 */;
     }
   }
-
   #vancheckbox {
     font-size: 0.373333rem /* 28/75 */;
     height: 1.066667rem /* 80/75 */;
@@ -56,7 +55,6 @@
 <script>
 import store from "../../store";
 import { mapMutations } from "vuex";
-
 export default {
   data() {
     return {

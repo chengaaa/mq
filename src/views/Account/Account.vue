@@ -1,164 +1,410 @@
 <template>
-  <div class="account">
+  <div class="background">
+    <div class="account">
+      <loading v-show="LOADING"></loading>
 
-    <loading v-show="LOADING"></loading>
-
-      <div class="account-A">
-          <h3>{{$t("m.Account")}}</h3>
-          <!-- <a href="http://www.blitzbook8.com/">账户</a> -->
-      </div>
-      <div class="account-B" v-for="(item,index) in accountList" :key="index">
-          <h5 >{{item.accountName}}</h5>
-          <span>{{item.account}}</span><span>-{{item.group}}</span>
-          
-      </div>
-      <div class="account-C" @click=entry>入金</div>
-      <div class="account-C">出金</div>
-      <div class="account-C" @click="language">
-         {{$t("m.Interface")}}
-      </div>
-     
-      <div class="account-D">
-          <router-link tag="h6" @click.native="logout" to="/">{{$t("m.Logout")}}</router-link>
+      <div class="account-top" v-show="!tokens">
+        <!-- <div class="account-title" > -->
+        <!-- <h3>设置</h3> -->
+        <!-- </div> -->
+        <div class="account-welcom">
+          <div class="hello">
+            <p>{{$t('m.Hello')}},</p>
+            <span>{{$t('m.Welcometo')}} BLITZ BOOK 8</span>
+          </div>
+          <div class="hello2">
+            <input type="button" :value="$t('m.Login')" @click="login" />
+            <input type="button" :value="$t('m.Register')" @click="register" />
+          </div>
+        </div>
       </div>
 
+      <div class="account-top1" v-show="tokens">
+        <!-- <div class="account-title" >
+          <h3>设置</h3>
+        </div>-->
+        <div class="account-welcom">
+          <div class="hello" v-for="(item,index) in accountList" :key="index">
+            <p>{{item.accountName}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="account-middledle">
+        <div
+          class="account-middle"
+          v-show="tokens"
+          v-for="(item,index) in accountList"
+          :key="index"
+        >
+          <!-- <div class="middle-left">
+            <h4>{{$t('m.Availableassets')}}</h4>
+            <span>98743.24</span>
+          </div>-->
+          <div class="middle-right">
+            <h4>USDT</h4>
+            <span>{{item.balance}}</span>
+          </div>
+        </div>
+        <div class="account-middle2" v-show="!tokens">
+          <img src="../../assets/image/logo3.png" alt />
+        </div>
+      </div>
+      <div class="account-bottom">
+        <div class="account-bottom1" v-show="tokens">
+          <div class="account-flex">
+            <img src="../../assets/image/chongzhi.png" alt />
+            <p class="account-flex1" @click="entry">
+              <span>{{$t('m.Deposit')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </p>
+          </div>
 
-    
+          <div class="account-flex">
+            <img src="../../assets/image/tibi.png" alt />
+            <p class="account-flex1" @click="outtry">
+              <span>{{$t('m.Withdraw')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </p>
+          </div>
+          <div class="account-flex">
+            <img src="../../assets/image/tibi.png" alt />
+            <p class="account-flex1" @click="history">
+              <span>{{$t('m.History')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </p>
+          </div>
+        </div>
+        <div class="account-bottom2">
+          <div class="account-flex">
+            <img src="../../assets/image/kefu.png" alt />
+            <div class="account-flex1" @click="customer">
+              <span>{{$t('m.Customerservice')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </div>
+          </div>
+          <div class="account-flex">
+            <img src="../../assets/image/jiemain.png" alt />
+            <div class="account-flex1" @click="language">
+              <span>{{$t("m.Interface")}}</span>
+              <div class="language">
+                <p>{{she}}</p>
+                <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="account-bottom3" v-show="tokens">
+          <router-link tag="p" @click.native="logout" to="/">{{$t("m.Logout")}}</router-link>
+        </div>
+        <div class="boder"></div>
+      </div>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
-.account {
-    .account-A {
-        width: 100%;
-        height: 1.333333rem /* 100/75 */;
-        background: white;
-        font-size: .466667rem /* 35/75 */;
+#van-icon {
+  font-size: 0.48rem /* 36/75 */;
+}
+.language {
+  display: flex;
+  justify-content: space-between;
+  width: 1.333333rem /* 100/75 */;
+  p {
+    color: #aaaaaa;
+    font-size: 0.32rem /* 24/75 */;
+  }
+}
+.background {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: #f5f5f5;
+
+  .account {
+    .account-top1 {
+      height: 4.4rem /* 330/75 */;
+      background: #127df6;
+      .account-title {
+        height: 1.173333rem /* 88/75 */;
+        line-height: 1.173333rem /* 88/75 */;
+        // padding-top:.333333rem /* 25/75 */;
         text-align: center;
-        line-height: 1.466667rem /* 110/75 */;
-        margin-bottom: .8rem /* 60/75 */;
-        
+        font-size: 0.48rem /* 36/75 */;
+        color: white;
+      }
+      .account-welcom {
+        font-size: 0.613333rem /* 46/75 */;
+        text-align: center;
+        height: 3.146667rem /* 236/75 */;
+        line-height: 3rem;
+        color: white;
+      }
     }
-    .account-B {
-        background: white;
-        width: 100%;
-        padding: .266667rem /* 20/75 */  0rem /* 0/75 */;
-        box-sizing: border-box;
+    .account-top {
+      height: 6.666667rem /* 500/75 */;
+      background: #127df6;
+      .account-title {
+        height: 1.173333rem /* 88/75 */;
+        line-height: 1.173333rem /* 88/75 */;
+        // padding-top:.333333rem /* 25/75 */;
         text-align: center;
-        line-height: .4rem /* 30/75 */;
-        border-bottom:.013333rem /* 1/75 */ solid #b9b6b6;
-        h5 {
-            font-size: .466667rem /* 35/75 */;
+        font-size: 0.48rem /* 36/75 */;
+        color: white;
+      }
+      .account-welcom {
+        height: 1.92rem /* 144/75 */;
+        padding-top: 0.773333rem /* 58/75 */;
+        font-size: 0.586667rem /* 44/75 */;
+        .hello {
+          text-align: center;
+          margin-bottom: 0.72rem /* 54/75 */;
+        }
+
+        p {
+          margin-bottom: 0.266667rem /* 20/75 */;
+          color: white;
         }
         span {
-            font-size: .333333rem /* 25/75 */;
+          color: white;
         }
-    }
-    .account-C {
-        height: 1.333333rem /* 100/75 */;
-        background: white;
-        font-size: .4rem /* 30/75 */;
-        line-height: 1.333333rem /* 100/75 */;
-        margin-bottom: .8rem /* 60/75 */;
-        padding-left:.266667rem /* 20/75 */;
-        font-size: .48rem /* 36/75 */;
 
-    } 
-    .account-D {
+        .hello2 {
+          font-size: 0.453333rem /* 34/75 */;
+          text-align: center;
+          :nth-child(1) {
+            width: 3.386667rem /* 254/75 */;
+            height: 1.2rem /* 90/75 */;
+            margin-top: 0.266667rem /* 20/75 */;
+            appearance: none;
+            border-radius: 4px;
+            text-align: center;
+            background: white;
+            color: #127df6;
+            margin-right: 0.32rem /* 24/75 */;
+          }
+          :nth-child(2) {
+            width: 3.386667rem /* 254/75 */;
+            height: 1.2rem /* 90/75 */;
+            margin-top: 0.266667rem /* 20/75 */;
+            appearance: none;
+            border-radius: 4px;
+            text-align: center;
+            background: #127df6;
+            color: white;
+            border: 1px solid white;
+          }
+        }
+      }
+    }
+    .account-middledle {
+      background: #f5f5f5;
+      position: relative;
+
+      .account-middle,
+      .account-middle2 {
+        // width:8.746667rem /* 656/75 */;
+        width: 88.4%;
+        height: 3.066667rem /* 230/75 */;
+        // line-height: 3.066667rem /* 230/75 */;
+        background: white;
+        // margin:0 auto;
+        position: absolute;
+        top: -1.4rem;
+        // left:.613333rem /* 46/75 */;
+        border-radius: 4px;
+        box-shadow: 0px 5px 10px #dfe0e2;
+        display: flex;
+        justify-content: center;
+        margin-left: 0.64rem /* 48/75 */;
+        margin-right: 0.64rem /* 48/75 */;
+
+        .middle-left,
+        .middle-right {
+          width: 4.373333rem /* 328/75 */;
+          text-align: center;
+          margin-top: 0.88rem;
+          margin-bottom: 0.88rem;
+          font-size: 0.506667rem /* 38/75 */;
+          color: #127df6;
+          h4 {
+            margin-bottom: 0.32rem /* 24/75 */;
+            color: black;
+          }
+        }
+        .middle-left {
+          border-right: 1px solid #eeeeee;
+        }
+      }
+      .account-middle2 {
+        img {
+          width: 6.12rem /* 459/75 */;
+          height: 0.66rem /* 67/75 */;
+          margin: auto;
+        }
+      }
+    }
+    .account-bottom {
+      background: #f5f5f5;
+      padding-top: 2rem /* 150/75 */;
+      box-sizing: content-box;
+      .account-flex {
+        display: flex;
+        align-items: center;
+        margin-right: 0.626667rem /* 47/75 */;
+
+        // justify-content: space-between;
+        img {
+          width: 0.666667rem /* 50/75 */;
+          height: 0.693333rem /* 52/75 */;
+          margin-right: 0.186667rem /* 14/75 */;
+        }
+        span {
+          height: 0.693333rem /* 52/75 */;
+          line-height: 0.693333rem /* 52/75 */;
+          font-size: 0.4rem /* 30/75 */;
+          color: #333333;
+        }
+      }
+      .account-flex1 {
+        height: 1.186667rem /* 89/75 */;
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .account-bottom1,
+      .account-bottom2 {
+        height: 2.346667rem /* 176/75 */;
+        background: #ffffff;
+        padding-left: 0.64rem /* 48/75 */;
+      }
+      .account-bottom1 {
+        height: 3.346667rem /* 176/75 */;
+        margin-bottom: 0.293333rem /* 22/75 */;
+        .account-flex:nth-child(1) {
+          border-bottom: 1px solid #eeeeee;
+        }
+      }
+      .account-bottom2 {
+        margin-bottom: 0.666667rem /* 50/75 */;
+        .account-flex:nth-child(1) {
+          border-bottom: 1px solid #eeeeee;
+        }
+      }
+
+      .account-bottom3 {
         height: 1.2rem /* 90/75 */;
-        background: white;
-        font-size:.4rem /* 30/75 */;
-        padding-left:.266667rem /* 20/75 */;
         line-height: 1.2rem /* 90/75 */;
-
-        h6 {
-        font-size: .48rem /* 36/75 */;
-
-        }
-
-
-
+        background: #ffffff;
+        text-align: center;
+        font-size: 0.4rem /* 30/75 */;
+      }
+      .boder {
+        height: 2.666667rem /* 200/75 */;
+        //    border: 1px solid black;
+      }
     }
+  }
 }
-
 </style>
 <script>
+import store from "../../store";
+const Loading = () => import("../../components/Loading");
 import { mapMutations } from "vuex";
-import Loading from "../../components/Loading";
-import { baseURL1,baseURL2 } from "../../utls";
-
-
-import {mapState} from 'vuex'
-
-
-
-
+import { baseURL1, baseURL2, baseURL3 } from "../../utls";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
+      tokens: "",
       accountList: [],
-      accounts:[]
+      accounts: [],
+      she: ""
     };
   },
   created() {
-      this.$store.commit('showLoading')
-     this.getdata();
-     console.log(this.$store.state.word,"word")
+    this.she = localStorage.getItem("engs");
+    this.setEng(this.she);
+
+    this.tokens = store.state.Authorization;
+    if (this.tokens) {
+      this.$store.commit("showLoading");
+
+      this.getdata();
+    } else {
+      this.$store.commit("hideLoading");
+    }
   },
   components: {
-Loading
+    Loading
   },
-  computed:{
-
-  ...mapState([
-                'LOADING'
-            ])
+  computed: {
+    ...mapState(["LOADING"])
   },
-  
   methods: {
     ...mapMutations(["delToken"]),
     ...mapMutations(["delUserId"]),
     ...mapMutations(["delUser"]),
-    ...mapMutations(["delPassword"]),
+    ...mapMutations(["setEng"]),
 
     getdata() {
-      this.$store.commit('showLoading')
-  
-      this.$http.get(baseURL1 + "/account").then(({ data }) => {
-         this.$store.commit('hideLoading')
-        console.log(data,"dadtadtadta");
-        this.accountList.push(data.data)
-        console.log(this.accountList);
-      });
-      
+      this.$store.commit("showLoading");
 
-     
+      this.$http
+        .get(baseURL1 + "/account")
+        .then(({ data }) => {
+          console.log(data);
+          if (data.code === 0) {
+            this.$store.commit("hideLoading");
+            this.accountList.push(data.data);
+            localStorage.setItem("balance", data.data.balance);
+            console.log(this.accountList, " this.accountList");
+          } else {
+          }
+        })
+        .catch(error => {
+          this.$store.commit("hideLoading");
+        });
     },
     logout() {
-        this.$http.post(baseURL1 +"/logout").then(({data})=> {
-           console.log(data)
-           if (data.code == 0) {
-               this.delToken();
-               this.delUserId();
-               this.delUser();
-               this.delPassword();
-               this.$router.push("/loginphone")
-           }
-        })
+      this.$http.post(baseURL1 + "/logout").then(({ data }) => {
+        console.log(data);
+        if (data.code == 0) {
+          sessionStorage.clear();
+          this.delToken();
+          this.delUserId();
+          this.delUser();
+          this.$router.push("/login");
+        }
+      });
+    },
+    history() {
+      this.$router.push("/history");
+    },
+    changePassword() {
+      this.$router.push("/changepassword");
     },
     language() {
-      this.$router.push({name:"language"})
+      this.$router.push({ name: "language" });
     },
     entry() {
-      this.$router.push("/entry")
-
+      this.$router.push("/entry");
+    },
+    outtry() {
+      this.$router.push("/outtry");
+    },
+    login() {
+      this.$router.push("/login");
+    },
+    register() {
+      this.$router.push("/register");
+    },
+    customer() {
+      this.$router.push("/customer");
     }
-  },
-  beforeCreate() {
-    document.querySelector("body").setAttribute("style", "background:#eee");
-  },
-  beforeDestroy() {
-    document.querySelector("body").removeAttribute("style");
   }
 };
 </script>

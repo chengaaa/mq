@@ -57,6 +57,7 @@
   padding-top: 0.4rem /* 30/75 */;
   padding-left: 0.1rem /* 30/75 */;
   padding-right: 0.4rem /* 30/75 */;
+     font-family: 'Tahoma','Sans Serif';
   .history-timeheader {
     display: flex;
     margin-bottom: 0.8rem /* 60/75 */;
@@ -66,7 +67,6 @@
   }
   .pad {
 padding-left: 0.3rem;
-
   .history-timecontent {
     display: flex;
     border-bottom: 1px solid #c9c9cb;
@@ -76,12 +76,10 @@ padding-left: 0.3rem;
       line-height: 1.066667rem /* 80/75 */;
       margin-top: 0.066667rem /* 5/75 */;
       font-size: 0.4rem /* 30/75 */;
-
       padding-left: 0.133333rem /* 10/75 */;
     }
   }
     }
-
   #van-icon {
     font-size: 0.733333rem /* 55/75 */;
     width: 40%;
@@ -108,7 +106,6 @@ padding-left: 0.3rem;
 .van-picker__cancel, .van-picker__confirm {
   font-size: .4rem /* 30/75 */;
 }
-
 .van-popup--bottom {
   height: 4.666667rem /* 350/75 */ !important
 }
@@ -121,12 +118,12 @@ padding-left: 0.3rem;
 </style>
 <script>
 import { Popup } from "vant";
-import { getNowFormatDate } from "../../tools/check.js";
-
+import { getNowFormatDate,getUTCtime } from "../../tools/check.js";
 export default {
   data() {
     return {
       list: [
+        { last: "m.Lastday" },
         { last: "m.Lastweek" },
         { last: "m.Lastmonth" },
         { last: "m.Last3months" },
@@ -134,7 +131,7 @@ export default {
         { last: "m.Lastyear" },
         { last: "m.Custom" }
       ],
-      ischoose: "m.Lastmonth",
+      ischoose: "m.Lastweek",
       //params开始时间
       newdate: "",
       //params结束时间
@@ -164,7 +161,6 @@ export default {
         this.show = true;
       } else if (this.datePicker === "end") this.show1 = true;
     },
-
     formatter(type, value) {
       if (type === "year") {
         return `${value}年`;
@@ -181,7 +177,6 @@ export default {
       this.show = false;
       this.newdate = value1;
       this.startvalue();
-    
     },
     onCon1(value2) {
       this.value2 = value2;
@@ -189,32 +184,16 @@ export default {
       this.show1 = false;
       this.enddate = value2;
       this.endvalue();
-     
     },
     //params开始时间
     startvalue() {
-      var data0 =
-        getNowFormatDate( this.newdate)
-      this.newdate =
-        data0
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-          console.log(this.newdate,"ttttt")
+      var data0 = new Date(this.newdate.setHours(new Date().getHours() + 2));
+      this.newdate = getUTCtime(data0);
     },
 //params 结束时间
     endvalue() {
-         
-
-      var data9 =
-       getNowFormatDate( this.enddate)
-         
-      this.enddate =
-        data9
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-
+  var date9 = new Date(this.enddate.setHours(new Date().getHours() + 2));
+      this.enddate = getUTCtime(date9);
     },
     //开始时间
     val() {
@@ -223,7 +202,6 @@ export default {
         " " +
         this.value1.toTimeString().substring(0, 9);
       this.value1 = a.split("/").join(".");
-
       console.log(this.value1);
     },
     //结束时间
@@ -233,14 +211,14 @@ export default {
         " " +
         this.value2.toTimeString().substring(0, 9);
       this.value2 = b.split("/").join(".");
-
-      console.log(this.value2);
     },
-
     choose(item) {
       this.ischoose = item.last;
       console.log(item)
-      if (item.last === "m.Lastmonth") {
+       if (item.last === "m.Lastday") {
+        this.getDaydate();
+         this.StartEnd = false
+      }else if (item.last === "m.Lastmonth") {
         this.getMonthdate();
          this.StartEnd = false
       } else if (item.last === "m.Lastweek") {
@@ -262,67 +240,42 @@ export default {
     //上一个月
     getMonthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
-      var date2 =
-        getNowFormatDate( this.newdate)
-      this.newdate =
-        date2
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-      console.log(this.newdate);
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.newdate = getUTCtime(this.newdate)
+    },
+    //前一天
+      getDaydate() {
+      this.newdate = new Date(new Date().setDate(new Date().getDate() - 1));
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.newdate = getUTCtime(this.newdate)
     },
     //上一周
     getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
-      var date3 =
-        getNowFormatDate( this.newdate)
-      this.newdate =
-        date3
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-      console.log(this.newdate);
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.newdate = getUTCtime(this.newdate)
     },
     //上三个月
     get3Monthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 3));
-      var date4 =
-       getNowFormatDate( this.newdate)
-      this.newdate =
-        date4
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-      console.log(this.newdate);
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.newdate = getUTCtime(this.newdate)
     },
     //上六个月
     get6Monthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 6));
-      var date5 =
-       getNowFormatDate( this.newdate)
-      this.newdate =
-        date5
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-      console.log(this.newdate);
+        this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.newdate = getUTCtime(this.newdate)
     },
     //上一年
     getFullYear() {
       this.newdate = new Date(
         new Date().setFullYear(new Date().getFullYear() - 1)
       );
-      var date6 =
-       getNowFormatDate( this.newdate)
-      this.newdate =
-        date6
-          .split("/")
-          .join("-")
-          .replace(" ", "T") + "Z";
-      console.log(this.newdate);
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+       this.newdate = getUTCtime(this.newdate)
     },
     place() {
-      // this.$router.go(-1)
       this.$router.push({
         name: "history",
         params: { begin: this.newdate, end: this.enddate }
@@ -331,6 +284,5 @@ export default {
       console.log(this.newdate);
     }
   },
-  
 };
 </script>

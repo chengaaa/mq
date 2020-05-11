@@ -1,87 +1,41 @@
-// import store from '../store'
-var ws = null;
-export default {
-
-
-  initWebpack() {
-        var token = store.state.Authorization.substring(7);
-        console.log(token, "apptoken");
-         ws = new WebSocket(
-            "ws://47.90.39.115:8001/v1/streaming?access_token=" + token
-        );
-    },
-        
-    
-//    reconnect() {
-//         //重新连接
-//         var that = this;
-//         if (that.lockReconnect) {
-//             return;
-//         }
-//         that.lockReconnect = true;
-//         //没连接上会一直重连，设置延迟避免请求过多
-//         that.timeoutnum && clearTimeout(that.timeoutnum);
-//         that.timeoutnum = setTimeout(function () {
-//             that.initWebpack();
-//             //新连接
-//             // that.lockReconnect = false;
-//         }, 10000);
-//     },
-//  reset() {
-//         //重置心跳
-//         var that = this;
-//         //清除时间
-//         clearTimeout(that.timeoutObj);
-//         clearTimeout(that.serverTimeoutObj);
-//         //重启心跳
-//         // that.start();
-//     },
- onopen() {
-        var msg = JSON.stringify({
-            id: "100111",
-            action: 1,
-            reqId: "BB8Ping1574840837127",
-            topic: 1
-        });
-        var ms = JSON.stringify({
-            reqId: "BB8SubQuote1574841247958",
-            id: "100111",
-            topic: 1,
-            action: 11
-        });
-        ws.send(msg);
-        ws.send(ms);
-
-        console.log("open");
-        // this.getNoReadRecords();
-        //开启心跳
-        // this.start();
-    },
- onmessage(e) {
-        var mydata = JSON.parse(e.data).data;
-        store.dispatch("REAET_MYDATA");
-        store.dispatch("SAVE_MYDATA", mydata);
-        console.log(mydata, "aaaaaaaaaaaaaa")
-        this.reset();
-    },
-  onclose(e) {
-        console.log("连接关闭");
-        console.log(
-            "websocket 断开: " + e.code + " " + e.reason + " " + e.wasClean
-        );
-        // var msg = JSON.stringify({cmd: 'out_chatting', token:this.COOKIE.getCookie("token")});
-        // this.ws.send(msg);
-        //重连
-        this.reconnect();},
-  onerror(e) {
-        console.log("出现错误");
-        //重连
-        this.reconnect();
-    }
-    // over() {
-    //   this.ws.close();
-    // },
-
+import store from "../store";
+function init () {
+let ws = null
+var token = store.state.Authorization.substring(7);
+console.log(token,"nengma")
+//  ws = new WebSocket( "ws://35.180.177.89:8001/v1/streaming?access_token=" + token)
+ ws = new WebSocket("wss://www.blitzbook8.com/ws/v1/streaming?access_token=" + token)
+ws.onopen = function() {
+  console.log(ws.readyState)
+    this.userid = store.state.userId;
+    var msg = JSON.stringify({
+        id: this.userid,
+        action: 1,
+        reqId: "BB8Ping1574840837127",
+        topic: 1
+      });
+      ws.send(msg);
+      var ms = JSON.stringify({
+        reqId: "BB8SubQuote1574841247958",
+        id: this.userid,
+        topic: 1,
+        action: 11
+      });
+      ws.send(ms);
 }
-
-
+  ws.onmessage =function(e) {
+    var mydata = JSON.parse(e.data).data;
+    console.log(mydata)
+    store.dispatch("REAET_MYDATA");
+    store.dispatch("SAVE_MYDATA", mydata);
+  }
+  ws.onclose = function(e) {
+      console.log('断开')
+      console.log(e,"home")
+  
+  ws.onerror = function() {
+      console.log('错误')
+  }
+}
+}
+  export default init

@@ -1,255 +1,494 @@
 <template>
   <div class="home">
-    <fixed class="position"></fixed>
-
-    <van-swipe id="swiper" :autoplay="3000">
-      <van-swipe-item v-for="(item, index) in images" :key="index">
-        <img v-lazy="item" />
-      </van-swipe-item>
-    </van-swipe>
-
-    <div class="home-btn">
-      <router-link to="/loginphone">
-        <div class="btn" id="login-btn">
-          <a>{{$t('m.Login')}}</a>
-        </div>
-      </router-link>
-      <router-link to="/registerphone">
-        <div class="btn" id="regist-btn">
-          <a href>{{$t('m.Registernow')}}</a>
-        </div>
-      </router-link>
+    <div class="home-title">
+      <h1 class="home-img">
+        <img src="../../assets/image/logo3.png" alt="">
+      </h1>
     </div>
-    <btch class="margin"></btch>
+    <div class="home-banner">
+      <img src="../../assets/image/banner@2x.jpg" alt />
+    </div>
+    <div class="home-news" @click="news">
+      <div>
+        <img src="../../assets/image/热点新闻@2x.png" alt />
+      </div>
+      <div class="p">
+        <p>比特币和黄金阅读及年度相关性问题</p>
+        <p>比特币交易平台</p>
+      </div>
+    </div>
+ <div class="login-button" v-if="!tokens">
+       <div class="login-left" >
+         <p>{{$t('m.Hello')}}，</p>
+         <span>{{$t('m.Welcometo')}} BLITZ BOOK 8</span>
+       </div>
+       <div class="login-right">
+         <input type="button" :value="$t('m.Login')" @click="login">
+         <input type="button" :value="$t('m.Register')" @click="register">
+       </div>
+    </div>
+    <div class="border"></div>
+    <div class="home-number">
+      <div class="home-number1">
+        <div class="home-number2">
+          <i class="iconfont icon-btc1"></i>
+          <h4>BTC</h4>
+          <span>/USDT</span>
+        </div>
+        <h5>6870.37</h5>
+        <P>-3.89%</P>
+        <span>￥59621.84</span>
+      </div>
+      <div class="home-number1">
+        <div class="home-number3">
+          <i class="iconfont icon-eth"></i>
+          <h4>ETH</h4>
+          <span>/USDT</span>
+        </div>
+        <h5>6870.37</h5>
+        <P>-3.89%</P>
+        <span>￥59621.84</span>
+      </div>
+      <div class="home-number1">
+        <div class="home-number4">
+          <i class="iconfont icon-btc1"></i>
+          <h4>BCH</h4>
+          <span>/USDT</span>
+        </div>
+        <h5>6870.37</h5>
+        <P>-3.89%</P>
+        <span>￥59621.84</span>
+      </div>
+    </div>
+    
+    <div class="home-guide">
+       <div class="left" @click="tradingguide">
+      <img src="../../assets/image/组11@2x.png" alt="">
+      <h3>{{$t('m.NoviceTradingGuide')}}</h3>
+      <span>{{$t('m.Introductionteaching')}}</span>
+       </div>
+       <div class="right" @click="join">
+ <img src="../../assets/image/组1@2x.png" alt="">
+      <h3>{{$t('m.Jointheofficialgroup')}}</h3>
+      <span>{{$t('m.Getnewredenvelopes')}}</span>
+       </div>
+    </div>
+    <div class="home-last">
+      <div class="home-last1">
+        <h4>{{$t('m.Name')}}</h4>
+        <h4>{{$t('m.Latestprice')}}</h4>
+        <h4>{{$t('m.Upanddown')}}</h4>
+      </div>
+      <div class="home-last2" v-for="(item,index) in List" :key="index">
+        <div class="home-one">
+          <div class="home-one1">
+          <h3>{{item.designation}}</h3><span>/USDT</span>
+          </div>
+          <p>{{item.designationchinese}}</p>
+        </div>
+        <div class="home-two">
+          <h3>{{item.price}}</h3>
+          <p>{{item.tariff}}</p>
+        </div>
+        <div class="home-three">
+          <input type="button" :value="item.percentage">
+        </div>
+      </div>
+      
+    </div>
+
   </div>
 </template>
 
 <style lang="scss" scoped>
+@import "../../common/mixin/ff.scss";
+html,body {
+ 
+}
 .home {
-  padding-top: 2rem /* 150/75 */;
-  .margin {
-    padding: 0.533333rem /* 40/75 */ 0rem /* 0/75 */ 1.066667rem /* 80/75 */
-      0rem /* 0/75 */;
-    background: white;
-    height: 4rem /* 300/75 */;
-    box-sizing: border-box;
-  }
-
-  img {
+  .home-title {
     width: 100%;
-    display: block;
-  }
-  .position {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-  }
-
-  .home-btn {
-    width: 100%;
-    padding: 1.066667rem /* 80/75 */ 0rem /* 0/75 */;
-    height: 5.333333rem /* 400/75 */;
-    box-sizing: border-box;
-    background: #2e2e2f;
-
-    .btn {
-      width: 6.5rem /* 575/75 */;
-      height: 1.066667rem /* 80/75 */;
-      background: #ff6537;
+    h1 {
+      width: 100%;
+      height: 1.173333rem /* 88/75 */;
+      padding: 0.333333rem /* 25/75 */ 0rem /* 0/75 */ 0rem /* 0/75 */
+       0rem /* 0/75 */;
+      margin: auto;
       text-align: center;
-      line-height: 1.066667rem /* 80/75 */;
-      margin: 0.4rem /* 30/75 */ auto;
-      border-radius: 0.533333rem /* 40/75 */;
-      font-size: 0.533333rem /* 40/75 */;
-      border: 0.013333rem /* 1/75 */ solid white;
-      a {
-        color: white;
+      img {
+              width:6.12rem /* 459/75 */;
+                height:0.66rem /* 67/75 */;
+                margin: 0 auto;
+                position:relative;
+                top: 50%;
+                margin-top: -3.06rem;
       }
     }
   }
+  .home-banner {
+    height: 6.666667rem /* 500/75 */;
+    margin-bottom: 0.32rem /* 24/75 */;
+    img {
+      width: 100%;
+      height: 6.666667rem /* 500/75 */;
+    }
+  }
+  .home-news {
+    display: flex;
+    height: 1.293333rem /* 97/75 */;
+    border-bottom: 1px solid #eeeeee;
+    padding-left: 0.32rem /* 24/75 */;
+    img {
+      width: 1.066667rem /* 80/75 */;
+      height: 1.066667rem /* 80/75 */;
+    }
+    .p {
+      height: 1.066667rem /* 80/75 */;
+      line-height: 0.533333rem /* 40/75 */;
+      font-size: 0.4rem /* 30/75 */;
+      color: #535353;
+      padding-left: 0.213333rem /* 16/75 */;
+    }
+  }
+
+  .home-number {
+    display: flex;
+    justify-content: space-between;
+    padding-left: .693333rem /* 52/75 */;
+    margin-right: .693333rem /* 52/75 */;
+      width: 88.5%;
+    .home-number1 {
+      height: 2.533333rem /* 190/75 */;
+      text-align: center;
+      padding-top: 0.426667rem /* 32/75 */;
+      h5 {
+        font-size: 0.533333rem /* 40/75 */;
+        margin-bottom: 0.12rem /* 9/75 */;
+        color: red;
+      }
+      p {
+        font-size: 0.346667rem /* 26/75 */;
+        text-align: center;
+        margin-bottom: 0.133333rem /* 10/75 */;
+        color: red;
+      }
+      span {
+        font-size: 0.373333rem /* 28/75 */;
+        text-align: center;
+        color: #a7a7a7;
+      }
+    }
+
+    .home-number2,
+    .home-number3,
+    .home-number4 {
+      h4 {
+        font-size: 0.453333rem /* 34/75 */;
+      }
+      span {
+        font-size: 0.266667rem /* 20/75 */;
+        line-height: 0.533333rem /* 40/75 */;
+        color: #a7a7a7;
+      }
+    }
+    .home-number2 {
+      display: flex;
+      margin-bottom: 0.146667rem /* 11/75 */;
+      text-align: center;
+
+      .iconfont {
+        font-size: 0.386667rem /* 29/75 */;
+        color: #f9a135;
+        margin-right: 0.133333rem /* 10/75 */;
+      }
+    }
+    .home-number3 {
+      display: flex;
+      margin-bottom: 0.146667rem /* 11/75 */;
+
+      .iconfont {
+        font-size: 0.386667rem /* 29/75 */;
+        color: #127df6;
+        margin-right: 0.133333rem /* 10/75 */;
+      }
+    }
+    .home-number4 {
+      margin-bottom: 0.146667rem /* 11/75 */;
+
+      display: flex;
+      .iconfont {
+        font-size: 0.386667rem /* 29/75 */;
+        color: #4fce59;
+        margin-right: 0.133333rem /* 10/75 */;
+      }
+    }
+  }
+  .border {
+    border: 1px solid #fafcff;
+  }
+
+  .login-button {
+    display: flex;
+    justify-content: space-between;
+    padding-left:.32rem /* 24/75 */;
+    padding-right:.32rem /* 24/75 */;
+    height:2.586667rem /* 194/75 */;
+    padding-top: .8rem /* 60/75 */;
+    box-sizing: border-box;
+    .login-left, .login-right {
+          width:4.453333rem /* 334/75 */;
+          font-size: .346667rem /* 26/75 */;
+
+    }
+     .login-left {
+       p {
+         margin-bottom: .32rem /* 24/75 */;
+       }
+     }
+     .login-right {
+       display: flex;
+         padding-top:.266667rem /* 20/75 */;
+
+       input {
+         width: 2.066667rem /* 155/75 */;
+         height: .8rem /* 60/75 */;
+         text-align: center;
+         border-radius: 4px;
+         appearance: none;
+       }
+       :nth-child(1) {
+         margin-right: .346667rem /* 26/75 */;
+         background: #127df6;
+         color: white;
+       }
+         :nth-child(2) {
+         background: white;
+         color: #707070;
+         border:1px solid #666666;
+       }
+     }
+  }
+
+  .home-guide {
+    height:4.173333rem /* 313/75 */;
+    display:flex;
+    justify-content: space-between;
+    padding-left:0.32rem /* 24/75 */;
+    padding-right:0.32rem /* 24/75 */;
+    margin-top:.066667rem /* 5/75 */;
+    margin-bottom:.533333rem /* 40/75 */;
+    .left,.right {
+    width:4.453333rem /* 334/75 */;
+    height:2.72rem /* 204/75 */;
+
+    text-align: center;
+    padding-top: .8rem /* 60/75 */;
+    padding-bottom:.64rem /* 48/75 */;
+
+    h3 {
+      font-size:.346667rem /* 26/75 */;
+      font-weight: 700;
+      margin-bottom:.16rem /* 12/75 */;
+
+    }
+    span {
+      font-size:.32rem /* 24/75 */;
+      color:#a7a7a7;
+
+    }
+    // 
+    }
+    .left {
+              box-shadow: 0px 1px 4px #eff0f2;
+
+
+    img {
+      width: 1.613333rem /* 121/75 */;
+      height: 1.533333rem /* 115/75 */;
+      margin-bottom:.16rem /* 12/75 */;
+    }
+    }
+      .right {
+              box-shadow: 0px 1px 4px #eff0f2;
+
+    img {
+      width: 1.213333rem /* 91/75 */;
+      height: 1.48rem /* 111/75 */;
+      margin-bottom:.16rem /* 12/75 */;
+
+    }
+    }
+  }
+
+  .home-last {
+    height:7.44rem /* 558/75 */;
+    margin-bottom:.8rem /* 60/75 */;
+    .home-last1 {
+      display: flex;
+      justify-content: space-between;
+      font-size: .346667rem /* 26/75 */;
+      color:#333333;
+      height:1.186667rem /* 89/75 */;
+      line-height: 1.186667rem /* 89/75 */;
+      border-top:1px solid #eeeeee;
+      border-bottom:1px solid #eeeeee;
+        margin-left: .32rem /* 24/75 */;
+        margin-right: .32rem /* 24/75 */;
+
+    }
+    .home-last2 {
+      display: flex;
+      justify-content: space-between;
+      padding-left:.32rem /* 24/75 */;
+      padding-right:.32rem /* 24/75 */;
+      padding-top: .426667rem /* 32/75 */;
+      
+      .home-one {
+        .home-one1 {
+          display:flex;
+          h3 {
+            font-size: 0.453333rem;
+          }
+          span {
+            font-size: 0.266667rem;
+    line-height: 0.533333rem;
+    color: #a7a7a7;
+          }
+         
+        }
+         p {
+    color: #a7a7a7;
+            font-size: .346667rem /* 26/75 */;
+            margin-top: .133333rem /* 10/75 */;
+
+
+          }
+       
+      }
+      .home-two {
+        // padding-left: 2.4rem /* 180/75 */;
+      width:1.933333rem /* 70/75 */;
+      h3 {
+            font-size: 0.453333rem;
+            
+
+      }
+       p{
+color: #a7a7a7;
+            font-size: .346667rem /* 26/75 */;
+            margin-top: .133333rem /* 10/75 */;
+
+       }
+
+      }
+      .home-three {
+        // padding-left: 2.4rem /* 180/75 */;
+        input {
+          width:2.133333rem /* 160/75 */;
+          height: .866667rem /* 65/75 */;
+          background: #1dd086;
+          appearance: none;
+          border-radius: 4px;
+          color:white;
+          font-size: .4rem /* 30/75 */;
+        }
+
+      }
+    }
+  }
+
+
 }
 </style>
 <style lang="scss">
-#swiper {
-  .van-swipe__indicator {
-    width: 0.24rem /* 18/75 */;
-    height: 0.24rem /* 18/75 */;
-  }
-}
 </style>
 <script>
-import Fixed from "../../components/Fixed";
-import Btch from "../../components/Btch";
-import Enlig from "../../components/Enlig";
-import store from "../../store";
 import { mapMutations } from "vuex";
+import store from "../../store";
 import { baseURL1, baseURL2 } from "../../utls";
+import { getUTCtime } from "../../tools/check.js";
 
 export default {
   data() {
     return {
-      images: [
-        require("../../assets/lunbo1.jpg"),
-        require("../../assets/lunbo2.jpg")
-      ],
-      userId: "",
-      data: {
-        account: "",
-        password: ""
-      },
-      accountName: "",
-      word: ""
+      tokens:"",
+      List:[
+        {
+         designation:"BTC",
+         price:"6253.25",
+         tariff:"￥59621.84",
+         designationchinese:"比特币",
+         percentage:"+0.52%"
+
+        },
+          {
+         designation:"ETH",
+         price:"128.36",
+          tariff:"￥1254.32",
+         designationchinese:"以太坊",
+         percentage:"-1.25%"
+
+        },
+          {
+         designation:"BCH",
+         price:"256.23",
+          tariff:"￥798.23",
+         designationchinese:"比特币现金",
+         percentage:"-2.56%"
+
+        }
+      ]
     };
   },
 
   created() {
-    this.getaccount();
+    this.tokens = store.state.Authorization;
+  
   },
+
   beforeRouteEnter(to, from, next) {
     console.log(to);
     console.log(from);
-    if (from.path === "/loginphone" || from.path === "/loginemail") {
+    if (from.path === "/login" || from.path === "/login") {
       next(vm => {
-        vm.getaccount();
+         vm.tokens = store.state.Authorization;
+        console.log( vm.tokens ," this.token ")
+        vm.get();
+        vm.getdata3();
+        vm.getdata2();
+        vm.getdata6();
       });
     }
     next();
   },
 
   mounted() {
-    console.log(store.state.user);
   },
   components: {
-    Fixed,
-    Btch,
-    Enlig
+   
+  
   },
   methods: {
-    ...mapMutations(["setToken"]),
-    ...mapMutations(["setUserId"]),
-    ...mapMutations(["setArr"]),
-    ...mapMutations(["setcontractsList"]),
     ...mapMutations(["setorder"]),
-
-
-    getaccount() {
-      this.userId = this.$store.state.user;
-   
-
-    
-      this.$http
-        .get(baseURL2 + "/user/" + this.userId + "/detail", {
-          headers: {
-            "x-api-token": "TypwwEg8E21FlKYZ",
-            "x-api-tenantid": "T002509",
-            "Content-Type": "application/json",
-            "cache-control": "no-cache"
-          }
-        })
-        .then(({ data }) => {
-          console.log(data.data, "aaaaaaaaaaa");
-          this.accountName = data.data.nickname;
-          this.accounts = data.data.accounts[0];
-          console.log(this.accounts, " this.accounts");
-          if (this.accounts) {
-            this.data.account = this.accounts.accountId;
-            this.data.password =   this.$store.state.word
-            console.log(this.data.account, this.data.password);
-
-            this.setUserId(this.data.account);
-            // this.$router.go(0)
-
-            // this.data.password = this.$store.state.word
-            this.$http
-              // post请求
-              .post(baseURL1 + "/login", this.$qs.stringify(this.data))
-              .then(({ data }) => {
-                // 如果登录成功
-                if (data.code === 0) {
-                  console.log(data.access_token);
-                  this.setToken("Bearer" + " " + data.access_token);
-                  this.getdata2();
-                  this.getdata3();
-                  this.getdata6();
-                  this.initWebpack();
-
-                  // } else {
-
-                  // let hostName = this.$route.query.redirect;//获取域名
-                  // // console.log(hostName)
-                  // if (hostName) {
-                  //      this.$router.push(hostName);
-
-                  // this.$router.push('/');
-                  // }
-
-                  //          this.$router.replace({
-                  //     path: '/transaction',
-                  //     query: {
-                  //         redirect: this.$router.currentRoute.fullPath
-                  //     }
-                  // });
-
-                  // console.log(_this.userToken);
-                }
-              });
-          } else {
-            console.log(this.userId, "7777");
-            this.word = this.$store.state.word;
-            console.log(this.data.password, "ii");
-            this.$http
-              .post(
-                baseURL2 + "/account/" + this.userId + "/open",
-
-                {
-                  vendor: "MT5",
-                  serverId: "3616",
-                  group: "real\\usdPME-B1",
-                  leverage: 20,
-                  accountName: this.accountName,
-                  email: "17600765487@163.com",
-                  phone: {
-                    countryCode: "+86",
-                    phone: "17600765487"
-                  },
-                  password: this.word
-                },
-                {
-                  headers: {
-                    "x-api-token": "TypwwEg8E21FlKYZ",
-                    "x-api-tenantid": "T002509",
-                    "Content-Type": "application/json",
-                    "cache-control": "no-cache"
-                  }
-                }
-              )
-              .then(({ data }) => {
-                console.log(data, "shazi");
-                if (data.mcode === "m0000000") {
-                  this.data.account = data.data.login;
-                  this.data.password = this.word;
-                   this.setUserId(this.data.account);
-                  console.log(this.data.account, this.data.password);
-                  this.$http
-                    // post请求
-                    .post(baseURL1 + "/login", this.$qs.stringify(this.data))
-                    .then(({ data }) => {
-                      // 如果登录成功
-                      if (data.code === 0) {
-                        console.log(data.access_token);
-                        this.setToken("Bearer" + " " + data.access_token);
-                        this.getdata2();
-                        this.getdata3();
-                        this.getdata6();
-                        this.initWebpack();
-                      }
-                    });
-                }
-              });
-          }
-        });
+    ...mapMutations(["setcontractsList"]),
+    ...mapMutations(["setArr"]),
+    ...mapMutations(["setMax"]),
+    ...mapMutations(["setMax1"]),
+    ...mapMutations(["setMax2"]),
+    ...mapMutations(["setLow"]),
+    ...mapMutations(["setLow1"]),
+    ...mapMutations(["setLow2"]),
+    tradingguide() {
+      this.$router.push("/tradingguide")
     },
+    join() {
+      this.$router.push("/join")
+
+    },
+    news() {
+      this.$router.push("/information")
+    },
+
     getdata3() {
       this.$http.get(baseURL1 + "/position/orders").then(({ data }) => {
         this.ordersList = data.data;
@@ -287,98 +526,119 @@ export default {
           this.all[i].bid = "0.00";
           this.all[i].ask = "0.00";
         }
-        // console.log(this.all,"dahsabi")
+
         this.setArr(this.all);
       });
     },
+    // getuserId() {
 
-    initWebpack() {
-      // console.log(store.state.Authorization,"store.state.Authorization")
-      var token = store.state.Authorization.substring(7);
-      // console.log(token, "apptoken");
-      console.log("gou");
-
-      this.getuserId();
-
-      this.ws = new WebSocket(
-        "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
-        // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
-        // "ws://52.209.109.96:80/ws/v1/streaming?access_token=" + token
-        // "ws://www.blitzbook8.com/ws/v1/streaming?access_token=" + token
+    get() {
+      this.starttime = new Date(new Date().setDate(new Date().getDate() - 1));
+      this.starttime = new Date(
+        this.starttime.setHours(new Date().getHours() + 2)
       );
-      this.ws.onopen = this.onopen;
-      this.ws.onmessage = this.onmessage;
-      this.ws.onclose = this.onclose;
-      this.ws.onerror = this.onerror;
+      this.starttime = getUTCtime(this.starttime);
+      console.log(this.starttime, "this.starttime");
+      this.endtime = new Date(new Date().setHours(new Date().getHours() + 2));
+      this.endtime = getUTCtime(this.endtime);
+      console.log(this.endtime, "this.endtime");
+      this.$http
+        .get(
+          baseURL1 +
+            "/chart?symbol=BTCUSD.&from=" +
+            this.starttime +
+            "&to=" +
+            this.endtime
+        )
+        .then(({ data }) => {
+          this.list = data.data;
+          console.log(this.list, "图标1");
+          this.high();
+        });
+      this.$http
+        .get(
+          baseURL1 +
+            "/chart?symbol=ETHUSD.&from=" +
+            this.starttime +
+            "&to=" +
+            this.endtime
+        )
+        .then(({ data }) => {
+          this.list1 = data.data;
+          console.log(this.list, "图标2");
+          this.high1();
+        });
+      this.$http
+        .get(
+          baseURL1 +
+            "/chart?symbol=BCHUSD.&from=" +
+            this.starttime +
+            "&to=" +
+            this.endtime
+        )
+        .then(({ data }) => {
+          this.list2 = data.data;
+          console.log(this.list, "图标3");
+          this.high2();
+        });
     },
-    reconnect() {
-      //重新连接
-      console.log("重新咯按揭");
-      var that = this;
-      if (that.lockReconnect) {
-        return;
+    high() {
+      for (let i = 0; i < this.list.length - 1; i++) {
+        this.max = this.list[0].high;
+        // console.log(this.list[i+1])
+        this.max =
+          this.max < this.list[i + 1].high ? this.list[i + 1].high : this.max;
+        this.low = this.list[0].low;
+        // console.log(this.list[i+1])
+        this.low =
+          this.low < this.list[i + 1].low ? this.list[i + 1].low : this.low;
       }
-      that.lockReconnect = true;
-      //没连接上会一直重连，设置延迟避免请求过多
-      that.timeoutnum && clearTimeout(that.timeoutnum);
-      that.timeoutnum = setTimeout(function() {
-        that.initWebpack();
-        //新连接
-        // that.lockReconnect = false;
-      }, 5000);
+      this.setMax(this.max);
+      this.setLow(this.low);
+      console.log(this.max, "max");
     },
-    reset() {
-      //重置心跳
-      var that = this;
-      //清除时间
-      clearTimeout(that.timeoutObj);
-      clearTimeout(that.serverTimeoutObj);
-      //重启心跳
-      // that.start();
+    high1() {
+      for (let i = 0; i < this.list1.length - 1; i++) {
+        this.max1 = this.list1[0].high;
+        // console.log(this.list[i+1])
+        this.max1 =
+          this.max1 < this.list1[i + 1].high
+            ? this.list1[i + 1].high
+            : this.max1;
+        this.low1 = this.list1[0].low;
+        // console.log(this.list[i+1])
+        this.low1 =
+          this.low1 < this.list1[i + 1].low1 ? this.list[i + 1].low : this.low1;
+      }
+      this.setMax1(this.max1);
+      this.setLow1(this.low1);
+      console.log(this.max1, "max");
     },
-    onopen() {
-      var msg = JSON.stringify({
-        id: this.userid,
-        action: 1,
-        reqId: "BB8Ping1574840837127",
-        topic: 1
-      });
-      this.ws.send(msg);
-      var ms = JSON.stringify({
-        reqId: "BB8SubQuote1574841247958",
-        id: this.userid,
-        topic: 1,
-        action: 11
-      });
-      this.ws.send(ms);
+    high2() {
+      for (let i = 0; i < this.list2.length - 1; i++) {
+        this.max2 = this.list2[0].high;
+        // console.log(this.list[i+1])
+        this.max2 =
+          this.max2 < this.list2[i + 1].high
+            ? this.list2[i + 1].high
+            : this.max2;
+        this.low2 = this.list2[0].low;
+        // console.log(this.list[i+1])
+        this.low2 =
+          this.low2 < this.list2[i + 1].low ? this.list2[i + 1].low : this.low2;
+      }
+      this.setMax2(this.max2);
+      this.setLow2(this.low2);
+    },
+     login(){
+      this.$router.push("/login")
 
-      // console.log("open");
     },
-    onmessage(e) {
-      // console.log("message")
-      var mydata = JSON.parse(e.data).data;
-      // console.log(mydata)
-      store.dispatch("REAET_MYDATA");
-      store.dispatch("SAVE_MYDATA", mydata);
+    register(){
+      this.$router.push("/register")
 
-      // this.reset();
-    },
-    onclose(e) {
-      console.log("连接关闭");
-      console.log(
-        "websocket 断开: " + e.code + " " + e.reason + " " + e.wasClean
-      );
-      this.reconnect();
-    },
-    onerror(e) {
-      console.log("出现错误");
-      //重连
-      this.reconnect();
-    },
-    getuserId() {
-      this.userid = store.state.userId;
-      console.log(this.userid, " this.userid");
     }
   }
 };
 </script>
+    

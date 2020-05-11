@@ -3,34 +3,63 @@
     <div class="login-A">
       <div class="login-AA">
         <div class="login-A1">
-          <h4>邮箱注册</h4>
-          <router-link to="/loginemail">
-            <h5>登录</h5>
+          <h4>{{$t('m.MailboxRegistration')}}</h4>
+          <router-link to="/login">
+            <h5>{{$t('m.Login')}}</h5>
           </router-link>
         </div>
 
         <div class="login-A2">
           <div>
-            <input type="text" placeholder="请输入用户名" id="userName" v-model="data.name" />
-            <div id="messages" class="message none"></div>
+            <input
+              type="text"
+              :placeholder="$t('m.enterusername')"
+              id="userName"
+              v-model="data.name"
+            />
+            <div id="messages" class="message none">{{$t('m.Pleaseenterusername')}}</div>
           </div>
           <div>
-            <input type="text" placeholder="邮箱" id="emailNumber" v-model="data.email" />
-            <div id="message" class="message none"></div>
+            <input type="text" :placeholder="$t('m.Email')" id="emailNumber" v-model="data.email" />
+            <div id="message" class="message none">{{$t('m.Pleaseenterthecorrectemail')}}</div>
           </div>
 
           <div class="login-A2a">
             <div>
-              <input type="text" placeholder="6位验证码" id="rega" v-model="data.validateCode" />
-              <div id="message2" class="message none"></div>
+              <input
+                type="text"
+                :placeholder="$t('m.Pleaseentervalidatingcode')"
+                id="rega"
+                v-model="data.validateCode"
+              />
+              <div id="message2" class="message none">{{$t('m.Pleaseenterdigitverificationcode')}}</div>
             </div>
             <div>
-              <input class="getCodeBtn" id="send" type="button" value="发送验证码" @click="check" />
+              <input
+                v-show="Verification"
+                class="getCodeBtn"
+                id="send"
+                type="button"
+                :value="$t('m.SendCode')"
+                @click="handleClick"
+              />
+              <input
+                v-show="!Verification"
+                class="getCodeBtn"
+                id="send"
+                type="button"
+                :value="timer + 's'"
+              />
             </div>
           </div>
           <div>
-            <input type="password" placeholder="请输入密码(开头字母大写)" id="pwd1" v-model="data.password" />
-            <div id="message3" class="message none"></div>
+            <input
+              type="password"
+              :placeholder="$t('m.Pleaseenterpassword')"
+              id="pwd1"
+              v-model="data.password"
+            />
+            <div id="message3" class="message none">{{$t('m.passwordTip')}}</div>
           </div>
           <!-- <div>
             <input type="text" placeholder="确认密码" id="pwd2" />
@@ -40,16 +69,16 @@
             <!-- <input type="button" value="注册" /> -->
             <Button class="mt-button" @click.native="register">
               <!-- <div slot="login">登录</div> -->
-              <div slot="login">注册</div>
+              <div slot="login">{{$t('m.Register')}}</div>
             </Button>
           </div>
-          <router-link to="/registerphone" tag="div" class="emaill">手机号注册</router-link>
+          <router-link to="/registerphone" tag="div" class="emaill">{{$t('m.Switchtomobileregistration')}}</router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .login {
   .getCodeBtn {
     background: #0066ff;
@@ -163,28 +192,32 @@
     // padding-left: .266667rem /* 20/75 */;
   }
 }
-.mint-toast-text{
-    font-size: 16px;
+.mint-toast-text {
+  font-size: 16px;
+}
+.none {
+  display: none;
 }
 </style>
 <script>
-import Button from "../../components/Button";
+const Button = ()=> import("../../components/Button");
 //验证码
 import { emailtimer } from "../../tools/check.js";
 // import { checkPassword } from "../tools/check.js";
 //注册按钮
 import { checkemailUser } from "../../tools/check";
 import { baseURL1, baseURL2 } from "../../utls";
-import { Toast } from "mint-ui";
 
 // import { checkUser } from '../tools/check.js'
 
 export default {
   data() {
     return {
+      Verification: true,
+      timer: 60,
       isAble: true,
-     emaildata:"",
-     
+      emaildata: "",
+
       data: {
         name: "",
         email: "",
@@ -197,66 +230,115 @@ export default {
     Button
   },
   methods: {
-    //发送验证码
-    check() {
-        console.log("fa")
-    emailtimer()
-    var phoneNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+    handleClick() {
+      emailtimer();
+      var phoneNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
 
-        if(emailNumber.value == "" || userName.value == "" || phoneNumberReg.test(emailNumber.value) === false ) {
-            return
-        } else  {
-            console.log("可以了");
-            this.emaildata = emailNumber.value
+      if (phoneNumberReg.test(emailNumber.value) && userName.value != "") {
+        this.emaildata = emailNumber.value;
         this.$http
           .post(
             baseURL2 +
-              "/user/email/sendRegisterValidateCode",
-      this.$qs.stringify({email:this.emaildata}) ,
-            {
-              headers: {
-                "x-api-token": "TypwwEg8E21FlKYZ",
-                "x-api-tenantid": "T002509",
-                // "Content-Type": "application/json",
-                "cache-control": "no-cache"
-              }
-            }
+              "/user/email/sendRegisterValidateCode?email=" +
+              this.emaildata
+            // this.$qs.stringify({email:this.emaildata}) ,
+            //  JSON.stringify({email:this.emaildata}) ,
+            // {
+            //   headers: {
+            //     "x-api-token": "TypwwEg8E21FlKYZ",
+            //     "x-api-tenantid": "T002509",
+            //     "Content-Type": "application/json",
+            //     "cache-control": "no-cache"
+            //   }
+            // }
           )
           .then(({ data }) => {
             console.log(data, "data");
             if (data.mcode === "m0000000") {
-              Toast({
-                message: "发送成功",
-                duration: 2000
-              });
+             this.$toast(this.$t("m.Codesent"));
+            
             } else if (data.mcode === "PUB_AUTH_0000001") {
-              Toast({
-                message: "邮箱格式错误",
-                duration: 2000
-              });
+             this.$toast(this.$t("m.Pleaseentercorrectemailaddress"));
+
             } else if (data.mcode === "PUB_AUTH_0000007") {
-                 Toast({
-                message: "邮箱已经被注册",
-                duration: 2000
-              });
+             this.$toast(this.$t("m.Ready"));
+            
+              
             }
           });
+
+        this.Verification = false;
+        let auth_timer = setInterval(() => {
+          //定时器设置每秒递减
+          this.timer--; //递减时间
+          if (this.timer <= 0) {
+            this.Verification = true; //60s时间结束还原v-show状态并清除定时器
+            clearInterval(auth_timer);
+          }
+        }, 1000);
       }
     },
+    //发送验证码
+    // check() {
+    //     console.log("fa")
+    // emailtimer()
+    // var phoneNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+
+    //     if(emailNumber.value == "" || userName.value == "" || phoneNumberReg.test(emailNumber.value) === false ) {
+    //         return
+    //     } else  {
+    //         console.log("可以了");
+    //         this.emaildata = emailNumber.value
+    //     this.$http
+    //       .post(
+    //         baseURL2 +
+    //           "/user/email/sendRegisterValidateCode?email=" + this.emaildata,
+    //       // this.$qs.stringify({email:this.emaildata}) ,
+    //     //  JSON.stringify({email:this.emaildata}) ,
+    //         // {
+    //         //   headers: {
+    //         //     "x-api-token": "TypwwEg8E21FlKYZ",
+    //         //     "x-api-tenantid": "T002509",
+    //         //     "Content-Type": "application/json",
+    //         //     "cache-control": "no-cache"
+    //         //   }
+    //         // }
+    //       )
+    //       .then(({ data }) => {
+    //         console.log(data, "data");
+    //         if (data.mcode === "m0000000") {
+    //           Toast({
+    //             message: "发送成功",
+    //             duration: 2000
+    //           });
+    //         } else if (data.mcode === "PUB_AUTH_0000001") {
+    //           Toast({
+    //             message: "邮箱格式错误",
+    //             duration: 2000
+    //           });
+    //         } else if (data.mcode === "PUB_AUTH_0000007") {
+    //              Toast({
+    //             message: "邮箱已经被注册",
+    //             duration: 2000
+    //           });
+    //         }
+    //       });
+    //   }
+    // },
     //注册
     register() {
-        checkemailUser()
-         var phoneNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      checkemailUser();
+      var phoneNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
 
       var reg = /^\d{6}$/;
-    //   var psw = /^[A-Z][A-z0-9]*$/;
+      var psw = /^.*(?=.{8,20})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+
       if (
-          phoneNumberReg.test(emailNumber.value) &
-        reg.test(rega.value) &
-       
-        (userName.value != "")
+        userName.value != "" &&
+        phoneNumberReg.test(emailNumber.value) &&
+        reg.test(rega.value) &&
+        psw.test(pwd1.value)
       ) {
-    
         this.$http
           .post(baseURL2 + "/user/email/registerWithValidateCode", this.data, {
             headers: {
@@ -269,21 +351,14 @@ export default {
           .then(({ data }) => {
             console.log(data, "000000");
             if (data.mcode === "m0000000") {
-                Toast({
-                message: "注册成功",
-                duration: 1500
-              });
-              this.$router.push("/loginemail");
+             this.$toast(this.$t("m.Registrationsuccess"));
+              this.$router.push("/login");
             } else if (data.mcode === "PUB_AUTH_0000007") {
-              Toast({
-                message: "邮箱已经被注册",
-                duration: 1500
-              });
+               this.$toast(this.$t("m.Ready"));
             } else if (data.mcode === "PUB_AUTH_0000101") {
-              Toast({
-                message: "验证码错误",
-                duration: 1500
-              });
+             this.$toast(this.$t("m.Verificationcodeerror"));
+
+              
             }
           });
       }

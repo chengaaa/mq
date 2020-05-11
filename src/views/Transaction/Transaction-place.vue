@@ -1,16 +1,18 @@
 <template>
   <div class="transactionplace">
+    <loading v-show="LOADING"></loading>
+
     <div class="transactionplace-a">
       <van-icon id="van-icon" name="arrow-left" color="blue" @click="back" />
       <div class="tab">
-        <h3 @click="all" v-show="headerName">{{headerName}}</h3>
+        <h3 @click="all" v-show="headerName">{{headerName.slice(0,headerName.indexOf('.'))}}</h3>
         <!-- <h3 @click="all" v-else>ETHUSD</h3> -->
         <!-- <h3 @click="all" v-for="header in headerName" :key="header.symbol">{{header.symbol}}</h3> -->
         <i class="iconfont">&#xe60d;</i>
       </div>
     </div>
     <div class="transactionplace-list">
-      <h4 @click="show">{{unitName}}</h4>
+      <h4 @click="show">{{$t(unitName)}}</h4>
       <ul v-for="(item,index) in lists" :key="index">
         <li
           v-show="isShow"
@@ -19,45 +21,45 @@
         >{{item.name}}</li>
       </ul>
     </div>
+      <div class="transactionplace-name">
+      <div class="transactionplace-name1"></div>
+      <div class="transactionplace-name2">
+        <!-- <input :value="num * contractSize"> -->
+        <input type="num" @input="lb()" id="number2" :placeholder="num" />
+        <h6>{{headerName.substring(0,3)}}</h6>
+      </div>
+    </div>
     <div class="transactionplace-c">
       <span @click="reduce">-0.1</span>
       <span @click="cut">-0.01</span>
       <!-- <p>{{this.num.toFixed(2)}}</p> -->
       <!-- <input type="num" :value="this.num.toFixed(2)" /> -->
-      <input type="num" @input="la()" id="number1" :value="num"/>
+      <input type="num" @input="la()" id="number1" :value="num" />
       <span @click="add">+0.01</span>
       <span @click="raise">+0.1</span>
     </div>
-        <div class="transactionplace-name">
-      <div class="transactionplace-name1"></div>
-      <div class="transactionplace-name2">
-<!-- <input :value="num * contractSize"> -->
-<input type="num" @input="lb()" id="number2" placeholder="请输入" />
-      <h6>{{headerName.substring(0,3)}}</h6>
-      </div>
-      
-    </div>
+  
     <div class="transactionplace-d" v-show="prices">
-      <h6>价格</h6>
+      <h6>{{$t('m.Price')}}</h6>
       <div class="flex-1">
-        <input type="text" v-model="num3" placeholder="没有设置" />
+        <input type="text" v-model="num3" :placeholder="$t('m.Noset')" />
         <span @click="price" class="border">-</span>
         <span @click="priceadd">+</span>
       </div>
     </div>
 
     <div class="transactionplace-d">
-      <h6>止损</h6>
+      <h6>{{$t('m.StopLoss')}}</h6>
       <div class="flex-1">
-        <input type="text" v-model="num1" placeholder="没有设置" />
+        <input type="text" v-model="num1" :placeholder="$t('m.Noset')" />
         <span @click="numreduce" class="border">-</span>
         <span @click="numadd">+</span>
       </div>
     </div>
     <div class="transactionplace-d">
-      <h6>获利</h6>
+      <h6>{{$t('m.TakeProfit')}}</h6>
       <div class="flex-1">
-        <input type="text" v-model="num2" placeholder="没有设置" />
+        <input type="text" v-model="num2" :placeholder="$t('m.Noset')" />
 
         <span @click="jianshao" class="border">-</span>
         <span @click="zengjia">+</span>
@@ -72,8 +74,8 @@
       id="transactionplace-cd"
       readonly
       clickable
-      label="期限"
-      :value="value"
+      :label="$t('m.Expiration')"
+      :value="$t(value)"
       @click="showPicker = true"
       v-show="term"
     />
@@ -87,11 +89,18 @@
     </van-popup>
 
     <!-- <div class="transactionplace-e" v-for="(item,index) in newdata1" :key="index"> -->
-      <div class="transactionplace-e">
+    <div class="transactionplace-e">
       <div v-for="(items,indexs) in newdata1" :key="indexs" class="box">
-        <div  class="math" v-show="items.symbolName === headerName"><h2>{{parseFloat(items.bid).toFixed(2).substring(0,parseFloat(items.bid).toFixed(2).indexOf(".")+1)}}</h2><span>{{parseFloat(items.bid).toFixed(2).substring(parseFloat(items.bid).toFixed(2).indexOf(".")+1,parseFloat(items.bid).toFixed(2).indexOf(".")+2)}}</span><h6>{{parseFloat(items.bid).toFixed(2).substring(parseFloat(items.bid).toFixed(2).indexOf(".")+2)}}</h6></div>
-        <div class="math" v-show="items.symbolName === headerName"><h2>{{parseFloat(items.ask).toFixed(2).substring(0,parseFloat(items.ask).toFixed(2).indexOf(".")+1)}}</h2><span>{{parseFloat(items.ask).toFixed(2).substring(parseFloat(items.ask).toFixed(2).indexOf(".")+1,parseFloat(items.ask).toFixed(2).indexOf(".")+2)}}</span><h6>{{parseFloat(items.ask).toFixed(2).substring(parseFloat(items.ask).toFixed(2).indexOf(".")+2)}}</h6></div>
-
+        <div class="math" v-show="items.symbolName === headerName">
+          <h2>{{parseFloat(items.bid).toFixed(2).substring(0,parseFloat(items.bid).toFixed(2).indexOf(".")+1)}}</h2>
+          <span>{{parseFloat(items.bid).toFixed(2).substring(parseFloat(items.bid).toFixed(2).indexOf(".")+1,parseFloat(items.bid).toFixed(2).indexOf(".")+2)}}</span>
+          <h6>{{parseFloat(items.bid).toFixed(2).substring(parseFloat(items.bid).toFixed(2).indexOf(".")+2)}}</h6>
+        </div>
+        <div class="math" v-show="items.symbolName === headerName">
+          <h2>{{parseFloat(items.ask).toFixed(2).substring(0,parseFloat(items.ask).toFixed(2).indexOf(".")+1)}}</h2>
+          <span>{{parseFloat(items.ask).toFixed(2).substring(parseFloat(items.ask).toFixed(2).indexOf(".")+1,parseFloat(items.ask).toFixed(2).indexOf(".")+2)}}</span>
+          <h6>{{parseFloat(items.ask).toFixed(2).substring(parseFloat(items.ask).toFixed(2).indexOf(".")+2)}}</h6>
+        </div>
       </div>
     </div>
     <div class="transactionplace-f" v-show="button">
@@ -99,7 +108,7 @@
       <p @click="buy">Buy by Market</p>
     </div>
     <div class="transactionplace-g" v-show="order">
-      <p @click="placeorder">下单</p>
+      <p @click="placeorder">{{$t('m.Place')}}</p>
     </div>
     <!-- <van-datetime-picker
     position="bottom"
@@ -113,8 +122,8 @@
       :min-date="minDate"
       :max-date="maxDate"
       @confirm="onCon"
-    /> -->
-     <van-popup   v-model="datePicker" position="bottom">
+    />-->
+    <van-popup v-model="datePicker" position="bottom">
       <van-datetime-picker
         v-model="currentDate"
         type="datetime"
@@ -122,43 +131,45 @@
         :max-date="maxDate"
         :formatter="formatter"
         @confirm="onCon"
-       @cancel="datePicker = false"
+        @cancel="datePicker = false"
       />
-       </van-popup>
+    </van-popup>
   </div>
 </template>
 <style lang="scss" >
 .blue {
-color:blue;
+  color: blue;
 }
 .red {
-color: red;
+  color: red;
 }
 .transactionplace {
   padding-top: 0.4rem /* 30/75 */;
   .transactionplace-name {
-     display: flex;
-        height: 1.333333rem /* 100/75 */;
+    display: flex;
+    height: 1.333333rem /* 100/75 */;
     line-height: 1.333333rem /* 100/75 */;
     // padding: 0rem /* 0/75 */ 0.466667rem /* 35/75 */;
     font-size: 0.373333rem /* 28/75 */;
     border-bottom: 1px solid #c9c9cb;
-     .transactionplace-name1 {
-       flex: 1;
-     }
-       .transactionplace-name2 {
-         display: flex;
-         justify-content: space-around;
-         align-items: center;
-        //  width: 3.333333rem /* 250/75 */;
-         width: 2.933333rem /* 220/75 */;
-        input {
-          width: 1.333333rem /* 100/75 */;
-          height:.666667rem /* 50/75 */;
-          line-height:.666667rem /* 50/75 */;
-          text-align: center;
-        }
-       } 
+     font-family: 'Tahoma','Sans Serif';
+
+    .transactionplace-name1 {
+      flex: 1;
+    }
+    .transactionplace-name2 {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      //  width: 3.333333rem /* 250/75 */;
+      width: 2.933333rem /* 220/75 */;
+      input {
+        width: 1.333333rem /* 100/75 */;
+        height: 0.666667rem /* 50/75 */;
+        line-height: 0.666667rem /* 50/75 */;
+        text-align: center;
+      }
+    }
   }
   .transactionplace-a {
     display: flex;
@@ -174,7 +185,9 @@ color: red;
       margin-bottom: 0.533333rem /* 40/75 */;
 
       h3 {
-        font-size: 0.466667rem /* 35/75 */;
+        font-size: .426667rem /* 32/75 */;
+             font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+          font-weight: bold;
       }
       .iconfont {
         font-size: 0.4rem /* 30/75 */;
@@ -184,19 +197,19 @@ color: red;
   .transactionplace-list {
     width: 100%;
     text-align: center;
-    font-size: 0.466667rem /* 35/75 */;
+    font-size: .426667rem /* 32/75 */;
+     font-family: 'Tahoma','Sans Serif';
     ul:nth-child(2) {
       li {
- border-top:none;
+        border-top: none;
       }
-    }  
-   
+    }
 
     h4 {
-          border-top: 1px solid #b9b6b6;
-    border-bottom: 1px solid #b9b6b6;
-    padding-top: .333333rem /* 25/75 */;
-    padding-bottom: .333333rem /* 25/75 */;
+      border-top: 1px solid #b9b6b6;
+      border-bottom: 1px solid #b9b6b6;
+      padding-top: 0.333333rem /* 25/75 */;
+      padding-bottom: 0.333333rem /* 25/75 */;
     }
     li {
       height: 1.333333rem /* 100/75 */;
@@ -222,15 +235,18 @@ color: red;
     line-height: 1.333333rem /* 100/75 */;
     border-bottom: 1px solid #b9b6b6;
     align-items: center;
+     font-family: 'Tahoma','Sans Serif';
+
     input {
       text-align: center;
-      height: .666667rem /* 50/75 */;
-      line-height: .666667rem /* 50/75 */;
+      height: 0.666667rem /* 50/75 */;
+      line-height: 0.666667rem /* 50/75 */;
       font-size: 0.4rem /* 30/75 */;
     }
     span {
       font-size: 0.426667rem /* 32/75 */;
       color: #397aff;
+      font-weight: bolder;
     }
   }
   .transactionplace-d {
@@ -238,10 +254,14 @@ color: red;
     height: 1.333333rem /* 100/75 */;
     line-height: 1.333333rem /* 100/75 */;
     padding: 0rem /* 0/75 */ 0.466667rem /* 35/75 */;
-    font-size: 0.373333rem /* 28/75 */;
+    font-size:.426667rem /* 32/75 */;
     border-bottom: 1px solid #c9c9cb;
+     font-family: 'Tahoma','Sans Serif';
+
     h6 {
       width: 4rem /* 300/75 */;
+  
+
     }
     .flex-1 {
       flex: 1;
@@ -249,10 +269,12 @@ color: red;
       justify-content: space-between;
       align-items: center;
       input {
-         width: 1.5rem /* 100/75 */;
-          height:.666667rem /* 50/75 */;
-          line-height:.666667rem /* 50/75 */;
-          text-align: center;
+        width: 1.5rem /* 100/75 */;
+        height: 0.666667rem /* 50/75 */;
+        line-height: 0.666667rem /* 50/75 */;
+        text-align: center;
+    font-size:.373333rem /* 28/75 */;
+
       }
     }
     span {
@@ -260,36 +282,41 @@ color: red;
       height: 0.866667rem /* 65/75 */;
       line-height: 0.733333rem /* 55/75 */;
       // background: blue;
-      font-size: 1rem /* 75/75 */;
+      font-size: .8rem /* 60/75 */;
       text-align: center;
       color: #397aff;
+    
       border: 1.3px solid #397aff;
     }
     .border {
       // border-right: none;
     }
   }
-  
+
   .transactionplace-e {
     .box {
       display: flex;
       justify-content: space-around;
       font-size: 0.666667rem /* 50/75 */;
       color: blue;
+     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+
       .math {
         display: flex;
-       line-height: 1.066667rem /* 80/75 */;
+        line-height: 1.066667rem /* 80/75 */;
         h2 {
-          font-size: .533333rem /* 40/75 */;
+          font-size:.6rem /* 45/75 */;
+        }
+        span {
+          font-size: .773333rem /* 58/75 */;
+
         }
         h6 {
-          font-size: .48rem /* 36/75 */;
+          font-size: 0.48rem /* 36/75 */;
           position: relative;
-          top:-0.213333rem;
+          top: -0.213333rem;
         }
-    
       }
-     
     }
   }
   .transactionplace-f {
@@ -297,11 +324,13 @@ color: red;
     display: flex;
     justify-content: space-between;
     color: white;
+     font-family: 'Tahoma','Sans Serif';
+
     div {
       width: 50%;
       height: 1.2rem /* 90/75 */;
       line-height: 1.2rem /* 90/75 */;
-      background: blue;
+      background: red;
       text-align: center;
       font-size: 0.466667rem /* 35/75 */;
     }
@@ -310,7 +339,7 @@ color: red;
       height: 1.2rem /* 90/75 */;
       line-height: 1.2rem /* 90/75 */;
       text-align: center;
-      background: red;
+      background: blue;
       font-size: 0.466667rem /* 35/75 */;
     }
   }
@@ -331,46 +360,51 @@ color: red;
 }
 </style>
 <style lang="scss">
- .van-field__control {
-   text-align: end;
+.van-field__control {
+  text-align: end;
 }
- .van-cell {
-   font-size: .333333rem /* 25/75 */;
+.van-cell {
+  font-size: 0.333333rem /* 25/75 */;
   padding: 0.466667rem /* 35/75 */ 0.533333rem /* 40/75 */;
-   border-bottom: 1px solid #c9c9cb;
- }
- .van-picker__confirm, .van-picker__cancel {
- font-size: .346667rem /* 26/75 */;
- }
+  border-bottom: 1px solid #c9c9cb;
+}
+.van-picker__confirm,
+.van-picker__cancel {
+  font-size: 0.346667rem /* 26/75 */;
+}
 
 .van-picker__toolbar {
   height: 1.333333rem /* 100/75 */;
-  font-size: .466667rem /* 35/75 */;
+  font-size: 0.466667rem /* 35/75 */;
 }
 .van-ellipsis {
-  font-size: .346667rem /* 26/75 */;
+  font-size: 0.346667rem /* 26/75 */;
 }
 .van-popup {
   height: 6.666667rem /* 500/75 */;
 }
-
-
 </style>
 <script>
 import store from "../../store";
-import { baseURL1,baseURL2 } from "../../utls";
-import { Toast } from "mint-ui";
+import { baseURL1, baseURL2 } from "../../utls";
+const Loading = ()=> import("../../components/Loading");
+import { mapState } from "vuex";
+
 
 export default {
   data() {
     return {
-      value: "直到取消",
+      value: "m.Untilcancelled",
       showPicker: false,
       datePicker: false,
       buynum: "",
       sellnum: "",
 
-      columns: ["直到取消", "今天", "指定"],
+      columns: [
+        this.$t("m.Untilcancelled"),
+        this.$t("m.Today"),
+        this.$t("m.Appoint")
+      ],
       lists: [
         {
           id: "1",
@@ -401,13 +435,13 @@ export default {
           orderDirection: -1
         }
       ],
-      unitName: "市场执行",
+      unitName: "m.Marketimplementation",
       isShow: false,
       term: false,
       is: false,
-      num:0.01,
-      contractSize:null,
-      OrderType:3,
+      num: 0.01,
+      contractSize: null,
+      OrderType: 3,
       num1: null,
       num2: null,
       num3: null,
@@ -423,13 +457,11 @@ export default {
       expirationDate: "",
       minHour: 10,
       maxHour: 20,
-      minDate:new Date(new Date().getFullYear(),0,1),
-      maxDate: new Date(new Date().getFullYear(),11,31),
-      a1:"0",
-      a2:"0",
+      minDate: new Date(new Date().getFullYear(), 0, 1),
+      maxDate: new Date(new Date().getFullYear(), 11, 31),
+      a1: "0",
+      a2: "0",
       // minDate:new Date(2020,0,1),
-
-    
 
       // maxDate: new Date(9998, 10, 1),
       currentDate: new Date()
@@ -438,20 +470,16 @@ export default {
 
   created() {
     this.getarr();
-  
+  },
+  components:{
+Loading
+
   },
   mounted() {
     this.headerName = window.localStorage.getItem("params");
-    this.getcontractSize()
+    this.getcontractSize();
 
-
-
-
-
-    console.log(this.headerName ,"000000111")
   },
-
-  
 
   methods: {
     formatter(type, value) {
@@ -465,26 +493,23 @@ export default {
       return value;
     },
     la() {
-   document.getElementById("number2").value=document.getElementById("number1").value * this.contractSize
-   this.num = document.getElementById("number1").value 
-   
-
+      document.getElementById("number2").value =
+        document.getElementById("number1").value * this.contractSize;
+      this.num = document.getElementById("number1").value;
     },
     lb() {
-   document.getElementById("number1").value=document.getElementById("number2").value / this.contractSize
-   this.num = document.getElementById("number1").value 
-
+      document.getElementById("number1").value =
+        document.getElementById("number2").value / this.contractSize;
+      this.num = document.getElementById("number1").value;
     },
     getcontractSize() {
       for (let i = 0; i < this.newdata1.length; i++) {
-        if(this.headerName === this.newdata1[i].symbolName){
-          console.log(this.headerName,  this.newdata1[i].symbolName)
-            console.log(this.newdata1[i],"this.newdata1[]i")
-            this.contractSize = this.newdata1[i].contractSize
-            console.log(this.contractSize ,"this.contractSize ")
-              
+        if (this.headerName === this.newdata1[i].symbolName) {
+          console.log(this.headerName, this.newdata1[i].symbolName);
+          console.log(this.newdata1[i], "this.newdata1[]i");
+          this.contractSize = this.newdata1[i].contractSize;
+          console.log(this.contractSize, "this.contractSize ");
         }
-
       }
     },
     all() {
@@ -499,7 +524,7 @@ export default {
     },
     show() {
       this.isShow = !this.isShow;
-      this.unitName = "市场执行";
+      this.unitName = "m.Marketimplementation";
       this.prices = false;
       this.button = true;
       this.order = false;
@@ -518,16 +543,14 @@ export default {
       this.order = true;
       this.term = true;
       this.orderDirection = item.orderDirection;
-      console.log(this.unitName)
+      console.log(this.unitName);
     },
     reduce() {
-
       this.num = (JSON.parse(this.num) - 0.1).toFixed(2);
       if (this.num < 0.01) {
         this.num = 0.01;
       }
-     document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
     },
     cut() {
       this.num = (JSON.parse(this.num) - 0.01).toFixed(2);
@@ -535,19 +558,16 @@ export default {
       if (this.num < 0.01) {
         this.num = 0.01;
       }
-      document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
     },
     add() {
       console.log(this.num);
       this.num = (JSON.parse(this.num) + 0.01).toFixed(2);
-   document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
     },
     raise() {
       this.num = (JSON.parse(this.num) + 0.1).toFixed(2);
-     document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
 
       console.log(this.num);
     },
@@ -561,16 +581,14 @@ export default {
         if (this.num1 < 0.1) {
           this.num1 = 0.1;
         }
-     document.getElementById("number2").value= this.num * this.contractSize
-
+        document.getElementById("number2").value = this.num * this.contractSize;
       }
     },
     numadd() {
       //   this.num1 += 0.1;
       this.num1 = (JSON.parse(this.num1) + 0.1).toFixed(2);
       console.log(this.num1, "shzi");
-     document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
     },
     jianshao() {
       console.log(this.num2);
@@ -583,15 +601,13 @@ export default {
         if (this.num2 < 0.1) {
           this.num2 = 0.1;
         }
-      document.getElementById("number2").value= this.num * this.contractSize
-
+        document.getElementById("number2").value = this.num * this.contractSize;
       }
     },
     zengjia() {
       //   this.num2 += 0.1;
       this.num2 = (JSON.parse(this.num2) + 0.1).toFixed(2);
-      document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
 
       console.log(this.$route.params, "采纳数");
       console.log(this.num);
@@ -600,15 +616,14 @@ export default {
     price() {
       // this.num3 -= 0.1;
       this.num3 = (JSON.parse(this.num3) - 0.1).toFixed(2);
-     document.getElementById("number2").value= this.num * this.contractSize
-
+      document.getElementById("number2").value = this.num * this.contractSize;
     },
     priceadd() {
-      this.num3 += 0.1;
+      
+      // this.num3 += 0.1;
       this.num3 = (JSON.parse(this.num3) + 0.1).toFixed(2);
-     document.getElementById("number2").value= this.num * this.contractSize
+      document.getElementById("number2").value = this.num * this.contractSize;
 
-      console.log(this.num3);
     },
     getarr() {
       this.newdata1 = this.$store.state.arr;
@@ -645,72 +660,68 @@ export default {
       console.log("sell");
       console.log(this.sellnum, this.buynum);
       if (this.num1 < this.sellnum && this.num1 != null && this.num1 != "") {
-        Toast({
-          message: "止损过低",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Stoplosstoolow"));
         return;
       }
       if (this.num2 > this.sellnum) {
-        Toast({
-          message: "止盈过高",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Takeprofittoohigh"));
+
         return;
       }
+      this.$store.commit('showLoading')
 
-      this.$http.post(baseURL1 + "/trade/order", {
-        symbol: this.headerName,
-        volume: this.num,
-        orderDirection: -1,
-        orderType: this.OrderType,
-        fillType: 1,
-        stopLoss: this.num1,
-        takeProfit: this.num2
-      }).then(({data}) => {
-        if(data.code === 0) {
-          Toast({
-            message:"下单成功"
-          })
-          
-          this.$router.push("/transaction")
-        }
-      });
+      this.$http
+        .post(baseURL1 + "/trade/order", {
+          symbol: this.headerName,
+          volume: this.num,
+          orderDirection: -1,
+          orderType: this.OrderType,
+          fillType: 1,
+          stopLoss: this.num1,
+          takeProfit: this.num2
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+      this.$store.commit('hideLoading')
+
+            this.$toast(this.$t("m.Orderplaced"));
+            this.$router.push("/transaction");
+          }
+        });
     },
     buy() {
       console.log("buy");
       if (this.num1 > this.sellnum) {
-        Toast({
-          message: "止损过低",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Stoplosstoolow"));
+
         return;
       }
       if (this.num2 < this.sellnum && this.num2 != null && this.num2 != "") {
-        Toast({
-          message: "止盈过高",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Takeprofittoohigh"));
+
         return;
       }
+      this.$store.commit('showLoading')
 
-      this.$http.post(baseURL1 + "/trade/order", {
-        symbol: this.headerName,
-        volume: this.num,
-        orderDirection: 1,
-        orderType: this.OrderType,
-        fillType: 1,
-        stopLoss: this.num1,
-        takeProfit: this.num2
-      }).then(({data}) => {
-        if(data.code === 0) {
-          Toast({
-            message:"下单成功"
-          })
-          
-          this.$router.push("/transaction")
-        }
-      });
+      this.$http
+        .post(baseURL1 + "/trade/order", {
+          symbol: this.headerName,
+          volume: this.num,
+          orderDirection: 1,
+          orderType: this.OrderType,
+          fillType: 1,
+          stopLoss: this.num1,
+          takeProfit: this.num2
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+      this.$store.commit('hideLoading')
+
+            this.$toast(this.$t("m.Orderplaced"));
+
+            this.$router.push("/transaction");
+          }
+        });
     },
 
     onConfirm(value) {
@@ -718,11 +729,11 @@ export default {
 
       this.value = value;
       console.log(this.value);
-      if (this.value === "直到取消") {
+      if (this.value === this.$t("m.Untilcancelled")) {
         this.OrderDuration = 0;
         this.expirationDate = "";
         console.log(this.OrderDuration, "88888");
-      } else if (this.value === "今天") {
+      } else if (this.value === this.$t("m.Today")) {
         this.OrderDuration = 1;
         this.expirationDate = "";
         console.log(this.OrderDuration, "88888");
@@ -735,19 +746,14 @@ export default {
     placeorder() {
       console.log("placeorder");
       if (this.num3 === null || "") {
-        Toast({
-          message: "请输入价格",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Pleaseenterprice"));
         return;
       }
-      if (this.num1 === null || "" || this.num2 === null || "") {
-        Toast({
-          message: "下单失败",
-          duration: 1000
-        });
-        return;
-      }
+      // if (this.num1 === null || "" || this.num2 === null || "") {
+      //   this.$toast(this.$t("m.Placeorderfailed"));
+
+      //   return;
+      // }
 
       //sell limit
       if (
@@ -757,26 +763,20 @@ export default {
         this.num3 < this.sellnum
       ) {
         console.log("hhhhhh");
-        Toast({
-          message: "价格过低",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Pricetoolow"));
+
         return;
-      
-      if (this.num1 < this.num3) {
-        Toast({
-          message: "止损过低",
-          duration: 1000
-        });
-        return;
-      }
-      if (this.num2 > this.num3) {
-        Toast({
-          message: "止盈过高",
-          duration: 1000
-        });
-        return;
-      }
+
+        if (this.num1 < this.num3) {
+          this.$toast(this.$t("m.Stoplosstoolow"));
+
+          return;
+        }
+        if (this.num2 > this.num3) {
+          this.$toast(this.$t("m.Takeprofittoohigh"));
+
+          return;
+        }
       }
       //buy limit
       if (
@@ -786,26 +786,20 @@ export default {
         this.num3 > this.buynum
       ) {
         console.log("hhhhhh");
-        Toast({
-          message: "价格过高",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Pricetoohigh"));
+
         return;
-     
-      if (this.num1 > this.num3) {
-        Toast({
-          message: "止损过高",
-          duration: 1000
-        });
-        return;
-      }
-      if (this.num2 < this.num3) {
-        Toast({
-          message: "止盈过低",
-          duration: 1000
-        });
-        return;
-      }
+
+        if (this.num1 > this.num3) {
+          this.$toast(this.$t("m.Stoplosstoohigh"));
+
+          return;
+        }
+        if (this.num2 < this.num3) {
+          this.$toast(this.$t("m.Takeprofittoolow"));
+
+          return;
+        }
       }
       //buy stop
       if (
@@ -814,26 +808,20 @@ export default {
         this.unitName === "Buy Stop" &&
         this.num3 < this.buynum
       ) {
-        Toast({
-          message: "价格过低",
-          duration: 1000
-        });
+        this.$toast(this.$t("m.Pricetoolow"));
+
         return;
-     
-      if (this.num1 > this.num3) {
-        Toast({
-          message: "止损过高",
-          duration: 1000
-        });
-        return;
-      }
-      if (this.num2 < this.num3) {
-        Toast({
-          message: "止盈过低",
-          duration: 1000
-        });
-        return;
-      }
+
+        if (this.num1 > this.num3) {
+          this.$toast(this.$t("m.Stoplosstoohigh"));
+
+          return;
+        }
+        if (this.num2 < this.num3) {
+          this.$toast(this.$t("m.Takeprofittoolow"));
+
+          return;
+        }
       }
       //sell stop
       if (
@@ -842,50 +830,48 @@ export default {
         this.unitName === "Sell Stop" &&
         this.num3 > this.sellnum
       ) {
-        console.log("1111")
-        Toast({
-          message: "价格过高",
-          duration: 1000
-        });
-        return;
-     
-      if (this.num1 < this.num3) {
-        Toast({
-          message: "止损过低",
-          duration: 1000
-        });
-        return;
-      }
-      if (this.num2 > this.num3) {
-        Toast({
-          message: "止盈过高",
-          duration: 1000
-        });
-        return;
-      }
-      }
+        console.log("1111");
+        this.$toast(this.$t("m.Pricetoohigh"));
 
-      this.$http.post(baseURL1 + "/trade/order", {
-        symbol: this.headerName,
-        orderDuration: this.OrderDuration,
-        volume: this.num,
-        orderType: this.OrderType,
-        orderDirection: this.orderDirection,
-        fillType: 3,
-        orderPrice: this.num3,
-        stopLoss: this.num1,
-        takeProfit: this.num2,
-        comment: "",
-        expirationDate: this.expirationDate
-      }).then(({data})=>{
-        if(data.code === 0) {
-          Toast({
-            message:"下单成功"
-          })
-          this.$router.push("/transaction")
+        return;
+
+        if (this.num1 < this.num3) {
+          this.$toast(this.$t("m.Stoplosstoolow"));
+
+          return;
         }
-console.log(data)
-      });
+        if (this.num2 > this.num3) {
+          this.$toast(this.$t("m.Takeprofittoohigh"));
+
+          return;
+        }
+      }
+      this.$store.commit('showLoading')
+
+      this.$http
+        .post(baseURL1 + "/trade/order", {
+          symbol: this.headerName,
+          orderDuration: this.OrderDuration,
+          volume: this.num,
+          orderType: this.OrderType,
+          orderDirection: this.orderDirection,
+          fillType: 3,
+          orderPrice: this.num3,
+          stopLoss: this.num1,
+          takeProfit: this.num2,
+          comment: "",
+          expirationDate: this.expirationDate
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+      this.$store.commit('hideLoading')
+
+            this.$toast(this.$t("m.Orderplaced"));
+
+            this.$router.push("/transaction");
+          }
+          console.log(data);
+        });
     },
     onCon(value) {
       this.datePicker = false;
@@ -908,6 +894,12 @@ console.log(data)
     }
   },
 
+  computed:{
+...mapState([
+                'LOADING'
+            ])
+  },
+
   watch: {
     // $route() {
     //   this.headerName = this.$route.params.symbol;
@@ -923,21 +915,18 @@ console.log(data)
             // console.log(this.newName[j], "lili");
             var middle = this.newdata1[i];
             var dabble = this.newName[j];
-            console.log(middle,"dabble")
-            console.log(dabble,"dabble")
+            console.log(middle, "dabble");
+            console.log(dabble, "dabble");
 
             if (middle.symbolName == dabble.symbol) {
               middle.ask = dabble.ask;
               middle.bid = dabble.bid;
-               
-              
             }
-            this.a1 = middle.ask 
-            this.a2 = middle.bid 
-            
-            
+            this.a1 = middle.ask;
+            this.a2 = middle.bid;
+
             if (middle.symbolName === this.headerName) {
-              console.log(this.headerName,"")
+              console.log(this.headerName, "");
               this.buynum = middle.ask;
               this.sellnum = middle.bid;
             }
@@ -965,31 +954,12 @@ console.log(data)
             // this.sellnum = this.newdata1[0][0].bid
             // console.log(this.buynum,"22222")
             // console.log(this.sellnum,"333333333")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-
-            //  }
           }
 
-
-
+          //  }
         }
       }
-    },
-
+    }
   }
-
+};
 </script>

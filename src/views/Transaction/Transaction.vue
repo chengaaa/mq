@@ -5,7 +5,7 @@
       <h3 v-if="this.tit">{{tit.toFixed(2)}} USD</h3>
       <h3 v-else-if="!this.tit">0.00 USD</h3>
       <span>
-        <img src="../../assets/add.png" alt @click="transaction" />
+        <img src="../../assets/add.jpg" alt @click="transaction" />
         <!-- <i class="iconfont" @click="transaction">&#xe644;</i> -->
       </span>
     </div>
@@ -51,8 +51,8 @@
         </div>
         <div class="transaction-B1">
           <p>{{$t('m.Freemargin')}}</p>
-          <span v-if="item.data3">{{item.data3 - item.margin}}</span>
-          <span v-else>{{item.marginFree}}</span>
+          <span v-if="item.data3">{{(item.data3 - item.margin).toFixed(2)}}</span>
+          <span v-else>{{Number(item.marginFree).toFixed(2)}}</span>
         </div>
         <div class="transaction-B1">
           <p>{{$t('m.Marginlevel')}}</p>
@@ -78,7 +78,7 @@
         <div class="top">
           <div class="left">
             <div class="flex">
-              <h5>{{items.symbol}},</h5>
+              <h5>{{(items.symbol).slice(0,items.symbol.indexOf('.'))}},</h5>
               <span
                 :class="{'red':items.orderDirection == -1,
               'blue':items.orderDirection == 1}"
@@ -153,7 +153,7 @@
         <div class="top">
           <div class="left">
             <div class="flex">
-              <h5>{{item.symbol}},</h5>
+              <h5>{{(item.symbol).slice(0,item.symbol.indexOf('.'))}},</h5>
               <!-- <span :class="{'red':item.orderDirection == -1,
               'blue':item.orderDirection == 1}">{{if(item.orderType === 7) {"buy limit"}}}</span>-->
               <span :class="{'blue' :item.orderType === 7}" v-if="item.orderType === 7">buy limit</span>
@@ -189,10 +189,10 @@
               </div>
             </div>
             <div class="right1">
-              <div class="a">
+              <!-- <div class="a">
                 <p>{{$t('m.Price')}}</p>
                 <span>-</span>
-              </div>
+              </div> -->
               <div class="a">
                 <p>{{$t('m.Date')}}</p>
                 <span>-</span>
@@ -208,22 +208,27 @@
       </div>
     </div>
     <div class="box"></div>
+    <keep-alive>
+    
+    
     <van-action-sheet
-      cancel-text="取消"
+      :cancel-text="$t('m.Cancel')"
       v-model="show"
       :actions="actions"
       @select="onSelect"
       :close-on-click-overlay="false"
       v-if="active"
+      id="modal"
     />
     <van-action-sheet
-      cancel-text="取消"
+      :cancel-text="$t('m.Cancel')"
       v-model="show"
       :actions="actionss"
       @select="onSelect"
       :close-on-click-overlay="false"
       v-else
     />
+    </keep-alive>
   </div>
 </template>
 
@@ -269,28 +274,40 @@
       //    height:1.333333rem /* 100/75 */;
       background: #2e7bfd;
       display: flex;
-      color: white;
+      color: #fff;
 
-      font-size: 0.666667rem /* 50/75 */;
+      font-size: .533333rem /* 40/75 */;
       line-height: 1.333333rem /* 100/75 */;
       h3 {
         flex: 1;
         text-align: center;
+          font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+
       }
       span {
         width: 0.933333rem /* 70/75 */;
+        height: .666667rem /* 50/75 */;
+        line-height: 1.4666667rem /* 50/75 */;
       }
     }
     .transaction-B {
       // height: 3.733333rem /* 280/75 */;
       background: white;
-      font-size: 0.4rem /* 30/75 */;
+      font-size: .426667rem /* 32/75 */;
       line-height: 0.6rem /* 45/75 */;
       padding: 0.133333rem /* 10/75 */ 0.293333rem /* 22/75 */;
       color: #545454;
       .transaction-B1 {
         display: flex;
         justify-content: space-between;
+        p ,span {
+          font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+          color:#666;
+        }
+        span {
+      font-size: .4rem /* 30/75 */;
+            
+        }
       }
     }
     .transaction-C {
@@ -298,9 +315,12 @@
 
       h4 {
         font-weight: 600;
-        font-size: 0.466667rem /* 35/75 */;
+        font-size: .373333rem /* 28/75 */;
         background: #eee;
         padding: 0.2rem /* 15/75 */ 0rem /* 0/75 */;
+        font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+        color:#6d6d6d;
+
       }
     }
     .transaction-C3 {
@@ -308,9 +328,12 @@
 
       h4 {
         font-weight: 600;
-        font-size: 0.466667rem /* 35/75 */;
         background: #eee;
         padding: 0.2rem /* 15/75 */ 0rem /* 0/75 */;
+        font-size: .373333rem /* 28/75 */;
+        padding: 0.2rem /* 15/75 */ 0rem /* 0/75 */;
+        font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+        color:#6d6d6d;
       }
     }
     .transaction-D {
@@ -330,7 +353,7 @@
         &:last-child {
           .top {
             border-bottom: none;
-            // background: red;
+       
           }
         }
 
@@ -340,6 +363,7 @@
           justify-content: space-between;
           padding-bottom: 0.266667rem /* 20/75 */;
           padding-top: 0.266667rem /* 20/75 */;
+              font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
 
           border-bottom: 0.013333rem /* 1/75 */ solid #b9b6b6;
 
@@ -348,28 +372,32 @@
               display: flex;
               margin-bottom: 0.2rem /* 15/75 */;
               h5 {
-                font-size: 0.466667rem /* 35/75 */;
+               font-size: .426667rem /* 32/75 */;
                 font-weight: 700;
               }
               span {
-                font-size: 0.4rem /* 30/75 */;
+                // font-size: 0.4rem /* 30/75 */;
                 font-weight: 700;
                 // color:blue;
               }
             }
             p {
-              font-size: 0.4rem /* 30/75 */;
+              // font-size: 0.4rem /* 30/75 */;
               font-weight: 500;
             }
             .openPrice {
               display: flex;
+               font-family: 'Tahoma','Sans Serif';
+               font-size:.32rem /* 24/75 */;
+               color: #4c4c4c;
+
             }
           }
           .right {
             height: 0.933333rem /* 70/75 */;
             line-height: 0.933333rem /* 70/75 */;
             span {
-              font-size: 0.533333rem /* 40/75 */;
+              font-size:.426667rem /* 32/75 */;
               font-weight: 600;
               color: blue;
             }
@@ -377,7 +405,8 @@
         }
         .bottom {
           color: #acacac;
-          font-size: 0.4rem /* 30/75 */;
+          font-size: .32rem /* 24/75 */;
+          font-family: 'Tahoma';
           h5 {
             margin-bottom: 0.533333rem /* 40/75 */;
           }
@@ -395,6 +424,9 @@
               display: flex;
               justify-content: space-between;
               margin-bottom: 0.186667rem /* 14/75 */;
+              span {
+                color:black;
+              }
             }
           }
         }
@@ -428,13 +460,14 @@
         padding-top: 0.266667rem /* 20/75 */;
         padding-bottom: 0.266667rem /* 20/75 */;
         border-bottom: 0.013333rem /* 1/75 */ solid #b9b6b6;
+              font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
 
         .left {
           .flex {
             display: flex;
             margin-bottom: 0.2rem /* 15/75 */;
             h5 {
-              font-size: 0.466667rem /* 35/75 */;
+              font-size: .426667rem /* 32/75 */;
               font-weight: 700;
             }
             span {
@@ -444,15 +477,17 @@
             }
           }
           p {
-            font-size: 0.4rem /* 30/75 */;
             font-weight: 500;
+             font-family: 'Tahoma','Sans Serif';
+               font-size:.32rem /* 24/75 */;
+               color: #4c4c4c;
           }
         }
         .right {
           height: 0.933333rem /* 70/75 */;
           line-height: 0.933333rem /* 70/75 */;
           span {
-            font-size: 0.533333rem /* 40/75 */;
+           font-size:.426667rem /* 32/75 */;
             font-weight: 600;
             color: blue;
           }
@@ -460,9 +495,13 @@
       }
       .bottom {
         color: #acacac;
-        font-size: 0.4rem /* 30/75 */;
+          font-size: .32rem /* 24/75 */;
+          font-family: 'Tahoma';
         h5 {
           margin-bottom: 0.533333rem /* 40/75 */;
+        }
+        span {
+          color:black;
         }
         .left1-right1 {
           display: flex;
@@ -525,15 +564,15 @@ export default {
       indexs: 0,
       //删除项数组
       actions: [
-        { name: "平仓" },
-        { name: "交易" },
-        { name: "修改价位" }
+        { name: 'Close' },
+        { name: 'Trade'},
+        { name: 'Price revision' }
         // { name: '选项', subname: '描述信息' }
       ],
       actionss: [
-        { name: "删除" },
-        { name: "修改" },
-        { name: "交易" }
+        { name: 'Delete' },
+        { name:'Modify' },
+        { name: 'Trade'}
         // { name: '选项', subname: '描述信息' }
       ]
     };
@@ -542,6 +581,7 @@ export default {
   mounted() {
     console.log(this.newArr, "datassssssssssss");
     this.get();
+  
   },
   brforeUpdate() {
     // this.gettitle()
@@ -549,14 +589,18 @@ export default {
 
   activated() {
     console.log("激活了");
+ 
     this.$nextTick(() => {
       // this.get();
       //  this.getContractsList()
-
+      this.actions = this.$store.state.actions
+      this.actionss = this.$store.state.actionss
+      console.log(this.$store.state.actions,"好了")
       this.getdata1();
     });
   },
   deactivated() {
+console.log(this.actions,"9")
     console.log("失效了");
   },
   computed: {
@@ -586,6 +630,7 @@ export default {
           for (let j = 0; j < this.newArr.length; j++) {
             var arr1 = this.newArr[j];
             var arr2 = store.state.contractsLists[i];
+            console.log(arr1,arr2)
             if (arr1.symbolName === arr2.symbol) {
                console.log( this.newArr,"00000000")
               arr2.contractSize = arr1.contractSize;
@@ -640,20 +685,24 @@ export default {
   methods: {
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
+ 
 
     getdata1() {
       this.$http.get(baseURL1 + "/account").then(({ data }) => {
         this.hal = false;
         this.accountList = [data.data];
+        console.log(this.accountList,"000")
       });
     },
 
     getnewArr() {
+      console.log( this.addallList,this.contractsList,"77777777777777")
       for (let i = 0; i < this.addallList.length; i++) {
         for (let j = 0; j < this.contractsList.length; j++) {
           // console.log(this.contractsList[j].symbol === this.addallList[i].symbolName)
           if (this.contractsList[j].symbol === this.addallList[i].symbolName) {
             this.newArr.push(this.addallList[i]);
+            console.log(this.newArr,"h")
           }
         }
       }
@@ -661,9 +710,9 @@ export default {
 
     get() {
       this.orderArr = store.state.order;
-      this.addallList = store.state.addall;
+      this.addallList = store.state.arr;
       this.contractsList = store.state.contractsLists;
-      // console.log(this.contractsList, "contractsList");
+      console.log(this.addallList, "addallList");
 
       // console.log(this.contractsList, "555555555555");
       this.getnewArr();
@@ -720,7 +769,7 @@ export default {
           this.positionId = e;
           this.volume = e1;
           this.index = e2;
-
+        console.log(e,e1,e2,e3)
           // console.log(e, "succe");
           // console.log(e1, "succe1");
           // console.log(this.comment, "succe2");
@@ -756,16 +805,16 @@ export default {
       // 默认情况下，点击选项时不会自动关闭菜单
       // 可以通过 close-on-click-action 属性开启自动关闭
       this.show = false;
-      // console.log(item);
-      if (item.name === "交易") {
+      console.log(item,"长按");
+      if (item.name ===  '交易' || item.name ===  'Trade') {
         this.$router.push("/transaction-place");
-      } else if (item.name === "平仓") {
+      } else if (item.name === '平仓' || item.name === 'Close' ) {
         // console.log(this.index);
         this.close(this.index);
-      } else if (item.name === "修改价位") {
+      } else if (item.name === '修改价格' || item.name === 'Price revisio') {
         this.$router.push("/transaction-modify");
       }
-      if (item.name === "删除") {
+      if (item.name === '删除' || item.name === 'Delete') {
         this.delete(this.indexs);
         // console.log("删除", this.indexs);
 
@@ -774,7 +823,7 @@ export default {
       //   Toast(item.name);
     },
     selectType(item) {
-      // console.log(item);
+      console.log(item,"chang");
       this.show = true;
       this.itemw = item;
     },
