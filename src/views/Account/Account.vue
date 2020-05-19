@@ -123,7 +123,7 @@
 
   .account {
     .account-top1 {
-      height: 4.4rem /* 330/75 */;
+      height: 3.333333rem /* 250/75 */;
       background: #127df6;
       .account-title {
         height: 1.173333rem /* 88/75 */;
@@ -137,7 +137,7 @@
         font-size: 0.613333rem /* 46/75 */;
         text-align: center;
         height: 3.146667rem /* 236/75 */;
-        line-height: 3rem;
+        line-height: 2.5rem;
         color: white;
       }
     }
@@ -247,7 +247,7 @@
     .account-bottom {
       background: #f5f5f5;
       padding-top: 2rem /* 150/75 */;
-      box-sizing: content-box;
+      // box-sizing: content-box;
       .account-flex {
         display: flex;
         align-items: center;
@@ -313,8 +313,8 @@
 import store from "../../store";
 const Loading = () => import("../../components/Loading");
 import { mapMutations } from "vuex";
-import { baseURL1, baseURL2, baseURL3 } from "../../utls";
 import { mapState } from "vuex";
+var api = require("../../api/api")
 
 export default {
   data() {
@@ -344,6 +344,9 @@ export default {
   computed: {
     ...mapState(["LOADING"])
   },
+  mounted() {
+ window.scrollTo(0,0);
+  },
   methods: {
     ...mapMutations(["delToken"]),
     ...mapMutations(["delUserId"]),
@@ -354,7 +357,7 @@ export default {
       this.$store.commit("showLoading");
 
       this.$http
-        .get(baseURL1 + "/account")
+        .get(api.AccountURL)
         .then(({ data }) => {
           console.log(data);
           if (data.code === 0) {
@@ -370,7 +373,7 @@ export default {
         });
     },
     logout() {
-      this.$http.post(baseURL1 + "/logout").then(({ data }) => {
+      this.$http.post(api.LogoutURL).then(({ data }) => {
         console.log(data);
         if (data.code == 0) {
           sessionStorage.clear();

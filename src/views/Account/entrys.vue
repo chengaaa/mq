@@ -22,11 +22,13 @@
 />
  <div class="border"></div>
  <div class="erweima">
-     <img src="../../assets/image/chongzhiERC20.png" alt="">
+     <img v-if="chain === 'USDT-ERC20'" src="../../assets/image/chongzhiERC20.jpg" alt="">
+     <img v-if="chain === 'USDT-Omni'" src="../../assets/image/chongzhiOmni.jpg" alt="">
  </div>
  <div class="address">
      <h5>{{$t('m.Chargingaddress')}}</h5>
-     <p>{{this.orderData.orderSn}}</p>
+     <p v-if="chain === 'USDT-ERC20'">{{this.orderData.orderERC20}}</p>
+     <p v-if="chain === 'USDT-Omni'">{{this.orderData.orderOmni}}</p>
      <input type="button" :value="$t('m.Copyaddress')" class="cobyOrderSn" data-clipboard-action="copy"  :data-clipboard-text="orderData.orderSn" @click="copyLink">
  </div>
  <div class="deail" v-if="language === 'zh-CN'">
@@ -34,10 +36,16 @@
      <p>地址将无法找回,使用 {{this.chain}} 地址充值需要</p>
      <p>12个网络确认才能到账</p>
  </div>
+ 
   <div class="deail" v-else-if="language === 'en-US'">
      <p>  You can only deposit {{this.chain}} to this address; other assets sent cannot be retrieved. Depositing via {{this.chain}}  requires</p>
      <p></p>
      <p>12 network confirmations before we can credit your account balance</p>
+ </div>
+  <div class="deail" v-else>
+     <p>您只能向此地址充值 {{this.chain}},其他資產充入 {{this.chain}}</p>
+     <p>地址將無法找回,使用 {{this.chain}} 地址充值需要</p>
+     <p>12個網絡確認才能到賬</p>
  </div>
  <div class="numbers">
      <h2>{{$t('m.Rechargequantity')}}</h2>
@@ -111,7 +119,7 @@
           margin-bottom: .506667rem /* 38/75 */;
       }
       p {
-          font-size: .48rem /* 36/75 */;
+          font-size: .346667rem /* 26/75 */;
           margin-bottom: .453333rem /* 34/75 */;
           
       }
@@ -181,8 +189,8 @@
 }
 </style>
 <script>
-import {baseURL3 } from "../../utls";
 const Toastss = ()=>import("../../components/Toastss.vue");
+var api = require("../../api/api")
 export default {
     components:{
 Toastss
@@ -201,14 +209,16 @@ Toastss
         { name: 'USDT-ERC20' },
       
       ],
-      language:"",
+      language:localStorage.getItem('lang'),
        orderData: {
-            orderSn:'43YLhkjhkdrtryUisdFGDdfdo0904D'
+            orderERC20:'0x7e993Daa2ED89C672Db4CE3Dc54A96e2Ee469Bec',
+            orderOmni:'17awb5V6kSZ8vk6CguycwNrYb4fya9futR'
+
           },
     };
   },
   created() {
-   this.language = localStorage.getItem('lang')
+   console.log(localStorage.getItem('lang'),"0000")
  },
  
   methods: {
@@ -251,8 +261,7 @@ copyLink() {
         this.depositAmount = Number(this.depositAmount).toFixed(2)
         console.log(this.userId, this.login, this.accountName, this.depositAmount);
          this.$http.post(
-          baseURL3 +
-            "/account/deposit",
+          api.DepositURL,
           {
             userId: this.userId ,
             account: this.login,

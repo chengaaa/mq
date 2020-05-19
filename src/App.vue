@@ -11,7 +11,7 @@
 <style lang="scss">
 @import "./common/resect.scss";
 @font-face {
-  font-family:  HelveticaNeueLT-Pro-57-Cn;
+  font-family: HelveticaNeueLT-Pro-57-Cn;
   src: url("./assets/font/Helvetica\ Neue\ Condensed\ Bold.ttf");
 }
 @font-face {
@@ -36,17 +36,15 @@ body {
 const Tabbar = () => import("./components/Tabbar");
 const Loading = () => import("./components/Loading");
 import store from "./store";
-import { mapMutations } from "vuex";
-import { mapState } from "vuex";
-import { baseURL1, baseURL2 } from "./utls";
+import { mapMutations,mapState } from "vuex";
+var api = require("./api/api")
 
 export default {
   data() {
     return {
       ordersList: [],
       userid: "",
-      all: [],
-      
+      all: []
     };
   },
 
@@ -87,7 +85,7 @@ export default {
       }
       document.documentElement.style.fontSize = deviceWidth / 10 + "px";
       console.log("nij");
-      console.log(deviceWidth);
+      console.log(deviceWidth, "99999");
     },
     getuserId() {
       this.userid = store.state.userId;
@@ -107,14 +105,31 @@ export default {
       }
     },
     sheet() {
-      let arr = [
+      let arr1 = [
         { name: "Close" },
         { name: "Trade" },
         { name: "Price revision" }
       ];
-      this.setActions(arr);
-      let arrs = [{ name: "Delete" }, { name: "Modify" }, { name: "Trade" }];
-      this.setActionss(arrs);
+      let arr2 = [{ name: "平倉" }, { name: "交易" }, { name: "修改價位" }];
+      let arr3 = [{ name: "平仓" }, { name: "交易" }, { name: "修改价位" }];
+      if (localStorage.getItem("lang") === "zh-CN") {
+        this.setActions(arr3);
+      } else if (localStorage.getItem("lang") === "en-US") {
+        this.setActions(arr1);
+      } else if (localStorage.getItem("lang") === "tc-US") {
+        this.setActions(arr2);
+      }
+      let arrs1 = [{ name: "Delete" }, { name: "Modify" }, { name: "Trade" }];
+      let arrs2 = [{ name: "删除" }, { name: "修改" }, { name: "交易" }];
+      let arrs3 = [{ name: "刪除" }, { name: "修改" }, { name: "交易" }];
+
+      if (localStorage.getItem("lang") === "zh-CN") {
+        this.setActionss(arrs3);
+      } else if (localStorage.getItem("lang") === "en-US") {
+        this.setActionss(arrs1);
+      } else if (localStorage.getItem("lang") === "tc-US") {
+        this.setActionss(arrs2);
+      }
     },
     initWebpack() {
       this.ws = null;
@@ -195,7 +210,7 @@ export default {
       // this.reconnect();
     },
     getdata3() {
-      this.$http.get(baseURL1 + "/position/orders").then(({ data }) => {
+      this.$http.get(api.Positionorders).then(({ data }) => {
         this.ordersList = data.data;
         var order = this.ordersList;
         // console.log( this.ordersList,"111111111")
@@ -208,7 +223,7 @@ export default {
       });
     },
     getdata2() {
-      this.$http.get(baseURL1 + "/position/contracts").then(({ data }) => {
+      this.$http.get(api.Positioncontracts).then(({ data }) => {
         this.contractsList = data.data;
         var contractsLists = this.contractsList;
         for (var f = 0; f < this.contractsList.length; f++) {
@@ -222,7 +237,7 @@ export default {
       });
     },
     getdata6() {
-      this.$http.get(baseURL1 + "/market/symbols").then(({ data }) => {
+      this.$http.get(api.MarketURL).then(({ data }) => {
         this.all = data.data;
         //  console.log(this.all,"shazi ")
         for (var i = 0; i < this.all.length; i++) {
@@ -244,7 +259,7 @@ export default {
       // }else{
       //   this.$store.commit('updateTabbarShow',true);
       // }
-     
+
       if (
         to.path == "/home" ||
         to.path == "/transaction" ||
@@ -252,9 +267,8 @@ export default {
         to.path == "/quotation-deail" ||
         to.path == "/account" ||
         to.path == "/language" ||
-        to.path == "/apply" || 
+        to.path == "/apply" ||
         to.path == "/echarts"
-        
       ) {
         this.$store.commit("updateTabbarShow", true);
       } else {

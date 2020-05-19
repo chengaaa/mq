@@ -1,8 +1,6 @@
-<template lang="">
+<template>
     <div class="echarts-page">
-     
     <div class="navheader">
-     
       <div class="arrow">
         <van-icon id="van-icon" name="arrow-left"  color="blue" @click="gobacks" />
       </div>
@@ -10,32 +8,46 @@
       <div>
        
       </div>
-     <div class="title"> <select v-model="bordername" autocomplete="off" @change="check">
+      <div class="selected">
+     <div class="title"><span>选择名称</span> <select v-model="bordername" autocomplete="off" >
           <option >ETHUSD</option>
           <option >BTCUSD</option>
           <option >BCHUSD</option>
         </select></div>
+          <div class="title"> <span>选择日期</span><select v-model="bordertime" autocomplete="off" >
+          <option >M1</option> 
+          <option >M5</option>
+          <option >M15</option>
+          <option >M30</option>
+          <option >H1</option>
+          <option >H4</option>
+          <option >day</option>
+          <option >week</option>
+          <option >month</option>
+        </select></div>
+        <div class="title">
+
+        <input type="button" value="确定" @click="check">
+        </div>
+        </div>
     <div id="echarts" ></div>
   </div>
+
+
 </template>
 <style lang="scss" scoped>
-html,
-body {
-}
-
-#echarts {
- 
-  div {
-    canvas {
-      // width: 70%;
-    }
-  }
-}
 .echarts-page {
   padding-top: 0.4rem /* 30/75 */;
-  width: 10rem /* 750/75 */;
+  // width: 10rem /* 750/75 */;
+  width:100%;
+  height: 100%;
+  .selected {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+  }
 
-  height: 14rem /* 1050/75 */;
+  // height: 14rem /* 1050/75 */;
   #van-icon {
     font-size: 0.733333rem /* 55/75 */;
   }
@@ -48,28 +60,45 @@ body {
   }
   .title {
       text-align: center;
+      span {
+        font-size: .346667rem /* 26/75 */;
+      }
 
     select {
       font-size:.346667rem /* 26/75 */;
       height: .8rem /* 60/75 */;
       width: 2.266667rem /* 170/75 */;
-          text-align: center;
+      text-align:center;
+      text-align-last:center;
       margin-bottom: 0.266667rem /* 20/75 */;
       font-weight: 700;
-    //   appearance: none;
+      appearance: none;
+
+      option {
+          text-align: center;
+      }
      
+    }
+    input {
+      margin-top:.04rem /* 3/75 */;
+      width: 1.333333rem;
+      height:.693333rem /* 52/75 */;
+      margin-left: .133333rem /* 10/75 */;
+      line-height: .666667rem /* 50/75 */;
+      appearance: none;
+      border: 1px solid #127df6;
     }
   }
 }
 </style>
 <script>
 const Header = () => import("../../components/Header");
+var api = require("../../api/api")
 import {
   getNowFormatDates,
   getNowFormatDate,
   getUTCtime
 } from "../../tools/check.js";
-import { baseURL1, baseURL2 } from "../../utls";
 // var echarts = require("echarts");
 // // 引入柱状图
 // require('echarts/lib/chart/candlestick');
@@ -82,16 +111,13 @@ export default {
       starttime: "",
       endtime: "",
       bordername:"BTCUSD",
+      bordertime:"M30",
       rawData: [],
       setInterName: null
     };
   },
   created() {
-      // var names = localStorage.getItem("params")
-      // console.log(names,"98765")
-      // this.bordername =this.bordername.substring(0,names.indexOf("."))
-      // console.log(this.bordername)
-    // this.bordername = "ETHUSD"
+     
   },
   mounted() {
     this.getdate();
@@ -108,7 +134,6 @@ export default {
   },
   methods: {
     gobacks() {
-      // this.$router.push({ name: "quotation-order" });
       this.$router.go(-1);
       console.log("go");
     },
@@ -118,9 +143,14 @@ export default {
     getdate() {
       //starttime
       this.starttime = new Date();
-      this.endtime = new Date(new Date().setHours(new Date().getHours() + 2));
-      this.starttime = getUTCtime(this.starttime);
-      this.endtime = getUTCtime(this.endtime);
+      this.endtime = new Date(new Date().setDate(new Date().getDate() + 1));
+      // this.starttime = getUTCtime(this.starttime);
+      // this.endtime = getUTCtime(this.endtime);
+      console.log(this.endtime,"cuo")
+      this.starttime = this.starttime.getTime()
+      this.endtime = this.endtime.getTime()
+      console.log( this.starttime,"1")
+      console.log( this.endtime,"2")
     },
     initchart() {
       var echartss = document.getElementById("echarts");
@@ -1197,29 +1227,39 @@ export default {
 
     // window.localStorage.setItem("params", this.bordername)
       this.$http
-        .get(
-          baseURL1 +
-            "/chart?symbol=" +
-            this.bordername +
-            ".&from=" +
-            this.starttime +
-            "&to=" +
-            this.endtime
+        // .get(
+        //   baseURL1 +
+        //     "/chart?symbol=" +
+        //     this.bordername +
+        //     ".&from=" +
+        //     this.starttime +
+        //     "&to=" +
+        //     this.endtime
+        // )
+         .post(
+         api.ChartURL,{
+              from: this.starttime ,
+              to: this.endtime,
+              type: this.bordertime,
+              symbol: this.bordername
+          }
         )
+       
         .then(({ data }) => {
           console.log(data, "图标");
-          if (data.code === 0) {
+          // if (data.code === 0) {
             var datab = data.data;
             var arrall = [];
             var b = datab.map(item => {
-              // console.log(item,"999999999999999999")
+              console.log(item,"999999999999999999")
               var open = item.open;
               var close = item.close;
               var lowest = item.low;
               var highest = item.high;
-              var time = item.timestamp - 7200;
+              var time = (item.timestamp) / 1000 - 7200;
               // console.log(time,"time")
               var arr = [open, close, lowest, highest, time];
+              console.log(arr,"333")
               return arr;
             });
             dates = b.map(function(item) {
@@ -1242,37 +1282,34 @@ export default {
             option.series[4].data = calculateMA(30, data);
             myChart.setOption(option);
             resizeDom(echartss);
-            window.addEventListener("resize", () => {
-              resizeDom(echartss); //重置div宽高度
-              myChart.resize(); //重绘echart图表
-            });
+            // window.addEventListener("resize", () => {
+            //   resizeDom(echartss); //重置div宽高度
+            //   myChart.resize(); //重绘echart图表
+            // });
 
-            // console.log(data0.categoryData, "11111");
-            // console.log(data0.values, "1111111");
-            // console.log(datab, "splitData");
-          } else {
+           
+          // } else {
             // Toast({
             //   message: "网络错误",
             //   duration: 1000
             // });
-          }
+          // }
         });
          this.setInterName = null
       this.setInterName = setInterval(() => {
         this.getdate();
         this.$http
-          .get(
-            baseURL1 +
-              "/chart?symbol=" +
-              this.bordername +
-              ".&from=" +
-              this.starttime +
-              "&to=" +
-              this.endtime
-          )
+           .post(
+          api.ChartURL,{
+              from: this.starttime ,
+              to: this.endtime,
+              type: this.bordertime,
+              symbol: this.bordername
+          }
+        )
           .then(({ data }) => {
             if (data.code === 0) {
-              console.log(data, "sjb");
+              // console.log(data, "sjb");
               var datac = data.data;
               var arrall = [];
               var c = datac.map(item => {
@@ -1281,7 +1318,7 @@ export default {
                 var closes = item.close;
                 var lowests = item.low;
                 var highests = item.high;
-                var times = item.timestamp - 7200;
+                var times = (item.timestamp) / 1000 - 7200;
                 var arrs = [opens, closes, lowests, highests, times];
                 // arrall.push(arr);
                 console.log(arrs, "ac");
@@ -1312,10 +1349,10 @@ export default {
       }, 1000 * 60);
       myChart.setOption(option);
       resizeDom(echartss);
-      window.addEventListener("resize", () => {
-        resizeDom(echartss); //重置div宽高度
-        myChart.resize(); //重绘echart图表
-      });
+      // window.addEventListener("resize", () => {
+      //   resizeDom(echartss); //重置div宽高度
+      //   myChart.resize(); //重绘echart图表
+      // });
     }
   }
 };

@@ -389,7 +389,6 @@
 </style>
 <script>
 import store from "../../store";
-import { baseURL1,baseURL2 } from "../../utls";
 
 export default {
   data() {
@@ -693,7 +692,7 @@ export default {
       }
 
       this.$http
-        .post(baseURL1 + "/trade/order", {
+        .post(api.Deleteorder, {
           symbol: this.headerName,
           volume: this.num,
           orderDirection: -1,
@@ -730,7 +729,7 @@ export default {
       }
 
       this.$http
-        .post(baseURL1 + "/trade/order", {
+        .post(api.Deleteorder, {
           symbol: this.headerName,
           volume: this.num,
           orderDirection: 1,
@@ -903,7 +902,7 @@ export default {
       }
 
       this.$http
-        .post(baseURL1 + "/trade/order", {
+        .post(api.Deleteorder, {
           symbol: this.headerName,
           orderDuration: this.OrderDuration,
           volume: this.num,

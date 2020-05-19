@@ -1,4 +1,5 @@
 <template>
+<div class="ba">
   <div class="container">
     <div class="popup">
    <h5 >{{$t(routerData)}}</h5>
@@ -9,6 +10,7 @@
     <div class="yes">
     <input type="button" value="OK" @click="back">
     </div>
+  </div>
   </div>
 </template>
 
@@ -29,12 +31,21 @@ export default {
 
 }
 </script>
-<style <style lang="scss">
+ <style lang="scss">
+ .ba {
+  width: 100%;
+  height: 100%;
+  // background:rgba(255,255,255,0) ;
+  background-color: transparent;
+  position:fixed;
+  top: 0px;
+  
+ 
   .container {
    width:6.666667rem /* 500/75 */;
 
    position: absolute;
-   top: 60%;
+   top: 45%;
    left: 50%;
    transform: translate(-3.3rem,-2.2rem);
    color:white;
@@ -66,7 +77,9 @@ export default {
    background: rgba(0, 0, 0, .7);
 width: 100%;
 font-size: .466667rem /* 35/75 */;
+border-radius: 0px;
        }
+  }
   }
   }
   

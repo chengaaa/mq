@@ -9,7 +9,7 @@
         <div class="login-logoo">
           <div class="login-logo">
             <h1>{{$t('m.Hello')}}，</h1>
-            <p>{{$t('m.Welcometo')}}BLITZ BOOK 8</p>
+            <p>{{$t('m.Welcometo')}} BLITZ BOOK 8</p>
             <!-- <router-link to="/register"> -->
             <!-- </router-link> -->
           </div>
@@ -146,10 +146,10 @@
 </style>
 <script>
 import { mapMutations, mapState } from "vuex";
-import { baseURL1, baseURL2 } from "../../utls";
 import init from "../../tools/websocket";
 import { getUTCtime } from "../../tools/check.js";
 const Loading = () => import("../../components/Loading");
+var api = require("../../api/api") ;
 export default {
   data() {
     return {
@@ -203,7 +203,7 @@ export default {
         this.$store.commit("showLoading");
         this.$http
           // post请求
-          .post(baseURL2 + "/user/login", this.data, {
+          .post(api.LoginURL, this.data, {
             headers: {
               "x-api-token": "TypwwEg8E21FlKYZ",
               "x-api-tenantid": "T002509",
@@ -234,7 +234,7 @@ export default {
     },
     getaccount() {
       this.$http
-        .get(baseURL2 + "/user/detail?userId=" + this.userId, {})
+        .get(api.DeailURL + this.userId, {})
         .then(({ data }) => {
           this.accountName = data.data.nickname;
           this.setAccountName(this.accountName);
@@ -245,7 +245,7 @@ export default {
             this.setUserId(this.data.account);
             this.$http
               // post请求
-              .post(baseURL2 + "/login", {
+              .post(api.Loginmt5URL, {
                 account: this.data.account,
                 userId: this.userId
               })
@@ -266,7 +266,7 @@ export default {
           } else {
             this.$http
               .post(
-                baseURL2 + "/account/open",
+               api.OpenURL,
                 {
                   userId: this.userId,
                   accountName: this.accountName,
@@ -283,7 +283,7 @@ export default {
                   console.log(this.data.account, this.data.password);
                   this.$http
                     // post请求
-                    .post(baseURL2 + "/login", {
+                    .post(api.Loginmt5URL, {
                       account: this.data.account,
                       userId: this.userId
                     })

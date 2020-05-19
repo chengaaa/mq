@@ -1194,12 +1194,8 @@ export default {
       this.$http
         .get(
           baseURL1 +
-            "/chart?symbol=" +
-            this.bordername +
-            "&from=" +
-            this.starttime +
-            "&to=" +
-            this.endtime
+            "/chart?symbol=ETHUSD.&from=2020-5-15T09:50:51Z&to=2020-5-15T10:36:51Z"
+            
         )
         .then(({ data }) => {
           console.log(data, "图标");

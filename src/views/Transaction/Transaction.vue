@@ -527,8 +527,8 @@
 <script>
 import store from "../../store";
 import { mapMutations } from "vuex";
-import { baseURL1,baseURL2 } from "../../utls";
 import mixin from "../../common/mixin/mixin";
+var api = require("../../api/api")
 
 export default {
   mixins: [mixin],
@@ -688,7 +688,7 @@ console.log(this.actions,"9")
  
 
     getdata1() {
-      this.$http.get(baseURL1 + "/account").then(({ data }) => {
+      this.$http.get(api.AccountURL).then(({ data }) => {
         this.hal = false;
         this.accountList = [data.data];
         console.log(this.accountList,"000")
@@ -832,7 +832,7 @@ console.log(this.actions,"9")
     close(index) {
       // console.log(index, "taibangle");
       this.$http
-        .post(baseURL1 +"/position/contract/close", {
+        .post(api.CloseURL, {
           volume: this.volume,
           positionId: this.positionId,
           comment: ""
@@ -850,7 +850,7 @@ console.log(this.actions,"9")
     },
     delete(indexs) {
       // console.log(indexs, "shabi");
-      this.$http.delete(baseURL1 + "/trade/order/" + this.orderID).then(({ data }) => {
+      this.$http.delete(api.Deleteorder + this.orderID).then(({ data }) => {
         // console.log(data, "data");
         if (data.code == 0) {
           store.state.order.splice(this.indexs, 1);

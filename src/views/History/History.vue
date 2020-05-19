@@ -335,10 +335,10 @@
 </style>
 <script>
 import { getNowFormatDate, getUTCtime, getCNAtime } from "../../tools/check.js";
-import { baseURL1, baseURL2 } from "../../utls";
 import { FormatDate } from "../../tools/check.js";
 const Loading = ()=> import("../../components/Loading");
 import {mapState} from 'vuex'
+var api = require("../../api/api")
 export default {
   data() {
     return {
@@ -401,7 +401,7 @@ Loading
     },
  getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      // this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
        this.Monthdate = getUTCtime(this.newdate)
     },
     getList() {
@@ -414,8 +414,7 @@ Loading
       this.$store.commit('showLoading')
       this.$http
         .get(
-          baseURL1 +
-            "/history/orders?from=" +
+         api.Historyorders +
             this.Monthdate +
             "&to=" +
             this.date
@@ -442,7 +441,7 @@ Loading
       }
     },
     getAccount() {
-      this.$http.get(baseURL1 + "/account").then(({ data }) => {
+      this.$http.get(api.AccountURL).then(({ data }) => {
         this.balance = data.data.balance;
       });
     },
@@ -469,8 +468,7 @@ Loading
       }
       this.$http
         .get(
-          baseURL1 +
-            "/history/executions?from=" +
+         api.Historyexecutions +
             this.Monthdate +
             "&to=" +
             this.date

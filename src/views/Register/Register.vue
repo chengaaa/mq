@@ -208,8 +208,8 @@
 
 
 <script>
-import { baseURL1, baseURL2 } from "../../utls";
 const Loading = () => import("../../components/Loading");
+var api = require("../../api/api")
 export default {
   data() {
     return {
@@ -294,7 +294,7 @@ export default {
 
       if (phoneNumberReg.test(username)) {
         this.$http
-          .post(baseURL2 + "/register/code", {
+          .post(api.CodeURL, {
             email: "",
             phone: this.data.registerName
           })
@@ -318,7 +318,7 @@ export default {
         }, 1000);
       } else if (emailNumberReg.test(username)) {
         this.$http
-          .post(baseURL2 + "/register/code", {
+          .post(api.CodeURL, {
             email: this.data.registerName,
             phone: ""
           })
@@ -353,7 +353,7 @@ export default {
         this.$toast(this.$t("m.Passwordsareinconsistent"));
       } else {
         this.$http
-          .post(baseURL2 + "/register", this.datas, {
+          .post(api.RegisterURL, this.datas, {
             headers: {
               "x-api-token": "TypwwEg8E21FlKYZ",
               "x-api-tenantid": "T002509",

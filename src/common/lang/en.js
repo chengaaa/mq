@@ -96,6 +96,10 @@ export const m = {
   StartDate: "Start Date:",
   //结束时间
   EndDate: "End Date:",
+    //取消
+    Cancellation:" Cancel",
+    //确定
+    Determineok:"OK",
 
 
   Transaction: "Trade",

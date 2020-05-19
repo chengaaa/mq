@@ -1,7 +1,6 @@
 <template>
   <div class="transactionplace">
-    <loading v-show="LOADING"></loading>
-
+    <!-- <loading v-show="LOADING"></loading> -->
     <div class="transactionplace-a">
       <van-icon id="van-icon" name="arrow-left" color="blue" @click="back" />
       <div class="tab">
@@ -85,6 +84,8 @@
         :columns="columns"
         @cancel="showPicker = false"
         @confirm="onConfirm"
+        :confirm-button-text="determine"
+        :cancel-button-text="cancel"
       />
     </van-popup>
 
@@ -132,6 +133,8 @@
         :formatter="formatter"
         @confirm="onCon"
         @cancel="datePicker = false"
+        :confirm-button-text="determine"
+        :cancel-button-text="cancel"
       />
     </van-popup>
   </div>
@@ -386,9 +389,10 @@
 </style>
 <script>
 import store from "../../store";
-import { baseURL1, baseURL2 } from "../../utls";
+import { getNowFormatDate,getUTCtime } from "../../tools/check.js";
 const Loading = ()=> import("../../components/Loading");
 import { mapState } from "vuex";
+var api = require("../../api/api")
 
 
 export default {
@@ -399,6 +403,8 @@ export default {
       datePicker: false,
       buynum: "",
       sellnum: "",
+      determine:this.$t("m.Determineok"),
+      cancel: this.$t("m.Cancellation"),
 
       columns: [
         this.$t("m.Untilcancelled"),
@@ -671,7 +677,7 @@ Loading
       this.$store.commit('showLoading')
 
       this.$http
-        .post(baseURL1 + "/trade/order", {
+        .post(api.Deleteorder, {
           symbol: this.headerName,
           volume: this.num,
           orderDirection: -1,
@@ -704,7 +710,7 @@ Loading
       this.$store.commit('showLoading')
 
       this.$http
-        .post(baseURL1 + "/trade/order", {
+        .post(api.Deleteorder, {
           symbol: this.headerName,
           volume: this.num,
           orderDirection: 1,
@@ -762,7 +768,6 @@ Loading
         this.unitName === "Sell Limit" &&
         this.num3 < this.sellnum
       ) {
-        console.log("hhhhhh");
         this.$toast(this.$t("m.Pricetoolow"));
 
         return;
@@ -849,7 +854,7 @@ Loading
       this.$store.commit('showLoading')
 
       this.$http
-        .post(baseURL1 + "/trade/order", {
+        .post(api.Deleteorder, {
           symbol: this.headerName,
           orderDuration: this.OrderDuration,
           volume: this.num,
@@ -869,28 +874,37 @@ Loading
             this.$toast(this.$t("m.Orderplaced"));
 
             this.$router.push("/transaction");
+          } else {
+            this.$toast(this.$t("m.Placeorderfailed"));
+
           }
           console.log(data);
         });
     },
     onCon(value) {
+      
       this.datePicker = false;
-      this.expirationDate = value;
-      this.value = this.expirationDate.toLocaleDateString();
-      var value1 = this.expirationDate.toTimeString().substring(0, 5);
+      // this.expirationDate = value;
+      this.value = value.toLocaleDateString();
+      var value1 = value.toTimeString().substring(0, 5);
+      var date9 = new Date(value.setHours(new Date().getHours() + 2));
+      //六个小时
+      this.expirationDate = getUTCtime(date9);
       this.value = this.value + " " + value1;
-      var b = this.value.replace(" ", "T");
+      console.log(this.expirationDate,"22222")
+      console.log(this.value,"3333333")
+      // var b = this.value.replace(" ", "T");
 
-      this.expirationDate =
-        b + this.expirationDate.toTimeString().substring(5, 17);
-      this.expirationDate = this.expirationDate.split("/").join("-");
-      var a = this.expirationDate.replace(" GMT", "");
-      this.expirationDate = a;
-      console.log(this.expirationDate, "89999");
-      console.log(a, "89999");
+      // this.expirationDate =
+      //   b + this.expirationDate.toTimeString().substring(5, 17);
+      // this.expirationDate = this.expirationDate.split("/").join("-");
+      // var a = this.expirationDate.replace(" GMT", "");
+      // this.expirationDate = a;
+      // console.log(this.expirationDate, "89999");
+      // console.log(a, "89999");
 
-      console.log(value1);
-      console.log(typeof this.value);
+      // console.log(value1);
+      // console.log(typeof this.value);
     }
   },
 

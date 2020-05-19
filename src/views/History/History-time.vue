@@ -188,12 +188,12 @@ export default {
     //params开始时间
     startvalue() {
       var data0 = new Date(this.newdate.setHours(new Date().getHours() + 2));
-      this.newdate = getUTCtime(data0);
+      this.newdate = getUTCtime(this.newdate);
     },
 //params 结束时间
     endvalue() {
   var date9 = new Date(this.enddate.setHours(new Date().getHours() + 2));
-      this.enddate = getUTCtime(date9);
+      this.enddate = getUTCtime(this.enddate);
     },
     //开始时间
     val() {

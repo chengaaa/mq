@@ -36,7 +36,8 @@
     </div>
      <div class="usdt">
       <h5>{{$t('m.Addressremarks')}}</h5>
-      <p >{{comment}}</p>
+   <input type="text">
+
       <!-- <input type="text" v-model="comment" > -->
     </div>
      <div class="border"></div>
@@ -158,7 +159,6 @@
 }
 </style>
 <script>
-import {baseURL3} from "../../utls"
 export default {
   data() {
     return {
@@ -170,8 +170,8 @@ export default {
       hold:"m.Minimum",
       orderSn: "",
       Amountmoney:"",
-      comment:"Ddfdo0943Dar",
-      charge:"0.0004",
+      comment:"",
+      charge:"5",
       balance:localStorage.getItem("balance")
   
 
@@ -210,7 +210,7 @@ export default {
 
         console.log(this.userId, this.login, this.bankAccountName);
         this.$http
-          .post(baseURL3 + "/account/withdraw", {
+          .post(api.WithdrawURL, {
             userId: this.userId,
             account: this.login,
             //提币金额

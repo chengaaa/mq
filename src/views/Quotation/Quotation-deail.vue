@@ -229,7 +229,6 @@
 import store from "../../store";
 import router from "../../router";
 import { mapMutations } from "vuex";
-import { baseURL1, baseURL2 } from "../../utls";
 export default {
   data() {
     return {

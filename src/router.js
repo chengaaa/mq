@@ -14,6 +14,7 @@ const router = new Router({
       name: 'home',
       // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
       component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue'),
+      // component: () => import(/* webpackChunkName: "about" */ './views/Account/Ce.vue'),
       meta: {
         // keepAlive: true
       }
@@ -128,7 +129,7 @@ const router = new Router({
         // keepAlive: true
           // 添加该字段，表示进入这个路由是需要登录的
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Account/Account.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Account/Account2.vue')
     },
     {//客服
       path: '/customer',

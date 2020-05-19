@@ -1,5 +1,5 @@
 import { mapMutations } from "vuex";
-import { baseURL1, baseURL2 } from "../../utls";
+var api = require("../../api/api")
 export default {
     data() {
         return {
@@ -9,7 +9,7 @@ export default {
     },
     created() {
         // console.log('mixin...', this.name);
-        this.$http.get(baseURL1 + "/market/symbols").then(({ data }) => {
+        this.$http.get(api.MarketURL).then(({ data }) => {
             this.all = data.data;
             //  console.log(this.all,"shazi ")
             for (var i = 0; i < this.all.length; i++) {

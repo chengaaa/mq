@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import fastclick from 'fastclick'
-import { Tabbar, TabbarItem, Icon,Loading,ActionSheet,Field,Popup,DatetimePicker  } from 'vant';
+import { Tabbar, TabbarItem, Icon,Loading,ActionSheet,Field,Popup,DatetimePicker,Picker  } from 'vant';
 import axios from './http';
 import toast from './components/Toasts'
 import clipboard from 'clipboard';
@@ -21,6 +21,7 @@ Vue.use(ActionSheet);
 Vue.use(Field);
 Vue.use(Popup);
 Vue.use(DatetimePicker);
+Vue.use(Picker);
 Vue.use(VueI18n)
 Vue.use(toast)
 console.log(toast,"98")

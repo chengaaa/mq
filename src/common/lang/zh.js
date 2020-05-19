@@ -96,6 +96,10 @@ export const m = {
     StartDate: "开始日期:",
     //结束时间
     EndDate: "截止日期:",
+    //取消
+    Cancellation:" 取消",
+    //确定
+    Determineok:"确定",
 
     Transaction: "交易",
     Detailed: "详细情况",
