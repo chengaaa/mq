@@ -72,7 +72,6 @@
     display: flex;
     align-items: center;
     height: 1.173333rem /* 88/75 */;
-    // margin-bottom: 0.4rem /* 30/75 */;
        padding-left: 0.32rem /* 24/75 */;
   padding-right: 0.32rem /* 24/75 */;
     h2 {
@@ -159,7 +158,6 @@
           width: 60%;
           border: 1px solid #999999; height: .693333rem /* 52/75 */;
           border-radius: 3px;
-        //   text-align: center;
           font-size: .346667rem /* 26/75 */;
           appearance: none;
       }
@@ -218,7 +216,6 @@ Toastss
     };
   },
   created() {
-   console.log(localStorage.getItem('lang'),"0000")
  },
  
   methods: {
@@ -234,7 +231,6 @@ Toastss
       } else if (item.name === "USDT-ERC20") {
           this.chain = "USDT-ERC20"
       }
-     console.log(item)
     },
     sheet(){
       this.show = true;
@@ -246,7 +242,6 @@ Toastss
 copyLink() {
      let _this = this;
      let clipboard = new this.clipboard(".cobyOrderSn");
-     console.log(clipboard)
      clipboard.on('success', function () {
        _this.$toast(_this.$t('m.Replicationsuccess'))
      });
@@ -259,7 +254,6 @@ copyLink() {
         this.login = this.$store.state.userId;
         this.accountName = this.$store.state.accountName;
         this.depositAmount = Number(this.depositAmount).toFixed(2)
-        console.log(this.userId, this.login, this.accountName, this.depositAmount);
          this.$http.post(
           api.DepositURL,
           {
@@ -274,7 +268,6 @@ copyLink() {
 
          
         ).then(({data})=>{
-           console.log(data)
            if(data.mcode === "m0000000") {
            this.isPopupVisible = true
            this.yes = false 

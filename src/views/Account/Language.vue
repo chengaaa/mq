@@ -21,7 +21,6 @@
 </template>
 <style lang="scss" scoped>
 .language {
-  // padding-top: 0.4rem /* 30/75 */;
   background:#eee;
   min-height: 14.666667rem /* 1100/75 */;
      font-family: 'Tahoma','Sans Serif';
@@ -46,7 +45,6 @@
     height: 1.1rem /* 100/75 */;
     line-height: 1.1rem /* 100/75 */;
     background: white;
-    // margin-bottom: 0.2rem /* 15/75 */;
     font-size: .453333rem /* 34/75 */;
     padding-left: 0.5rem /* 20/75 */;
     display: flex;
@@ -145,11 +143,6 @@ export default {
         {name:"修改"},
         {name:"交易"},]
       this.setActionss(arrs)
-      
-
-
-
-
     }
     
   },

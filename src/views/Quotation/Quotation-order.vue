@@ -200,8 +200,6 @@ import store from "../../store";
 import router from "../../router";
 import { mapMutations } from "vuex";
 import init from "../../tools/websocket";
-
-
 export default {
   data() {
     return {
@@ -235,9 +233,6 @@ export default {
   created() {
     this.p();
     this.get();
-
-    console.log(this.newMydata, "my");
-    console.log(store.state.arr, "myaaaaa");
   },
   mounted() {},
   computed: {
@@ -247,8 +242,8 @@ export default {
           for (let j = 0; j < this.newMydata.length; j++) {
             var data1 = store.state.arr[i];
             var data2 = this.newMydata[j];
-            console.log(data1, "data1");
-            console.log(data2, "data2");
+            console.log(data1, "data111");
+            console.log(data2, "data2222");
             if (data1.symbolName == data2.symbol) {
               data1.ask = data2.ask;
               data1.bid = data2.bid;

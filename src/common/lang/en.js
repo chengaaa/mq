@@ -132,35 +132,6 @@ export const m = {
   Stoplosstoohigh: "Stop loss too high",
   Takeprofittoolow: "Take profit too low",
 
-
-  //入金
-  // Amount:"Amount",
-  // Amountplaceholder:"enter deposit amount",
-  // Next:"Next",
-  // Pleasedeposit:"Please deposit",
-  // USDTintofollowingaddress:"USDT into following address:",
-  // Andentertransfer:"And enter the following ID when you do the transfer: " ,
-  // Submit:"Submit",
-
-  //出金
-  // Pleaseenterthecorrectaddress:"Please enter the correct address",
-  // Withdrawamount:"Withdraw amount",
-  // Withdrawaddresstype:"Withdraw address type",
-  // Withdrawaddress:"Withdraw address",
-  // Withdrawplaceholder:"enter Withdraw amount",
-
-
-  //提示
-  // Loginfailed:"Login failed",
-  // Networkerror:"network error",
-  //修改密码
-  // ChangePassword:"Change Password",
-  // Modifiedsuccess:"Modified success",
-  // Newpass:"The new password cannot be the same as one of the previous 5 passwords",
-  // Passworderror:"Password error",
-  // Passwordformaterror:"Password format error",
-
-
   //新手交易指南 || //首页页面
   NoviceTradingGuide: "User Guide",
   Introductionteaching: "New users read me!",
@@ -207,20 +178,5 @@ export const m = {
   Networkcharge: "Fee",
   Determine: "Submit",
   Minimum: "Minimum 10USDT"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -129,7 +129,7 @@ const router = new Router({
         // keepAlive: true
           // 添加该字段，表示进入这个路由是需要登录的
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Account/Account2.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Account/Account.vue')
     },
     {//客服
       path: '/customer',
@@ -144,14 +144,7 @@ const router = new Router({
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Account/entrys.vue')
     },
-     {//入金
-      path: '/makemoney',
-      name: 'makemoney',
-      meta: {
-        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-    },
-      component: () => import(/* webpackChunkName: "about" */ './views/Account/Makemoney.vue')
-    },
+    
      {//出金
       path: '/outtry',
       name: 'outtry',

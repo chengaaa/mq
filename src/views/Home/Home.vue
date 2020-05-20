@@ -35,17 +35,17 @@
     </div>
     <div class="border"></div>
     <div class="home-number">
-      <div class="home-number1">
+      <div :class="'home-number1' + indexs" v-for="(items,indexs) in homeArr" :key="indexs">
         <div class="home-number2">
-          <i class="iconfont icon-btc1"></i>
-          <h4>BTC</h4>
+         <i class="iconfont">{{items.icontext}}</i>
+          <h4>{{(items.designation).slice(0,3)}}</h4>
           <span>/USDT</span>
         </div>
-        <h5>6870.37</h5>
+        <h5>{{items.price}}</h5>
         <P>-3.89%</P>
-        <span>￥59621.84</span>
+        <span>￥{{((items.price) * 7).toFixed(2)}}</span>
       </div>
-      <div class="home-number1">
+      <!-- <div class="home-number1">
         <div class="home-number3">
           <i class="iconfont icon-eth"></i>
           <h4>ETH</h4>
@@ -64,7 +64,7 @@
         <h5>6870.37</h5>
         <P>-3.89%</P>
         <span>￥59621.84</span>
-      </div>
+      </div> -->
     </div>
 
     <div class="home-guide">
@@ -85,17 +85,17 @@
         <h4>{{$t('m.Latestprice')}}</h4>
         <h4>{{$t('m.Upanddown')}}</h4>
       </div>
-      <div class="home-last2" v-for="(item,index) in List" :key="index">
+      <div class="home-last2" v-for="(item,index) in homeArr" :key="index">
         <div class="home-one">
           <div class="home-one1">
-            <h3>{{item.designation}}</h3>
+            <h3>{{(item.designation).slice(0,3)}}</h3>
             <span>/USDT</span>
           </div>
           <p>{{item.designationchinese}}</p>
         </div>
         <div class="home-two">
           <h3>{{item.price}}</h3>
-          <p>{{item.tariff}}</p>
+          <p>￥{{((item.price) * 7).toFixed(2)}}</p>
         </div>
         <div class="home-three">
           <input type="button" :value="item.percentage" />
@@ -162,10 +162,11 @@ body {
     padding-left: 0.693333rem /* 52/75 */;
     margin-right: 0.693333rem /* 52/75 */;
     width: 88.5%;
-    .home-number1 {
+  .home-number11, .home-number12, .home-number10{
       height: 2.533333rem /* 190/75 */;
       text-align: center;
       padding-top: 0.426667rem /* 32/75 */;
+
       h5 {
         font-size: 0.533333rem /* 40/75 */;
         margin-bottom: 0.12rem /* 9/75 */;
@@ -181,6 +182,26 @@ body {
         font-size: 0.373333rem /* 28/75 */;
         text-align: center;
         color: #a7a7a7;
+      }
+      .iconfont {
+        color: #127df6;
+         font-size: 0.386667rem /* 29/75 */;
+        margin-right: 0.133333rem /* 10/75 */;
+      }
+    }
+    .home-number10{
+.iconfont {
+        color: #f9a135;
+         font-size: 0.386667rem /* 29/75 */;
+        margin-right: 0.133333rem /* 10/75 */;
+      }
+    }
+    .home-number12{
+      .iconfont {
+        color:#4fce59;
+;
+         font-size: 0.386667rem /* 29/75 */;
+        margin-right: 0.133333rem /* 10/75 */;
       }
     }
 
@@ -200,13 +221,15 @@ body {
       display: flex;
       margin-bottom: 0.146667rem /* 11/75 */;
       text-align: center;
-
+   
+ 
       .iconfont {
         font-size: 0.386667rem /* 29/75 */;
-        color: #f9a135;
+        // color: #f9a135;
         margin-right: 0.133333rem /* 10/75 */;
       }
     }
+    
     .home-number3 {
       display: flex;
       margin-bottom: 0.146667rem /* 11/75 */;
@@ -403,27 +426,34 @@ export default {
     return {
       tokens: "",
       lang:localStorage.getItem("lang"),
+      homeList:[],
       List: [
         {
-          designation: "BTC",
-          price: "6253.25",
-          tariff: "￥59621.84",
+          designation: "BTCUSD.",
+          price: "9782.36",
+          price2: "9782.36",
+          tariff: "￥0.00",
           designationchinese: "比特币",
-          percentage: "+0.52%"
+          percentage: "+0.52%",
+          icontext:"\ue62d"
         },
         {
-          designation: "ETH",
-          price: "128.36",
-          tariff: "￥1254.32",
+          designation: "ETHUSD.",
+          price: "214.73",
+          price2: "214.73",
+          tariff: "￥0.00",
           designationchinese: "以太坊",
-          percentage: "-1.25%"
+          percentage: "-1.25%",
+          icontext:"\ue63a"
         },
         {
-          designation: "BCH",
+          designation: "BCHUSD.",
           price: "256.23",
+          price2: "256.23",
           tariff: "￥798.23",
           designationchinese: "比特币现金",
-          percentage: "-2.56%"
+          percentage: "-2.56%",
+          icontext:"\ue62d"
         }
       ]
     };
@@ -431,6 +461,9 @@ export default {
 
   created() {
     this.tokens = store.state.Authorization;
+    // this.homewebsocket()
+    
+    // console.log(this.tokens,"有吗")
   },
 
   beforeRouteEnter(to, from, next) {
@@ -450,6 +483,30 @@ export default {
   },
 
   mounted() {},
+  computed:{
+    homeArr:function() {
+      if(this.homeList) {
+        for (let i = 0; i < this.List.length; i++) {
+          for (let j = 0; j < this.homeList.length; j++) {
+            var data1 = this.List[i];
+            var data2 = this.homeList[j];
+         
+            if (data1.designation == data2.symbol) {
+              data1.price = data2.ask;
+              data1.price2 = data2.bid;
+            }
+            console.log(data1, "data11");
+            console.log(data2, "data22");
+            
+          }
+        }
+
+      }
+      return this.List
+
+    }
+
+  },
   components: {},
   methods: {
     ...mapMutations(["setorder"]),
@@ -470,6 +527,7 @@ export default {
     news() {
       this.$router.push("/information");
     },
+ 
 
     getdata3() {
       this.$http.get(api.Positionorders).then(({ data }) => {
@@ -615,7 +673,14 @@ export default {
     register() {
       this.$router.push("/register");
     }
-  }
-};
+   
+  
+  },
+   watch:{
+    "$store.state.mydata2":function(newer2, old2) {
+      this.homeList = newer2
+    }
+   }
+}
 </script>
     

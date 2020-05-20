@@ -128,7 +128,6 @@
       .account-title {
         height: 1.173333rem /* 88/75 */;
         line-height: 1.173333rem /* 88/75 */;
-        // padding-top:.333333rem /* 25/75 */;
         text-align: center;
         font-size: 0.48rem /* 36/75 */;
         color: white;
@@ -147,7 +146,6 @@
       .account-title {
         height: 1.173333rem /* 88/75 */;
         line-height: 1.173333rem /* 88/75 */;
-        // padding-top:.333333rem /* 25/75 */;
         text-align: center;
         font-size: 0.48rem /* 36/75 */;
         color: white;
@@ -203,15 +201,11 @@
 
       .account-middle,
       .account-middle2 {
-        // width:8.746667rem /* 656/75 */;
         width: 88.4%;
         height: 3.066667rem /* 230/75 */;
-        // line-height: 3.066667rem /* 230/75 */;
         background: white;
-        // margin:0 auto;
         position: absolute;
         top: -1.4rem;
-        // left:.613333rem /* 46/75 */;
         border-radius: 4px;
         box-shadow: 0px 5px 10px #dfe0e2;
         display: flex;
@@ -303,7 +297,6 @@
       }
       .boder {
         height: 2.666667rem /* 200/75 */;
-        //    border: 1px solid black;
       }
     }
   }
@@ -374,7 +367,7 @@ export default {
     },
     logout() {
       this.$http.post(api.LogoutURL).then(({ data }) => {
-        console.log(data);
+        console.log(data,"ha");
         if (data.code == 0) {
           sessionStorage.clear();
           this.delToken();

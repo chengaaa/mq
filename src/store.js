@@ -12,6 +12,7 @@ export default new Vuex.Store({
     order: [],
     contractsLists: [],
     mydata: [],
+    mydata2:[],
     //60条数据
     addall: [],
     // userId:"",
@@ -81,6 +82,14 @@ export default new Vuex.Store({
     RESET(state) {
       state.mydata = []
     },
+     //mydata2
+     MYDATA2(state, mydata2) {
+      state.mydata2 = mydata2;
+    },
+    //清空mydata
+    RESET2(state) {
+      state.mydata2 = []
+    },
     //控制loading
     showLoading(state) {
       state.LOADING = true
@@ -140,7 +149,14 @@ export default new Vuex.Store({
     },
     REAET_MYDATA({ commit }) {
       commit("RESET")
-    }
+    },
+    SAVE_MYDATA2({ commit }, mydata2) {
+      commit("MYDATA2", mydata2)
+    },
+    REAET_MYDATA2({ commit }) {
+      commit("RESET2")
+    },
+
   },
   //vuex持久化
   plugins: [vuexLocal.plugin]

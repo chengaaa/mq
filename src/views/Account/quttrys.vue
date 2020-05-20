@@ -74,7 +74,6 @@
     display: flex;
     align-items: center;
     height: 1.173333rem /* 88/75 */;
-    // margin-bottom: 0.4rem /* 30/75 */;
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
     background:white;
@@ -139,7 +138,6 @@
   }
   .border1 {
       padding-top: 1.066667rem /* 80/75 */;
-    //   height:5rem /* 700/75 */;
       background: #f5f5f5 ;
   .button {
       padding-left: .32rem /* 24/75 */;
@@ -164,8 +162,6 @@ export default {
     return {
       chain: "USDT-ERC20",
       show: false,
-    //   show2: false,
-    //   show3:false,
       actions: [{ name: "USDT-Omni" }, { name: "USDT-ERC20" }],
       hold:"m.Minimum",
       orderSn: "",
@@ -173,8 +169,6 @@ export default {
       comment:"",
       charge:"5",
       balance:localStorage.getItem("balance")
-  
-
     };
   },
   created() {
@@ -226,10 +220,6 @@ export default {
             if (data.mcode === "m0000000") {
         this.$toast(this.$toast(this.$t("m.Submitted")));
         this.$router.push("/account")
-
-
-
-
             }
           });
     }

@@ -251,7 +251,6 @@ export default {
         { name: this.$t("m.Transaction") },
         { name: this.$t("m.Chart") },
         { name: this.$t("m.Detailed") }
-
         // { name: '选项', subname: '描述信息' }
       ]
     };

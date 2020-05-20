@@ -32,22 +32,16 @@
         </div>
     <div id="echarts" ></div>
   </div>
-
-
 </template>
 <style lang="scss" scoped>
 .echarts-page {
   padding-top: 0.4rem /* 30/75 */;
-  // width: 10rem /* 750/75 */;
   width:100%;
   height: 100%;
   .selected {
     display: flex;
     justify-content: center;
-    // align-items: center;
   }
-
-  // height: 14rem /* 1050/75 */;
   #van-icon {
     font-size: 0.733333rem /* 55/75 */;
   }
@@ -56,14 +50,12 @@
   }
   .arrow {
     padding-left: 0.2rem /* 15/75 */;
-    // margin-bottom: 0.266667rem /* 20/75 */;
   }
   .title {
       text-align: center;
       span {
         font-size: .346667rem /* 26/75 */;
       }
-
     select {
       font-size:.346667rem /* 26/75 */;
       height: .8rem /* 60/75 */;
@@ -73,7 +65,6 @@
       margin-bottom: 0.266667rem /* 20/75 */;
       font-weight: 700;
       appearance: none;
-
       option {
           text-align: center;
       }
@@ -99,12 +90,7 @@ import {
   getNowFormatDate,
   getUTCtime
 } from "../../tools/check.js";
-// var echarts = require("echarts");
-// // 引入柱状图
-// require('echarts/lib/chart/candlestick');
-// // 引入提示框和标题组件
-// require('echarts/lib/component/tooltip');
-// require('echarts/lib/component/title');
+
 export default {
   data() {
     return {
@@ -1309,18 +1295,15 @@ export default {
         )
           .then(({ data }) => {
             if (data.code === 0) {
-              // console.log(data, "sjb");
               var datac = data.data;
               var arrall = [];
               var c = datac.map(item => {
-                // console.log(item,"999999999999999999")
                 var opens = item.open;
                 var closes = item.close;
                 var lowests = item.low;
                 var highests = item.high;
                 var times = (item.timestamp) / 1000 - 7200;
                 var arrs = [opens, closes, lowests, highests, times];
-                // arrall.push(arr);
                 console.log(arrs, "ac");
                 return arrs;
               });

@@ -1,5 +1,4 @@
 <template>
-   
 <div class="join">
     <div class="join-title">
           <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home"/>
@@ -11,7 +10,6 @@
         <i class="iconfont" :id=" 'ine' +index" >{{item.icon}}</i><p>{{$t(item.name)}}</p>
         </div>
         <span>{{$t(item.deail)}}</span>
-
     </div>
     </div>
 </template>
@@ -51,20 +49,13 @@
 
            .iconfont {
     font-size: .48rem /* 36/75 */;
-  
-
 }
-
-
-
-
  
        }
        img{
        width: 3.266667rem /* 245/75 */;
        height: 3.266667rem /* 245/75 */;
        margin-bottom: .213333rem /* 16/75 */;
-
        }
        p {
            padding-left:.186667rem /* 14/75 */;

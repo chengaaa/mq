@@ -129,36 +129,6 @@ export const m = {
     Stoplosstoohigh: "止损过高",
     Takeprofittoolow: "止盈过低",
 
-    //入金
-    // Amount:"数量",
-    // Amountplaceholder:"请输入数量",
-    // Next:"下一步",
-    // Pleasedeposit:"请把",
-    // USDTintofollowingaddress:"USDT转入以下账户:",
-    // Andentertransfer:"转币同时备注以下号码:",
-    // Submit:"提交",
-
-
-    //出金
-    // Pleaseenterthecorrectaddress:"请输入正确地址",
-    // Withdrawamount:"出金数量",
-    // Withdrawaddresstype:"出金地址类型",
-    // Withdrawaddress:"出金地址",
-    // Withdrawplaceholder:"请输入出金数量",
-
-    //提示
-    // Loginfailed:"登录失败",
-    // Networkerror:"网络错误",
-
-    //修改密码
-    // ChangePassword:"修改密码",
-    // Modifiedsuccess:"修改成功",
-    // Newpass:"新密码不能和前5次密码之一相同",
-    // Passworderror:"密码错误",
-    // Passwordformaterror:"密码格式错误",
-    // Availableassets:"可用资产",
-
-
     //新手交易指南页面 || //首页页面
     NoviceTradingGuide: "新手交易指南",
     Introductionteaching: "入门教学",
@@ -204,23 +174,5 @@ export const m = {
     Networkcharge: "网络手续费",
     Determine: "确定",
     Minimum: "最低提币10USDT",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

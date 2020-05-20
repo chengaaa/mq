@@ -205,8 +205,6 @@
   appearance: none;
 }
 </style>
-
-
 <script>
 const Loading = () => import("../../components/Loading");
 var api = require("../../api/api")
@@ -244,7 +242,6 @@ export default {
     login() {
       this.$router.push("/login");
     },
-
     changetype() {
       this.passwords = this.passwords === "password" ? "text" : "password";
     },
@@ -291,7 +288,6 @@ export default {
       var code = document.getElementById("code").value;
       var phoneNumberReg = /^[1]{1}[3|5|7|8]{1}\d{9}$/;
       var emailNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
-
       if (phoneNumberReg.test(username)) {
         this.$http
           .post(api.CodeURL, {

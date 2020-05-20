@@ -2,7 +2,6 @@ import store from "../store";
 function init () {
 let ws = null
 var token = store.state.Authorization.substring(7);
-console.log(token,"nengma")
 //  ws = new WebSocket( "ws://35.180.177.89:8001/v1/streaming?access_token=" + token)
  ws = new WebSocket("wss://www.blitzbook8.com/ws/v1/streaming?access_token=" + token)
 ws.onopen = function() {

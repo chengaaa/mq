@@ -401,7 +401,7 @@ Loading
     },
  getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
-      // this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
        this.Monthdate = getUTCtime(this.newdate)
     },
     getList() {

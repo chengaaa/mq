@@ -1,17 +1,20 @@
 
-const baseURL1 = "/api"
-const baseURL2 = "/tw"
-const baseURL3 = "/tz"
-// const baseURL1 = 'https://www.blitzbook8.com/tradeapi/v1'
-// const baseURL2 = 'https://www.blitzbook8.com/twapi/v1/api'
-// const baseURL3 = 'https://www.blitzbook8.com/twapi/v2/api'
+var  baseURL1 = "/api"
+var  baseURL2 = "/tw"
+var  baseURL3 = "/tz"
 
+if(process.env.NODE_ENV === "production") {
+   baseURL1 = 'https://www.blitzbook8.com/tradeapi/v1'
+   baseURL2 = 'https://www.blitzbook8.com/twapi/v1/api'
+   baseURL3 = 'https://www.blitzbook8.com/twapi/v2/api'
+} 
 module.exports = {
     //第一层登录
     LoginURL: baseURL2 + "/user/login",
     DeailURL: baseURL2 + "/user/detail?userId=",
     //第二层登录
     Loginmt5URL: baseURL2 + "/login",
+    Loginmt5: baseURL1 + "/login",
     //开立账户
     OpenURL: baseURL2 + "/account/open",
     //注册获取验证码

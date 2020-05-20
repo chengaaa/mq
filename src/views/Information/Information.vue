@@ -31,10 +31,6 @@
     top:-.133333rem /* 10/75 */;
     left: -0.1rem;
     color:#127df6;
-     
-
-  
-
 }
 
 }
@@ -64,10 +60,7 @@
       width: 0.1rem;
       font-size: 0.56rem /* 42/75 */;
     }
-    }
-  
-
-    
+    }   
 
     .information-content {
  margin-left: 0.32rem /* 24/75 */;

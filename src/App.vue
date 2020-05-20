@@ -36,8 +36,9 @@ body {
 const Tabbar = () => import("./components/Tabbar");
 const Loading = () => import("./components/Loading");
 import store from "./store";
-import { mapMutations,mapState } from "vuex";
-var api = require("./api/api")
+import { mapMutations, mapState } from "vuex";
+import init from "./tools/websocket";
+var api = require("./api/api");
 
 export default {
   data() {
@@ -61,6 +62,7 @@ export default {
   created() {
     this.sheet();
     this.getuserId();
+    this.homewebsocket();
     this.load();
     this.fnResize();
     localStorage.getItem("engs")
@@ -94,15 +96,66 @@ export default {
     load() {
       let token = store.state.Authorization;
       if (token) {
-        // console.log(init)
-        // this.onopen()
-        this.initWebpack();
+        init();
         this.getdata2();
         this.getdata3();
         this.getdata6();
       } else {
         return;
       }
+    },
+    //首页的websocket
+    homewebsocket() {
+      this.$http
+        .post(api.Loginmt5, {
+          account: "10000",
+          password: "BLITZbook9"
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+            var token2 = "";
+            token2 = data.access_token;
+            let ws2 = null;
+            ws2 = new WebSocket(
+              "wss://www.blitzbook8.com/ws/v1/streaming?access_token=" + token2
+            );
+            ws2.onopen = function() {
+              console.log(ws2.readyState);
+              this.userid = store.state.userId;
+              var msg = JSON.stringify({
+                id: 10000,
+                action: 1,
+                reqId: "BB8Ping1574840837127",
+                topic: 1
+              });
+              ws2.send(msg);
+              var ms = JSON.stringify({
+                reqId: "BB8SubQuote1574841247958",
+                id: 10000,
+                topic: 1,
+                action: 11
+              });
+              ws2.send(ms);
+            };
+            ws2.onmessage = function(e) {
+              var mydata2 = JSON.parse(e.data).data;
+              console.log(mydata2);
+              store.dispatch("REAET_MYDATA2");
+              store.dispatch("SAVE_MYDATA2", mydata2);
+            };
+            ws2.onclose = function(e) {
+              console.log("断开");
+              console.log(e, "home");
+
+              ws2.onerror = function() {
+                console.log("错误");
+              };
+            };
+          }
+          //  console.log(data)
+        });
+        
+
     },
     sheet() {
       let arr1 = [
@@ -131,89 +184,12 @@ export default {
         this.setActionss(arrs2);
       }
     },
-    initWebpack() {
-      this.ws = null;
-      // console.log(store.state.Authorization,"store.state.Authorization")
-      var token = store.state.Authorization.substring(7);
-      // console.log(token, "apptoken");
-      this.getuserId();
-      this.ws = new WebSocket(
-        // "ws://35.180.177.89:8001/v1/streaming?access_token=" + token
-        // "ws://52.209.109.96:80/ws/v1/streaming?access_token=" + token
-        "wss://www.blitzbook8.com/ws/v1/streaming?access_token=" + token
-      );
-      this.ws.onopen = this.onopen;
-      this.ws.onmessage = this.onmessage;
-      this.ws.onclose = this.onclose;
-      this.ws.onerror = this.onerror;
-    },
-    reconnect() {
-      //重新连接
-      console.log("重新咯按揭");
-      var that = this;
-      if (that.lockReconnect) {
-        return;
-      }
-      that.lockReconnect = true;
-      //没连接上会一直重连，设置延迟避免请求过多
-      that.timeoutnum && clearTimeout(that.timeoutnum);
-      that.timeoutnum = setTimeout(function() {
-        that.initWebpack();
-        //新连接
-        that.lockReconnect = false;
-      }, 5000);
-    },
-    reset() {
-      //重置心跳
-      var that = this;
-      //清除时间
-      clearTimeout(that.timeoutObj);
-      clearTimeout(that.serverTimeoutObj);
-      //重启心跳
-      // that.start();
-    },
-    onopen() {
-      var msg = JSON.stringify({
-        id: this.userid,
-        action: 1,
-        reqId: "BB8Ping1574840837127",
-        topic: 1
-      });
-      this.ws.send(msg);
-      var ms = JSON.stringify({
-        reqId: "BB8SubQuote1574841247958",
-        id: this.userid,
-        topic: 1,
-        action: 11
-      });
-      this.ws.send(ms);
-    },
-    onmessage(e) {
-      // console.log("message")
-      var mydata = JSON.parse(e.data).data;
-      // console.log(mydata)
-      store.dispatch("REAET_MYDATA");
-      store.dispatch("SAVE_MYDATA", mydata);
-      // this.reset();
-    },
-    onclose(e) {
-      console.log("连接关闭");
-      console.log(
-        "websocket 断开: " + e.code + " " + e.reason + " " + e.wasClean
-      );
-      console.log(e, "app");
-      // this.reconnect();
-    },
-    onerror(e) {
-      console.log("出现错误");
-      //重连
-      // this.reconnect();
-    },
+
     getdata3() {
       this.$http.get(api.Positionorders).then(({ data }) => {
         this.ordersList = data.data;
         var order = this.ordersList;
-        // console.log( this.ordersList,"111111111")
+        console.log( this.ordersList,"333")
         for (var i = 0; i < order.length; i++) {
           // console.log(order[i], "iiiii");
           order[i].bid = "0.00";
@@ -227,7 +203,7 @@ export default {
         this.contractsList = data.data;
         var contractsLists = this.contractsList;
         for (var f = 0; f < this.contractsList.length; f++) {
-          // console.log(this.contractsList[f], "fffff");
+          console.log(this.contractsList, "222");
           this.contractsList[f].bid = "0.00";
           this.contractsList[f].ask = "0.00";
         }
@@ -239,7 +215,7 @@ export default {
     getdata6() {
       this.$http.get(api.MarketURL).then(({ data }) => {
         this.all = data.data;
-        //  console.log(this.all,"shazi ")
+         console.log(this.all,"6666 ")
         for (var i = 0; i < this.all.length; i++) {
           //  console.log(this.all[i],"zuil")
           this.all[i].bid = "0.00";
