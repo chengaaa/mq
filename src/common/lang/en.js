@@ -1,4 +1,5 @@
 export const m = {
+  Charts:'Chart under construction',
   Balance: 'Balance:',
   Equity: 'Equity:',
   Margin: 'Margin:',
@@ -6,6 +7,12 @@ export const m = {
   Marginlevel: 'Margin level(%):',
   Simple: "Simple",
   Advanced: "Advanced",
+  Depo:"Deposit",
+  Withdraws:"Withdraw",
+  CreditDeposits:"Credit in",
+  CreditWithdraws:"Credit out",
+  balancenot:"Insufficient Balance",
+
   //position
   Position: 'Position (Long press to close)',
   StopLoss: 'S/L:',
@@ -57,9 +64,12 @@ export const m = {
   Mobilenumberhasbeenregistered: "This mobile number is already in use",
   Pleaseentercorrectphonenumber: 'Enter a valid mobile number',
   Pleaseentercorrectemailaddress: "Incorrect email format",
-  passwordTip: 'Your password must be 8-20 characters, and must include numbers and both uppercase and lower case letters',
+  passwordTip: 'Your password must be 8-20 characters, and must include numbers and both upper case and lower case letters',
   Registrationsuccess: "Registration successful",
   Passwordsareinconsistent: "Passwords do not match",
+  Passwordformaterror:"Password format error",
+  Three:"code error 3 times, please get the code again",
+
 
 
   Orders: 'Orders',
@@ -145,6 +155,9 @@ export const m = {
   Howtorecharge: "How to deposit",
   Howtocurrency: "How to withdraw",
   Use: "Register or login to continue",
+  BTC : "Bitcoin",
+  ETH : "Ethereum",
+  BCH :"Bitcoin Cash",
 
   //加入官方群组
   Joinofficialgroup: "Join the official group",
@@ -168,6 +181,13 @@ export const m = {
   Invalid: "Invalid Deposit Amount",
   Submitted: 'Submitted successfully',
   Explain: 'Thanks for submitting your deposit request, we will check the transfer and update your balance as soon as possible.',
+  Next:'Next',
+  Pleasese:'Please deposit',
+  Pleasese2:'into following account',
+  Enter:'Enter the amount',
+  For:'To assist us in quickly seeing your deposit we require you to add a very small amount. Your balance will reflect this upon completion.',
+
+  
 
 
   //提币页面
@@ -177,6 +197,21 @@ export const m = {
   Addressremarks: "Note",
   Networkcharge: "Fee",
   Determine: "Submit",
-  Minimum: "Minimum 10USDT"
+  Minimum: "Minimum 10USDT",
+    //详情页面
+    Digits:"Digits",
+    Stopslevel:"Stops level",
+    Contractsize:"Contract size",
+    Profitcalculation:"Profit calculation",
+    Swaptype:"Swap type",
+    Swaplong:"Swap long",
+    Swapshort:"Swap short"
+
+
+
+
+
+
+
 
 }

@@ -10,7 +10,7 @@
         <div class="login-logoo">
           <div class="login-logo">
             <h1>{{$t('m.Hello')}}，</h1>
-            <p>{{$t('m.Welcometoregister')}} BLITZ BOOK 8</p>
+            <p>{{$t('m.Welcometoregister')}} B BOOK 8</p>
           </div>
         </div>
 
@@ -22,7 +22,7 @@
               autocomplete="off"
               id="username"
               v-model="data.registerName"
-              @keyup="check"
+              @input="check"
             />
           </div>
           <div class="passwordcode">
@@ -31,7 +31,7 @@
               :placeholder="$t('m.Pleaseentervalidatingcode')"
               id="code"
               v-model="data.code"
-              @keyup="check"
+              @input="check"
             />
             <span class="code" v-show="Verification" @click="handleClick">{{$t('m.SendCode')}}</span>
             <span class="code" v-show="!Verification">{{timer}}s</span>
@@ -51,7 +51,7 @@
             :placeholder="$t('m.Pleaseenterusername')"
             id="user"
             v-model="datas.name"
-            @keyup="check"
+            @input="check"
           />
 
           <input
@@ -60,17 +60,18 @@
             autocomplete="off"
             id="password"
             v-model="datas.password"
-            @keyup="check"
+            @input="check"
           />
-          <i class="iconfont icon-xiaoyanjing-bi" @click="changetype"></i>
-
-          <input
+          <i v-show="passwords === 'password'" class="iconfont icon-xiaoyanjing-bi" @click="changetype"></i>
+          <i v-show="passwords === 'text'" class="iconfont icon-xiaoyanjing-zheng" @click="changetype"></i>
+           <p>{{$t('m.passwordTip')}}</p>
+          <!-- <input
             :type="passwords2"
             :placeholder="$t('m.Passwordagain')"
             id="passwordagain"
             @keyup="check"
           />
-          <i class="iconfont icon-xiaoyanjing-bi" @click="changetype2"></i>
+          <i class="iconfont icon-xiaoyanjing-bi" @click="changetype2"></i> -->
         </div>
       </div>
       <input type="button" class="mr-button" :value="$t('m.Finish')" v-show="but===true" />
@@ -119,18 +120,22 @@
         }
       }
       .login-A1 {
+       
         #username,
         #password,
         #passwordagain,
         #user {
           width: 8.733333rem /* 655/75 */;
           height: 1.173333rem /* 88/75 */;
-
           border-bottom: 1px solid #eeeeee;
           border-radius: 0px;
           appearance: none;
           // outline:black;
           font-size: 0.346667rem /* 26/75 */;
+        }
+        p {
+          color: red;
+          padding-top: .133333rem /* 10/75 */;
         }
         .passwordcode {
           display: flex;
@@ -154,8 +159,9 @@
           }
           input::-webkit-input-placeholder {
             /* placeholder颜色  */
-            color: #127df6;
+            // color: #127df6;
           }
+          
         }
       }
     }
@@ -178,6 +184,11 @@
   font-size: 0.56rem /* 42/75 */;
 }
 .icon-xiaoyanjing-bi {
+  font-size: 0.426667rem /* 32/75 */;
+  position: relative;
+  left: -0.266667rem;
+}
+.icon-xiaoyanjing-zheng {
   font-size: 0.426667rem /* 32/75 */;
   position: relative;
   left: -0.266667rem;
@@ -226,7 +237,8 @@ export default {
       passwords2: "password",
       but: true,
       Verification: true,
-      timer: 60
+      timer: 60,
+      a:true
     };
   },
   components: {
@@ -251,16 +263,17 @@ export default {
     check() {
       var user = document.getElementById("user").value;
       var password = document.getElementById("password").value;
-      var passwordagain = document.getElementById("passwordagain").value;
+      // var passwordagain = document.getElementById("passwordagain").value;
 
       var reg = /^\d{6}$/;
       var phoneNumberReg = /^[1]{1}[3|5|7|8]{1}\d{9}$/;
-      var emailNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      var emailNumberReg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+  
       if (
         phoneNumberReg.test(this.data.registerName) &&
         reg.test(this.data.code) &&
         password != "" &&
-        passwordagain != "" &&
+        // passwordagain != "" &&
         user != ""
       ) {
         this.but = false;
@@ -270,7 +283,7 @@ export default {
         emailNumberReg.test(this.data.registerName) &&
         reg.test(this.data.code) &&
         password != "" &&
-        passwordagain != "" &&
+        // passwordagain != "" &&
         user != ""
       ) {
         this.but = false;
@@ -287,7 +300,7 @@ export default {
       var username = document.getElementById("username").value;
       var code = document.getElementById("code").value;
       var phoneNumberReg = /^[1]{1}[3|5|7|8]{1}\d{9}$/;
-      var emailNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      var emailNumberReg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
       if (phoneNumberReg.test(username)) {
         this.$http
           .post(api.CodeURL, {
@@ -324,6 +337,9 @@ export default {
               this.$toast(this.$t("m.Codesent"));
             } else if (data.mcode === "PUB_AUTH_0000008") {
               this.$toast(this.$t("m.Mobilenumberhasbeenregistered"));
+            } else if(data.mcode === "PUB_AUTH_0000001") {
+              this.$toast(this.$t("m.Pleaseentercorrectemailaddress"))
+              //邮箱格式错误
             }
           });
 
@@ -336,18 +352,24 @@ export default {
             clearInterval(auth_timer);
           }
         }, 1000);
-      } else {
+      } else if(this.a === true){
         this.$toast(this.$t("m.Please"));
-      }
+        this.a = false
+        setTimeout(()=>{
+        this.a = true
+       
+        },1000)
+      } 
+      
     },
 
     finish() {
       this.datas.validateCode = this.data.code;
       var password = document.getElementById("password").value;
-      var passwordagain = document.getElementById("passwordagain").value;
-      if (password != passwordagain) {
-        this.$toast(this.$t("m.Passwordsareinconsistent"));
-      } else {
+      // var passwordagain = document.getElementById("passwordagain").value;
+      // if (password != passwordagain) {
+      //   this.$toast(this.$t("m.Passwordsareinconsistent"));
+      // } else {
         this.$http
           .post(api.RegisterURL, this.datas, {
             headers: {
@@ -368,10 +390,18 @@ export default {
             } else if (data.mcode === "PUB_AUTH_0000101") {
               this.$toast(this.$t("m.Verificationcodeerror"));
             } else if (data.mcode === "PUB_AUTH_0000007") {
-              this.$toast(this.$t("m.Mailboxisalreadyregistered"));
+              this.$toast(this.$t("m.Ready"));
+            } else if(data.mcode === "PUB_AUTH_0000051") {
+              // this.$toast(this.$t("m.Passwordformaterror"))
+              this.$toast(this.$t("m.Passwordformaterror"))
+              
+            } else if(data.mcode === "PUB_AUTH_0000106") {
+              this.$toast(this.$t("m.Three"))
+              //输入错误超过3次，请重新获取验证码
+               
             }
           });
-      }
+      // }
     },
     next() {
       this.$router.push({ name: "registerpassword", params: this.data });

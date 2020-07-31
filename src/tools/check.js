@@ -29,7 +29,8 @@ export function getNowFormatDate(a) {
     var strDate = date.getDate();
     var hour = date.getHours();
     var minute = date.getMinutes();
-    var second = date.getSeconds();
+    var seconds = date.getSeconds();
+    // console.log(seconds,"second")
     if (month >= 1 && month <= 9) {
         month = "0" + month;
     }
@@ -42,17 +43,25 @@ export function getNowFormatDate(a) {
     if (minute >= 1 && minute <= 9) {
         minute = "0" + minute;
     }
-    if (second >= 1 && second <= 9) {
-        second = "0" + second;
+    if (seconds >= 1 && seconds <= 9) {
+        seconds = "0" + seconds;
     } else if (minute == 0) {
         minute = "00"
-    } else if (second == 0) {
-        second = "00"
+    } else if (seconds == 0) {
+        seconds = "00"
     }
-    console.log(second,"ffffff")
+    if(seconds == 0) {
+        seconds = "00"
+    }
+    if(hour == 0) {
+        hour = "00"
+
+    }
+  
+    
     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
             + " " + hour + seperator2 + minute
-            + seperator2 + second;
+            + seperator2 + seconds;
     return currentdate;
 }
 
@@ -79,7 +88,9 @@ export function FormatDate() {
     }
     if (minute >= 1 && minute <= 9) {
         minute = "0" + minute;
-    }
+    }else if(minute == 0) {
+        minute = "00"
+    }else
     if (second >= 1 && second <= 9) {
         second = "0" + second;
     }else if (second == 0) {

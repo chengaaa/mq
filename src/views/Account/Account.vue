@@ -2,7 +2,6 @@
   <div class="background">
     <div class="account">
       <loading v-show="LOADING"></loading>
-
       <div class="account-top" v-show="!tokens">
         <!-- <div class="account-title" > -->
         <!-- <h3>设置</h3> -->
@@ -10,7 +9,7 @@
         <div class="account-welcom">
           <div class="hello">
             <p>{{$t('m.Hello')}},</p>
-            <span>{{$t('m.Welcometo')}} BLITZ BOOK 8</span>
+            <span>{{$t('m.Welcometo')}} B BOOK 8</span>
           </div>
           <div class="hello2">
             <input type="button" :value="$t('m.Login')" @click="login" />
@@ -67,7 +66,7 @@
             </p>
           </div>
           <div class="account-flex">
-            <img src="../../assets/image/tibi.png" alt />
+            <img src="../../assets/image/历史.png" alt />
             <p class="account-flex1" @click="history">
               <span>{{$t('m.History')}}</span>
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
@@ -226,14 +225,14 @@
             color: black;
           }
         }
+        
         .middle-left {
           border-right: 1px solid #eeeeee;
         }
       }
       .account-middle2 {
         img {
-          width: 6.12rem /* 459/75 */;
-          height: 0.66rem /* 67/75 */;
+          width: 5.5rem /* 459/75 */;
           margin: auto;
         }
       }
@@ -270,14 +269,17 @@
 
       .account-bottom1,
       .account-bottom2 {
-        height: 2.346667rem /* 176/75 */;
+        height:2.466667rem /* 200/75 */;
         background: #ffffff;
         padding-left: 0.64rem /* 48/75 */;
       }
       .account-bottom1 {
-        height: 3.346667rem /* 176/75 */;
+        height: 3.733333rem /* 280/75 */;
         margin-bottom: 0.293333rem /* 22/75 */;
         .account-flex:nth-child(1) {
+          border-bottom: 1px solid #eeeeee;
+        }
+         .account-flex:nth-child(2) {
           border-bottom: 1px solid #eeeeee;
         }
       }
@@ -294,6 +296,7 @@
         background: #ffffff;
         text-align: center;
         font-size: 0.4rem /* 30/75 */;
+       
       }
       .boder {
         height: 2.666667rem /* 200/75 */;
@@ -322,7 +325,7 @@ export default {
     this.she = localStorage.getItem("engs");
     this.setEng(this.she);
 
-    this.tokens = store.state.Authorization;
+    this.tokens = localStorage.getItem("token");
     if (this.tokens) {
       this.$store.commit("showLoading");
 
@@ -348,7 +351,6 @@ export default {
 
     getdata() {
       this.$store.commit("showLoading");
-
       this.$http
         .get(api.AccountURL)
         .then(({ data }) => {
@@ -369,10 +371,12 @@ export default {
       this.$http.post(api.LogoutURL).then(({ data }) => {
         console.log(data,"ha");
         if (data.code == 0) {
-          sessionStorage.clear();
-          this.delToken();
+          // sessionStorage.clear();
+          // localStorage.clear();
+         localStorage.removeItem("token")
           this.delUserId();
           this.delUser();
+          // this.delToken();
           this.$router.push("/login");
         }
       });

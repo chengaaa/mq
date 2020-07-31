@@ -1,4 +1,5 @@
 export const m = {
+    Charts:'图标数据准备中',
     Balance: '结余:',
     Equity: '净值:',
     Margin: '预付款:',
@@ -6,6 +7,11 @@ export const m = {
     Marginlevel: '预付款比率(%):',
     Simple: "简单",
     Advanced: "高级的",
+    Depo:"入金",
+    Withdraws:"出金",
+    CreditDeposits:"信用入金",
+    CreditWithdraws:"信用出金",
+    balancenot:"余额不足",
     //价位
     Position: '价位 (长按关闭)',
     StopLoss: '止损:',
@@ -60,6 +66,8 @@ export const m = {
     passwordTip: '密码必须8-20位，同时包含数字大小写字母',
     Registrationsuccess: "注册成功",
     Passwordsareinconsistent: "密码不一致",
+    Passwordformaterror:"密码格式错误",
+    Three:"输入错误超过3次，请重新获取验证码",
 
     Orders: '订单',
     Deals: '成交',
@@ -142,6 +150,9 @@ export const m = {
     Howtorecharge: "如何充值",
     Howtocurrency: "如何提币",
     Use: "请先注册或登录使用",
+    BTC : "比特币",
+    ETH : "以太坊",
+    BCH :"比特币现金",
 
     //加入官方群组
      Joinofficialgroup:"加入官方群组",
@@ -165,6 +176,12 @@ export const m = {
     Invalid: '无效的充值金额',
     Submitted: '提交成功',
     Explain: '你的入金申请已经提交，我们会尽快调整你的账户余额',
+    Next:'下一步',
+    Enter:'入金金额',
+    Pleasese:'请转',
+    Pleasese2:'到如下地址',
+    For:'为了能够更快完成充值步骤，我们会要求转入金额略高出一些，届时您的余额会是实际转入数量',
+
 
     //提币页面
     Withdrawaladdress: "提币地址",
@@ -174,5 +191,15 @@ export const m = {
     Networkcharge: "网络手续费",
     Determine: "确定",
     Minimum: "最低提币10USDT",
+    // Insufficient:"可用余额不足",
+   
+      //详情页面
+      Digits:"小数位",
+      Stopslevel:"止损水平",
+      Contractsize:"合约数量",
+      Profitcalculation:"利润计算",
+      Swaptype:"库存费类型",
+      Swaplong:"买入库存费",
+      Swapshort:"卖出库存费"
 
 }

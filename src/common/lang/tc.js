@@ -1,4 +1,5 @@
 export const m = {
+    Charts:'圖標數據準備中',
     Balance: '結餘:',
     Equity: '淨值:',
     Margin: '預付款:',
@@ -6,6 +7,12 @@ export const m = {
     Marginlevel: '預付款比率(%):',
     Simple: "簡單",
     Advanced: "高級的",
+    Depo:"入金",
+    Withdraws:"出金",
+    CreditDeposits:"信用入金",
+    CreditWithdraws:"信用出金",
+    balancenot:"余額不足",
+
     //价位
     Position: '價位 (長按關閉)',
     StopLoss: '止損:',
@@ -60,6 +67,9 @@ export const m = {
     passwordTip: '密碼必須8-20位，同時包含數字大小寫字母',
     Registrationsuccess: "註冊成功",
     Passwordsareinconsistent: "密碼不一致",
+    Passwordformaterror:"密碼格式錯誤",
+    Three:"輸入錯誤超過3次，請重新獲取驗證碼",
+
 
     Orders: '訂單',
     Deals: '成交',
@@ -142,6 +152,9 @@ export const m = {
     Howtorecharge: "如何充值",
     Howtocurrency: "如何提幣",
     Use: "請先註冊或登錄使用",
+    BTC : "比特幣",
+    ETH : "以太坊",
+    BCH :"比特幣現金",
 
     //加入官方群组
      Joinofficialgroup:"加入官方群組",
@@ -165,6 +178,12 @@ export const m = {
     Invalid: '無效的充值金額',
     Submitted: '提交成功',
     Explain: '你的入金申請已經提交，我們會盡快調整妳的賬戶余額',
+    Next:'下壹步',
+    Pleasese:'請轉',
+    Pleasese2:'到如下地址',
+    For:'為了能夠更快完成充值步驟，我們會要求轉入金額略高出壹些，屆時您的余額會是實際轉入數量',
+    Enter:'入金金額',
+
 
     //提币页面
     Withdrawaladdress: "提幣地址",
@@ -174,5 +193,13 @@ export const m = {
     Networkcharge: "網絡手續費",
     Determine: "確定",
     Minimum: "最低提幣10USDT",
+      //详情页面
+      Digits:"小數位",
+      Stopslevel:"止損水平",
+      Contractsize:"合約數量",
+      Profitcalculation:"利潤計算",
+      Swaptype:"庫存費類型",
+      Swaplong:"買入庫存費",
+      Swapshort:"賣出庫存費"
 
 }

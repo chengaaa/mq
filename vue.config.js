@@ -1,7 +1,6 @@
 const px2rem = require('postcss-px2rem')
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-
 const UglifyJsPlugin = require('uglify-es-webpack-plugin');
 const productionGzipExtensions = ['js', 'css'];
 
@@ -72,14 +71,7 @@ module.exports = {
   // configureWebpack: (config) => {
   //   if (process.env.NODE_ENV === 'production') {
   //     config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
-
-
-
-
   //   }
-
-
-
   // },
   configureWebpack: {
     externals: {
@@ -164,29 +156,23 @@ module.exports = {
           }
         },
 
-      //   module:{
-      //     rules:[
-      //     {
-      //       test:/\.(woff2?|eot|ttf|otf)(\?.*)$/,
-      //       loader:'url-loader',
-      //       options:{
-      //         limit: 100,
-              
-      //       }
-      //     }
-      //   ]
-      // }, 
+        module:{
+           rules: [
+        {
+          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+          loader: 'url-loader',
+          options: {
+              limit: 1000,
+              name: 'fonts/[name].[hash:7].[ext]'
+          }
+      }
+  ]
+      }, 
          
       }
     }
   
   },
-
-
-
-
-
-
 
 
   // css相关配置
@@ -212,8 +198,11 @@ module.exports = {
     //  host: '127.0.0.1',
     // host: '192.168.31.174',
     host: '192.168.1.7',
+    // host: '192.168.0.103',
     //  host: '172.20.10.1',
+    //  host: '0.0.0.0',
     port: 8001,
+    // port: 8080,
     https: false,
     hotOnly: false,
     // http 代理配置
@@ -231,7 +220,7 @@ module.exports = {
       '/tw': {
         // target: 'http://47.90.39.115:8001/v1',
         //  target: 'http://mt5test.tinytech.com.hk:8001/v1',
-        target: 'http://blitzbook8.com:5000/v1/api',
+        target: 'http://bbook8.com:5000/v1/api',
         //  target:'https://account.api.lwork.com/v1/api',
         //  target:'http://192.168.1.111:5000/v1/api',
 
@@ -244,7 +233,7 @@ module.exports = {
       '/tz': {
         // target: 'http://47.90.39.115:8001/v1',
         //  target: 'http://mt5test.tinytech.com.hk:8001/v1',
-        target: 'http://blitzbook8.com:5000/v2/api',
+        target: 'http://bbook8.com:5000/v2/api',
         //  target:'https://account.api.lwork.com/v2/api',
 
         //  target: target,

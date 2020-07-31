@@ -16,7 +16,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue'),
       // component: () => import(/* webpackChunkName: "about" */ './views/Account/Ce.vue'),
       meta: {
-        // keepAlive: true
+        keepAlive: true
       }
     },
     { //新手交易指南
@@ -29,6 +29,12 @@ const router = new Router({
       name: 'teaching',
       component: () => import(/* webpackChunkName: "about" */ './views/Home/Teaching.vue'),
     },
+    { //充值提款教学
+      path: '/teachingtrade',
+      name: 'teachingtrade',
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/Teachingtrade.vue'),
+    },
+    
     { //加入官方群组
       path: '/join',
       name: 'join',
@@ -55,7 +61,7 @@ const router = new Router({
       name: 'transaction',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        keepAlive: true
+        // keepAlive: true
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction.vue'),
     },
@@ -66,7 +72,7 @@ const router = new Router({
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         // keepAlive: true
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-place.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-place1.vue'),
     },
     {//下单全部
       path: '/transaction-placeall',
@@ -142,8 +148,16 @@ const router = new Router({
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
     },
-      component: () => import(/* webpackChunkName: "about" */ './views/Account/entrys.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Account/Entry.vue')
     },
+       {//入金2
+        path: '/entrys',
+        name: 'entrys',
+        meta: {
+          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+      },
+        component: () => import(/* webpackChunkName: "about" */ './views/Account/Entrys.vue')
+      },
     
      {//出金
       path: '/outtry',
@@ -229,12 +243,12 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
     console.log("存在")
-    // let token = localStorage.getItem('Authorization'); 
-    let token = store.state.Authorization
+    let token = localStorage.getItem('token'); 
+    // let token = store.state.Authorization
     console.log(token)
     console.log(token)
       if (token) { 
-        console.log(sessionStorage.getItem('Authorization')) // 获取当前的token是否存在
+        // console.log(sessionStorage.getItem('Authorization')) // 获取当前的token是否存在
           next();
       }
       else if(!token){

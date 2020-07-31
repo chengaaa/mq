@@ -5,7 +5,7 @@ Vue.use(Vuex)
 const vuexLocal = new VuexPersistence({ storage: localStorage })
 export default new Vuex.Store({
   state: {
-    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : "",
+    // Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : "",
     tabbarShow: true,
     arr: [],
     dataArr: [],
@@ -28,7 +28,10 @@ export default new Vuex.Store({
     low2: "",
     actions: [],
     actionss: [],
-    eng: ""
+    eng: "",
+    exchangeBCHUSD:"",
+    exchangeBTCUSD:"",
+    exchangeETHUSD:""
   },
   getters: {
     getTabbarShow(state) {
@@ -56,7 +59,7 @@ export default new Vuex.Store({
     },
     delToken(state) {
       state.Authorization = '';
-      window.localStorage.removeItem(state)    //删除token
+      // window.localStorage.removeItem(state)    //删除token
     },
     setArr(state, arr) {
       state.arr = arr;
@@ -140,6 +143,15 @@ export default new Vuex.Store({
     //保存中英文名称
     setEng(state, eng) {
       state.eng = eng
+    },
+    setexchangeBCHUSD(state,exchangeBCHUSD) {
+      state.exchangeBCHUSD= exchangeBCHUSD
+    },
+    setexchangeBTCUSD(state,exchangeBTCUSD) {
+      state.exchangeBTCUSD = exchangeBTCUSD
+    },
+    setexchangeETHUSD(state,exchangeETHUSD) {
+      state.exchangeETHUSD = exchangeETHUSD
     }
 
   },

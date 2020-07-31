@@ -19,7 +19,7 @@ plugin.install = Vue => {
         setTimeout(()=>{
             document.body.removeChild(toast.$el);
             // toast.isShow = false
-        },1000)
+        },3000)
     }
 }
 export default plugin

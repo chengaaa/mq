@@ -1,12 +1,11 @@
-
 var  baseURL1 = "/api"
 var  baseURL2 = "/tw"
 var  baseURL3 = "/tz"
 
 if(process.env.NODE_ENV === "production") {
-   baseURL1 = 'https://www.blitzbook8.com/tradeapi/v1'
-   baseURL2 = 'https://www.blitzbook8.com/twapi/v1/api'
-   baseURL3 = 'https://www.blitzbook8.com/twapi/v2/api'
+   baseURL1 = 'https://www.bbook8.com/tradeapi/v1'
+   baseURL2 = 'https://www.bbook8.com/twapi/v1/api'
+   baseURL3 = 'https://www.bbook8.com/twapi/v2/api'
 } 
 module.exports = {
     //第一层登录
@@ -45,6 +44,9 @@ module.exports = {
     chartBTCUSD: baseURL1 + "/chart?symbol=BTCUSD.&from=",
     chartETHUSD: baseURL1 + "/chart?symbol=ETHUSD.&from=",
     chartBCHUSD: baseURL1 + "/chart?symbol=BCHUSD.&from=",
+    chart: baseURL2 + "/today",
+    //获取汇率
+    getnumber: baseURL2 + "/rate"
    
     
   

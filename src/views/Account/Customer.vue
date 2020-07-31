@@ -43,13 +43,12 @@
       align-items: center;
       font-size: .48rem /* 36/75 */;
       .icon-weixin {
-          font-size: .8rem /* 60/75 */;
-          color:#13c6fe;
+          font-size: .6rem /* 50/75 */;
+          color:#00ca0c;
       }
       .icon-telegram {
-          font-size: .8rem /* 60/75 */;
-          color:#00ca0c;
-
+          font-size: .6rem /* 50/75 */;
+          color:#13c6fe;
       }
   }
 }

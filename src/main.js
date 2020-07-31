@@ -24,20 +24,21 @@ Vue.use(DatetimePicker);
 Vue.use(Picker);
 Vue.use(VueI18n)
 Vue.use(toast)
-console.log(toast,"98")
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 //注册到vue原型上
 Vue.prototype.clipboard = clipboard;
 Vue.prototype.ws = ws;
 // axios.defaults.timeout = 5000 // 请求超时
+console.log( navigator.language,"語言")
 const i18n = new VueI18n({
-  locale: localStorage.getItem('lang')||'zh-CN',    // 语言标识
+  locale: localStorage.getItem('lang')||navigator.language,    // 语言标识
   //this.$i18n.locale // 通过切换locale的值来实现语言切换
   messages: {
     'zh-CN': require('./common/lang/zh'),   // 中文语言包
     'en-US': require('./common/lang/en'),   // 英文语言包
-    'tc-US': require('./common/lang/tc'),   // 繁體语言包
+    'zh-TW': require('./common/lang/tc'),   // 繁體语言包
+    'zh-HK': require('./common/lang/tc'),   // 繁體语言包
   },
   silentTranslationWarn: true,
 })

@@ -3,14 +3,14 @@
     <div class="quotation">
       <div class="header">
         <div class="edit-icon" @click="skipEditPage">
-          <van-icon name="edit" color="blue" id="van-icon" />
+          <!-- <van-icon name="edit" color="#127df6" id="van-icon" /> -->
         </div>
         <div class="switch-tab">
           <div class="left" :class="{blue, white}">{{$t('m.Simple')}}</div>
           <div class="right" :class="{blue1, white1}" @click="Orders('Orders')">{{$t('m.Advanced')}}</div>
         </div>
         <div class="add-icon" @click="skipAddPage">
-          <van-icon name="plus" color="blue" id="van-icon" />
+          <!-- <van-icon name="plus" color="#127df6" id="van-icon" /> -->
         </div>
       </div>
       <!-- 简单的 -->
@@ -61,36 +61,23 @@
     </div>
   </keep-alive>
 </template>
-<style lang="scss">
-.van-popup--safe-area-inset-bottom {
-  .van-action-sheet__item {
-    height: 1.333333rem /* 100/75 */;
-    font-size: 0.533333rem /* 40/75 */;
-  }
-  .van-action-sheet__cancel,
-  .van-action-sheet__item {
-    height: 1.6rem /* 120/75 */;
-    line-height: 1.333333rem /* 100/75 */;
-    font-size: 0.533333rem /* 40/75 */;
-  }
-}
-</style>
+
 <style lang="scss" scoped>
 .blue {
-  background: blue;
+  background: #127df6;
   color: white;
 }
 .white {
   background: white;
-  color: blue;
+  color: #127df6;
 }
 .blue1 {
-  background: blue;
+  background: #127df6;
   color: white;
 }
 .white1 {
   background: white;
-  color: blue;
+  color: #127df6;
 }
 .quotation {
   padding-top: 1.366667rem /* 80/75 */;
@@ -161,7 +148,7 @@
   }
 
   .active {
-    color: blue;
+    color: #127df6;
   }
   .noactive {
     color: brown;
@@ -173,16 +160,18 @@
     padding-top: 0.133333rem /* 10/75 */;
     padding-bottom: 0.133333rem /* 10/75 */;
     h1 {
-      font-size: 0.4rem /* 30/75 */;
-      font-family: "HelveticaNeueLT-Pro-57-Cn";
+      font-size: 20px;
+      // font-family: "HelveticaNeueLT-Pro-57-Cn";
       font-weight: 700;
+      font-family: ' sans serif HelveticaNeueLT-Pro-57-Cn';
+      color: #000000;
     }
 
     p,
     span {
-      color: blue;
+      color: #127df6;
       font-family: "HelveticaNeueLT-Pro-57-Cn";
-      font-size: 0.4rem /* 30/75 */;
+      font-size: 22px;
     }
   }
 
@@ -192,6 +181,28 @@
     line-height: 1.066667rem /* 80/75 */;
     font-size: 0.373333rem /* 28/75 */;
   }
+}
+</style>
+<style lang="scss">
+
+.van-popup--safe-area-inset-bottom {
+  // height: 6.666667rem!important;
+
+  .van-action-sheet__item {
+    // height: 1.6rem /* 120/75 */;
+    font-size: 0.533333rem /* 40/75 */;
+  }
+  .van-action-sheet__cancel,
+  .van-action-sheet__item {
+    // height:1.6rem /* 120/75 */;
+    line-height: 1.333333rem /* 100/75 */;
+    font-size: 0.533333rem /* 40/75 */;
+  }
+}
+.van-popup--bottom {
+  // height: 6.666667rem!important;
+}.van-popup--bottom.van-popup--round {
+  // padding-bottom: 2rem;
 }
 </style>
 <script>
@@ -261,9 +272,9 @@ export default {
               var ask = store.state.arr[i].ask;
               // console.log(ask,"askaskaskaskask")
               if (this.num0 < ask) {
-                document.getElementById(sym1.symbolName).style.color = "blue";
+                document.getElementById(sym1.symbolName).style.color = "#127df6";
               } else if (this.num0 > ask) {
-                document.getElementById(sym1.symbolName).style.color = "red";
+                document.getElementById(sym1.symbolName).style.color = "#e54440";
               }
               //else{
               //     document.getElementById(sym1.symbolName).style.color="red";
@@ -274,11 +285,11 @@ export default {
             if (sym1.symbolName == sym2.symbol) {
               var bid = store.state.arr[i].bid;
               if (this.num1 < bid) {
-                document.getElementById(sym1.path).style.color = "blue";
-                document.getElementById(sym1.symbolName).style.color = "blue";
+                document.getElementById(sym1.path).style.color = "#127df6";
+                document.getElementById(sym1.symbolName).style.color = "#127df6";
               } else if (this.num1 > bid) {
-                document.getElementById(sym1.path).style.color = "red";
-                document.getElementById(sym1.symbolName).style.color = "red";
+                document.getElementById(sym1.path).style.color = "#e54440";
+                document.getElementById(sym1.symbolName).style.color = "#e54440";
               }
               //else{
               //     document.getElementById(sym1.symbolName).style.color="red";
@@ -334,9 +345,8 @@ export default {
           path: "/detail/" + this.itemw
         });
       } else if (item.name === this.$t("m.Chart")) {
-        this.$router.push({
-          path: "/echarts/" + this.itemw
-        });
+       this.$router.push({name:'echarts',params:{id:this.itemw}})
+
       }
     },
     selectType(item) {

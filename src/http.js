@@ -16,8 +16,8 @@ axios.defaults.timeout = 8000;
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-        if (store.state.Authorization) {
-            let token = store.state.Authorization;
+        if (localStorage.getItem("token")) {
+            let token = localStorage.getItem("token");
             config.headers.Authorization = token;
             // config.headers.common['Authorization'] = token;
         }
@@ -44,8 +44,9 @@ axios.interceptors.response.use(
                     // 403 清除token信息并跳转到登录页面
                     // if($route.path)
                     // console.log(router.options.routes,"router")
-                    store.commit("delToken");
-                    // router.push("/apply")
+                    localStorage.removeItem("token")
+                    // store.commit("delToken");
+                    router.push("/apply")
                 // router.replace({
                 //     path: '/apply',
                 // //     // query: {redirect: router.currentRoute.fullPath}

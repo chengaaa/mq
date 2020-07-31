@@ -28,8 +28,8 @@
   .arrow {
     display: flex;
     justify-content: space-between;
-  padding-top: .2rem /* 15/75 */;
-  padding-bottom: .2rem;
+  padding-top: .24rem /* 15/75 */;
+  padding-bottom: .24rem;
   background: white;
 
     padding-left: 0.1rem /* 15/75 */;
@@ -102,11 +102,11 @@ export default {
       let arr = [
         {name:"Close"},
         {name:"Trade"},
-        {name:"Price revision"},]
+        ]
       this.setActions(arr)
       let arrs =  [
         {name:"Delete"},
-        {name:"Modify"},
+       
         {name:"Trade"},]
       this.setActionss(arrs)
     },
@@ -119,28 +119,28 @@ export default {
        let arr = [
         {name:"平仓"},
         {name:"交易"},
-        {name:"修改价位"},]
+       ]
       this.setActions(arr)
       let arrs =  [
         {name:"删除"},
-        {name:"修改"},
+     
         {name:"交易"},]
       this.setActionss(arrs)
     },
     tccs() {
       this.show = "繁體";
-      this.$i18n.locale = "tc-US";
-      localStorage.setItem("lang", "tc-US");
+      this.$i18n.locale = "zh-TW";
+      localStorage.setItem("lang", "zh-TW");
       this.sh = "繁體"
       localStorage.setItem("engs", "繁體");
         let arr = [
         {name:"平倉"},
         {name:"交易"},
-        {name:"修改價位"},]
+      ]
       this.setActions(arr)
       let arrs =  [
         {name:"刪除"},
-        {name:"修改"},
+        
         {name:"交易"},]
       this.setActionss(arrs)
     }

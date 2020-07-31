@@ -5,7 +5,7 @@
       <div class="h">
         <div class="history-header">
           <div class="left">
-            <van-icon id="van-icon" name="arrow-left" color="blue" @click="back" />
+            <van-icon id="van-icon" name="arrow-left" color="#3278fe" @click="back" />
           </div>
           <div class="right-left">
             <span :class="{blue, white}" @click="Orders('Orders')">{{$t('m.Orders')}}</span>
@@ -30,7 +30,7 @@
                 <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","").substring(0,19)}}</h5>
               </div>
               <div class="bot">
-                <p>{{item.volume.toFixed(2)}} / {{(item.volume - item.remainingVolume).toFixed(2)}} at {{item.orderPrice}}</p>
+                <p>{{item.volume.toFixed(2)}} / {{(item.volume + item.remainingVolume).toFixed(2)}} at {{item.orderPrice}}</p>
                 <span v-if="item.orderStatus === 11">filled</span>
                 <span v-else-if="item.orderStatus === 7">canceled</span>
                 <span v-else-if="item.orderStatus === 17">expired</span>
@@ -56,16 +56,19 @@
         </div>
         <div></div>
         <div class="fixed">
-          <div>
+          <div class="fixed-flex">
             <h2>{{$t('m.Filled')}}</h2>
+            <span>{{flied?flied:"0"}}</span>
+          </div>
+          <div class="fixed-flex">
             <h2>{{$t('m.Canceled')}}</h2>
+            <span>{{canceled? canceled:"0"}}</span>
+          </div>
+          <div class="fixed-flex">
             <h2>{{$t('m.Total')}}</h2>
+            <span>{{sum?sum:"0"}}</span>
           </div>
-          <div>
-            <p>{{flied?flied:"0"}}</p>
-            <p>{{canceled? canceled:"0"}}</p>
-            <p>{{sum?sum:"0"}}</p>
-          </div>
+          <div></div>
         </div>
       </div>
       <div v-show="page2" class="con">
@@ -80,19 +83,19 @@
                   >{{item.orderDirection == -1? "sell,out":"buy,in"}}</span>
                 </div>
                 <div class="top1" v-show="item.symbol ==='' ">
-                  <h4>{{item.comment.indexOf("d-") === 0?"入金":""}}</h4>
-                  <h4>{{item.comment.indexOf("w-") === 0?"出金":""}}</h4>
-                  <h4>{{item.comment.indexOf("Credit out") === 0?"信用出金":""}}</h4>
-                  <h4>{{item.comment.indexOf("Credit in") === 0?"信用入金":""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("d-") === 0?$t('m.Depo'):""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("w-") === 0?$t('m.Withdraws'):""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("Credit out") === 0?$t('m.CreditWithdraws'):""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("Credit in") === 0?$t('m.CreditDeposits'):""}}</h4>
                 </div>
                 <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","").substring(0,19)}}</h5>
               </div>
               <div class="bot">
                 <p v-show="item.symbol !=''">{{item.volume.toFixed(2)}} at {{item.price}}</p>
                 <p v-show="item.symbol ===''"></p>
-                <p
+                <span
                   :class="{'hong': item.pnl < 0,'lan': item.pnl > 0}"
-                >{{item.pnl == 0? '':item.pnl}}</p>
+                >{{item.pnl == 0? '':item.pnl}}</span>
               </div>
             </div>
             <div class="history-deail" v-show="index === openIndex">
@@ -113,94 +116,151 @@
                 </div>
                 <div class="order-left2">
                   <p>Charges:</p>
-                  <span>-</span>
+                  <span v-show="!item.commission">-</span>
+                  <span v-show="item.commission">{{item.commission}}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="fixed2">
-          <div>
-            <h3>{{$t('m.Deposit')}}</h3>
-            <h3>{{$t('m.Profit')}}</h3>
-            <h3>{{$t('m.Swap')}}</h3>
-            <h3>{{$t('m.Commission')}}</h3>
-            <h3>{{$t('m.balance')}}</h3>
-          </div>
-          <div>
-            <p>{{deposit?(deposit).toFixed(2):"0.00"}}</p>
-            <p>{{pnlsum?(pnlsum).toFixed(2):"0.00"}}</p>
-            <p>{{kucun?(kucun).toFixed(2):"0.00"}}</p>
-            <p>0.00</p>
-            <p v-show="balance">{{balance}}</p>
-            <p v-show="balance === ''">0.00</p>
-          </div>
+         
+            <div class="fixed2-flex">
+              <h3>{{$t('m.Deposit')}}</h3>
+              <p>{{deposit?(deposit).toFixed(2):"0.00"}}</p>
+            </div>
+            <div class="fixed2-flex">
+              <h3>{{$t('m.Profit')}}</h3>
+              <p>{{pnlsum?(pnlsum).toFixed(2):"0.00"}}</p>
+            </div>
+            <div class="fixed2-flex">
+              <h3>{{$t('m.Swap')}}</h3>
+              <p>{{kucun?(kucun).toFixed(2):"0.00"}}</p>
+            </div>
+            <div class="fixed2-flex">
+              <h3>{{$t('m.Commission')}}</h3>
+              <p>0.00</p>
+            </div>
+            <div class="fixed2-flex">
+              <h3>{{$t('m.balance')}}</h3>
+              <p v-show="balance">{{balance}}</p>
+              <p v-show="balance === ''">0.00</p>
+            </div>
+          
+          
         </div>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
+.padding {
+  padding-top:.133333rem /* 10/75 */;
+}
 .con {
   padding-top: 1.2rem /* 90/75 */;
 }
 .hong {
-  color: red;
+  color: #e54440;
 }
 .lan {
-  color: blue;
+  color: #3278fe;
 }
+// .fixed {
+//   width: 100%;
+//   height: 1.466667rem;
+//   background: white;
+//   display: flex;
+//   -webkit-box-pack: justify;
+//   -ms-flex-pack: justify;
+//   justify-content: space-between;
+//   padding-bottom: 1.5rem;
+//   padding-top: 0.35rem;
+//  color:#333333;
+//      font-family: 'Sans Serif';
+//   h2 {
+//     padding-left: 0.133333rem /* 10/75 */;
+//     margin-bottom: 0.173333rem /* 13/75 */;
+//       font-size:.4rem /* 30/75 */;
+//       color:#797979;
+//   }
+//   p {
+//     padding-right: 0.133333rem /* 10/75 */;
+//     margin-bottom: 0.173333rem /* 13/75 */;
+//     font-size:.4rem /* 30/75 */;
+//   }
+// }
 .fixed {
-  width: 100%;
-  height: 1.466667rem;
-  background: white;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding-bottom: 1.5rem;
-  padding-top: 0.35rem;
- color:#666;
-     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
-  h2 {
-    padding-left: 0.133333rem /* 10/75 */;
-    margin-bottom: 0.173333rem /* 13/75 */;
-      font-size:.4rem /* 30/75 */;
-  }
-  p {
-    padding-right: 0.133333rem /* 10/75 */;
-    margin-bottom: 0.173333rem /* 13/75 */;
-    font-size:.4rem /* 30/75 */;
+  padding-left: 0.13rem;
+  padding-right: 0.13rem;
+  .fixed-flex {
+    display: flex;
+    justify-content: space-between;
+    height: 1.066667rem /* 80/75 */;
+    align-items: center;
+    border-bottom: 0.013333rem /* 1/75 */ solid #eeeeee;
+    h2 {
+      font-size: 18px;
+      color: #333333;
+    }
+    span {
+      font-size: 20px;
+      color: #000000;
+      font-weight: 700;
+    }
   }
 }
+
+
 .fixed2 {
-  width: 100%;
-  height: 4rem;
-  background: white;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 0.133333rem 0rem;
-  color:#666;
-     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
-  h3,
-  p {
-    margin-bottom: 0.133333rem /* 10/75 */;
-    font-size: .4rem /* 30/75 */;
-  }
-  h3 {
-    padding-left: 0.133333rem /* 10/75 */;
-  }
-  p {
-    padding-right: 0.133333rem /* 10/75 */;
+  padding-left: 0.13rem;
+  padding-right: 0.13rem;
+  .fixed2-flex {
+    display: flex;
+    justify-content: space-between;
+    height: 1.066667rem /* 80/75 */;
+    align-items: center;
+    border-bottom: 0.013333rem /* 1/75 */ solid #eeeeee;
+    h3 {
+      font-size: 18px;
+      color: #333333;
+    }
+    p {
+      font-size: 20px;
+      color: #000000;
+      font-weight: 700;
+    }
   }
 }
+// .fixed2 {
+//   width: 100%;
+//   height: 4rem;
+//   background: white;
+//   display: -webkit-box;
+//   display: -ms-flexbox;
+//   display: flex;
+//   -webkit-box-pack: justify;
+//   -ms-flex-pack: justify;
+//   justify-content: space-between;
+//   padding: 0.133333rem 0rem;
+//   color:#333333;
+//      font-family: 'Sans Serif';
+//   h3,
+//   p {
+//     margin-bottom: 0.133333rem /* 10/75 */;
+//     font-size: .4rem /* 30/75 */;
+//   }
+//   h3 {
+//     padding-left: 0.133333rem /* 10/75 */;
+//     color:#797979;
+//   }
+//   p {
+//     padding-right: 0.133333rem /* 10/75 */;
+//   }
+// }
 .iconfont {
   font-size: 0.533333rem /* 40/75 */;
-  color: blue;
+  color: #3278fe;
 }
 .page {
   .h {
@@ -224,9 +284,8 @@
           line-height: 0.666667rem /* 50/75 */;
           font-size: 0.333333rem /* 25/75 */;
           text-align: center;
-          border: 1px solid blue;
-     font-family: 'Tahoma','Sans Serif';
-
+          border: 1px solid #3278fe;
+          font-family: "Tahoma", "Sans Serif";
         }
       }
     }
@@ -239,20 +298,23 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.133333rem /* 10/75 */;
-     font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
+      font-family: "Sans Serif";
       h5 {
-        font-size: .32rem /* 24/75 */;
+        font-size: 13px;
         // font-weight: 700;
-        color:#4c4c4c;
+        color: #4c4c4c;
+        font-family: "Sans Serif";
       }
       .top1 {
         display: flex;
         h4 {
-          font-size: .426667rem /* 32/75 */;
+          font-size:18px;
           font-weight: 700;
+          color: #333333;
+          // font-family: pingfang;
         }
         span {
-          font-size: .373333rem /* 28/75 */;
+          font-size:17px;
           font-weight: 700;
         }
       }
@@ -260,12 +322,12 @@
     .bot {
       display: flex;
       justify-content: space-between;
-     font-family: 'Tahoma','Sans Serif';
+      font-family: "Tahoma", "Sans Serif";
       p {
-        font-size: .32rem /* 24/75 */;
+        font-size: 0.32rem /* 24/75 */;
       }
       span {
-        font-size: 0.32rem /* 24/75 */;
+        font-size: 19px;
       }
     }
   }
@@ -274,16 +336,16 @@
   padding-top: 0.533333rem /* 40/75 */;
   display: flex;
   justify-content: space-between;
-     font-family: 'Tahoma','Sans Serif';
+  font-family: "Tahoma", "Sans Serif";
   .deail-left {
     width: 30%;
     padding-top: 0.133333rem /* 10/75 */;
     p {
       color: #c6c5ca;
-      font-size:.32rem /* 24/75 */;
+      font-size: 0.32rem /* 24/75 */;
     }
     span {
-      font-size:.32rem /* 24/75 */;
+      font-size: 0.32rem /* 24/75 */;
     }
     .deail-left1 {
       display: flex;
@@ -313,32 +375,35 @@
       font-size: 0.346667rem /* 26/75 */;
       color: #c6c5ca;
     }
+    span {
+      color: #000000;
+    }
   }
 }
 
 .blue {
-  background: blue;
+  background: #3278fe;
   color: white;
 }
 .white {
   background: white;
-  color: blue;
+  color: #3278fe;
 }
 .blue1 {
-  background: blue;
+  background: #3278fe;
   color: white;
 }
 .white1 {
   background: white;
-  color: blue;
+  color: #3278fe;
 }
 </style>
 <script>
 import { getNowFormatDate, getUTCtime, getCNAtime } from "../../tools/check.js";
 import { FormatDate } from "../../tools/check.js";
-const Loading = ()=> import("../../components/Loading");
-import {mapState} from 'vuex'
-var api = require("../../api/api")
+const Loading = () => import("../../components/Loading");
+import { mapState } from "vuex";
+var api = require("../../api/api");
 export default {
   data() {
     return {
@@ -361,16 +426,15 @@ export default {
       pnlsum: null,
       kucun: null,
       deposit: null,
-      balance: ""
+      balance: "",
+     
     };
   },
-   components: {
-Loading
+  components: {
+    Loading
   },
-   computed:{
-  ...mapState([
-                'LOADING'
-            ])
+  computed: {
+    ...mapState(["LOADING"])
   },
   created() {
     this.getdate();
@@ -399,10 +463,10 @@ Loading
       var date1 = new Date(new Date().setHours(new Date().getHours() + 2));
       this.date = getUTCtime(date1);
     },
- getWeekdate() {
+    getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
-       this.Monthdate = getUTCtime(this.newdate)
+      this.newdate = new Date(this.newdate.setHours(new Date().getHours() + 2));
+      this.Monthdate = getUTCtime(this.newdate);
     },
     getList() {
       (this.flied = null), (this.canceled = null), (this.sum = null);
@@ -411,17 +475,12 @@ Loading
       } else {
         this.getWeekdate();
       }
-      this.$store.commit('showLoading')
+      this.$store.commit("showLoading");
       this.$http
-        .get(
-         api.Historyorders +
-            this.Monthdate +
-            "&to=" +
-            this.date
-        )
+        .get(api.Historyorders + this.Monthdate + "&to=" + this.date)
         .then(({ data }) => {
           if (data.code === 0) {
-      this.$store.commit('hideLoading')
+            this.$store.commit("hideLoading");
             this.arrLists = data.data;
             this.arrListreg();
             this.splices2();
@@ -436,7 +495,7 @@ Loading
           new Date(this.arrList[i].dateTime).getTime()
         );
         this.arrList[i].dateTime = moment(this.arrList[i].dateTime)
-          .subtract(2, 'h')
+          .subtract(2, "h")
           .format();
       }
     },
@@ -467,12 +526,7 @@ Loading
         this.getWeekdate();
       }
       this.$http
-        .get(
-         api.Historyexecutions +
-            this.Monthdate +
-            "&to=" +
-            this.date
-        )
+        .get(api.Historyexecutions + this.Monthdate + "&to=" + this.date)
         .then(({ data }) => {
           if (data.code === 0) {
             this.dealList = data.data;
@@ -508,7 +562,7 @@ Loading
           new Date(this.dealList[i].dateTime).getTime()
         );
         this.dealList[i].dateTime = moment(this.dealList[i].dateTime)
-          .subtract(2,"h")
+          .subtract(2, "h")
           .format();
       }
     },
@@ -535,7 +589,6 @@ Loading
       }
     }
   },
-  watch: {
-  }
+  watch: {}
 };
 </script>

@@ -91,13 +91,13 @@
 
     <!-- <div class="transactionplace-e" v-for="(item,index) in newdata1" :key="index"> -->
     <div class="transactionplace-e">
-      <div v-for="(items,indexs) in newdata1" :key="indexs" class="box">
-        <div class="math" v-show="items.symbolName === headerName">
+      <div v-for="(items,indexs) in dataorder" :key="indexs" class="box">
+        <div class="math" v-show="items.symbolName === headerName" :class="items.bid < bidnum?'colorred':'colorblue'">
           <h2>{{(items.bid).substring(0,(items.bid).indexOf("."))}}</h2>
               <span >{{(items.bid).slice((items.bid).indexOf("."),-1)}}</span>
               <h6>{{(items.bid).substr(-1,1)}}</h6>
         </div>
-        <div class="math" v-show="items.symbolName === headerName">
+        <div class="math" v-show="items.symbolName === headerName" :class="items.ask < asknum?'colorred':'colorblue'">
          <h2>{{(items.ask).substring(0,(items.ask).indexOf("."))}}</h2>
               <span >{{(items.ask).slice((items.ask).indexOf("."),-1)}}</span>
               <h6>{{(items.ask).substr(-1,1)}}</h6>
@@ -147,7 +147,13 @@
 // background: blue;
 
 // } */
+.colorred {
+    color:red;
+}
+.colorblue {
+    color:blue;
 
+}
 .blue {
   color: blue;
 }
@@ -309,7 +315,7 @@
       display: flex;
       justify-content: space-around;
       font-size: 0.666667rem /* 50/75 */;
-      color: blue;
+    //   color: blue;
      font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
 
       .math {
@@ -449,6 +455,8 @@ export default {
           orderDirection: -1
         }
       ],
+      asknum:0,
+      bidnum:0,
       unitName: "m.Marketimplementation",
       isShow: false,
       term: false,
@@ -482,6 +490,7 @@ export default {
   },
 
   created() {
+      this.headerName = window.localStorage.getItem("params");
     this.getarr();
     console.log(localStorage.getItem("balance"),"balance")
   },
@@ -490,7 +499,6 @@ Loading
 
   },
   mounted() {
-    this.headerName = window.localStorage.getItem("params");
     this.getcontractSize();
   },
   methods: {
@@ -548,7 +556,6 @@ Loading
       this.unitModel = index;
       this.unitName = item.name;
       this.OrderType = item.OrderType;
-      console.log(this.OrderType, "ppppppppppp");
       this.isShow = false;
       this.prices = true;
       this.button = false;
@@ -639,15 +646,15 @@ Loading
     },
     getarr() {
       this.newdata1 = this.$store.state.arr;
-//       for(var i = 0; i < this.newdata1.length; i++) {
-//         console.log(this.newdata1[i], "0000000000000");
-//         if(this.headerName === this.newdata1[i].symbolName ){
-//           this.holder = this.newdata1[i].ask
-// this.headerName 
-//         }
+      for(var i = 0; i < this.newdata1.length; i++) {
+        console.log(this.newdata1[i], "0000000000000");
+        if(this.headerName === this.newdata1[i].symbolName ){
+          this.num3 = this.newdata1[i].ask
 
-//         console.log( this.holder)
-//       }
+        }
+
+        console.log( this.holder)
+      }
     },
     getnewName() {
       //   if (this.newName) {
@@ -686,16 +693,14 @@ Loading
 
       // }
       if (this.num1 < this.sellnum && this.num1 != null && this.num1 != "") {
-        this.$toast(this.$t("m.Stoplosstoolow"));
+       this.$toast(this.$t("m.Stoplosstoolow"));
         return;
       }
       if (this.num2 > this.sellnum) {
         this.$toast(this.$t("m.Takeprofittoohigh"));
-
         return;
       }
       this.$store.commit('showLoading')
-
       this.$http
         .post(api.Deleteorder, {
           symbol: this.headerName,
@@ -716,6 +721,8 @@ Loading
           this.$store.commit('hideLoading')
             this.$toast(this.$t('m.balancenot'));
           
+          } else if (data.orderId == null) {
+            this.$toast(this.$t('m.Placeorderfailed'))
           }
         });
     },
@@ -728,6 +735,8 @@ Loading
 
       // }
       if (this.num1 > this.buynum) {
+        console.log(this.num1,"this.num1")
+        console.log(this.buynum,"this.buynum")
         this.$toast(this.$t("m.Stoplosstoolow"));
 
         return;
@@ -760,6 +769,9 @@ Loading
             this.$toast(this.$t('m.balancenot'))
           this.$store.commit('hideLoading')
 
+          } else if (data.orderId == null) {
+          this.$toast(this.$t('m.Placeorderfailed'))
+
           }
         });
     },
@@ -786,7 +798,7 @@ Loading
       }
     },
     placeorder() {
-      console.log("placeorder");
+      console.log(this.num3,"placeorder");
       if (this.num3 === null || "") {
         this.$toast(this.$t("m.Pleaseenterprice"));
         return;
@@ -871,7 +883,6 @@ Loading
         this.unitName === "Sell Stop" &&
         this.num3 > this.sellnum
       ) {
-        console.log("1111");
         this.$toast(this.$t("m.Pricetoohigh"));
 
         return;
@@ -927,27 +938,41 @@ Loading
       //六个小时
       this.expirationDate = getUTCtime(date9);
       this.value = this.value + " " + value1;
-      console.log(this.expirationDate,"22222")
-      console.log(this.value,"3333333")
-      // var b = this.value.replace(" ", "T");
-
-      // this.expirationDate =
-      //   b + this.expirationDate.toTimeString().substring(5, 17);
-      // this.expirationDate = this.expirationDate.split("/").join("-");
-      // var a = this.expirationDate.replace(" GMT", "");
-      // this.expirationDate = a;
-      // console.log(this.expirationDate, "89999");
-      // console.log(a, "89999");
-
-      // console.log(value1);
-      // console.log(typeof this.value);
     }
   },
 
   computed:{
 ...mapState([
                 'LOADING'
-            ])
+            ]),
+               dataorder: function() {
+        for (let j = 0; j < this.newdata1.length; j++) {
+            var data4 = this.newdata1[j];
+            if (data4.symbolName == this.headerName) {
+              this.asknum = data4.ask;
+              this.bidnum = data4.bid;
+              this.buynum = data4.ask;
+              this.sellnum = data4.bid;
+            }
+          }
+        if (this.newName) {
+        for(let h = 0; h < this.newName.length; h++){
+             for (let j = 0; j < this.newdata1.length; j++) {
+                  var data3 = this.newName[h];
+            var data4 = this.newdata1[j];
+             if(data3.symbol == data4.symbolName) {
+                data4.ask = data3.ask
+              data4.bid = data3.bid
+            }
+             if (data4.symbolName === this.headerName) {
+              this.buynum = data4.ask;
+              this.sellnum = data4.bid;
+            }
+             }
+        }
+      }
+      return this.newdata1;
+    }
   },
 
   watch: {
@@ -957,56 +982,7 @@ Loading
     // },
     "$store.state.mydata": function(newer, old) {
       this.newName = newer;
-      if (this.newName) {
-        //    this.getnewName()
-        for (let i = 0; i < this.newdata1.length; i++) {
-          for (let j = 0; j < this.newName.length; j++) {
-            // console.log(this.newdata1[i][0], "zhangzhang");
-            // console.log(this.newName[j], "lili");
-            var middle = this.newdata1[i];
-            var dabble = this.newName[j];
-
-            if (middle.symbolName == dabble.symbol) {
-              middle.ask = dabble.ask;
-              middle.bid = dabble.bid;
-            }
-            this.a1 = middle.ask;
-            this.a2 = middle.bid;
-
-            if (middle.symbolName === this.headerName) {
-              console.log(this.headerName, "");
-              this.buynum = middle.ask;
-              this.sellnum = middle.bid;
-            }
-
-            // if(dabble.symbol === this.headerName) {
-            //   console.log(dabble.symbol === this.headerName,"bbbbb")
-
-            //    if (this.a1 <  dabble.ask) {
-            //    console.log(document.getElementById("items.symbolName"))
-            //    document.getElementById("items.symbolName").style.color = "blue";
-            //   } else if (this.a1 >  dabble.ask) {
-            //     document.getElementById("items.symbolName").style.color = "red";
-            //   }
-            //   this.a1 =  dabble.ask;
-            //   console.log(this.a1,"middle")
-            //    if (this.a2 <  dabble.bid) {
-            //     document.getElementById("items").style.color = "blue";
-            //   } else if (this.a2 >  dabble.bid) {
-            //     document.getElementById("items").style.color = "red";
-            //   }
-            //   this.a2 =  dabble.bid;
-            //   console.log(this.a2,"middle")
-            //   // console.log(this.buynum, "qiqiqiqiqi");
-            // }
-            // this.sellnum = this.newdata1[0][0].bid
-            // console.log(this.buynum,"22222")
-            // console.log(this.sellnum,"333333333")
-          }
-
-          //  }
-        }
-      }
+   
     }
   }
 };

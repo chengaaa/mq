@@ -1,7 +1,7 @@
 <template>
   <div class="history-time">
     <div class="history-timeheader">
-      <van-icon id="van-icon" name="arrow-left" color="blue" @click="place" />
+      <van-icon id="van-icon" name="arrow-left" color="#3278fe" @click="place" />
       <h4>history</h4>
     </div>
     <div class="pad">
@@ -50,7 +50,7 @@
 <style lang="scss" scoped>
 .iconfont {
   font-size: 0.666667rem /* 50/75 */;
-  color: blue;
+  color: #3278fe;
   line-height: 1.066667rem /* 80/75 */;
 }
 .history-time {
@@ -190,7 +190,7 @@ export default {
       var data0 = new Date(this.newdate.setHours(new Date().getHours() + 2));
       this.newdate = getUTCtime(this.newdate);
     },
-//params 结束时间
+    //params 结束时间
     endvalue() {
   var date9 = new Date(this.enddate.setHours(new Date().getHours() + 2));
       this.enddate = getUTCtime(this.enddate);

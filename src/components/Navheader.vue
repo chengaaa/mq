@@ -2,35 +2,23 @@
   <div class="navheader">
     <div class="arrow">
       <van-icon name="arrow-left"  color="blue" @click="navback"/>
-      
-      
     </div>
   </div>
 </template>
 <style lang="scss" scoped >
 .navheader {
-  // display: flex;
-    // padding: 30px 60px 30px 60px;
   position:fixed;
   top:0;
   bottom:0;
   left:0;
   right:0;
   z-index: 1;
- 
-
-  
-  
 }
-  
-
-  
 </style>
 <style lang="scss">
 .van-icon-arrow-left {
-  font-size:1rem /* 75/75 */;
+  font-size:26px;
 }
-  
 </style>
 <script>
 export default {
@@ -41,7 +29,6 @@ export default {
   },
   methods: {
     navback() {
-       console.log("fanhui ")
        this.$router.go(-1);
     }
   }

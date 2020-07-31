@@ -3,14 +3,14 @@
     <div class="quotation">
       <div class="header">
         <div class="edit-icon" @click="skipEditPage">
-          <van-icon name="edit" color="blue" id="van-icon" />
+          <!-- <van-icon name="edit" color="#127df6" id="van-icon" /> -->
         </div>
         <div class="switch-tab">
           <div class="left" :class="{blue1, white1}" @click="Orders('Orders')">{{$t('m.Simple')}}</div>
           <div class="right" :class="{blue, white}">{{$t('m.Advanced')}}</div>
         </div>
         <div class="add-icon" @click="skipAddPage">
-          <van-icon name="plus" color="blue" id="van-icon" />
+          <!-- <van-icon name="plus" color="#127df6" id="van-icon" /> -->
         </div>
       </div>
       <!-- 简单的 -->
@@ -31,26 +31,26 @@
             tag="div"
             @click="selectType(itemsss.symbolName)"
           >
-          <div class="kk">
-          <h6 v-show="itemsss.time">{{itemsss.time}}</h6>
-          <h6 v-show="!itemsss.time">00:00:00</h6>
-            <h1>{{(itemsss.symbolName).slice(0,itemsss.symbolName.indexOf('.'))}}</h1>
+            <div class="kk">
+              <h6 v-show="itemsss.time">{{itemsss.time}}</h6>
+              <h6 v-show="!itemsss.time">00:00:00</h6>
+              <h1>{{(itemsss.symbolName).slice(0,3)}}/USDT</h1>
             </div>
             <div class="low">
-            <p :id="itemsss.symbolName">
-              <span>{{(itemsss.bid).substring(0,(itemsss.bid).indexOf("."))}}</span>
-              <span>{{(itemsss.bid).slice((itemsss.bid).indexOf("."),-1)}}</span>
-              <span>{{(itemsss.bid).substr(-1,1)}}</span>
-            </p>
-            <h5>Low:{{itemsss.low}}</h5>
-             </div>
-             <div class="low">
-            <p :id="itemsss.path">
-              <span>{{(itemsss.ask).substring(0,(itemsss.ask).indexOf("."))}}</span>
-              <span>{{(itemsss.ask).slice((itemsss.ask).indexOf("."),-1)}}</span>
-              <span>{{(itemsss.ask).substr(-1,1)}}</span>
-            </p>
-            <h5>High:{{itemsss.max}}</h5>
+              <p :id="itemsss.symbolName">
+                <span>{{(itemsss.bid).substring(0,(itemsss.bid).indexOf("."))}}</span>
+                <span>{{(itemsss.bid).slice((itemsss.bid).indexOf("."),-1)}}</span>
+                <span>{{(itemsss.bid).substr(-1,1)}}</span>
+              </p>
+              <h5>Low:{{itemsss.low}}</h5>
+            </div>
+            <div class="low">
+              <p :id="itemsss.path">
+                <span>{{(itemsss.ask).substring(0,(itemsss.ask).indexOf("."))}}</span>
+                <span>{{(itemsss.ask).slice((itemsss.ask).indexOf("."),-1)}}</span>
+                <span>{{(itemsss.ask).substr(-1,1)}}</span>
+              </p>
+              <h5>High:{{itemsss.max}}</h5>
             </div>
           </div>
         </div>
@@ -58,36 +58,23 @@
     </div>
   </keep-alive>
 </template>
-<style lang="scss">
-.van-popup--safe-area-inset-bottom {
-  .van-action-sheet__item {
-    height: 1.333333rem /* 100/75 */;
-    font-size: 0.533333rem /* 40/75 */;
-  }
-  .van-action-sheet__cancel,
-  .van-action-sheet__item {
-    height: 1.6rem /* 120/75 */;
-    line-height: 1.333333rem /* 100/75 */;
-    font-size: 0.533333rem /* 40/75 */;
-  }
-}
-</style>
+
 <style lang="scss" scoped>
 .blue {
-  background: blue;
+  background: #127df6;
   color: white;
 }
 .white {
   background: white;
-  color: blue;
+  color: #127df6;
 }
 .blue1 {
-  background: blue;
+  background: #127df6;
   color: white;
 }
 .white1 {
   background: white;
-  color: blue;
+  color: #127df6;
 }
 .quotation {
   padding-top: 1.366667rem /* 80/75 */;
@@ -132,7 +119,7 @@
         flex: 1;
         border: 1px solid #3278fe;
         height: 0.8rem /* 60/75 */;
-        font-family: 'Tahoma','sans-serif';
+        font-family: "Tahoma", "sans-serif";
         &.left {
           border-top-left-radius: 3px;
           border-bottom-left-radius: 3px;
@@ -150,7 +137,7 @@
     }
   }
   .active {
-    color: blue;
+    color: #127df6;
   }
   .noactive {
     color: brown;
@@ -163,56 +150,59 @@
     padding-bottom: 0.133333rem /* 10/75 */;
     height: 1.333333rem /* 100/75 */;
     .kk {
-      display:flex;
-    justify-content: center;
-    flex-direction:column;
-   h1,h6 {
-     height:.4rem /* 30/75 */;
-     line-height: .4rem /* 30/75 */;
-      font-size: .4rem /* 30/75 */;
-      font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif' ;
-      font-weight: 700;
-   
-   }
-   h6 {
-     font-size: .32rem /* 24/75 */;
-     margin-bottom:.066667rem /* 5/75 */;
-      font-family: 'Sans Serif';
-      color:#4c4c4c;
-   }
-
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      h1,
+      h6 {
+        height: 0.4rem /* 30/75 */;
+        line-height: 0.4rem /* 30/75 */;
+        font-size: 20px;
+        font-family: "sans serif HelveticaNeueLT-Pro-57-Cn";
+        font-weight: 700;
+        color: #000000;
+      }
+      h6 {
+        font-size: 0.32rem /* 24/75 */;
+        margin-bottom: 0.066667rem /* 5/75 */;
+        font-family: "Sans";
+        color: #797979;
+        font-weight: 500;
+      }
     }
-       .low {
-         width: 2rem /* 150/75 */;
-         height: 1.466667rem /* 110/75 */;
-      display:flex;
-    justify-content: center;
-    flex-direction:column;
-   p,h5 {
-     height:.506667rem /* 38/75 */;
-     line-height: .4rem /* 30/75 */;
-     text-align: center;
-   }
-   h5 {
-          font-size: .32rem /* 24/75 */;
-          font-family: 'Sans Serif';
-      color:#4c4c4c;
-
-   }
-   p {
-     margin-bottom:.066667rem /* 5/75 */;
-     font-family:'HelveticaNeueLT-Pro-57-Cn';
-   }
+    .low {
+      width: 2rem /* 150/75 */;
+      height: 1.466667rem /* 110/75 */;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      p,
+      h5 {
+        height: 0.506667rem /* 38/75 */;
+        line-height: 0.4rem /* 30/75 */;
+        text-align: center;
+      }
+      h5 {
+        font-size: 0.32rem /* 24/75 */;
+        font-family: "Sans";
+        color: #797979;
+      }
+      p {
+        margin-bottom: 0.066667rem /* 5/75 */;
+        font-family: "HelveticaNeueLT-Pro-57-Cn";
+        font-size: 20px;
+      }
     }
     p {
-          font-size: .4rem /* 30/75 */;
-      color: blue;
+      // font-size: .466667rem /* 35/75 */;
+      color: #127df6;
       span:nth-child(2) {
-        font-size: .533333rem /* 40/75 */;
+        font-size: 30px;
       }
       span:nth-child(3) {
         position: relative;
-        top: -0.166667rem;
+        top: -0.24rem;
+        font-size: 18px;
       }
     }
   }
@@ -221,6 +211,21 @@
     height: 1.066667rem /* 80/75 */;
     line-height: 1.066667rem /* 80/75 */;
     font-size: 0.373333rem /* 28/75 */;
+  }
+}
+</style>
+<style lang="scss">
+.van-popup--safe-area-inset-bottom {
+  //  height: 6.666667rem!important;
+  .van-action-sheet__item {
+    // height: 1.333333rem /* 100/75 */;
+    font-size: 0.533333rem /* 40/75 */;
+  }
+  .van-action-sheet__cancel,
+  .van-action-sheet__item {
+    // height: 1.6rem /* 120/75 */;
+    line-height: 1.333333rem /* 100/75 */;
+    font-size: 0.533333rem /* 40/75 */;
   }
 }
 </style>
@@ -280,14 +285,12 @@ export default {
           for (let j = 0; j < this.newMydata.length; j++) {
             var data1 = store.state.arr[i];
             var data2 = this.newMydata[j];
-
             if (data1.symbolName == data2.symbol) {
               data1.ask = data2.ask;
               data1.bid = data2.bid;
-            console.log(data2, "data2");
-              data1.time = moment(Date.now(data2.time)).format('HH:mm:ss');
+              console.log(data2, "data2");
+              data1.time = moment(Date.now(data2.time)).format("HH:mm:ss");
             }
-            
           }
         }
         for (let i = 0; i < store.state.arr.length; i++) {
@@ -299,9 +302,11 @@ export default {
               var ask = store.state.arr[i].ask;
               // console.log(ask,"askaskaskaskask")
               if (this.num0 < ask) {
-                document.getElementById(sym1.symbolName).style.color = "blue";
+                document.getElementById(sym1.symbolName).style.color =
+                  "#127df6";
               } else if (this.num0 > ask) {
-                document.getElementById(sym1.symbolName).style.color = "red";
+                document.getElementById(sym1.symbolName).style.color =
+                  "#e54440";
               }
               this.num0 = ask;
             }
@@ -309,60 +314,72 @@ export default {
             if (sym1.symbolName == sym2.symbol) {
               var bid = store.state.arr[i].bid;
               if (this.num1 < bid) {
-                document.getElementById(sym1.path).style.color = "blue";
-                document.getElementById(sym1.symbolName).style.color = "blue";
+                document.getElementById(sym1.path).style.color = "#127df6";
+                document.getElementById(sym1.symbolName).style.color =
+                  "#127df6";
               } else if (this.num1 > bid) {
-                document.getElementById(sym1.path).style.color = "red";
-                document.getElementById(sym1.symbolName).style.color = "red";
+                document.getElementById(sym1.path).style.color = "#e54440";
+                document.getElementById(sym1.symbolName).style.color =
+                  "#e54440";
               }
             }
             this.num1 = bid;
           }
         }
-        for(var i = 0; i < store.state.arr.length; i++) {
-      
-                if(store.state.arr[i].symbolName === "BTCUSD.") {
-                  if (this.$store.state.max) {
-                    store.state.arr[i].max = this.$store.state.max
-
-                  } else {
-                     store.state.arr[i].max = '0.00'
-                  }
-                  if(this.$store.state.low) {
-                    store.state.arr[i].low = this.$store.state.low
-                  } else {
-                     store.state.arr[i].low = '0.00'
-                  }
-                  console.log(store.state.arr,"store.state.arr")
-                } else  if(store.state.arr[i].symbolName === "ETHUSD."){
-                  if(this.$store.state.max1) {
-                    store.state.arr[i].max = this.$store.state.max1
-
-                  } else {
-                    store.state.arr[i].max = '0.00'
-                  }
-                  if(this.$store.state.low1) {
-                    store.state.arr[i].low = this.$store.state.low1
-
-                  }else {
-                     store.state.arr[i].low = '0.00'
-                  }
-                 
-                } else if(store.state.arr[i].symbolName === "BCHUSD."){
-                  if(this.$store.state.max2) {
-                    store.state.arr[i].max =this.$store.state.max2
-
-                  } else{
-                     store.state.arr[i].max = '0.00'
-                  } 
-                  if(this.$store.state.low2) {
-                    store.state.arr[i].low = this.$store.state.low2
-
-                  } else {
-                     store.state.arr[i].low = '0.00'
-                  }
-
-                }
+        for (var i = 0; i < store.state.arr.length; i++) {
+          if (store.state.arr[i].symbolName === "BTCUSD.") {
+            if (store.state.exchangeBTCUSD) {
+              store.state.arr[i].max = store.state.exchangeBTCUSD.high;
+              if(store.state.arr[i].ask > store.state.exchangeBTCUSD.high ) {
+                store.state.exchangeBTCUSD.high = store.state.arr[i].ask
+              }
+            } else {
+              store.state.arr[i].max = "0.00";
+            }
+            if (store.state.exchangeBTCUSD) {
+              store.state.arr[i].low = store.state.exchangeBTCUSD.low;
+              if(store.state.arr[i].bid < store.state.exchangeBTCUSD.low ) {
+                store.state.exchangeBTCUSD.low = store.state.arr[i].bid
+              }
+            } else {
+              store.state.arr[i].low = "0.00";
+            }
+            console.log(store.state.arr, "store.state.arr");
+          } else if (store.state.arr[i].symbolName === "ETHUSD.") {
+            if (store.state.exchangeETHUSD) {
+              store.state.arr[i].max = store.state.exchangeETHUSD.high;
+              if(store.state.arr[i].ask > store.state.exchangeETHUSD.high ) {
+                store.state.exchangeETHUSD.high = store.state.arr[i].ask
+              }
+            } else {
+              store.state.arr[i].max = "0.00";
+            }
+            if (store.state.exchangeETHUSD) {
+              store.state.arr[i].low = store.state.exchangeETHUSD.low;
+               if(store.state.arr[i].bid < store.state.exchangeETHUSD.low ) {
+                store.state.exchangeETHUSD.low = store.state.arr[i].bid
+              }
+            } else {
+              store.state.arr[i].low = "0.00";
+            }
+          } else if (store.state.arr[i].symbolName === "BCHUSD.") {
+            if (store.state.exchangeBCHUSD) {
+              store.state.arr[i].max = store.state.exchangeBCHUSD.high;
+               if(store.state.arr[i].ask > store.state.exchangeBCHUSD.high ) {
+                store.state.exchangeBCHUSD.high = store.state.arr[i].ask
+              }
+            } else {
+              store.state.arr[i].max = "0.00";
+            }
+            if (store.state.exchangeBCHUSD) {
+              store.state.arr[i].low = store.state.exchangeBCHUSD.low;
+               if(store.state.arr[i].bid < store.state.exchangeBCHUSD.low ) {
+                store.state.exchangeBCHUSD.low = store.state.arr[i].bid
+              }
+            } else {
+              store.state.arr[i].low = "0.00";
+            }
+          }
         }
       }
       return store.state.arr;
@@ -371,7 +388,7 @@ export default {
   methods: {
     ...mapMutations(["setdataArr"]),
     ...mapMutations(["setArr"]),
-    
+
     Orders(O) {
       this.$router.push("/quotation-order");
       (this.blue = true), (this.white = false);
@@ -401,9 +418,7 @@ export default {
           path: "/detail/" + this.itemw
         });
       } else if (item.name === this.$t("m.Chart")) {
-        this.$router.push({
-          path: "/echarts/" + this.itemw
-        });
+        this.$router.push({ name: "echarts", params: { id: this.itemw } });
       }
       //   Toast(item.name);
     },

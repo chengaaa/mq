@@ -9,12 +9,11 @@
         <div class="login-logoo">
           <div class="login-logo">
             <h1>{{$t('m.Hello')}}，</h1>
-            <p>{{$t('m.Welcometo')}} BLITZ BOOK 8</p>
+            <p>{{$t('m.Welcometo')}} B BOOK 8</p>
             <!-- <router-link to="/register"> -->
             <!-- </router-link> -->
           </div>
         </div>
-
         <div class="login-A1">
           <div >
             <input
@@ -23,7 +22,7 @@
               autocomplete="off"
               id="username"
               v-model="data.loginName"
-              @keyup="check"
+              @input="check"
             />
           </div>
           <div class="input">
@@ -32,9 +31,10 @@
               :placeholder="$t('m.Password')"
               id="password"
               v-model="data.password"
-              @keyup="check"
+              @input="check"
             />
-            <i class="iconfont icon-xiaoyanjing-bi" @click="changetype"></i>
+          <i v-show="passwords === 'text'" class="iconfont icon-xiaoyanjing-zheng" @click="changetype"></i>
+            <i v-show="passwords === 'password'" class="iconfont icon-xiaoyanjing-bi" @click="changetype"></i>
           </div>
           <input type="button" class="mr-button" :value="$t('m.Login')" v-show="but===true" />
           <input
@@ -56,6 +56,7 @@
         </div>
       </div>
     </div>
+    <!-- <a href="https://www.freeforexapi.com/api/live?pairs=USDCNY">点击吧</a> -->
   </div>
 </template>
 <style lang="scss" scoped>
@@ -74,7 +75,6 @@
           display: table-cell;
           vertical-align: middle;
           font-size: 0.533333rem /* 40/75 */;
-
           h1 {
             margin-bottom: 0.32rem /* 24/75 */;
           }
@@ -86,7 +86,6 @@
         }
       }
       .login-A1 {
-        
         #username,#password{
           width: 8.733333rem /* 655/75 */;
           height: 1.173333rem /* 88/75 */;
@@ -117,6 +116,11 @@
   font-size: 0.56rem /* 42/75 */;
 }
 .icon-xiaoyanjing-bi {
+  font-size: 0.426667rem /* 32/75 */;
+  position: relative;
+  left: -0.266667rem;
+}
+.icon-xiaoyanjing-zheng {
   font-size: 0.426667rem /* 32/75 */;
   position: relative;
   left: -0.266667rem;
@@ -178,6 +182,9 @@ export default {
     home() {
       this.$router.push("/")
     },
+    nihao() {
+      this.$http.get("https://www.freeforexapi.com/api/live?pairs=USDCNY")
+    },
     register() {
       this.$router.push("/register");
     },
@@ -195,7 +202,8 @@ export default {
       let username = document.getElementById("username");
       let password = document.getElementById("password");
       var phoneNumberReg = /^[1]{1}[3|5|7|8]{1}\d{9}$/;
-      var emailNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      var emailNumberReg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      // var emailNumberReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
       if (
         phoneNumberReg.test(username.value) ||
         emailNumberReg.test(username.value)
@@ -255,7 +263,8 @@ export default {
                   this.$toast(this.$t("m.Loginsuccessfully"));
                   this.$store.commit("hideLoading");
                   this.$router.push("/");
-                  this.setToken("Bearer" + " " + data.access_token);
+                  localStorage.setItem("token", "Bearer" + " " + data.access_token)
+                  // this.setToken("Bearer" + " " + data.access_token);
                   console.log(data.access_token);
                   init();
                 } else {
@@ -285,7 +294,7 @@ export default {
                     // post请求
                     .post(api.Loginmt5URL, {
                       account: this.data.account,
-                      userId: this.userId
+                      userId: this.userId 
                     })
                     .then(({ data }) => {
                       // 如果登录成功
@@ -293,7 +302,8 @@ export default {
                         this.$toast(this.$t("m.Loginsuccessfully"));
                         this.$store.commit("hideLoading");
                         this.$router.push("/");
-                        this.setToken("Bearer" + " " + data.access_token);
+                        localStorage.setItem("token", "Bearer" + " " + data.access_token)
+                        // this.setToken("Bearer" + " " + data.access_token);
                         console.log(data.access_token);
                         init();
                       }

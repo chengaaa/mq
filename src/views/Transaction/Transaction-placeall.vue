@@ -34,7 +34,7 @@
       .concent-b {
         display: flex;
         justify-content: space-between;
-
+        height: 18px;
         background: white;
         padding: 0.333333rem /* 25/75 */ 0.4rem /* 30/75 */;
         border-bottom: 1px solid #b9b6b6;
@@ -52,7 +52,7 @@
 </style>
 <style lang="scss" scoped>
 .iconfont {
-  font-size:.506667rem /* 38/75 */;
+  font-size:20px;
   font-weight: 700;
   color: blue;
 }

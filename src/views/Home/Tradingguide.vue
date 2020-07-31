@@ -6,7 +6,7 @@
 
     </div>
     
-    <div class="guide-top">
+    <div class="guide-top" @click="teachingtrade">
         <img src="../../assets/image/新手交易指南-稿件2_03.png" alt="">
         <h3>{{$t('m.Howtotransaction')}}</h3>
     </div>
@@ -71,6 +71,9 @@ export default {
         },
         teaching() {
             this.$router.push("/teaching")
+        },
+        teachingtrade() {
+            this.$router.push("/teachingtrade")
         }
     }
     

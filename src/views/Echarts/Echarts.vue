@@ -1,16 +1,17 @@
 <template>
 <div class="apply">
     <div class="apply-all">
-        <div class="apply-title">
-        <h2>{{$t('m.Hello')}},</h2>
-     <p>{{$t('m.Welcometo')}} B BOOK 8</p>
-        <span>{{$t('m.Use')}}</span>
-        </div>
+        <!-- <div class="apply-title"> -->
+        <!-- <h2>{{$t('m.Hello')}},</h2>
+     <p>{{$t('m.Welcometo')}} BLITZ BOOK 8</p>
+        <span>{{$t('m.Use')}}</span> -->
+        <!-- </div> -->
 
-        <div class="button">
-            <input type="button" :value="($t('m.Login'))" @click="login">
-            <input type="button" :value="($t('m.Register'))" @click="register">
-        </div>
+        <!-- <div class="button"> -->
+            <!-- <input type="button" :value="($t('m.Login'))" @click="login"> -->
+            <!-- <input type="button" :value="($t('m.Register'))" @click="register"> -->
+        <!-- </div> -->
+       {{$t('m.Charts')}}...
     </div>
 </div>
 
@@ -21,7 +22,7 @@
     width: 100%;
     height: 100%;
     position: fixed;
-     background:#127df6;
+    //  background:#127df6;
     
      .apply-all {
          width:80%;
@@ -30,7 +31,8 @@
          text-align: center;
          position:relative;
          top:50%;
-         margin-top: -4rem /* 300/75 */;
+         margin-top: -2rem /* 300/75 */;
+         font-size: 21px;
          .apply-title {
              margin-bottom: 3.066667rem /* 230/75 */;
              font-size:.56rem /* 42/75 */;
@@ -65,15 +67,6 @@
 </style>
 <script>
 export default {
-   methods: {
-       login() {
-      this.$router.push("/login")
-       },
-       register(){
-      this.$router.push("/register")
-
-       }
-   }
-    
+ 
 }
 </script>
