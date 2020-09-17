@@ -12,7 +12,7 @@ export const m = {
   CreditDeposits:"Credit in",
   CreditWithdraws:"Credit out",
   balancenot:"Insufficient Balance",
-
+  balancenot2:"Available balance insufficient, there are either withdrawal requests or open positions.",
   //position
   Position: 'Position (Long press to close)',
   StopLoss: 'S/L:',
@@ -197,7 +197,7 @@ export const m = {
   Addressremarks: "Note",
   Networkcharge: "Fee",
   Determine: "Submit",
-  Minimum: "Minimum 10USDT",
+  Minimum: "Minimum 20USDT",
     //详情页面
     Digits:"Digits",
     Stopslevel:"Stops level",
@@ -205,7 +205,32 @@ export const m = {
     Profitcalculation:"Profit calculation",
     Swaptype:"Swap type",
     Swaplong:"Swap long",
-    Swapshort:"Swap short"
+    Swapshort:"Swap short",
+    Referral:"Referral Code(Leave empty if you do not have.)",
+    Commission:"Referral Commission",
+    Error:"invalid referral code, continue?",
+    Done:"Done",
+    Download:"Download App",
+    ChangePassword:"Change Password",
+    Passworderror:"Password error",
+    Newpass:"The new password is used previously",
+    Modifiedsuccess:"Modification succeeded",
+    Origin:"Origin password",
+    Newpassword:"New password",
+    Verifypassword:"Verify password",
+    Passworddoes:"The verify password does not match the new password",
+    Changefailed:"Change password failed"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

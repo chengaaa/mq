@@ -4,11 +4,12 @@
           <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home"/>
           <h2>{{$t('m.Joinofficialgroup')}}</h2>
     </div>
-    <div class="Telegram" v-for="(item,index) in list" :key="index">
-        <img :src="item.url" alt="">
+    <div class="Telegram" v-for="(item,index) in group" :key="index">
         <div class="icons">
-        <i class="iconfont" :id=" 'ine' +index" >{{item.icon}}</i><p>{{$t(item.name)}}</p>
+        <i class="iconfont" style="color:#00ca0c" >{{"\ue623"}}</i><p>{{$t(item.group_name)}}</p>
         </div>
+        <img :src="item.address" alt="">
+        
         <span>{{$t(item.deail)}}</span>
     </div>
     </div>
@@ -48,17 +49,18 @@
            margin-bottom: .32rem /* 24/75 */;
 
            .iconfont {
-    font-size: .48rem /* 36/75 */;
+           font-size: 18px;
 }
  
        }
        img{
        width: 3.266667rem /* 245/75 */;
        height: 3.266667rem /* 245/75 */;
-       margin-bottom: .213333rem /* 16/75 */;
+       margin-bottom: .5rem /* 16/75 */;
        }
        p {
            padding-left:.186667rem /* 14/75 */;
+           font-size: 18px;
        }
    }
 }
@@ -74,6 +76,7 @@
     
 </style>
 <script>
+var api = require("../../api/api");
 export default {
     data() {
         return{
@@ -98,8 +101,16 @@ export default {
                  icon:"\ue63d"
 
              }
-          ]
+          ],
+          group:[]
         }
+    },
+    created() {
+        this.$http.get(api.social).then(({data})=>{
+            this.group = data
+            console.log(data,"data")
+        })
+
     },
     methods:{
         home(){

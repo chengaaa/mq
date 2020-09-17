@@ -9,6 +9,8 @@ const router = new Router({
       redirect: '/home',
       // component: () => import(/* webpackChunkName: "about" */ './views/Login.vue')
     },
+   
+    
     { //首页
       path: '/home',
       name: 'home',
@@ -61,7 +63,7 @@ const router = new Router({
       name: 'transaction',
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        // keepAlive: true
+        keepAlive: true
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction.vue'),
     },
@@ -132,7 +134,7 @@ const router = new Router({
       name: 'account',
       meta: {
         // requireAuth: true,
-        // keepAlive: true
+        keepAlive: true
           // 添加该字段，表示进入这个路由是需要登录的
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Account/Account.vue')
@@ -175,6 +177,14 @@ const router = new Router({
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Echarts/Echartss.vue')
     },
+      {//echarts
+        path: '/echartss',
+        name: 'echartss',
+        meta: {
+          // requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+      },
+        component: () => import(/* webpackChunkName: "about" */ './views/Echarts/Echarts.vue')
+      },
      {//语言
       path: '/language',
       name: 'language',

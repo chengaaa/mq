@@ -51,18 +51,16 @@ export default {
       userid: "",
       all: [],
       engs: "",
-      language: "",
+      language:"",
       CNY:null,
       USD:null
 
     };
   },
-
   components: {
     Tabbar,
     Loading
   },
-
   computed: {
     tabbarShow() {
       return this.$store.getters.getTabbarShow;
@@ -76,15 +74,25 @@ export default {
     this.language = navigator.language;
     console.log(this.language,"this.language")
     this.sheet();
-    this.rate()
     this.get()
 
     if (this.language === "zh-CN") {
       this.engs = "中文";
-    } else if (this.language === "en-US") {
+      // localStorage.setItem("engs", "中文");
+      // localStorage.setItem("lang", "zh-CN");
+
+    } else 
+    if (this.language === "en-US") {
       this.engs = "English";
-    } else if (this.language === "zh-TW" || language === "zh-HK") {
+      // localStorage.setItem("lang", "en-US");
+    } else if (this.language === "zh-TW" || this.language === "zh-HK") {
       this.engs = "繁體";
+      // localStorage.setItem("lang", "zh-TW");
+    } else {
+      this.engs = "中文";
+      // localStorage.setItem("engs", "中文");
+      // localStorage.setItem("lang", "zh-CN");
+
     }
     localStorage.getItem("engs")
       ? localStorage.setItem("engs", localStorage.getItem("engs"))
@@ -128,15 +136,7 @@ export default {
         return;
       }
     },
-    //首页的汇率
-     rate() {
-      this.$http.get(api.getnumber).then(data => {
-        this.CNY = data.data.rates.CNY;
-        this.USD = data.data.rates.USD;
-        localStorage.setItem("CNY",this.CNY)
-        localStorage.setItem("USD",this.USD)
-      });
-    },
+   
     //首页的websocket
     homewebsocket() {
       this.$http;
@@ -191,7 +191,7 @@ export default {
     sheet() {
       let arr1 = [
         { name: "Close" },
-        { name: "Trade" }
+        { name: "Trade" },
         // { name: "Price revision" }
       ];
       let arr2 = [{ name: "平倉" }, { name: "交易" }];
@@ -204,10 +204,13 @@ export default {
         this.setActions(arr1);
       } else if (this.language === "zh-TW" || this.language === "zh-HK") {
         this.setActions(arr2);
+      } else {
+        this.setActions(arr3);
       }
-      let arrs1 = [{ name: "Delete" }, { name: "Trade" }];
-      let arrs2 = [{ name: "删除" }, { name: "交易" }];
-      let arrs3 = [{ name: "刪除" }, { name: "交易" }];
+        
+      let arrs1 = [{ name: "Delete" }, { name: "Trade" },{ name: "Price revision" }];
+      let arrs2 = [{ name: "删除" }, { name: "交易" },,{name: "修改价位"}];
+      let arrs3 = [{ name: "刪除" }, { name: "交易" },,{name: "修改價位"}];
 
       if (this.language === "zh-CN") {
         this.setActionss(arrs3);
@@ -215,6 +218,9 @@ export default {
         this.setActionss(arrs1);
       } else if (this.language === "zh-TW" || this.language === "zh-HK") {
         this.setActionss(arrs2);
+      } else {
+        this.setActionss(arrs3);
+
       }
     },
 
@@ -318,8 +324,7 @@ export default {
         to.path == "/transaction" ||
         to.path == "/quotation-order" ||
         to.path == "/quotation-deail" ||
-        to.path == "/account" ||
-        to.path == "/language" ||
+        to.path == "/account"  ||
         to.path == "/apply" ||
         to.path == "/echarts"
       ) {

@@ -12,6 +12,7 @@ export const m = {
     CreditDeposits:"信用入金",
     CreditWithdraws:"信用出金",
     balancenot:"余额不足",
+    balancenot2:"可用余额不足，有未处理的出金申请，或有仓位没有关闭",
     //价位
     Position: '价位 (长按关闭)',
     StopLoss: '止损:',
@@ -190,7 +191,7 @@ export const m = {
     Addressremarks: "地址备注",
     Networkcharge: "网络手续费",
     Determine: "确定",
-    Minimum: "最低提币10USDT",
+    Minimum: "最低提币20USDT",
     // Insufficient:"可用余额不足",
    
       //详情页面
@@ -200,6 +201,27 @@ export const m = {
       Profitcalculation:"利润计算",
       Swaptype:"库存费类型",
       Swaplong:"买入库存费",
-      Swapshort:"卖出库存费"
+      Swapshort:"卖出库存费",
+      //推荐码
+      Referral:"推荐码(非必填)",
+      Commission:"返佣金",
+      Error:"推荐码错误，是否继续?",
+      Done:"完成",
+      Download:"下载App",
+      ChangePassword:"修改密码",
+      Passworderror:"密码错误",
+    //   Newpass:"新密码不能和前5次密码之一相同",
+      Newpass:"新密码曾经使用过",
+      Modifiedsuccess:"修改成功",
+      Origin:"原密码",
+      Newpassword:"新密码",
+      Verifypassword:"确认密码",
+      Passworddoes:"确认密码与新密码不匹配",
+      Changefailed:"修改密码失败"
+      
+
+
+
+     
 
 }

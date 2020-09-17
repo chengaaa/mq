@@ -8,6 +8,7 @@ if(process.env.NODE_ENV === "production") {
    baseURL3 = 'https://www.bbook8.com/twapi/v2/api'
 } 
 module.exports = {
+    
     //第一层登录
     LoginURL: baseURL2 + "/user/login",
     DeailURL: baseURL2 + "/user/detail?userId=",
@@ -46,18 +47,20 @@ module.exports = {
     chartBCHUSD: baseURL1 + "/chart?symbol=BCHUSD.&from=",
     chart: baseURL2 + "/today",
     //获取汇率
-    getnumber: baseURL2 + "/rate"
+    getnumber: baseURL2 + "/rate",
+    //查询referralcode
+    referralcode: baseURL2 + "/referral_code",
+    //修改
+    modify: baseURL1 + "/trade/order",
+    //获取首页图片
+    banner: baseURL2 + "/banner_pic",
+    //获取群组二维码
+    social:baseURL2 + "/social_group",
+    //获取下载app信息
+    appinfo: baseURL2 + "/app_info",
+    //修改密码
+    changepassword: baseURL2 + "/user/pwd/set"
+    
    
-    
-  
-   
-    
-    
-    
-  
-    
-    
-    
-    
 
 }

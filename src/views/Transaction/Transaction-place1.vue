@@ -463,7 +463,7 @@ export default {
       is: false,
       num: 0.01,
       contractSize: null,
-      OrderType: 3,
+      OrderTypes: 3,
       num1: null,
       num2: null,
       num3: null,
@@ -706,7 +706,7 @@ Loading
           symbol: this.headerName,
           volume: this.num,
           orderDirection: -1,
-          orderType: this.OrderType,
+          orderType: this.OrderTypes,
           fillType: 1,
           stopLoss: this.num1,
           takeProfit: this.num2
@@ -753,7 +753,7 @@ Loading
           symbol: this.headerName,
           volume: this.num,
           orderDirection: 1,
-          orderType: this.OrderType,
+          orderType: this.OrderTypes,
           fillType: 1,
           stopLoss: this.num1,
           takeProfit: this.num2

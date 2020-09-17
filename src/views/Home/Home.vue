@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
+  <div class="home" >
+    
     <div class="home-title">
       <h1 class="home-img">
         <img src="../../assets/image/logo3.png" alt />
       </h1>
     </div>
+    <div >
     <div class="home-banner" v-if="lang==='中文'">
-      <img src="../../assets/image/banner.jpg" alt />
+      <img :src="schpng" alt />
     </div>
     <div class="home-banner" v-if="lang==='English'">
-      <img src="../../assets/image/banner1.jpg" alt />
+      <img :src="enpng" alt />
     </div>
     <div class="home-banner" v-if="lang==='繁體'">
-      <img src="../../assets/image/banner2.jpg" alt />
+      <img :src="tchpng" alt />
+    </div>
     </div>
     <div class="home-news" >
       <div class="gonggao" style="line-height:1.1rem">
@@ -44,7 +47,7 @@
         </div>
         <h5 :class="(((((items.price + items.price2 ) / 2 ) - items.open) /items.open) * 100).toFixed(2) >=0?'green':'greenred'">{{((items.price + items.price2) / 2).toFixed(2)}}</h5>
        <P :class="(((((items.price + items.price2 ) / 2 ) - items.open) /items.open) * 100).toFixed(2) >=0?'green':'greenred'"> <span style="color:#1dd086"  v-if="(((((items.price + items.price2 ) / 2 ) - items.open) /items.open) * 100).toFixed(2) >=0">+</span>{{(((((items.price + items.price2 ) / 2 ) - items.open) /items.open) * 100).toFixed(2)}}%</P>
-        <span>￥{{(((items.price + items.price2) / 2) * (CNY/USD)).toFixed(2)}}</span>
+        <span v-show="CNY && USD">￥{{(((items.price + items.price2) / 2) * (CNY/USD)).toFixed(2)}}</span>
       </div>
       <!-- <div class="home-number1">
         <div class="home-number3">
@@ -96,21 +99,22 @@
         </div>
         <div class="home-two">
           <h3>{{((item.price + item.price2) / 2).toFixed(2)}}</h3>
-          <p>￥{{(((item.price + item.price2) / 2) * (CNY/USD)).toFixed(2)}}</p>
+          <p v-show="CNY && USD">￥{{(((item.price + item.price2) / 2) * (CNY/USD)).toFixed(2)}}</p>
         </div>
         <div class="home-three">
           <input type="button" :class="(((((item.price + item.price2 ) / 2 ) - item.open) /item.open) * 100).toFixed(2) >= 0?'backgreen':'backgreenred'" :value="(((((item.price + item.price2 ) / 2 ) - item.open) /item.open) * 100).toFixed(2) >= 0? '+' + (((((item.price + item.price2 ) / 2 ) - item.open) /item.open) * 100).toFixed(2) + '%':(((((item.price + item.price2 ) / 2 ) - item.open) /item.open) * 100).toFixed(2) + '%'" />
         </div>
       </div>
        <div class="app">
-         <div>下载App</div>
+         <div>{{$t('m.Download')}}</div>
          <div>
-       <button class="button3">
-         <!-- <a href="https://www.bbook8.com/app/android/bb8_android.apk">Android</a> -->
-         <a href="#">Android</a>
+       <button style="color:black" @click="Android" class="button3">
+         <!-- <a :href="Android">Android</a> -->
+         <!-- <a href="#">Android</a> -->
+         Android
          </button>
        <button class="button3">
-         <a href="#">IOS</a>
+         <a :href="ios">IOS</a>
        </button>
        </div>
      </div>
@@ -146,7 +150,7 @@ body {
   padding-right: 0.32rem;
   margin-top: 10px;
   color: #eff0f2;
-  font-size: 26px;
+  font-size: 22px;
   .button3 {
     appearance: none;
     width: 2.4rem /* 180/75 */;
@@ -482,9 +486,14 @@ export default {
     return {
       tokens: "",
       lang: localStorage.getItem("engs"),
+      Androids:"",
+      ios:"",
       homeList: [],
       CNY: null,
       USD: null,
+      enpng:"",
+      schpng:"",
+      tchpng:"",
       List: [
         {
           designation: "BTCUSD.",
@@ -521,8 +530,12 @@ export default {
     this.tokens = localStorage.getItem("token");
     // this.rate();
     console.log(this.lang, "lang");
-    this.CNY = localStorage.getItem("CNY")
-    this.USD = localStorage.getItem("USD")
+    console.log(window.location, "search");
+    this.rate()
+    // this.CNY = localStorage.getItem("CNY")
+    // this.USD = localStorage.getItem("USD")
+    this.getbanner()
+    this.getappinfo()
     // this.getaccount()
     // this.homewebsocket()
   },
@@ -576,6 +589,11 @@ export default {
     }
   },
   components: {},
+  activated() {
+     this.lang = localStorage.getItem("engs")
+      this.CNY = localStorage.getItem("CNY")
+    this.USD = localStorage.getItem("USD")
+  },
   methods: {
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
@@ -590,11 +608,32 @@ export default {
     tradingguide() {
       this.$router.push("/tradingguide");
     },
+     //首页的汇率
+     rate() {
+      this.$http.get(api.getnumber).then(data => {
+        this.CNY = data.data.rates.CNY;
+        this.USD = data.data.rates.USD;
+        localStorage.setItem("CNY",this.CNY)
+        localStorage.setItem("USD",this.USD)
+      });
+    },
     join() {
       this.$router.push("/join");
     },
     news() {
       this.$router.push("/information");
+    },
+    getbanner() {
+      this.$http.get(api.banner).then(({data})=>{
+        this.enpng = data.en
+        this.schpng = data.sch
+        this.tchpng = data.tch
+        console.log(data,"1")
+        console.log(this.schpng,"2")
+        console.log(this.tchpng,"3")
+         
+      })
+
     },
     // rate() {
     //   this.$http.get(api.getnumber).then(data => {
@@ -783,6 +822,27 @@ export default {
     },
     register() {
       this.$router.push("/register");
+    },
+    Android() {
+      var u = navigator.userAgent;
+     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+     if(isAndroid) {
+       
+       window.location.href = this.Androids
+
+     }else {
+       this.$toast("请下载ios版本")
+     }
+
+    },
+    getappinfo() {
+      this.$http.get(api.appinfo).then(({data})=>{
+         console.log(data,"你好哈")
+         this.ios = data.ios.address
+         this.Androids = data.android.address
+
+             })
     }
   },
   watch: {

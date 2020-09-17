@@ -4,7 +4,7 @@
     <div class="login-A">
       <div class="login-AA">
         <div class="header">
-          <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home"/>
+          <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home" />
         </div>
         <div class="login-logoo">
           <div class="login-logo">
@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="login-A1">
-          <div >
+          <div>
             <input
               type="text"
               :placeholder="$t('m.Mobilenumber')"
@@ -33,8 +33,16 @@
               v-model="data.password"
               @input="check"
             />
-          <i v-show="passwords === 'text'" class="iconfont icon-xiaoyanjing-zheng" @click="changetype"></i>
-            <i v-show="passwords === 'password'" class="iconfont icon-xiaoyanjing-bi" @click="changetype"></i>
+            <i
+              v-show="passwords === 'text'"
+              class="iconfont icon-xiaoyanjing-zheng"
+              @click="changetype"
+            ></i>
+            <i
+              v-show="passwords === 'password'"
+              class="iconfont icon-xiaoyanjing-bi"
+              @click="changetype"
+            ></i>
           </div>
           <input type="button" class="mr-button" :value="$t('m.Login')" v-show="but===true" />
           <input
@@ -53,6 +61,42 @@
             <span>{{$t('m.Noaccount')}}？</span>
             <span class="qie" @click="register">{{$t('m.Registernow')}}</span>
           </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="width:100%;height:100%;position:absolute;top:0;background:rgba(0,0,0,.5);"
+      v-if="recode"
+    >
+      <div class="Recommendation">
+        <div class="input">
+          <input
+            id="focus"
+            type="text"
+            v-model="referralcode"
+            :placeholder="$t('m.Referral')"
+            @focus="focus"
+            @blur="blur"
+          />
+        </div>
+        <div class="button">
+          <button @click="close">{{$t('m.Cancellation')}}</button>
+          <button @click="open">OK</button>
+        </div>
+      </div>
+    </div>
+    <div
+      style="width:100%;height:100%;position:absolute;top:0;background:rgba(0,0,0,.5);"
+      v-if="norecode"
+    >
+      <div class="Recommendation">
+        <div class="inputs">
+          {{$t('m.Error')}}
+          <!-- <input id="focus" type="text" v-model="referralcode" :placeholder="$t('m.Referral')" @focus="focus" @blur="blur" /> -->
+        </div>
+        <div class="button">
+          <button @click="close2">{{$t('m.Cancellation')}}</button>
+          <button @click="open2">OK</button>
         </div>
       </div>
     </div>
@@ -86,7 +130,8 @@
         }
       }
       .login-A1 {
-        #username,#password{
+        #username,
+        #password {
           width: 8.733333rem /* 655/75 */;
           height: 1.173333rem /* 88/75 */;
           border-bottom: 1px solid #eeeeee;
@@ -104,8 +149,57 @@
 
         .qie {
           color: #127df6;
-          font-size:.4rem /* 30/75 */;
+          font-size: 0.4rem /* 30/75 */;
         }
+      }
+    }
+  }
+  .Recommendation {
+    width: 90%;
+    height: 5.333333rem /* 400/75 */;
+    // border: 1px solid red;
+    border-radius: 6px;
+    background: white;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .input,.inputs {
+      text-align: center;
+      margin-top: 1.3rem;
+      input {
+        width: 80%;
+        height: 1rem /* 75/75 */;
+        text-align: center;
+        border: 1px solid #cfcccc;
+        font-size: 13px;
+        appearance: none;
+      }
+    }
+    .inputs {
+      font-size: 20px;
+    }
+    .button {
+      margin-top: 1.333333rem /* 100/75 */;
+      text-align: right;
+      // margin-left: 1.8rem /* 200/75 */;
+      width: 90%;
+      button {
+        width: 20%;
+        height: 0.8rem /* 60/75 */;
+        margin-left: 0.266667rem /* 20/75 */;
+        appearance: none;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      :nth-child(1) {
+        background: white;
+        border: 1px solid #cfcccc;
+      }
+      :nth-child(2) {
+        background: #127df6;
+        border: 1px solid #cfcccc;
+        color: white;
       }
     }
   }
@@ -153,21 +247,25 @@ import { mapMutations, mapState } from "vuex";
 import init from "../../tools/websocket";
 import { getUTCtime } from "../../tools/check.js";
 const Loading = () => import("../../components/Loading");
-var api = require("../../api/api") ;
+var api = require("../../api/api");
 export default {
   data() {
     return {
       data: {
         loginName: "",
-        password: ""
+        password: "",
       },
       userId: "",
       passwords: "password",
-      but: true
+      but: true,
+      referralcode: "",
+      useremail: "",
+      recode: false,
+      norecode: false,
     };
   },
   components: {
-    Loading
+    Loading,
   },
   created() {
     this.$store.commit("hideLoading");
@@ -180,10 +278,86 @@ export default {
     ...mapMutations(["delUser"]),
     ...mapMutations(["setAccountName"]),
     home() {
-      this.$router.push("/")
+      this.$router.push("/");
     },
+    focus() {
+      document.getElementById("focus").style.borderColor = "#127df6";
+    },
+    blur() {
+      document.getElementById("focus").style.borderColor = "#cfcccc";
+    },
+    close() {
+      this.recode = false;
+    },
+    close2() {
+      this.norecode = false;
+    },
+    
+    open() {
+      // this.recode = false;
+      this.$store.commit("showLoading");
+      if (this.referralcode) {
+        this.$http
+          .get(api.referralcode, { params: { code: this.referralcode } })
+          .then(({ data }) => {
+            // console.log(data, "789123");
+            if (data.result === 1) {
+              this.open2();
+            } else if (data.result === 0) {
+              this.$store.commit("hideLoading");
+              this.norecode = true;
+              this.referralcode = "";
+            }
+          });
+      } else {
+        this.open2();
+      }
+    },
+    open2() {
+      this.$store.commit("showLoading");
+      this.$http
+        .post(api.OpenURL, {
+          userId: this.userId,
+          accountName: this.accountName,
+          email: "17600765487@163.com",
+          phone: "17600765487",
+          countryCode: "+86",
+          referral_code: this.referralcode,
+          user_email: this.useremail,
+        })
+        .then(({ data }) => {
+          console.log(data, "shazi");
+          if (data.mcode === "m0000000") {
+            this.data.account = data.data.login;
+            this.setUserId(this.data.account);
+            console.log(this.data.account, this.data.password);
+            this.$http
+              // post请求
+              .post(api.Loginmt5URL, {
+                account: this.data.account,
+                userId: this.userId,
+              })
+              .then(({ data }) => {
+                // 如果登录成功
+                if (data.code === 0) {
+                  this.$toast(this.$t("m.Loginsuccessfully"));
+                  this.$store.commit("hideLoading");
+                  this.$router.push("/");
+                  localStorage.setItem(
+                    "token",
+                    "Bearer" + " " + data.access_token
+                  );
+                  // this.setToken("Bearer" + " " + data.access_token);
+                  console.log(data.access_token);
+                  init();
+                }
+              });
+          }
+        });
+    },
+
     nihao() {
-      this.$http.get("https://www.freeforexapi.com/api/live?pairs=USDCNY")
+      this.$http.get("https://www.freeforexapi.com/api/live?pairs=USDCNY");
     },
     register() {
       this.$router.push("/register");
@@ -216,8 +390,8 @@ export default {
               "x-api-token": "TypwwEg8E21FlKYZ",
               "x-api-tenantid": "T002509",
               "Content-Type": "application/json",
-              "cache-control": "no-cache"
-            }
+              "cache-control": "no-cache",
+            },
           })
           // 监听数据返回
           .then(({ data }) => {
@@ -241,81 +415,52 @@ export default {
       }
     },
     getaccount() {
-      this.$http
-        .get(api.DeailURL + this.userId, {})
-        .then(({ data }) => {
-          this.accountName = data.data.nickname;
-          this.setAccountName(this.accountName);
-          this.accounts = data.data.accounts[0];
-          console.log(data, "ac");
-          if (this.accounts) {
-            this.data.account = this.accounts.accountId;
-            this.setUserId(this.data.account);
-            this.$http
-              // post请求
-              .post(api.Loginmt5URL, {
-                account: this.data.account,
-                userId: this.userId
-              })
-              .then(({ data }) => {
-                // 如果登录成功
-                if (data.code === 0) {
-                  this.$toast(this.$t("m.Loginsuccessfully"));
-                  this.$store.commit("hideLoading");
-                  this.$router.push("/");
-                  localStorage.setItem("token", "Bearer" + " " + data.access_token)
-                  // this.setToken("Bearer" + " " + data.access_token);
-                  console.log(data.access_token);
-                  init();
-                } else {
-                  this.$store.commit("hideLoading");
-                  this.$toast(this.$t("m.Loginfailed"));
-                }
-              });
-          } else {
-            this.$http
-              .post(
-               api.OpenURL,
-                {
-                  userId: this.userId,
-                  accountName: this.accountName,
-                  email: "17600765487@163.com",
-                  phone: "17600765487",
-                  countryCode: "+86"
-                }
-              )
-              .then(({ data }) => {
-                console.log(data, "shazi");
-                if (data.mcode === "m0000000") {
-                  this.data.account = data.data.login;
-                  this.setUserId(this.data.account);
-                  console.log(this.data.account, this.data.password);
-                  this.$http
-                    // post请求
-                    .post(api.Loginmt5URL, {
-                      account: this.data.account,
-                      userId: this.userId 
-                    })
-                    .then(({ data }) => {
-                      // 如果登录成功
-                      if (data.code === 0) {
-                        this.$toast(this.$t("m.Loginsuccessfully"));
-                        this.$store.commit("hideLoading");
-                        this.$router.push("/");
-                        localStorage.setItem("token", "Bearer" + " " + data.access_token)
-                        // this.setToken("Bearer" + " " + data.access_token);
-                        console.log(data.access_token);
-                        init();
-                      }
-                    });
-                }
-              });
-          }
-        });
-    }
+      this.$http.get(api.DeailURL + this.userId, {}).then(({ data }) => {
+        this.accountName = data.data.nickname;
+        this.setAccountName(this.accountName);
+        this.accounts = data.data.accounts[0];
+        if (data.data.email) {
+          this.useremail = data.data.email;
+        } else {
+          this.useremail = "";
+        }
+        console.log(data, "ac");
+        if (this.accounts) {
+          this.data.account = this.accounts.accountId;
+          this.setUserId(this.data.account);
+          this.$http
+            // post请求
+            .post(api.Loginmt5URL, {
+              account: this.data.account,
+              userId: this.userId,
+            })
+            .then(({ data }) => {
+              // 如果登录成功
+              if (data.code === 0) {
+                this.$toast(this.$t("m.Loginsuccessfully"));
+                this.$store.commit("hideLoading");
+                this.$router.push("/");
+                localStorage.setItem(
+                  "token",
+                  "Bearer" + " " + data.access_token
+                );
+                // this.setToken("Bearer" + " " + data.access_token);
+                console.log(data.access_token);
+                init();
+              } else {
+                this.$store.commit("hideLoading");
+                this.$toast(this.$t("m.Loginfailed"));
+              }
+            });
+        } else {
+          this.recode = true;
+          this.$store.commit("hideLoading");
+        }
+      });
+    },
   },
   computed: {
-    ...mapState(["LOADING"])
-  }
+    ...mapState(["LOADING"]),
+  },
 };
 </script>

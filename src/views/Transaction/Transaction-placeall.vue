@@ -16,11 +16,9 @@
 </template>
 <style lang="scss" scoped>
 .transaction-placeall {
-
   .arrow {
     padding-top: 0.4rem /* 30/75 */;
     padding-bottom: 0.4rem /* 30/75 */;
-
     display: flex;
     justify-content: space-between;
     padding-left: 0.2rem /* 15/75 */;
@@ -29,7 +27,6 @@
   }
   .content-a {
     margin-top: 0.8rem /* 60/75 */;
-
     .concent {
       .concent-b {
         display: flex;
@@ -38,11 +35,10 @@
         background: white;
         padding: 0.333333rem /* 25/75 */ 0.4rem /* 30/75 */;
         border-bottom: 1px solid #b9b6b6;
-
         p {
             width:100%;
-          font-size: .426667rem /* 32/75 */;
-     font-family: 'Tahoma','Sans Serif';
+            font-size: .426667rem /* 32/75 */;
+            font-family: 'Tahoma','Sans Serif';
 
         }
       }
@@ -76,10 +72,7 @@ export default {
     choose(item) {
       this.params = item;
       window.localStorage.setItem("params",this.params)
-               
       this.isshows = item
-               
-
       console.log(item, "choose");
     },
     gos() {
@@ -103,6 +96,5 @@ export default {
     window.document.body.style.backgroundColor = "";
     next();
   },
-
 };
 </script>

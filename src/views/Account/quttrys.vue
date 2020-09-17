@@ -65,6 +65,8 @@
   </div>
 </template>
 <style lang="scss" scoped>
+
+
 .back {
   background: #88befa;
 }
@@ -216,12 +218,15 @@ export default {
       console.log("99999")
       if(this.orderSn === "" || this.Amountmoney === "") {
         return
+      } 
+      if(this.Amountmoney < 20) {
+        this.$toast(this.$t("m.Minimum"))
+        return
       }
         // this.show2 = true
          this.userId = this.$store.state.user;
         this.login = this.$store.state.userId;
         this.bankAccountName = this.$store.state.accountName;
-
         console.log(this.userId, this.login, this.bankAccountName);
         this.$http
           .post(api.WithdrawURL, {
@@ -238,11 +243,13 @@ export default {
           .then(({ data }) => {
             console.log(data, "aaa");
             if (data.mcode === "m0000000") {
-        this.$toast(this.$toast(this.$t("m.Submitted")));
-        this.$router.push("/account")
+            this.$toast(this.$toast(this.$t("m.Submitted")));
+            this.$router.push("/account")
             } else if(data.mcode === "PUB_TASK_0000014") {
-              // this.$toast(this.$toast(this.$t("m.Submitted")));
+              this.$toast(this.$toast(this.$t("m.balancenot2")));
               // 可用余额不足
+            } else if(data.mcode === "TA_ACCOUNT0000012") {
+              this.$toast(this.$toast(this.$t("m.balancenot2")));
             }
           });
     }

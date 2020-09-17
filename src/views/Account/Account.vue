@@ -1,7 +1,7 @@
 <template>
   <div class="background">
     <div class="account">
-      <loading v-show="LOADING"></loading>
+      <!-- <loading v-show="LOADING"></loading> -->
       <div class="account-top" v-show="!tokens">
         <!-- <div class="account-title" > -->
         <!-- <h3>设置</h3> -->
@@ -72,6 +72,14 @@
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
             </p>
           </div>
+           <div class="account-flex">
+            <img src="../../assets/image/修改密码.png" alt />
+            <p class="account-flex1" @click="changePassword">
+              <span>{{$t('m.ChangePassword')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </p>
+          </div>
+          
         </div>
         <div class="account-bottom2">
           <div class="account-flex">
@@ -206,7 +214,8 @@
         position: absolute;
         top: -1.4rem;
         border-radius: 4px;
-        box-shadow: 0px 5px 10px #dfe0e2;
+        // box-shadow: 0px 5px 10px #dfe0e2;
+        box-shadow:0px 4px 6px 0px #dfe0e2, 0px 2px 0px -2px #dfe0e2;
         display: flex;
         justify-content: center;
         margin-left: 0.64rem /* 48/75 */;
@@ -274,12 +283,15 @@
         padding-left: 0.64rem /* 48/75 */;
       }
       .account-bottom1 {
-        height: 3.733333rem /* 280/75 */;
+        height:4.8rem /* 360/75 */;
         margin-bottom: 0.293333rem /* 22/75 */;
         .account-flex:nth-child(1) {
           border-bottom: 1px solid #eeeeee;
         }
          .account-flex:nth-child(2) {
+          border-bottom: 1px solid #eeeeee;
+        }
+         .account-flex:nth-child(3) {
           border-bottom: 1px solid #eeeeee;
         }
       }
@@ -327,11 +339,12 @@ export default {
 
     this.tokens = localStorage.getItem("token");
     if (this.tokens) {
-      this.$store.commit("showLoading");
+      // this.$store.commit("showLoading");
 
       this.getdata();
     } else {
-      this.$store.commit("hideLoading");
+      return
+      // this.$store.commit("hideLoading");
     }
   },
   components: {
@@ -343,20 +356,37 @@ export default {
   mounted() {
  window.scrollTo(0,0);
   },
+  activated() {
+    this.tokens = localStorage.getItem("token");
+    this.she = localStorage.getItem("engs");
+    this.$nextTick(()=>{
+    if (this.tokens) {
+      this.getdata();
+    } else {
+      return
+    }
+
+    })
+    
+  },
   methods: {
     ...mapMutations(["delToken"]),
     ...mapMutations(["delUserId"]),
     ...mapMutations(["delUser"]),
     ...mapMutations(["setEng"]),
+    ...mapMutations(["setEng"]),
+    ...mapMutations(["delAccountName"]),
+    
 
     getdata() {
-      this.$store.commit("showLoading");
+      // this.$store.commit("showLoading");
       this.$http
         .get(api.AccountURL)
         .then(({ data }) => {
           console.log(data);
           if (data.code === 0) {
-            this.$store.commit("hideLoading");
+            // this.$store.commit("hideLoading");
+            this.accountList = []
             this.accountList.push(data.data);
             localStorage.setItem("balance", data.data.balance);
             console.log(this.accountList, " this.accountList");
@@ -364,7 +394,7 @@ export default {
           }
         })
         .catch(error => {
-          this.$store.commit("hideLoading");
+          // this.$store.commit("hideLoading");
         });
     },
     logout() {
@@ -376,6 +406,7 @@ export default {
          localStorage.removeItem("token")
           this.delUserId();
           this.delUser();
+          this.delAccountName()
           // this.delToken();
           this.$router.push("/login");
         }

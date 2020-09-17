@@ -1,14 +1,13 @@
 <template>
   <div class="echarts-page">
     <div class="navheader">
-      <div class="arrow">
+      <div class="arrow" style="float:left">
         <van-icon id="van-icon" name="arrow-left" color="#127df6" @click="gobacks" />
-      </div>
     </div>
     <div></div>
     <div class="selected">
       <div class="title">
-        <span>选择名称</span>
+        <!-- <span>选择名称</span> -->
         <select v-model="bordername" autocomplete="off">
           <option v-for="(item,index) in bordernames" :key="index" :value="item.name">{{item.name}}</option>
           <!-- <option >BTCUSD</option> -->
@@ -17,7 +16,7 @@
         </select>
       </div>
       <div class="title">
-        <span>选择日期</span>
+        <!-- <span>选择日期</span> -->
         <select v-model="bordertime" autocomplete="off">
           <option v-for="(item,index) in bordertimes" :key="index" :value="item.name">{{item.name}}</option>
           <!-- <option >M5</option>
@@ -31,9 +30,10 @@
         </select>
       </div>
       <div class="title">
-        <input type="button" value="确定" @click="check" />
+        <input type="button" value="OK" @click="check" />
       </div>
     </div>
+     </div>
     <div id="echarts"></div>
   </div>
 </template>
@@ -69,6 +69,8 @@
       margin-bottom: 0.266667rem /* 20/75 */;
       font-weight: 700;
       appearance: none;
+       margin-right: .8rem;
+       border-radius: 4px;
       option {
         text-align: center;
       }
@@ -136,7 +138,7 @@ export default {
   mounted() {
     this.getdate();
     var echartss = document.getElementById("echarts");
-    echartss.style.height = window.innerHeight - 130 + "px";
+    echartss.style.height = window.innerHeight - 120 + "px";
     echartss.style.width = window.innerWidth + "px";
     this.initchart();
   },

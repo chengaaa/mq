@@ -83,10 +83,11 @@
                   >{{item.orderDirection == -1? "sell,out":"buy,in"}}</span>
                 </div>
                 <div class="top1" v-show="item.symbol ==='' ">
-                  <h4 class="padding">{{item.comment.indexOf("d-") === 0?$t('m.Depo'):""}}</h4>
-                  <h4 class="padding">{{item.comment.indexOf("w-") === 0?$t('m.Withdraws'):""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("d-") === 0 || item.comment.indexOf("Deposit") === 0?$t('m.Depo'):""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("w-") === 0 || item.comment.indexOf("Withdrawal") === 0?$t('m.Withdraws'):""}}</h4>
                   <h4 class="padding">{{item.comment.indexOf("Credit out") === 0?$t('m.CreditWithdraws'):""}}</h4>
                   <h4 class="padding">{{item.comment.indexOf("Credit in") === 0?$t('m.CreditDeposits'):""}}</h4>
+                  <h4 class="padding">{{item.comment.indexOf("commission") === 0?$t('m.Commission'):""}}</h4>
                 </div>
                 <h5>{{item.dateTime.split('-').join(".").replace("T"," ").replace("Z","").substring(0,19)}}</h5>
               </div>

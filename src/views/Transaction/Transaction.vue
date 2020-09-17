@@ -353,7 +353,6 @@
     }
     .transaction-C3 {
       padding: 0.106667rem /* 8/75 */ 0.293333rem /* 22/75 */;
-
       h4 {
         font-weight: 700;
         background: #eee;
@@ -367,7 +366,6 @@
     .transaction-D {
       border-bottom: 0.013333rem /* 1/75 */ solid #b9b6b6;
       border-top: 0.013333rem /* 1/75 */ solid #b9b6b6;
-
       .blue {
         color: #127df6;
       }
@@ -399,7 +397,7 @@
               h5 {
                 font-size: 19px;
                 font-weight: 700;
-                font-family: " Sans Serif";
+                font-family: "Sans Serif";
                 color: #333333;
               }
               span {
@@ -464,7 +462,6 @@
       padding: 0.106667rem /* 8/75 */ 0.293333rem /* 22/75 */;
       border-top: 0.013333rem /* 1/75 */ solid #b9b6b6;
       border-bottom: 0.013333rem /* 1/75 */ solid #b9b6b6;
-
       .blue {
         color: #127df6;
       }
@@ -479,7 +476,6 @@
           // background: red;
         }
       }
-
       .top {
         display: flex;
         font-size: 0.4rem /* 30/75 */;
@@ -488,7 +484,6 @@
         padding-bottom: 0.266667rem /* 20/75 */;
         border-bottom: 0.013333rem /* 1/75 */ solid #b9b6b6;
         font-family: " Sans Serif";
-
         .left {
           .flex {
             display: flex;
@@ -614,8 +609,8 @@ export default {
       //删除项数组
       actions: [
         { name: "m.Close" },
-        { name: "m.Transaction" }
-        // { name: 'Price revision' }
+        { name: "m.Transaction" },
+        { name: 'm.Pricerevision' }
         // { name: '选项', subname: '描述信息' }
       ],
       actionss: [
@@ -634,7 +629,6 @@ export default {
   },
   mounted() {},
   brforeUpdate() {},
-
   activated() {
     console.log("激活了");
     this.$nextTick(() => {
@@ -642,6 +636,7 @@ export default {
       this.actions = this.$store.state.actions;
       this.actionss = this.$store.state.actionss;
       this.getdata1();
+      this.show = false
     });
   },
   deactivated() {},
@@ -745,7 +740,6 @@ export default {
           for (let i = 0; i < store.state.arr.length; i++) {
             var data9 = store.state.arr[i];
             var data4 = store.state.order[j];
-
             if (data4.symbol == data9.symbolName) {
               data4.ask = data9.ask;
               data4.bid = data9.bid;
@@ -775,11 +769,9 @@ export default {
       return store.state.order;
     }
   },
-
   methods: {
     ...mapMutations(["setorder"]),
     ...mapMutations(["setcontractsList"]),
-
     getdata1() {
       this.$http.get(api.AccountURL).then(({ data }) => {
         this.hal = false;
@@ -851,7 +843,6 @@ export default {
         function() {
           that.Loop = 0;
           this.selectType();
-
           this.active = true;
           this.positionId = e;
           this.volume = e1;
@@ -873,6 +864,7 @@ export default {
     },
     showDeleteButton2(e, e4, index) {
       var that = this;
+      window.localStorage.setItem("params", e);
       clearTimeout(this.Loop); //再次清空定时器，防止重复注册定时器
       this.Loop = setTimeout(
         function() {
@@ -912,6 +904,7 @@ export default {
       this.show = false;
       console.log(item, "长按");
       if (item.name === "交易" || item.name === "Trade") {
+      // this.show = false;
         this.$router.push("/transaction-place");
       } else if (
         item.name === "平仓" ||
@@ -925,6 +918,10 @@ export default {
         item.name === "Price revisio" ||
         item.name === "修改價位"
       ) {
+      // this.show = false;
+      window.localStorage.setItem("orderid", this.orderID);
+
+        this.$router.push("/transaction-modify");
       }
       if (
         item.name === "删除" ||
@@ -940,7 +937,6 @@ export default {
       this.itemw = item;
     },
     //删除
-
     close(index) {
       this.$http
         .post(api.CloseURL, {
@@ -973,7 +969,6 @@ export default {
     "$store.state.mydata": function(newer, old) {
       this.positionList = newer;
     },
-
     "$store.state.contractsLists": function(news, old) {
       if (news.length == 0) {
         this.ino = false;

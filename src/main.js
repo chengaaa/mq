@@ -30,9 +30,26 @@ Vue.prototype.$http = axios;
 Vue.prototype.clipboard = clipboard;
 Vue.prototype.ws = ws;
 // axios.defaults.timeout = 5000 // 请求超时
-console.log( navigator.language,"語言")
+// console.log( navigator.language,localStorage.getItem('lang'),"語言")
+if (navigator.language === "zh-CN") {
+  localStorage.setItem("engs", "中文");
+  localStorage.setItem("lang", "zh-CN");
+
+} else 
+if (navigator.language === "en-US") {
+  localStorage.setItem("lang", "en-US");
+  localStorage.setItem("engs", "English");
+} else if (navigator.language === "zh-TW" || navigator.language === "zh-HK") {
+  localStorage.setItem("lang", "zh-TW");
+  localStorage.setItem("engs", "繁體");
+
+} else {
+  localStorage.setItem("engs", "中文");
+  localStorage.setItem("lang", "zh-CN");
+
+}
 const i18n = new VueI18n({
-  locale: localStorage.getItem('lang')||navigator.language,    // 语言标识
+  locale: localStorage.getItem('lang'),   // 语言标识
   //this.$i18n.locale // 通过切换locale的值来实现语言切换
   messages: {
     'zh-CN': require('./common/lang/zh'),   // 中文语言包

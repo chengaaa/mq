@@ -12,7 +12,7 @@ export const m = {
     CreditDeposits:"信用入金",
     CreditWithdraws:"信用出金",
     balancenot:"余額不足",
-
+    balancenot2:"可用余額不足，有未處理的出金申請，或有倉位沒有關閉",
     //价位
     Position: '價位 (長按關閉)',
     StopLoss: '止損:',
@@ -192,7 +192,7 @@ export const m = {
     Addressremarks: "地址備註",
     Networkcharge: "網絡手續費",
     Determine: "確定",
-    Minimum: "最低提幣10USDT",
+    Minimum: "最低提幣20USDT",
       //详情页面
       Digits:"小數位",
       Stopslevel:"止損水平",
@@ -200,6 +200,25 @@ export const m = {
       Profitcalculation:"利潤計算",
       Swaptype:"庫存費類型",
       Swaplong:"買入庫存費",
-      Swapshort:"賣出庫存費"
+      Swapshort:"賣出庫存費",
+      Referral:"推薦碼(非必填)",
+      Commission:"返傭金",
+      Error:"推薦碼錯誤，是否繼續?",
+      Done:"完成",
+      Download:"下載App",
+      ChangePassword:"修改密碼",
+      Passworderror:"密碼錯誤",
+      Newpass:"新密碼曾經使用過",
+      Modifiedsuccess:"修改成功",
+      Origin:"原密碼",
+      Newpassword:"新密碼",
+      Verifypassword:"確認密碼",
+      Passworddoes:"確認密碼與新密碼不匹配",
+      Changefailed:"修改密碼失敗"
+
+
+
+
+
 
 }

@@ -11,10 +11,13 @@
     </div>
     <div class="transactionplace-list">
       <div v-for="item in datalists" :key="item.symbol" v-show="listmodify">
-        <div v-show="item.symbol== headerName" class="modify" @click="show">
-          <p>#{{item.positionId}}</p>&ensp;
-          <span>{{item.orderDirection === 1? "buy" : "sell"}}{{item.volume}}</span>&ensp;
-          <h5>{{item.symbol}}</h5>
+        <div v-show="item.symbol== headerName && item.orderID === orderID" class="modify" >
+          <p>{{$t('m.Modify')}} #{{item.orderID}}</p>
+          <span v-show="item.orderDirection === 1 && item.orderType === 7">Buy Limit {{item.volume}}</span>
+          <span v-show="item.orderDirection === -1 && item.orderType === 7">Sell Limit {{item.volume}}</span>
+          <span v-show="item.orderDirection === 1 && item.orderType === 9">Buy Stop {{item.volume}}</span>
+          <span v-show="item.orderDirection === -1 && item.orderType === 9">Sell Stop {{item.volume}}</span>
+          <!-- <h5>{{item.symbol}}</h5> -->
         </div>
       </div>
 
@@ -45,15 +48,14 @@
     <!-- </div> -->
 
     <!-- </div> -->
-    <div class="transactionplace-d" v-show="prices">
-      <h6>价格</h6>
+    <div class="transactionplace-d">
+       <h6>{{$t('m.Price')}}</h6>
       <div class="flex-1">
-        <input type="text" v-model="num3" placeholder="没有设置" />
+        <input type="text" v-model="num3" :placeholder="$t('m.Noset')" />
         <span @click="price" class="border">-</span>
         <span @click="priceadd">+</span>
       </div>
     </div>
-
     <div class="transactionplace-d">
       <h6>止损</h6>
       <div class="flex-1">
@@ -109,15 +111,15 @@
         </div>
       </div>
     </div>
-    <div class="transactionplace-f" v-show="button">
+    <!-- <div class="transactionplace-f" v-show="button">
       <div @click="sell">Sell by Market</div>
       <p @click="buy">Buy by Market</p>
     </div>
     <div class="transactionplace-g" v-show="order">
       <p @click="placeorder">下单</p>
-    </div>
-    <div>
-      <p @click="modifies">修改</p>
+    </div> -->
+    <div class="transactionplace-l">
+      <p @click="modifies">{{$t('m.Modify')}}</p>
     </div>
     <!-- <van-datetime-picker
     position="bottom"
@@ -346,6 +348,20 @@
       font-size: 0.466667rem /* 35/75 */;
     }
   }
+    .transactionplace-l {
+    font-size: 0.533333rem /* 40/75 */;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    p {
+      width: 100%;
+      height: 1.2rem /* 90/75 */;
+      line-height: 1.2rem /* 90/75 */;
+      text-align: center;
+      background: red;
+      font-size: 0.466667rem /* 35/75 */;
+    }
+  }
   .transactionplace-g {
     p {
       width: 100%;
@@ -389,7 +405,8 @@
 </style>
 <script>
 import store from "../../store";
-
+var api = require("../../api/api");
+import { getNowFormatDate,getUTCtime,FormatDate } from "../../tools/check.js";
 export default {
   data() {
     return {
@@ -399,37 +416,37 @@ export default {
       modify: false,
       buynum: "",
       sellnum: "",
-
+      positionId:"",
       columns: ["直到取消", "今天", "指定"],
       lists: [
-        {
-          id: "1",
-          name: "Buy Limit",
-          icon: "\ue62a;",
-          OrderType: 7,
-          orderDirection: 1
-        },
-        {
-          id: "2",
-          name: "Sell Limit",
-          icon: "\ue62a;",
-          OrderType: 7,
-          orderDirection: -1
-        },
-        {
-          id: "3",
-          name: "Buy Stop",
-          icon: "\ue62a;",
-          OrderType: 9,
-          orderDirection: 1
-        },
-        {
-          id: "4",
-          name: "Sell Stop",
-          icon: "\ue62a;",
-          OrderType: 9,
-          orderDirection: -1
-        },
+        // {
+        //   id: "1",
+        //   name: "Buy Limit",
+        //   icon: "\ue62a;",
+        //   OrderType: 7,
+        //   orderDirection: 1
+        // },
+        // {
+        //   id: "2",
+        //   name: "Sell Limit",
+        //   icon: "\ue62a;",
+        //   OrderType: 7,
+        //   orderDirection: -1
+        // },
+        // {
+        //   id: "3",
+        //   name: "Buy Stop",
+        //   icon: "\ue62a;",
+        //   OrderType: 9,
+        //   orderDirection: 1
+        // },
+        // {
+        //   id: "4",
+        //   name: "Sell Stop",
+        //   icon: "\ue62a;",
+        //   OrderType: 9,
+        //   orderDirection: -1
+        // },
         {
           id: "5",
           name: "修改价位",
@@ -438,7 +455,7 @@ export default {
       ],
       unitName: "市场执行",
       isShow: false,
-      term: false,
+      term: true,
       is: false,
       num: 0.01,
       contractSize: null,
@@ -446,7 +463,7 @@ export default {
       num1: null,
       num2: null,
       num3: null,
-      headerName: "BTCUSD.",
+      headerName: "",
       newName: [],
       newdata1: [],
       arrdata: [],
@@ -465,20 +482,23 @@ export default {
       datalists: [],
       listmodify: true,
       fanren: false,
+      orderID:"",
       // minDate:new Date(2020,0,1),
-
       // maxDate: new Date(9998, 10, 1),
       currentDate: new Date()
     };
   },
 
   created() {
-    this.getarr();
-    this.datalists = store.state.contractsLists;
-    console.log(this.datalists, "aaaaaaaa");
+    this.datalists = store.state.order;
+    this.getId()
+    this.orderID = localStorage.getItem("orderid")
+    console.log(this.datalists,"aaaaaaa")
+
   },
   mounted() {
     this.headerName = window.localStorage.getItem("params");
+    this.getarr();
     this.getcontractSize();
 
     console.log(this.headerName, "000000111");
@@ -494,6 +514,16 @@ export default {
         return `${value}日`;
       }
       return value;
+    },
+    getId() {
+      for(var i = 0;i < this.datalists.length; i++) {
+        if(this.datalists[i].symbol== this.headerName) {
+         this.positionId = this.datalists[i].orderID
+        console.log(this.positionId,"i")
+
+        }
+      }
+
     },
     la() {
       document.getElementById("number2").value =
@@ -598,14 +628,14 @@ export default {
         if (this.num1 < 0.1) {
           this.num1 = 0.1;
         }
-        document.getElementById("number2").value = this.num * this.contractSize;
+        // document.getElementById("number2").value = this.num * this.contractSize;
       }
     },
     numadd() {
       //   this.num1 += 0.1;
       this.num1 = (JSON.parse(this.num1) + 0.1).toFixed(2);
       console.log(this.num1, "shzi");
-      document.getElementById("number2").value = this.num * this.contractSize;
+      // document.getElementById("number2").value = this.num * this.contractSize;
     },
     jianshao() {
       console.log(this.num2);
@@ -618,13 +648,13 @@ export default {
         if (this.num2 < 0.1) {
           this.num2 = 0.1;
         }
-        document.getElementById("number2").value = this.num * this.contractSize;
+        // document.getElementById("number2").value = this.num * this.contractSize;
       }
     },
     zengjia() {
       //   this.num2 += 0.1;
       this.num2 = (JSON.parse(this.num2) + 0.1).toFixed(2);
-      document.getElementById("number2").value = this.num * this.contractSize;
+      // document.getElementById("number2").value = this.num * this.contractSize;
 
       console.log(this.$route.params, "采纳数");
       console.log(this.num);
@@ -633,18 +663,27 @@ export default {
     price() {
       // this.num3 -= 0.1;
       this.num3 = (JSON.parse(this.num3) - 0.1).toFixed(2);
-      document.getElementById("number2").value = this.num * this.contractSize;
+      // document.getElementById("number2").value = this.num * this.contractSize;
     },
     priceadd() {
-      this.num3 += 0.1;
+      
+      // this.num3 += 0.1;
       this.num3 = (JSON.parse(this.num3) + 0.1).toFixed(2);
-      document.getElementById("number2").value = this.num * this.contractSize;
+      // document.getElementById("number2").value = this.num * this.contractSize;
 
-      console.log(this.num3);
     },
     getarr() {
       this.newdata1 = this.$store.state.arr;
-      console.log(this.newdata1, "0000000000000");
+      for(var i = 0; i < this.newdata1.length; i++) {
+        console.log(this.newdata1[i], "0000000000000");
+        console.log(this.headerName,"哈哈哈哈哈哈哈")
+        if(this.headerName === this.newdata1[i].symbolName ){
+          this.num3 = this.newdata1[i].ask
+
+        }
+
+        console.log( this.holder)
+      }
     },
     getnewName() {
       //   if (this.newName) {
@@ -760,8 +799,9 @@ export default {
         console.log(this.OrderDuration, "88888");
       } else if (this.value === "今天") {
         this.OrderDuration = 1;
-        this.expirationDate = "";
-        console.log(this.OrderDuration, "88888");
+         let  tod =new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000)
+    this.expirationDate = getUTCtime(new Date(tod.getTime() + 7200000))  
+        console.log(this.expirationDate, "88888");
       } else {
         this.datePicker = true;
         this.OrderDuration = 2;
@@ -925,28 +965,31 @@ export default {
           console.log(data);
         });
     },
-    onCon(value) {
+   onCon(value) {
+      
       this.datePicker = false;
-      this.expirationDate = value;
-      this.value = this.expirationDate.toLocaleDateString();
-      var value1 = this.expirationDate.toTimeString().substring(0, 5);
+      // this.expirationDate = value;
+      this.value = value.toLocaleDateString();
+      var value1 = value.toTimeString().substring(0, 5);
+      var date9 = new Date(value.setHours(new Date().getHours() + 2));
+      //六个小时
+      this.expirationDate = getUTCtime(date9);
       this.value = this.value + " " + value1;
-      var b = this.value.replace(" ", "T");
-
-      this.expirationDate =
-        b + this.expirationDate.toTimeString().substring(5, 17);
-      this.expirationDate = this.expirationDate.split("/").join("-");
-      var a = this.expirationDate.replace(" GMT", "");
-      this.expirationDate = a;
-      console.log(this.expirationDate, "89999");
-      console.log(a, "89999");
-
-      console.log(value1);
-      console.log(typeof this.value);
     },
  
      modifies() {
-       console.log("修改")
+     this.$http.put(api.modify + "/" + this.orderID,{
+       orderDuration: "",
+       expirationDate: this.expirationDate,
+       orderPrice: this.num3,
+       stopLoss: this.num1,
+       takeProfit: this.num2
+     }).then(({data})=>{
+       if(data.code === 0) {
+       this.$toast("修改成功")
+       this.$router.push("/transaction")
+       }
+     })
      },
       },
 

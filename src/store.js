@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 Vue.use(Vuex)
+
 const vuexLocal = new VuexPersistence({ storage: localStorage })
 export default new Vuex.Store({
   state: {
@@ -115,6 +116,9 @@ export default new Vuex.Store({
     //accountName
     setAccountName(state, accountName) {
       state.accountName = accountName
+    },
+    delAccountName(state, accountName) {
+      state.accountName = ""
     },
     setMax(state, max) {
       state.max = max

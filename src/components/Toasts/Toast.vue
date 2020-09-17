@@ -25,7 +25,7 @@ export default {
 <style lang="scss" scoped>
     .containers {
     position: fixed;
-     top: 8rem /* 480/75 */;
+     top: 6rem /* 480/75 */;
     bottom: 0;
     left: 2.6rem /* 170/75 */;
     right: 0;
@@ -33,8 +33,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 4.666667rem /* 350/75 */;
-    height:2.666667rem /* 200/75 */;
+    width: 5.066667rem /* 380/75 */;
+    height:3.2rem /* 240/75 */;
     border-radius: 0.1rem;
   }
   .popup {
@@ -45,8 +45,9 @@ export default {
     flex-direction: column;
     color: white;
     p {
-    font-size: .48rem /* 36/75 */;
+    font-size: 20px;
     text-align: center;
+    line-height: 24px;
 
     }
   

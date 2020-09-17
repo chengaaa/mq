@@ -53,6 +53,14 @@
             v-model="datas.name"
             @input="check"
           />
+            <!-- <input
+           style="marginTop:10px"
+            type="text"
+            placeholder="请输入推荐码(非必填)"
+            id="user"
+            v-model="datas.recommend_code"
+            
+          /> -->
 
           <input
             :type="passwords"
@@ -72,6 +80,7 @@
             @keyup="check"
           />
           <i class="iconfont icon-xiaoyanjing-bi" @click="changetype2"></i> -->
+         
         </div>
       </div>
       <input type="button" class="mr-button" :value="$t('m.Finish')" v-show="but===true" />
@@ -128,14 +137,19 @@
           width: 8.733333rem /* 655/75 */;
           height: 1.173333rem /* 88/75 */;
           border-bottom: 1px solid #eeeeee;
+          transform: rotateZ(360deg);
           border-radius: 0px;
           appearance: none;
           // outline:black;
-          font-size: 0.346667rem /* 26/75 */;
+          font-size: 16px;
+        }
+        #code {
+          font-size: 16px;
         }
         p {
           color: red;
           padding-top: .133333rem /* 10/75 */;
+          font-size: 14px;
         }
         .passwordcode {
           display: flex;
@@ -205,7 +219,7 @@
   appearance: none;
 }
 .mr-button {
-  margin-top: 1.146667rem /* 86/75 */;
+  margin-top: .746667rem /* 56/75 */;
   margin-bottom: 0.666667rem /* 50/75 */;
   width: 8.733333rem /* 655/75 */;
   height: 1.226667rem /* 92/75 */;
@@ -231,7 +245,8 @@ export default {
         password: "",
         phone: "",
         email: "",
-        validateCode: ""
+        validateCode: "",
+        // recommend_code:""
       },
       passwords: "password",
       passwords2: "password",
@@ -370,6 +385,7 @@ export default {
       // if (password != passwordagain) {
       //   this.$toast(this.$t("m.Passwordsareinconsistent"));
       // } else {
+      this.$store.commit("showLoading");
         this.$http
           .post(api.RegisterURL, this.datas, {
             headers: {
@@ -382,6 +398,7 @@ export default {
           .then(({ data }) => {
             console.log(data, "000000");
             if (data.mcode === "m0000000") {
+      this.$store.commit("hideLoading");
               this.$toast(this.$t("m.Registrationsuccess"));
 
               this.$router.push("/login");
