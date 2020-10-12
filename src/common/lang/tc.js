@@ -86,8 +86,8 @@ export const m = {
     //账户页面
     Deposit: '充值',
     Withdraw: '提幣',
-    Interface: "界面",
-    Customerservice: "客服",
+    Interface: "語言切換",
+    Customerservice: "客服幫助",
     Logout: "退出",
     //客服页面
     ContactCustomer: "聯系客服",
@@ -214,7 +214,13 @@ export const m = {
       Newpassword:"新密碼",
       Verifypassword:"確認密碼",
       Passworddoes:"確認密碼與新密碼不匹配",
-      Changefailed:"修改密碼失敗"
+      Changefailed:"修改密碼失敗",
+      Tips:"BBook8每日審核提幣時間節點分別為北京時間中午12點和晚上9點",
+      Warning:"減去5USDT手續費，實際到賬金額為",
+
+       //分享
+       Share:"分享應用"
+      
 
 
 

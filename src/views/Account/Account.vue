@@ -1,5 +1,10 @@
 <template>
   <div class="background">
+    <div class="home-title">
+      <h1 class="home-img">
+        <img src="../../assets/images/logo1.png" alt />
+      </h1>
+    </div>
     <div class="account">
       <!-- <loading v-show="LOADING"></loading> -->
       <div class="account-top" v-show="!tokens">
@@ -8,8 +13,9 @@
         <!-- </div> -->
         <div class="account-welcom">
           <div class="hello">
-            <p>{{$t('m.Hello')}},</p>
-            <span>{{$t('m.Welcometo')}} B BOOK 8</span>
+            <img src="../../assets/images/touxiang.png" alt="">
+            <p>立即登录BBOOK8开启交易</p>
+            <!-- <span>{{$t('m.Welcometo')}} B BOOK 8</span> -->
           </div>
           <div class="hello2">
             <input type="button" :value="$t('m.Login')" @click="login" />
@@ -44,9 +50,9 @@
             <span>{{item.balance}}</span>
           </div>
         </div>
-        <div class="account-middle2" v-show="!tokens">
+        <!-- <div class="account-middle2" v-show="!tokens">
           <img src="../../assets/image/logo3.png" alt />
-        </div>
+        </div> -->
       </div>
       <div class="account-bottom">
         <div class="account-bottom1" v-show="tokens">
@@ -82,15 +88,16 @@
           
         </div>
         <div class="account-bottom2">
-          <div class="account-flex">
-            <img src="../../assets/image/kefu.png" alt />
+           <div class="account-flex">
+            <img src="../../assets/images/icon_share.png" alt />
             <div class="account-flex1" @click="customer">
-              <span>{{$t('m.Customerservice')}}</span>
+              <span>{{$t('m.Share')}}</span>
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
             </div>
           </div>
+         
           <div class="account-flex">
-            <img src="../../assets/image/jiemain.png" alt />
+            <img src="../../assets/images/icon_language.png" alt />
             <div class="account-flex1" @click="language">
               <span>{{$t("m.Interface")}}</span>
               <div class="language">
@@ -99,13 +106,25 @@
               </div>
             </div>
           </div>
+           <div class="account-flex">
+            <img src="../../assets/images/icon_customer_service.png" alt />
+            <div class="account-flex1" @click="customer">
+              <span>{{$t('m.Customerservice')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </div>
+          </div>
         </div>
+        
 
+        
+        <div class="boder"></div>
+      </div>
+      <div class="about">
+        <p><img src="../../assets/images/icon_about_us.png" alt=""><span>关于我们</span><span>ABOUT US</span></p>
+        </div>
         <div class="account-bottom3" v-show="tokens">
           <router-link tag="p" @click.native="logout" to="/">{{$t("m.Logout")}}</router-link>
         </div>
-        <div class="boder"></div>
-      </div>
     </div>
   </div>
 </template>
@@ -117,6 +136,7 @@
   display: flex;
   justify-content: space-between;
   width: 1.333333rem /* 100/75 */;
+      align-items: center;
   p {
     color: #aaaaaa;
     font-size: 0.32rem /* 24/75 */;
@@ -126,7 +146,30 @@
   width: 100%;
   height: 100%;
   position: fixed;
-  background: #f5f5f5;
+  background: #262626;
+  overflow: auto;
+ 
+  .home-title {
+    width: 100%;
+    display: flex;
+    position: relative;
+    h1 {
+      background: #262626;
+      width: 100%;
+      height: 1.173333rem /* 88/75 */;
+      padding: 0.333333rem /* 25/75 */ 0rem /* 0/75 */ 0rem /* 0/75 */ 0rem
+        /* 0/75 */;
+      margin: auto;
+      text-align: center;}
+      img {
+        width: 4rem /* 300/75 */;
+        // height: .8rem /* 60/75 */;
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+        margin-top: -0.8rem;
+      }
+  }
 
   .account {
     .account-top1 {
@@ -145,11 +188,14 @@
         height: 3.146667rem /* 236/75 */;
         line-height: 2.5rem;
         color: white;
+      
       }
     }
     .account-top {
-      height: 6.666667rem /* 500/75 */;
-      background: #127df6;
+      height: 4.666667rem /* 350/75 */;
+      background: #262626;
+      border-top: 1px solid #eeeeee;
+      border-bottom: 1px solid #eeeeee;
       .account-title {
         height: 1.173333rem /* 88/75 */;
         line-height: 1.173333rem /* 88/75 */;
@@ -163,12 +209,24 @@
         font-size: 0.586667rem /* 44/75 */;
         .hello {
           text-align: center;
-          margin-bottom: 0.72rem /* 54/75 */;
+          // margin-bottom: 0.72rem /* 54/75 */;
+          display: flex;
+          justify-content: center;
+          width: 80%;
+          margin: 0 auto;
+          img {
+           width:1.066667rem /* 80/75 */;
+           height:1.066667rem /* 80/75 */;
+          }
         }
 
         p {
           margin-bottom: 0.266667rem /* 20/75 */;
-          color: white;
+          color: #c9c9c9;
+        font-size: 18px;
+        line-height: 40px;
+        margin-left: 10px;
+
         }
         span {
           color: white;
@@ -177,27 +235,29 @@
         .hello2 {
           font-size: 0.453333rem /* 34/75 */;
           text-align: center;
+          display: flex;
+    justify-content: center;
           :nth-child(1) {
-            width: 3.386667rem /* 254/75 */;
-            height: 1.2rem /* 90/75 */;
+            width: 2.666667rem /* 200/75 */;
+            height:1.066667rem /* 80/75 */;
             margin-top: 0.266667rem /* 20/75 */;
             appearance: none;
             border-radius: 4px;
             text-align: center;
-            background: white;
-            color: #127df6;
-            margin-right: 0.32rem /* 24/75 */;
+            background: #4669ff;
+            color: #c9c9c9;
+            margin-right:.933333rem /* 70/75 */;
           }
           :nth-child(2) {
-            width: 3.386667rem /* 254/75 */;
-            height: 1.2rem /* 90/75 */;
+            width: 2.666667rem /* 200/75 */;
+            height:1.066667rem /* 80/75 */;
             margin-top: 0.266667rem /* 20/75 */;
             appearance: none;
             border-radius: 4px;
             text-align: center;
-            background: #127df6;
-            color: white;
-            border: 1px solid white;
+            background: #4669ff;
+            color: #c9c9c9;
+            // border: 1px solid white;
           }
         }
       }
@@ -207,19 +267,19 @@
       position: relative;
 
       .account-middle,
-      .account-middle2 {
-        width: 88.4%;
-        height: 3.066667rem /* 230/75 */;
-        background: white;
-        position: absolute;
-        top: -1.4rem;
-        border-radius: 4px;
-        // box-shadow: 0px 5px 10px #dfe0e2;
-        box-shadow:0px 4px 6px 0px #dfe0e2, 0px 2px 0px -2px #dfe0e2;
-        display: flex;
-        justify-content: center;
-        margin-left: 0.64rem /* 48/75 */;
-        margin-right: 0.64rem /* 48/75 */;
+      // .account-middle2 {
+        // width: 88.4%;
+        // height: 3.066667rem /* 230/75 */;
+        // background: white;
+        // position: absolute;
+        // top: -1.4rem;
+        // border-radius: 4px;
+        // // box-shadow: 0px 5px 10px #dfe0e2;
+        // box-shadow:0px 4px 6px 0px #dfe0e2, 0px 2px 0px -2px #dfe0e2;
+        // display: flex;
+        // justify-content: center;
+        // margin-left: 0.64rem /* 48/75 */;
+        // margin-right: 0.64rem /* 48/75 */;
 
         .middle-left,
         .middle-right {
@@ -238,23 +298,26 @@
         .middle-left {
           border-right: 1px solid #eeeeee;
         }
-      }
-      .account-middle2 {
+      // }
+      // .account-middle2 {
         img {
           width: 5.5rem /* 459/75 */;
           margin: auto;
         }
-      }
+      // }
     }
     .account-bottom {
       background: #f5f5f5;
-      padding-top: 2rem /* 150/75 */;
+      // padding-top: 2rem /* 150/75 */;
       // box-sizing: content-box;
       .account-flex {
         display: flex;
         align-items: center;
-        margin-right: 0.626667rem /* 47/75 */;
-
+         padding-left: 20px;
+        padding-right: 20px;
+          border-bottom: 1px solid #eeeeee;
+        // margin-right: 0.626667rem /* 47/75 */;
+      height: 1.346667rem /* 101/75 */;
         // justify-content: space-between;
         img {
           width: 0.666667rem /* 50/75 */;
@@ -264,8 +327,8 @@
         span {
           height: 0.693333rem /* 52/75 */;
           line-height: 0.693333rem /* 52/75 */;
-          font-size: 0.4rem /* 30/75 */;
-          color: #333333;
+          font-size: 14px;
+          color: #c9c9c9;
         }
       }
       .account-flex1 {
@@ -278,27 +341,27 @@
 
       .account-bottom1,
       .account-bottom2 {
-        height:2.466667rem /* 200/75 */;
-        background: #ffffff;
-        padding-left: 0.64rem /* 48/75 */;
+        // height:2.466667rem /* 200/75 */;
+        background: #262626;
+        // padding-left: 0.64rem /* 48/75 */;
       }
       .account-bottom1 {
         height:4.8rem /* 360/75 */;
         margin-bottom: 0.293333rem /* 22/75 */;
-        .account-flex:nth-child(1) {
-          border-bottom: 1px solid #eeeeee;
-        }
-         .account-flex:nth-child(2) {
-          border-bottom: 1px solid #eeeeee;
-        }
-         .account-flex:nth-child(3) {
-          border-bottom: 1px solid #eeeeee;
-        }
+        // .account-flex:nth-child(1) {
+        //   border-bottom: 1px solid #eeeeee;
+        // }
+        //  .account-flex:nth-child(2) {
+        //   border-bottom: 1px solid #eeeeee;
+        // }
+        //  .account-flex:nth-child(3) {
+        //   border-bottom: 1px solid #eeeeee;
+        // }
       }
       .account-bottom2 {
-        margin-bottom: 0.666667rem /* 50/75 */;
+        // margin-bottom: 0.666667rem /* 50/75 */;
         .account-flex:nth-child(1) {
-          border-bottom: 1px solid #eeeeee;
+          // border-bottom: 1px solid #eeeeee;
         }
       }
 
@@ -308,13 +371,49 @@
         background: #ffffff;
         text-align: center;
         font-size: 0.4rem /* 30/75 */;
+        
        
       }
       .boder {
-        height: 2.666667rem /* 200/75 */;
+        // height: 1.493333rem;
       }
+     
     }
   }
+   .about {
+        background: #262626 ;
+          padding:0.533333rem 1rem;
+        p {
+          // width: 80%;
+          height: 30px;
+            line-height: 30px;
+
+          border: 1px solid #fff;
+          background: #262626;
+          padding:10px 10px;
+           border-radius: 6px;
+          display: flex;
+
+            img {
+           width:.666667rem /* 50/75 */;
+           height:.666667rem /* 50/75 */;
+           margin-left: 0.333333rem;
+           margin-right: 0.333333rem;
+          }
+          span {
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+          }
+          :nth-child(3)  {
+            color: #c9c9c9;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 0.4rem;
+
+          }
+        }
+      }
 }
 </style>
 <script>

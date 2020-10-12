@@ -85,8 +85,8 @@ export const m = {
     //账户页面
     Deposit: '充值',
     Withdraw: '提币',
-    Interface: "界面",
-    Customerservice: "客服",
+    Interface: "语言切换",
+    Customerservice: "客服帮助",
     Logout: "退出",
     //客服页面
     ContactCustomer: "联系客服",
@@ -143,8 +143,8 @@ export const m = {
     Introductionteaching: "入门教学",
     Jointheofficialgroup: "加入官方群组",
     Getnewredenvelopes: "领取新人红包",
-    Name: "名称",
-    Latestprice: "最新价",
+    Name: "币种",
+    Latestprice: "价格",
     Upanddown: "涨跌幅",
     Howtotransaction: "如何进行交易",
     Teaching: "充值提款教学",
@@ -217,7 +217,12 @@ export const m = {
       Newpassword:"新密码",
       Verifypassword:"确认密码",
       Passworddoes:"确认密码与新密码不匹配",
-      Changefailed:"修改密码失败"
+      Changefailed:"修改密码失败",
+      Tips:"BBook8每日审核提币时间节点分别为北京时间中午12点和晚上9点",
+      Warning:"减去5USDT手续费，实际到账金额为",
+
+      //分享
+      Share:"分享应用"
       
 
 

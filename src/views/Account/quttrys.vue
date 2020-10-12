@@ -1,5 +1,6 @@
 <template>
   <div class="quttry">
+    <loading v-show="LOADING"></loading>
     <div class="quttry-title">
       <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home" />
       <h2>{{$t('m.Withdraw')}}</h2>
@@ -46,6 +47,7 @@
       <p >{{charge}}</p>
       <!-- <input type="text" v-model="charge" > -->
     </div>
+    <div class="tips">{{$t('m.Tips')}}</div>
     
     <div class="border1">
           <div class="button">
@@ -61,12 +63,32 @@
             <input type="button" value="确认">
         </div>
     </van-popup> -->
-  
+        <div
+      style="width:100%;height:100%;position:absolute;top:0;background:rgba(0,0,0,.5);"
+      v-if="tip"
+    >
+    <div class="Recommendation">
+        <div class="inputs">
+       {{$t('m.Warning')}}{{Amountmoney - 5}}USDT
+        </div>
+        <div class="button">
+          <button @click="close">{{$t('m.Cancellation')}}</button>
+          <button @click="open2">OK</button>
+        </div>
+      </div>
+  </div>
   </div>
 </template>
 <style lang="scss" scoped>
 
-
+.tips {
+  text-align: center;
+  // height: 0.666667rem;
+  // line-height: 0.666667rem;
+  color: red;
+  padding-top:0.266667rem;
+  font-size: 13px;
+}
 .back {
   background: #88befa;
 }
@@ -146,7 +168,7 @@
       }
   }
   .border1 {
-      padding-top: 1.066667rem /* 80/75 */;
+      padding-top: 0.8rem;
       background: #f5f5f5 ;
   .button {
       padding-left: .32rem /* 24/75 */;
@@ -164,9 +186,61 @@
   }
   
 }
+.Recommendation {
+    width: 90%;
+    height: 5.333333rem /* 400/75 */;
+    // border: 1px solid red;
+    border-radius: 6px;
+    background: white;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .input,.inputs {
+      text-align: center;
+      margin-top: 1.3rem;
+      input {
+        width: 80%;
+        height: 1rem /* 75/75 */;
+        text-align: center;
+        border: 1px solid #cfcccc;
+        font-size: 13px;
+        appearance: none;
+      }
+    }
+    .inputs {
+      font-size: 20px;
+      line-height: 30px;
+    }
+    .button {
+      margin-top: 1.333333rem /* 100/75 */;
+      text-align: right;
+      // margin-left: 1.8rem /* 200/75 */;
+      width: 90%;
+      button {
+        width: 20%;
+        height: 0.8rem /* 60/75 */;
+        margin-left: 0.266667rem /* 20/75 */;
+        appearance: none;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      :nth-child(1) {
+        background: white;
+        border: 1px solid #cfcccc;
+      }
+      :nth-child(2) {
+        background: #127df6;
+        border: 1px solid #cfcccc;
+        color: white;
+      }
+    }
+  }
 </style>
 <script>
 var api = require("../../api/api") ;
+const Loading = () => import("../../components/Loading");
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -179,15 +253,26 @@ export default {
       Amountmoney:"",
       comment:"",
       charge:"5",
+      tip:false,
       balance:localStorage.getItem("balance")
     };
   },
   created() {
+    // this.$store.commit("hideLoading");
 
+  },
+   components: {
+    Loading,
+  },
+   computed: {
+    ...mapState(["LOADING"]),
   },
   methods: {
     onCancel() {
       this.show = false;
+    },
+    close() {
+     this.tip = false
     },
    
     onSelect(item) {
@@ -216,13 +301,18 @@ export default {
     },
     apply() {
       console.log("99999")
-      if(this.orderSn === "" || this.Amountmoney === "") {
+          if(this.orderSn === "" || this.Amountmoney === "") {
         return
       } 
       if(this.Amountmoney < 20) {
         this.$toast(this.$t("m.Minimum"))
         return
       }
+      this.tip = true
+  
+    },
+    open2(){
+        this.$store.commit("showLoading");
         // this.show2 = true
          this.userId = this.$store.state.user;
         this.login = this.$store.state.userId;
@@ -241,7 +331,9 @@ export default {
             bankName: this.chain
           })
           .then(({ data }) => {
+    this.$store.commit("hideLoading");
             console.log(data, "aaa");
+            this.tip = false
             if (data.mcode === "m0000000") {
             this.$toast(this.$toast(this.$t("m.Submitted")));
             this.$router.push("/account")
@@ -252,6 +344,7 @@ export default {
               this.$toast(this.$toast(this.$t("m.balancenot2")));
             }
           });
+
     }
   }
 };

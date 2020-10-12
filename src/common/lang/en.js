@@ -219,8 +219,14 @@ export const m = {
     Newpassword:"New password",
     Verifypassword:"Verify password",
     Passworddoes:"The verify password does not match the new password",
-    Changefailed:"Change password failed"
+    Changefailed:"Change password failed",
+    Tips:"BB8 processes withdrawals at 12pm (midday) and 9pm every day (Beijing Time)",
+    Warning:"After applying 5 USDT fee, the actual withdraw amount will be",
 
+
+       //分享
+    Share:"Share apps"
+    
 
 
 

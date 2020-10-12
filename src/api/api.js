@@ -8,7 +8,8 @@ if(process.env.NODE_ENV === "production") {
    baseURL3 = 'https://www.bbook8.com/twapi/v2/api'
 } 
 module.exports = {
-    
+    //新的登录
+    Login: baseURL2 + "/user/login_new",
     //第一层登录
     LoginURL: baseURL2 + "/user/login",
     DeailURL: baseURL2 + "/user/detail?userId=",
@@ -21,6 +22,8 @@ module.exports = {
     CodeURL: baseURL2 + "/register/code",
     //注册
     RegisterURL: baseURL2 + "/register",
+    //新的注册
+    Registetest: baseURL2 + '/register_new',
     //图表
     ChartURL:  baseURL2 + "/chart",
     //transtion
@@ -54,6 +57,8 @@ module.exports = {
     modify: baseURL1 + "/trade/order",
     //获取首页图片
     banner: baseURL2 + "/banner_pic",
+    //获取公告
+    notice: baseURL2 + "/announcement",
     //获取群组二维码
     social:baseURL2 + "/social_group",
     //获取下载app信息

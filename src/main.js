@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import fastclick from 'fastclick'
-import { Tabbar, TabbarItem, Icon,Loading,ActionSheet,Field,Popup,DatetimePicker,Picker  } from 'vant';
+import { Tabbar, TabbarItem, Icon,Loading,ActionSheet,Field,Popup,DatetimePicker,Picker,NoticeBar,Swipe, SwipeItem,Lazyload    } from 'vant';
 import axios from './http';
 import toast from './components/Toasts'
 import clipboard from 'clipboard';
@@ -24,6 +24,11 @@ Vue.use(DatetimePicker);
 Vue.use(Picker);
 Vue.use(VueI18n)
 Vue.use(toast)
+Vue.use(NoticeBar)
+Vue.use(Swipe)
+Vue.use(SwipeItem)
+Vue.use(Lazyload)
+ 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 //注册到vue原型上

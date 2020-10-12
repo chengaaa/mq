@@ -15,7 +15,7 @@ const router = new Router({
       path: '/home',
       name: 'home',
       // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
-      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/Home/Home2.vue'),
       // component: () => import(/* webpackChunkName: "about" */ './views/Account/Ce.vue'),
       meta: {
         keepAlive: true
@@ -206,13 +206,18 @@ const router = new Router({
       path: '/login',
       name: 'login',
       // component: Home,
-      component: () => import(/* webpackChunkName: "about" */ './views/Login/Login.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Login/Login2.vue')
     },
   
     {//注册
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "about" */ './views/Register/Register.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Register/Registertest.vue')
+    },
+     {//注册
+      path: '/registercode',
+      name: 'registercode',
+      component: () => import(/* webpackChunkName: "about" */ './views/Register/Registercode.vue')
     },
     //  {//注册输入密码
     //   path: '/registerpassword',

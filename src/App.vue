@@ -23,8 +23,12 @@
   src: url("./assets/font/MicrosoftSansSerif.ttf");
 }
 // @font-face {
-//   font-family: pingfang;
-//   src: url("./assets/font/苹方字体.ttf");
+//   font-family: sourcehansanscn L;
+//   src: url("./assets/font/SourceHanSansCN-Light.otf");
+// }
+// @font-face {
+//   font-family: sourcehansanscn B;
+//   src: url("./assets/font/SourceHanSansCN Bold.otf");
 // }
 
 body {
@@ -173,7 +177,7 @@ export default {
       };
       ws2.onmessage = function(e) {
         var mydata2 = JSON.parse(e.data).data;
-        console.log(mydata2);
+        console.log(mydata2,"是什么");
         // store.dispatch("REAET_MYDATA2");
         store.dispatch("SAVE_MYDATA2", mydata2);
       };
