@@ -178,7 +178,8 @@ export const m = {
     Submitted: '提交成功',
     Explain: '你的入金申请已经提交，我们会尽快调整你的账户余额',
     Next:'下一步',
-    Enter:'入金金额',
+    Enter:'输入金额',
+    Penter:'请输入金额',
     Pleasese:'请转',
     Pleasese2:'到如下地址',
     For:'为了能够更快完成充值步骤，我们会要求转入金额略高出一些，届时您的余额会是实际转入数量',
@@ -222,7 +223,19 @@ export const m = {
       Warning:"减去5USDT手续费，实际到账金额为",
 
       //分享
-      Share:"分享应用"
+      Share:"分享应用",
+      Hideto:"立即登录BBOOK8开启交易",
+      Yes:"确认",
+      Scanning:"扫描二维码",
+      Contact:"联系客服群组" 
+
+
+
+
+      
+
+
+
       
 
 

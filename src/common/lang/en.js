@@ -185,6 +185,7 @@ export const m = {
   Pleasese:'Please deposit',
   Pleasese2:'into following account',
   Enter:'Enter the amount',
+  Penter:'Please Enter the amount',
   For:'To assist us in quickly seeing your deposit we require you to add a very small amount. Your balance will reflect this upon completion.',
 
   
@@ -225,7 +226,15 @@ export const m = {
 
 
        //分享
-    Share:"Share apps"
+    Share:"Share apps",
+    Hideto:"Login to BBook8 start trading",
+    Yes:"OK",
+    Scanning:"Scanning QR code",
+    Contact:"Contact customer service group" 
+
+
+
+
     
 
 

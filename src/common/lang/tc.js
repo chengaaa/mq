@@ -182,7 +182,9 @@ export const m = {
     Pleasese:'請轉',
     Pleasese2:'到如下地址',
     For:'為了能夠更快完成充值步驟，我們會要求轉入金額略高出壹些，屆時您的余額會是實際轉入數量',
-    Enter:'入金金額',
+    Enter:'輸入金額',
+    Penter:'請輸入金額',
+
 
 
     //提币页面
@@ -219,7 +221,15 @@ export const m = {
       Warning:"減去5USDT手續費，實際到賬金額為",
 
        //分享
-       Share:"分享應用"
+       Share:"分享應用",
+       Hideto:"立即登錄BBOOK8開啟交易",
+       Yes:"確認",
+      Scanning:"掃描二維碼",
+      Contact:"聯系客服群組" 
+
+
+
+
       
 
 

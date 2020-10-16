@@ -37,19 +37,19 @@ Vue.prototype.ws = ws;
 // axios.defaults.timeout = 5000 // 请求超时
 // console.log( navigator.language,localStorage.getItem('lang'),"語言")
 if (navigator.language === "zh-CN") {
-  localStorage.setItem("engs", "中文");
+  localStorage.setItem("engs", "简体中文");
   localStorage.setItem("lang", "zh-CN");
 
 } else 
 if (navigator.language === "en-US") {
   localStorage.setItem("lang", "en-US");
-  localStorage.setItem("engs", "English");
+  localStorage.setItem("engs", "ENGLISH");
 } else if (navigator.language === "zh-TW" || navigator.language === "zh-HK") {
   localStorage.setItem("lang", "zh-TW");
-  localStorage.setItem("engs", "繁體");
+  localStorage.setItem("engs", "繁体中文");
 
 } else {
-  localStorage.setItem("engs", "中文");
+  localStorage.setItem("engs", "简体中文");
   localStorage.setItem("lang", "zh-CN");
 
 }

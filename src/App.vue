@@ -81,19 +81,19 @@ export default {
     this.get()
 
     if (this.language === "zh-CN") {
-      this.engs = "中文";
+      this.engs = "简体中文";
       // localStorage.setItem("engs", "中文");
       // localStorage.setItem("lang", "zh-CN");
 
     } else 
     if (this.language === "en-US") {
-      this.engs = "English";
+      this.engs = "ENGLISH";
       // localStorage.setItem("lang", "en-US");
     } else if (this.language === "zh-TW" || this.language === "zh-HK") {
-      this.engs = "繁體";
+      this.engs = "繁體中文";
       // localStorage.setItem("lang", "zh-TW");
     } else {
-      this.engs = "中文";
+      this.engs = "简体中文";
       // localStorage.setItem("engs", "中文");
       // localStorage.setItem("lang", "zh-CN");
 

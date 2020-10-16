@@ -1,7 +1,7 @@
 <template>
   <div class="entry">
     <div class="entry-title">
-      <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home" />
+      <van-icon name="arrow-left" color="#2e7bfd" id="van-icon" @click="home" />
       <h2>{{$t('m.Deposit')}}</h2>
     </div>
     <div class="usdt">
@@ -13,17 +13,20 @@
       <p>{{$t('m.Chainname')}}</p>
       <p @click="sheet">{{this.chain}}</p>
     </div>
-    <van-action-sheet
+    <div class="pickers">
+  <van-action-sheet
       v-model="show"
       :actions="actions"
       :cancel-text="$t('m.Cancel')"
       @cancel="onCancel"
       @select="onSelect"
     />
+    </div>
+  
     <div class="border"></div>
     <div class="text">
- <p>{{$t('m.Pleasese')}}<span style="color: red;fontWeight:700;fontSize:18px"> {{depositAmount}}USDT </span>{{$t('m.Pleasese2')}}</p>
-        <p style="color: red">{{$t('m.For')}}</p>
+ <p>{{$t('m.Pleasese')}}<span style="color: #dc5d56;fontWeight:700;fontSize:18px"> {{depositAmount}}USDT </span>{{$t('m.Pleasese2')}}</p>
+        <p style="color: #dc5d56">{{$t('m.For')}}</p>
         <!-- <p style="color:red">入数量</p> -->
     </div>
        
@@ -75,19 +78,38 @@
     <Toastss v-show="isPopupVisible" :routerData="routerData" :routerData2="routerData2"></Toastss>
   </div>
 </template>
+<style scoped>
+
+  .pickers >>> .van-action-sheet {
+  color: white;
+
+}
+.pickers >>> .van-action-sheet__cancel, .van-action-sheet__item 
+{
+  background: #262626;
+}
+.pickers >>>  .van-action-sheet__gap {
+  background: #2d2e2a;
+}
+.picker >>> .van-popup {
+  background: #262626;
+}
+</style>
 <style lang="scss" scoped>
 .entry {
+  background: #1e1e1e;
   .entry-title {
     display: flex;
     align-items: center;
     height: 1.173333rem /* 88/75 */;
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
+    border-bottom: 1px solid #565656;
     h2 {
       flex: 1;
       text-align: center;
       font-size: 0.493333rem /* 37/75 */;
-      color: #333333;
+      color: #ffffff;
     }
     #van-icon {
       width: 0.1rem;
@@ -102,10 +124,18 @@
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
     font-size: 0.453333rem /* 34/75 */;
+    :nth-child(1) {
+      color: #ececec;
+
+    }
+     :nth-child(2) {
+      color: #6f6f6f;
+      
+    }
   }
   .border {
     height: 0.32rem /* 24/75 */;
-    background: #f5f5f5;
+    background: #2d2e2a;
   }
   .erweima {
     height: 5.386667rem /* 404/75 */;
@@ -127,6 +157,9 @@
     padding-left: .2rem /* 15/75 */;
     padding-right: .2rem /* 15/75 */;
     font-size: 14px;
+    p {
+      color: #ffffff;
+    }
   }
   .address {
     text-align: center;
@@ -134,20 +167,21 @@
     padding-left: 0.32rem /* 24/75 */;
     h5 {
       font-size: 0.373333rem /* 28/75 */;
-      color: #666666;
+      color: #757575;
       margin-bottom: 0.506667rem /* 38/75 */;
     }
     p {
       font-size: 0.346667rem /* 26/75 */;
       margin-bottom: 0.453333rem /* 34/75 */;
+      color: #ffffff;
     }
     input {
       appearance: none;
       width: 100%;
       height: 1.226667rem /* 92/75 */;
-      border: 1px solid #127df6;
-      color: #127df6;
-      background: white;
+      border: 1px solid #367ce5;
+      color: #367ce5;
+      background: #1e1e1e;
       font-size: 0.4rem /* 30/75 */;
       border-radius: 3px;
     }
@@ -157,7 +191,7 @@
     margin-bottom: 0.533333rem /* 40/75 */;
     text-align: center;
     line-height: 0.533333rem /* 40/75 */;
-    color: #acacac;
+    color: #656565;
     font-size: 0.32rem /* 24/75 */;
   }
   .numbers {
@@ -198,7 +232,7 @@
       width: 4rem /* 300/75 */;
       height: 1.093333rem /* 82/75 */;
       border-radius: 3px;
-      background: #127df6;
+      background: #2e7bfd;
       color: white;
       font-size: 0.373333rem /* 28/75 */;
     }

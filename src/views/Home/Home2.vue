@@ -1096,6 +1096,10 @@ this.active=index;
          console.log(data,"你好哈")
          this.ios = data.ios.address
          this.Androids = data.android.address
+          window.localStorage.setItem("iosimg", data.ios.qr)
+          window.localStorage.setItem("Androidsimg", data.android.qr)
+    
+         
 
              })
     }

@@ -2,7 +2,7 @@
   <div class="quttry">
     <loading v-show="LOADING"></loading>
     <div class="quttry-title">
-      <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home" />
+      <van-icon name="arrow-left" color="#2b66c6" id="van-icon" @click="home" />
       <h2>{{$t('m.Withdraw')}}</h2>
     </div>
     <div class="usdt">
@@ -14,13 +14,16 @@
       <h5>{{$t('m.Chainname')}}</h5>
       <p @click="sheet">{{this.chain}}</p>
     </div>
-    <van-action-sheet
+    <div class="pickers">
+ <van-action-sheet
       v-model="show"
       :actions="actions"
       :cancel-text="$t('m.Cancel')"
       @cancel="onCancel"
       @select="onSelect"
     />
+    </div>
+   
     <div class="border"></div>
     <div class="usdt">
       <h5>{{$t('m.Withdrawaladdress')}}</h5>
@@ -32,6 +35,8 @@
       
       <input type="text" :placeholder="$t(this.hold)" v-model="Amountmoney" @keyup="check">
     </div>
+     <div class="border"></div>
+
     <div class="blance">
        <p>{{$t('m.Availablequantity')}}: </p> <span>{{balance}} USDT</span>
     </div>
@@ -79,6 +84,19 @@
   </div>
   </div>
 </template>
+<style scoped>
+.pickers >>> .van-action-sheet {
+  color: white;
+
+}
+.pickers >>> .van-action-sheet__cancel, .van-action-sheet__item 
+{
+  background: #262626;
+}
+.pickers >>>  .van-action-sheet__gap {
+  background: #2d2e2a;
+}
+</style>
 <style lang="scss" scoped>
 
 .tips {
@@ -88,6 +106,8 @@
   color: red;
   padding-top:0.266667rem;
   font-size: 13px;
+      background: #1e1e1e;
+
 }
 .back {
   background: #88befa;
@@ -100,19 +120,21 @@
    width: 100%;
     height: 100%;
     position: fixed;
-     background:#f5f5f5;
+     background:#262626;
   .quttry-title {
     display: flex;
     align-items: center;
     height: 1.173333rem /* 88/75 */;
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
-    background:white;
+    background:#1e1e1e;
+    border-bottom: 1px solid #565656;
     h2 {
       flex: 1;
       text-align: center;
       font-size: 0.493333rem /* 37/75 */;
-      color: #333333;
+          color: white;
+
     }
     #van-icon {
       width: 0.1rem;
@@ -126,9 +148,10 @@
     align-items: center;
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
-    background:white;
+    background:#1e1e1e;
     h5 {
       font-size: 0.426667rem /* 32/75 */;
+          color: white;
     }
     p {
       font-size: 0.4rem /* 30/75 */;
@@ -139,20 +162,23 @@
         width: 80%;
          font-size: 0.4rem /* 30/75 */;
       color: #666666;
+    background:#1e1e1e;
+
     }
     ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
          font-size: .32rem /* 24/75 */;
-    color:#9f9f9f;
+    color:#666666;
+    
 }
   }
   .border {
     height: 0.32rem /* 24/75 */;
-    background: #f5f5f5;
+    background: #2d2e2a;
   }
   .blance {
       width: 100%;
       height:1.333333rem /* 100/75 */;
-      background: #f5f5f5;
+      background: #1e1e1e;
       display: flex;
       padding-top: .266667rem /* 20/75 */;
      
@@ -164,12 +190,12 @@
       }
       span {
           font-size: .32rem /* 24/75 */;
-          color:#127df6; 
+          color:#2e7bfd; 
       }
   }
   .border1 {
       padding-top: 0.8rem;
-      background: #f5f5f5 ;
+      background: #1e1e1e ;
   .button {
       padding-left: .32rem /* 24/75 */;
       padding-right: .32rem /* 24/75 */;
@@ -230,7 +256,7 @@
         border: 1px solid #cfcccc;
       }
       :nth-child(2) {
-        background: #127df6;
+        background: #2e7bfd;
         border: 1px solid #cfcccc;
         color: white;
       }
