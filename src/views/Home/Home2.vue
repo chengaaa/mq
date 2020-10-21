@@ -192,6 +192,19 @@
        </div>
      </div>
     </div>
+       <div class="back back1" v-show="customerdata">
+      <div class="back-A">
+      <img @click="closecustomer" class="img1" src="../../assets/images/icon_close.png"/>
+     <div class="text">
+      <img class="img2" src="../../assets/images/logo1.png"/>
+     </div>
+     <div class="customerimg" v-for="(item,index) in group" :key="index">
+       <h4>{{$t('m.Contact')}}</h4>
+       <img :src="item.address" alt="">
+       <h4>{{$t('m.Scanning')}}</h4>
+     </div>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -212,6 +225,131 @@
 body {
   // font-family: sourcehansanscn L;
 }
+  .back {
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(26, 26, 26, 0.5);
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    width: 100%;
+    .back-A,.back-B {
+      padding-left: 0.533333rem;
+      padding-right: 0.533333rem;
+      background: rgba(26, 26, 26, 0.8);
+      width: 70%;
+      // height: 400px;
+      border: 2px solid #ebebeb;
+      text-align: right;
+      border-radius: 6px;
+      position: relative;
+      padding-bottom:0.4rem;
+      .img1 {
+        width: 30px;
+        height: 30px;
+        position: relative;
+        top: 15px;
+        left: 5px;
+      }
+      .text {
+        text-align: left;
+        .img2 {
+          width: 50%;
+        }
+      }
+      .customerimg {
+   text-align: center;
+    h4 {
+      color: white;
+      text-align: center;
+      font-weight: 700;
+      padding: 0.266667rem 0rem /* 0/75 */;
+      font-size: 16px;
+    }
+        img {
+          width:3.333333rem /* 250/75 */;
+          height: 3.333333rem /* 250/75 */;
+        }
+      }
+      .lasts {
+        height: 5.333333rem /* 400/75 */;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: white;
+        :nth-child(1) {
+          border-bottom: 1px solid white;
+        }
+        .last {
+          text-align: center;
+          font-size: 16px;
+          padding-top: 0.533333rem;
+          padding-bottom: 0.533333rem;
+        }
+      }
+      .ok {
+        font-size: 14px;
+        width: 2.133333rem /* 160/75 */;
+        height: 0.933333rem;
+        line-height: 0.933333rem;
+        background: #384ca3;
+        margin: 0 auto;
+        text-align: center;
+        color: white;
+        border-radius: 6px;
+      }
+    }
+    .back-B {
+  background:#182566;
+  border: none;
+  padding-bottom: 1.333333rem /* 100/75 */;
+  .text {
+    text-align: center;
+  }
+  .img3 {
+    text-align: center;
+    margin-top: .266667rem /* 20/75 */;
+     img {
+          // width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  } 
+  p {
+    text-align: center;
+    // padding-top: 0.133333rem ;
+    padding-bottom:0.133333rem ;
+    font-size: 16px;
+    color: #c9ccda;
+    margin-top: 0.266667rem;
+  }
+  .pace {
+    // height:0.666667rem;
+  }
+   
+    }
+    .iosand {
+      display:flex;justify-content:center;margin-top:20px;
+      .margins {
+      margin-right: .533333rem /* 40/75 */;
+     
+
+      }
+      h5 {
+        color:white;text-align:center;
+        padding:.4rem /* 30/75 */ 0px;
+        font-size:16px;
+      }
+      img {
+        width:2.666667rem /* 200/75 */;
+      }
+    }
+    .down {
+      margin-bottom:.533333rem /* 40/75 */;
+    }
+  }
   .notice-swipe {
     height: 40px;
     line-height: 40px;
@@ -271,7 +409,7 @@ body {
     }
   }
   .threeC {
-    border-bottom:2px solid white;
+    // border-bottom:2px solid white;
 
   }
   }
@@ -713,10 +851,12 @@ export default {
       active:0,
       announcement:"",
       img:require("../../assets/images/logo2.png"),
+      group:[],
+      customerdata:false,
       three:[
         { img:require("../../assets/images/group.png"),
           title:"官方群组",
-          engtitle:"OFFICIAI GROUP",
+          engtitle:"OFFICIAL GROUP",
         },
         { img:require("../../assets/images/red.png"),
           title:"新人红包",
@@ -775,6 +915,7 @@ export default {
     this.getbanner()
     this.getnotice()
     this.getappinfo()
+    this.getcustomer()
     // this.getaccount()
     // this.homewebsocket()
   },
@@ -848,7 +989,18 @@ export default {
       this.$router.push("/tradingguide");
     },
     change(index) {
-this.active=index;
+        this.active=index;
+        if(index === 0) {
+          this.customer()
+  
+} 
+    },
+     customer() {
+      this.customerdata = true
+      // this.$router.push("/customer");
+    },
+     closecustomer() {
+      this.customerdata = false;
     },
      //首页的汇率
      rate() {
@@ -858,6 +1010,13 @@ this.active=index;
         localStorage.setItem("CNY",this.CNY)
         localStorage.setItem("USD",this.USD)
       });
+    },
+      getcustomer() {
+       this.$http.get(api.social).then(({data})=>{
+            this.group = data
+            console.log(data,"data")
+        })
+
     },
     join() {
       this.$router.push("/join");
