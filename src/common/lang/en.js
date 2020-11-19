@@ -155,9 +155,18 @@ export const m = {
   Howtorecharge: "How to deposit",
   Howtocurrency: "How to withdraw",
   Use: "Register or login to continue",
-  BTC : "Bitcoin",
-  ETH : "Ethereum",
-  BCH :"Bitcoin Cash",
+  BTC: "Bitcoin",
+  ETH: "Ethereum",
+  BCH:"Bitcoin Cash",
+  XRP:"Ripple",
+  LTC:"Litecoin",
+  BSV:"Bitcoin SV",
+  EOS:"EOS",
+  ETC:"Ethereum Classic",
+  LINK:"Chainlink",
+  TRX:"TRON",
+
+  
 
   //加入官方群组
   Joinofficialgroup: "Join the official group",

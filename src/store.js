@@ -30,9 +30,19 @@ export default new Vuex.Store({
     actions: [],
     actionss: [],
     eng: "",
-    exchangeBCHUSD:"",
     exchangeBTCUSD:"",
-    exchangeETHUSD:""
+    exchangeETHUSD:"",
+    exchangeBCHUSD:"",
+    exchangeXRPUSD:"",
+    exchangeLTCUSD:"",
+    exchangeBSVUSD:"",
+    exchangeEOSUSD:"",
+    exchangeETCUSD:"",
+    exchangeLINKUSD:"",
+    exchangeTRXUSD:"",
+    symbolArr:[],
+    openArr:[],
+    isTransaction:true
   },
   getters: {
     getTabbarShow(state) {
@@ -65,12 +75,18 @@ export default new Vuex.Store({
     setArr(state, arr) {
       state.arr = arr;
     },
+    deleteArr(state, arr) {
+      state.arr = [];
+    },
     setdataArr(state, dataArr) {
       state.dataArr = dataArr;
       // console.log("dataArr", dataArr)
     },
     setorder(state, order) {
       state.order = order
+    },
+    deleteorder(state, order) {
+      state.order = []
     },
     setcontractsList(state, contractsLists) {
       state.contractsLists = contractsLists
@@ -100,6 +116,13 @@ export default new Vuex.Store({
     },
     hideLoading(state) {
       state.LOADING = false
+    },
+    //isTransaction
+    Transaction(state){
+      state.isTransaction = false
+    },
+    toggleTransaction(state) {
+     state.isTransaction = true
     },
     //baseURL2
     setUser(state, user) {
@@ -148,15 +171,53 @@ export default new Vuex.Store({
     setEng(state, eng) {
       state.eng = eng
     },
+        setexchangeBTCUSD(state,exchangeBTCUSD) {
+          state.exchangeBTCUSD = exchangeBTCUSD
+        },
+        setexchangeETHUSD(state,exchangeETHUSD) {
+          state.exchangeETHUSD = exchangeETHUSD
+        },
     setexchangeBCHUSD(state,exchangeBCHUSD) {
       state.exchangeBCHUSD= exchangeBCHUSD
     },
-    setexchangeBTCUSD(state,exchangeBTCUSD) {
-      state.exchangeBTCUSD = exchangeBTCUSD
+    setexchangeXRPUSD(state,exchangeXRPUSD) {
+      state.exchangeXRPUSD = exchangeXRPUSD
     },
-    setexchangeETHUSD(state,exchangeETHUSD) {
-      state.exchangeETHUSD = exchangeETHUSD
+    setexchangeLTCUSD(state,exchangeLTCUSD) {
+      state.exchangeLTCUSD = exchangeLTCUSD
+    },
+    setexchangeBSVUSD(state,exchangeBSVUSD) {
+      state.exchangeBSVUSD = exchangeBSVUSD
+    },
+    setexchangeEOSUSD(state,exchangeEOSUSD) {
+      state.exchangeEOSUSD = exchangeEOSUSD
+    },
+    setexchangeETCUSD(state,exchangeETCUSD) {
+      state.exchangeETCUSD = exchangeETCUSD
+    },
+    setexchangeLINKUSD(state,exchangeLINKUSD) {
+      state.exchangeLINKUSD = exchangeLINKUSD
+    },
+    setexchangeTRXUSD(state,exchangeTRXUSD) {
+      state.exchangeTRXUSD = exchangeTRXUSD
+    },
+    setsymbolArr(state,symbolArr) {
+      state.symbolArr = symbolArr
+    },
+    setOpen(state,openArr) {
+      state.openArr = openArr
+
+    },
+
+    deleteOpen(state) {
+      state.openArr = []
+
+    },
+    deleteSymbol(state) {
+      state.symbolArr = []
+
     }
+   
 
   },
   actions: {

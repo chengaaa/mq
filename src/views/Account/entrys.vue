@@ -98,6 +98,11 @@
 <style lang="scss" scoped>
 .entry {
   background: #1e1e1e;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   .entry-title {
     display: flex;
     align-items: center;
@@ -118,7 +123,7 @@
   }
   .usdt {
     display: flex;
-    height: 1.2rem /* 90/75 */;
+    height: .933333rem /* 70/75 */;
     justify-content: space-between;
     align-items: center;
     padding-left: 0.32rem /* 24/75 */;
@@ -134,17 +139,17 @@
     }
   }
   .border {
-    height: 0.32rem /* 24/75 */;
+    height: 5px;
     background: #2d2e2a;
   }
   .erweima {
-    height: 5.386667rem /* 404/75 */;
+    height: 2.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
     img {
-      width: 3.946667rem /* 296/75 */;
-      height: 3.906667rem /* 293/75 */;
+      width: 2.573333rem /* 193/75 */;
+      height: 2.573333rem;
     }
   }
   .text {
@@ -168,11 +173,11 @@
     h5 {
       font-size: 0.373333rem /* 28/75 */;
       color: #757575;
-      margin-bottom: 0.506667rem /* 38/75 */;
+      margin-bottom: 10px;
     }
     p {
       font-size: 0.346667rem /* 26/75 */;
-      margin-bottom: 0.453333rem /* 34/75 */;
+      margin-bottom:10px;
       color: #ffffff;
     }
     input {
@@ -226,7 +231,7 @@
   }
   .button {
     text-align: center;
-    height: 3.2rem /* 90/75 */;
+    height: .666667rem /* 50/75 */;
     input {
       appearance: none;
       width: 4rem /* 300/75 */;
@@ -235,6 +240,9 @@
       background: #2e7bfd;
       color: white;
       font-size: 0.373333rem /* 28/75 */;
+      // position: fixed;
+      // bottom: 0px;
+      // left: 0px;
     }
   }
 }

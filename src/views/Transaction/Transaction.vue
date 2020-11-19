@@ -1,5 +1,7 @@
 <template>
-  <div class="transaction">
+<div>
+  <div class="transaction" style=" min-height: 17.333333rem;background: #eee;" v-show="istransaction == 'classic'">
+    <div>
     <div class="transaction-A" :class="tit< 0? red:blue">
       <!-- <h3 v-for="(items,index) in gettitle">{{items}}</h3> -->
       <!-- <h3>{{tit?tit.toFixed(2):}} USD</h3> -->
@@ -259,6 +261,19 @@
       />
     </keep-alive>
   </div>
+  </div>
+  <div class="transaction2" style=" min-height: 17.333333rem;background: #262626;" v-show="istransaction == 'new'">
+     <div class="home-title">
+      <h1 class="home-img">
+        <img src="../../assets/images/logo1.png" alt />
+      </h1>
+    </div>
+    <div class="transaction2-place"> 
+      
+    </div>
+
+  </div>
+  </div>
 </template>
 
 <style scoped>
@@ -280,8 +295,7 @@
   user-select: none;
 
   .transaction {
-    min-height: 17.333333rem /* 1300/75 */;
-    background: #eee;
+   
     .iconfont {
       font-size: 0.666667rem /* 50/75 */;
     }
@@ -546,6 +560,50 @@
       }
     }
   }
+  .transaction2 {
+     .home-title {
+    width: 100%;
+    display: flex;
+    position: relative;
+    .dow {
+      color: #c9c9c9;
+    position: absolute;
+    top: 0.48rem;
+    left: .266667rem /* 20/75 */;
+    background: #262626;
+    height: 30px;
+    line-height: 30px;
+    width: 90px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #c9c9c9;
+    }
+    .login {
+      position: absolute;right: 15px;color: #c9c9c9;bottom: 15px;font-size: 14px;
+    }
+    h1 {
+      background: #262626;
+      width: 100%;
+      height: 1.173333rem /* 88/75 */;
+      padding: 0.333333rem /* 25/75 */ 0rem /* 0/75 */ 0rem /* 0/75 */ 0rem
+        /* 0/75 */;
+      margin: auto;
+      text-align: center;
+      img {
+        width: 4rem /* 300/75 */;
+        // height: .8rem /* 60/75 */;
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+        margin-top: -0.8rem;
+      }
+    }
+  }
+  .transaction2-place {
+    height: 50px;
+    background: #2c2d28;
+  }
+  }
   .hongse {
     background: #e54440;
   }
@@ -572,6 +630,7 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      istransaction:localStorage.getItem("transaction"),
       startpageY: "",
       endpageY: "",
       scroll: "",
@@ -637,6 +696,7 @@ export default {
       this.actionss = this.$store.state.actionss;
       this.getdata1();
       this.show = false
+      this.istransaction=localStorage.getItem("transaction")
     });
   },
   deactivated() {},

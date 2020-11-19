@@ -5,7 +5,7 @@
     <div class="login-A">
       <div class="login-AA">
         <div class="header">
-          <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home" />
+          <van-icon name="arrow-left" color="#c9c9c9" id="van-icon" @click="home" />
         </div>
         <div class="login-logoo">
           <div class="login-logo">
@@ -101,7 +101,7 @@
 
       <div class="login-forget">
         <div>
-          <span>{{$t('m.Existingaccount')}}？</span>
+          <span style="color:#c9c9c9">{{$t('m.Existingaccount')}}？</span>
           <span class="qie" @click="login">{{$t('m.Signinnow')}}</span>
         </div>
       </div>
@@ -125,6 +125,10 @@
 </template>
 <style lang="scss" scoped>
 .login {
+  background: #262626;
+  position: fixed;
+  width: 100%;
+  height: 100%;
   .login-A {
     padding-left: 0.64rem /* 48/75 */;
     .login-AA {
@@ -145,7 +149,7 @@
           }
           h1,
           p {
-            color: #111111;
+            color: #c9c9c9;
             font-weight: 700;
           }
         }
@@ -158,16 +162,46 @@
         #user,#refelcode{
           width: 8.733333rem /* 655/75 */;
           height: 1.173333rem /* 88/75 */;
-          border-bottom: 1px solid #eeeeee;
+          border-bottom: 1px solid #c9c9c9;
           transform: rotateZ(360deg);
           border-radius: 0px;
           appearance: none;
           // outline:black;
           font-size: 16px;
+          background: #262626;
+          color: #c9c9c9;
         }
         #code {
           font-size: 16px;
+          background: #262626;
+          color: #c9c9c9;
         }
+        
+         #username::placeholder{
+           color: #c9c9c9;
+
+         }
+         #password::placeholder{
+           color: #c9c9c9;
+           
+         }
+         #passwordagain::placeholder{
+           color: #c9c9c9;
+           
+         }
+          #user::placeholder{
+           color: #c9c9c9;
+           
+         }
+          #refelcode::placeholder{
+           color: #c9c9c9;
+           
+         }
+          #code::placeholder{
+           color: #c9c9c9;
+           
+         }
+       
         p {
           color: red;
           padding-top: .133333rem /* 10/75 */;
@@ -177,7 +211,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid #eeeeee;
+          border-bottom: 1px solid #c9c9c9;
           font-size: 0.346667rem /* 26/75 */;
 
           margin-right: 0.64rem /* 48/75 */;

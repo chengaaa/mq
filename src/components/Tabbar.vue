@@ -52,7 +52,7 @@ export default {
         },
        
         {
-          name: "/quotation-order",
+          name: "/quotation-deail",
           title: "m.Quotes",
           normal: "hangqing3",
           active1: "hangqing3"

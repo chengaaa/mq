@@ -7,11 +7,12 @@
     <div class="teaching-title2">
         <h3>{{$t('m.Howtotransaction')}}？</h3>
     </div>
+   
     <!-- <div class="imglist">
         <img  src="../../assets/image/chongzhi1.png" alt="">
     </div> -->
     <div class="imglist">
-        <img  v-for="(item,index) in imgList" :key="index" :src="item.url" alt="">
+        <img style="vertical-align: bottom;" v-for="(item,index) in imgList" :key="index" :src="item.url" alt="">
     </div>
      <!-- <div class="teaching-title2">
         <h3>{{$t('m.Howtocurrency')}}？</h3>
@@ -71,39 +72,37 @@ export default {
           imgList:[
               {
                   name:"1",
-                  url:require("../../assets/image/第一步.jpg")
+                  url:require("../../assets/images/trade_guide_01.png")
               },
                {
                   name:"2",
-                  url:require("../../assets/image/第二步.jpg")
+                  url:require("../../assets/images/trade_guide_02.png")
+
               },
                {
                   name:"3",
-                  url:require("../../assets/image/第三步.jpg")
+                  url:require("../../assets/images/trade_guide_03.png")
+
               },
                {
                   name:"4",
-                  url:require("../../assets/image/第四步.jpg")
+                  url:require("../../assets/images/trade_guide_04.png")
               },
                {
-                  name:"4",
-                  url:require("../../assets/image/第五步.jpg")
+                  name:"5",
+                  url:require("../../assets/images/trade_guide_05.png")
               },
                {
-                  name:"4",
-                  url:require("../../assets/image/第六步.jpg")
+                  name:"6",
+                  url:require("../../assets/images/trade_guide_06.png")
               },
                {
-                  name:"4",
-                  url:require("../../assets/image/第六步2.jpg")
+                  name:"7",
+                  url:require("../../assets/images/trade_guide_07.png")
               },
                {
-                  name:"4",
-                  url:require("../../assets/image/第七步.jpg")
-              },
-               {
-                  name:"4",
-                  url:require("../../assets/image/第八步.jpg")
+                  name:"8",
+                  url:require("../../assets/images/trade_guide_08.png")
               },
               
           ],

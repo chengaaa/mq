@@ -84,17 +84,24 @@
   </div>
   </div>
 </template>
-<style scoped>
-.pickers >>> .van-action-sheet {
+<style >
+ .van-action-sheet {
   color: white;
 
 }
-.pickers >>> .van-action-sheet__cancel, .van-action-sheet__item 
+ .van-action-sheet__cancel, .van-action-sheet__item 
 {
   background: #262626;
 }
-.pickers >>>  .van-action-sheet__gap {
+ .van-action-sheet__gap {
   background: #2d2e2a;
+}
+.van-hairline--top::after {
+  /* border-top-width: 1px solid #565656; */
+  border-top-width: 0px;
+}
+.van-popup {
+  background: #262626;
 }
 </style>
 <style lang="scss" scoped>

@@ -417,6 +417,7 @@ export default {
       datePicker: false,
       buynum: "",
       sellnum: "",
+      
       determine:this.$t("m.Determineok"),
       cancel: this.$t("m.Cancellation"),
       // balances: localStorage.getItem("balance"),

@@ -4,7 +4,7 @@
     <div class="login-A">
       <div class="login-AA">
         <div class="header">
-          <van-icon name="arrow-left" color="#333333" id="van-icon" @click="home" />
+          <van-icon name="arrow-left" color="#c9c9c9" id="van-icon" @click="home" />
         </div>
         <div class="login-logoo">
           <div class="login-logo">
@@ -55,10 +55,10 @@
         </div>
         <div class="login-forget">
           <div class="forget">
-            <span>{{$t('m.Forgetthepassword')}}</span>
+            <span style="color:#c9c9c9">{{$t('m.Forgetthepassword')}}</span>
           </div>
           <div>
-            <span>{{$t('m.Noaccount')}}？</span>
+            <span style="color:#c9c9c9">{{$t('m.Noaccount')}}？</span>
             <span class="qie" @click="register">{{$t('m.Registernow')}}</span>
           </div>
         </div>
@@ -105,6 +105,10 @@
 </template>
 <style lang="scss" scoped>
 .login {
+  background: #262626;
+  position: fixed;
+  width: 100%;
+  height: 100%;
   .login-A {
     padding-left: 0.64rem /* 48/75 */;
     .login-AA {
@@ -124,7 +128,7 @@
           }
           h1,
           p {
-            color: #111111;
+            color: #c9c9c9;
             font-weight: 700;
           }
         }
@@ -134,11 +138,20 @@
         #password {
           width: 8.733333rem /* 655/75 */;
           height: 1.173333rem /* 88/75 */;
-          border-bottom: 1px solid #eeeeee;
+          border-bottom: 1px solid #c9c9c9;
           border-radius: 0px;
           appearance: none;
           // outline:black;
           font-size: 0.426667rem /* 32/75 */;
+              background: #262626;
+              color: #c9c9c9;
+        }
+         
+         #username::placeholder {
+          color: #c9c9c9;
+        }
+        #password::placeholder {
+          color: #c9c9c9;
         }
       }
       .login-forget {
@@ -213,11 +226,14 @@
   font-size: 0.426667rem /* 32/75 */;
   position: relative;
   left: -0.266667rem;
+  color: #c9c9c9;
 }
 .icon-xiaoyanjing-zheng {
   font-size: 0.426667rem /* 32/75 */;
   position: relative;
   left: -0.266667rem;
+  color: #c9c9c9;
+
 }
 .mt-button {
   margin-top: 1.146667rem /* 86/75 */;
@@ -244,7 +260,7 @@
 </style>
 <script>
 import { mapMutations, mapState } from "vuex";
-import init from "../../tools/websocket";
+import init from "../../tools/websocketdemo";
 import { getUTCtime } from "../../tools/check.js";
 const Loading = () => import("../../components/Loading");
 var api = require("../../api/api");

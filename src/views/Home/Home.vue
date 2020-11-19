@@ -576,12 +576,34 @@ export default {
       }
         for(var i = 0;i <this.List.length; i++) {
         var designations = this.List[i]
+        console.log(store.state.exchangeBTCUSD,"啊啊啊啊啊啊啊啊啊啊啊啊啊啊")
         if(designations.designation === "BTCUSD.") {
          designations.open = store.state.exchangeBTCUSD.open
         } else if(designations.designation === "BCHUSD.") {
          designations.open = store.state.exchangeBCHUSD.open
         } else if (designations.designation === "ETHUSD.") {
         designations.open = store.state.exchangeETHUSD.open
+        }
+        else if (designations.designation === "XRPUSD.") {
+        designations.open = store.state.exchangeXRPUSD.open
+        }
+        else if (designations.designation === "LTCUSD.") {
+        designations.open = store.state.exchangeLTCUSD.open
+        }
+        else if (designations.designation === "BSVUSD.") {
+        designations.open = store.state.exchangeBSVUSD.open
+        }
+        else if (designations.designation === "EOSUSD.") {
+        designations.open = store.state.exchangeEOSUSD.open
+        }
+        else if (designations.designation === "ETCUSD.") {
+        designations.open = store.state.exchangeETCUSD.open
+        }
+        else if (designations.designation === "LINKUSD.") {
+        designations.open = store.state.exchangeLINKUSD.open
+        }
+        else if (designations.designation === "TRXUSD.") {
+        designations.open = store.state.exchangeTRXUSD.open
         }
       }
       console.log(this.List,"this.List")

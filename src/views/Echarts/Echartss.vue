@@ -119,10 +119,13 @@ export default {
         { name: "D" },
         { name: "W" },
         { name: "M" }
-      ]
+      ],
+      lastdata:"",
+      websokArr:[],
     };
   },
   created() {
+    this.Lastchart()
     if (this.$route.params.id) {
       this.bordername = this.$route.params.id.slice(
         0,
@@ -149,6 +152,7 @@ export default {
   components: {
     Header
   },
+  
   methods: {
     gobacks() {
       this.$router.go(-1);
@@ -158,6 +162,19 @@ export default {
       this.getdate();
       clearInterval(this.setInterName);
       this.initchart();
+    },
+    //图表最后一根
+    Lastchart() {
+      this.$http.get(api.Lastchart,{params:{
+        symbol: this.bordername,
+        type:this.bordertime
+      }}
+      
+      ).then(({data})=>{
+        this.lastdata = [data][0]
+       console.log(this.lastdata,"王晓丽")
+      })
+
     },
     getdate() {
       //starttime
@@ -207,6 +224,7 @@ export default {
       this.endtime = parseInt(new Date(this.endtime).getTime() / 1000);
     },
     initchart() {
+      this.Lastchart()
       var echartss = document.getElementById("echarts");
       let myChart = echarts.init(document.getElementById("echarts"));
       function resizeDom(dom) {
@@ -284,6 +302,21 @@ export default {
               color0: "#0CF49B",
               borderColor: "#FD1050",
               borderColor0: "#0CF49B"
+            },
+                markLine: {
+                symbol: ['none', 'none'],
+                data: [
+                    {
+                        name: 'min line on close',
+                        type: 'min',
+                        valueDim: 'close'
+                    },
+                    {
+                        name: 'max line on close',
+                        type: 'max',
+                        valueDim: 'close'
+                    }
+                ]
             }
           },
           {
@@ -351,7 +384,13 @@ export default {
         .then(({ data }) => {
           console.log(data, "图标");
           // if (data.code === 0) {
-          var datab = data.reverse();
+         
+            var dataArr = data
+            
+            dataArr.push(this.lastdata)
+            console.log(dataArr,"dataArr")
+          var datab = dataArr.reverse();
+          console.log(datab,"datab")
           var arrall = [];
           var b = datab.map(item => {
             var open = item.open;
@@ -392,49 +431,50 @@ export default {
           // });
           // }
         });
+      
 
-      this.setInterName = setInterval(() => {
-        this.getdate();
-        this.$http
-          .post(api.ChartURL, {
-            from: this.starttime,
-            to: this.endtime,
-            type: this.bordertime,
-            symbol: this.bordername
-          })
-          .then(({ data }) => {
-            if (data.code === 0) {
-              var datac = data.reverse();
-              var arrall = [];
-              var c = datac.map(item => {
-                var opens = item.open;
-                var closes = item.close;
-                var lowests = item.low;
-                var highests = item.high;
-                var times = item.timestamp;
-                var arrs = [opens, closes, lowests, highests, times];
-                return arrs;
-              });
-              dates = c.map(function(item) {
-                return getNowFormatDate(new Date(item[4] * 1000));
-              });
+      // this.setInterName = setInterval(() => {
+      //   this.getdate();
+      //   this.$http
+      //     .post(api.ChartURL, {
+      //       from: this.starttime,
+      //       to: this.endtime,
+      //       type: this.bordertime,
+      //       symbol: this.bordername
+      //     })
+      //     .then(({ data }) => {
+      //       if (data.code === 0) {
+      //         var datac = data.reverse();
+      //         var arrall = [];
+      //         var c = datac.map(item => {
+      //           var opens = item.open;
+      //           var closes = item.close;
+      //           var lowests = item.low;
+      //           var highests = item.high;
+      //           var times = item.timestamp;
+      //           var arrs = [opens, closes, lowests, highests, times];
+      //           return arrs;
+      //         });
+      //         dates = c.map(function(item) {
+      //           return getNowFormatDate(new Date(item[4] * 1000));
+      //         });
 
-              data = c.map(function(item) {
-                console.log(item, "item");
-                return [+item[0], +item[1], +item[2], +item[3]];
-              });
-              option.xAxis.data = dates;
-              option.series[0].data = data;
-              option.series[1].data = calculateMA(5, data);
-              option.series[2].data = calculateMA(10, data);
-              option.series[3].data = calculateMA(20, data);
-              option.series[4].data = calculateMA(30, data);
-              myChart.setOption(option);
-            } else {
+      //         data = c.map(function(item) {
+      //           console.log(item, "item");
+      //           return [+item[0], +item[1], +item[2], +item[3]];
+      //         });
+      //         option.xAxis.data = dates;
+      //         option.series[0].data = data;
+      //         option.series[1].data = calculateMA(5, data);
+      //         option.series[2].data = calculateMA(10, data);
+      //         option.series[3].data = calculateMA(20, data);
+      //         option.series[4].data = calculateMA(30, data);
+      //         myChart.setOption(option);
+      //       } else {
               
-            }
-          });
-      }, 1000 * 60);
+      //       }
+      //     });
+      // }, 1000 * 60);
       myChart.setOption(option);
       resizeDom(echartss);
       // window.addEventListener("resize", () => {
@@ -442,6 +482,12 @@ export default {
       //   myChart.resize(); //重绘echart图表
       // });
     }
+  },
+  watch:{
+     "$store.state.mydata": function(newer, old) {
+      this.websokArr = newer;
+      console.log(this.websokArr,"websokArr")
+    },
   }
 };
 </script>

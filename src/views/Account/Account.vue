@@ -84,6 +84,7 @@
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
             </p>
           </div>
+          
           <div class="account-flex">
             <img src="../../assets/images/icon_change_pw.png" alt />
             <p class="account-flex1" @click="changePassword">
@@ -116,6 +117,13 @@
               <span>{{ $t("m.Customerservice") }}</span>
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
             </div>
+          </div>
+           <div class="account-flex">
+            <img src="../../assets/images/icon_history.png" alt />
+            <p class="account-flex1" @click="toggle">
+              <span>切换交易界面</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </p>
           </div>
         </div>
         <div class="boder"></div>
@@ -265,7 +273,7 @@
     width: 80%;
     border: 1px solid;
     margin: .533333rem /* 40/75 */ auto;
-    height: 1.333333rem /* 100/75 */;
+    // height: 1.333333rem /* 100/75 */;
     line-height: 1.333333rem /* 100/75 */;
     border-radius: 4px;
         }
@@ -316,7 +324,9 @@
 
   .account {
     .account-top1 {
-      height: 4.666667rem /* 350/75 */;
+      // height: 4.666667rem /* 350/75 */;
+      padding-top: 30px;
+      padding-bottom: 30px;
       background: #262626;
       border-top: 1px solid #565656;
       border-bottom: 1px solid #565656;
@@ -517,7 +527,7 @@
         // padding-left: 0.64rem /* 48/75 */;
       }
       .account-bottom1 {
-        height: 4.8rem /* 360/75 */;
+        // height: 4.8rem /* 360/75 */;
         margin-bottom: 0.6rem;
         // .account-flex:nth-child(1) {
         //   border-bottom: 1px solid #eeeeee;
@@ -584,7 +594,7 @@
     }
   }
   .zhan {
-    height: 2.933333rem /* 220/75 */;
+    height: 100px;
   }
 
   .back {
@@ -841,6 +851,10 @@ export default {
     ...mapMutations(["delAccountName"]),
     ...mapMutations(["setActions"]),
     ...mapMutations(["setActionss"]),
+    ...mapMutations(["deleteOpen"]),
+    ...mapMutations(["deleteSymbol"]),
+    ...mapMutations(["deleteArr"]),
+    ...mapMutations(["deleteorder"]),
     onConfirm(value, index) {
       console.log("确定吗", value, index);
       if (value === "ENGLISH") {
@@ -972,6 +986,10 @@ export default {
           this.delUserId();
           this.delUser();
           this.delAccountName();
+          // this.deleteOpen()
+          // this.deleteSymbol()
+          // this.deleteArr()
+          // this.deleteorder()
           // this.delToken();
           this.$router.push("/login");
         }
@@ -979,6 +997,10 @@ export default {
     },
     history() {
       this.$router.push("/history");
+    },
+    toggle() {
+      this.$router.push("/toggletransaction")
+
     },
     changePassword() {
       // this.$router.push("/changepassword");

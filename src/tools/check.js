@@ -147,6 +147,49 @@ export function checkEntry() {
 
 
 }
+export function isDayLightSaving(e){
+    // let date = new Date();
+    let date = e
+    let parisDateString = date.toLocaleTimeString("en-US", {
+        timeZone: "Europe/Paris"
+    });
+    let utcDateString = date.toLocaleTimeString("en-US", {timeZone: "UTC"});
+    let parisArr = parisDateString.split(" ");
+    let utcArr = utcDateString.split(" ");
+    let parisHour = Number(parisArr[0].split(":")[0]) ;
+    let utcHour = Number(utcArr[0].split(":")[0]);
+    if (parisHour > utcHour){
+        if (parisHour == utcHour+2){
+          //是夏令时
+        //    this.difference = -(new Date().getTimezoneOffset() /60) 
+        //    this.diftimer = 2
+        //    console.log( this.difference,this.diftimer,"王哈哈哈")
+            return true
+        }else{
+            // this.difference = -(new Date().getTimezoneOffset() /60) 
+            // this.diftimer = 1
+        //    console.log( this.difference,this.diftimer,"李哈哈哈")
+        return false
+
+        }
+    }else{
+        if (parisHour+12 == utcHour+2){
+          //夏令时
+        //    this.difference = -(new Date().getTimezoneOffset() /60) 
+        //    this.diftimer = 2
+        //    console.log( this.difference,this.diftimer,"张哈哈哈")
+
+            return true
+        }else{
+        //    this.difference = -(new Date().getTimezoneOffset() /60) 
+            // this.diftimer = 1
+        //    console.log( this.difference,this.diftimer,"周哈哈哈")
+        return false
+
+        }
+    }
+// console.log(isDayLightSaving(),"========最后分割")
+}
 
 
 

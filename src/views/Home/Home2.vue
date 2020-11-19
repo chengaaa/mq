@@ -1,11 +1,11 @@
 <template>
   <div class="home" >
-    
     <div class="home-title">
+      <div class="dow" @click="Android">下载APP</div>
       <h1 class="home-img">
         <img src="../../assets/images/logo1.png" alt />
       </h1>
-      <div v-if="!tokens" class="login" @click="login">登录/注册</div>
+      <div v-if="!tokens" class="login" @click="login">{{$t('m.Login')}}/{{$t('m.Register')}}</div>
     </div>
     <!-- <div class="logo2">
       <img src="../../assets/images/logo2.png" alt="">
@@ -178,19 +178,19 @@
         </div>
       </div>
       </div>
-       <div class="app">
+       <!-- <div class="app">
          <div>{{$t('m.Download')}}</div>
          <div>
-       <button style="color:black" @click="Android" class="button3">
+       <button style="color:black" @click="Android" class="button3"> -->
          <!-- <a :href="Android">Android</a> -->
          <!-- <a href="#">Android</a> -->
-         Android
+         <!-- Android
          </button>
        <button class="button3">
          <a :href="ios">IOS</a>
        </button>
        </div>
-     </div>
+     </div> -->
     </div>
        <div class="back back1" v-show="customerdata">
       <div class="back-A">
@@ -474,10 +474,24 @@ body {
 .home {
   background: #262626;
  
+ 
   .home-title {
     width: 100%;
     display: flex;
     position: relative;
+    .dow {
+      color: #c9c9c9;
+    position: absolute;
+    top: 0.48rem;
+    left: .266667rem /* 20/75 */;
+    background: #262626;
+    height: 30px;
+    line-height: 30px;
+    width: 90px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #c9c9c9;
+    }
     .login {
       position: absolute;right: 15px;color: #c9c9c9;bottom: 15px;font-size: 14px;
     }
@@ -600,7 +614,7 @@ body {
     .home-number3,
     .home-number4 {
       h4 {
-        font-size: 0.453333rem /* 34/75 */;
+        font-size: 18px;//嗯
       }
       span {
         font-size: 0.266667rem /* 20/75 */;
@@ -734,7 +748,7 @@ body {
   }
 
   .home-last {
-    height: 7.44rem /* 558/75 */;
+    // height: 7.44rem /* 558/75 */;
     margin-bottom: 1.4rem;
     color: #c9c9c9;
     .home-last1 {
@@ -756,8 +770,10 @@ body {
       justify-content: space-between;
       padding-left: 0.32rem /* 24/75 */;
       padding-right: 0.32rem /* 24/75 */;
-      padding-top: 0.426667rem /* 32/75 */;
-
+      padding-top: 10px;
+      padding-bottom: 10px;
+          background: #262626;
+    border-bottom: 1px solid #ffffff;
       .home-one {
         display: flex;
         .display1 {
@@ -773,7 +789,7 @@ body {
           flex-direction: column;
           
           h3 {
-            font-size: 0.453333rem;
+            font-size: 18px;//嗯
             // font-family:sourcehansanscn B;
             color:white;
           }
@@ -794,8 +810,9 @@ body {
       }
       .home-two {
         width: 1.933333rem /* 70/75 */;
+        text-align: center;
         h3 {
-          font-size: 0.453333rem;
+          font-size: 18px;//嗯
           color:white;
           // font-family: sourcehansanscn B;
         }
@@ -876,7 +893,7 @@ export default {
           designationchinese: "m.BTC",
           percentage: "+0.52%",
           icontext: "\ue62d",
-          img:require("../../assets/images/1.png")
+          img:require("../../assets/images/icon_btc.png")
         },
         {
           designation: "ETHUSD.",
@@ -886,7 +903,7 @@ export default {
           designationchinese: "m.ETH",
           percentage: "-1.25%",
           icontext: "\ue63a",
-          img:require("../../assets/images/2.png")
+          img:require("../../assets/images/icon_eth.png")
 
         },
         {
@@ -897,9 +914,87 @@ export default {
           designationchinese: "m.BCH",
           percentage: "-2.56%",
           icontext: "\ue62d",
-          img:require("../../assets/images/1.png")
+          img:require("../../assets/images/icon_bch.png")
 
-        }
+        },
+         {
+          designation: "XRP-USDT",
+          price: 0.2492,
+          price2: 0.2492,
+          tariff: "￥798.23",
+          designationchinese: "m.XRP",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_xrp.png")
+
+        },
+         {
+          designation: "LTC-USDT",
+          price: 59.97,
+          price2: 59.97,
+          tariff: "￥798.23",
+          designationchinese: "m.LTC",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_ltc.png")
+
+        },
+         {
+          designation: "BSV-USDT",
+          price: 162.19,
+          price2: 162.19,
+          tariff: "￥798.23",
+          designationchinese: "m.BSV",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_bsv.png")
+
+        },
+         {
+          designation: "EOS-USDT",
+          price: 2.508,
+          price2: 2.508,
+          tariff: "￥798.23",
+          designationchinese: "m.EOS",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_eos.png")
+
+        },
+         {
+          designation: "ETC-USDT",
+          price: 5.102,
+          price2: 5.102,
+          tariff: "￥798.23",
+          designationchinese: "m.ETC",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_etc.png")
+
+        },
+         {
+          designation: "LINK-USDT",
+          price: 12.144,
+          price2: 12.144,
+          tariff: "￥798.23",
+          designationchinese: "m.LINK",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_link.png")
+
+        },
+         {
+          designation: "TRX-USDT",
+          price: 0.02586,
+          price2: 0.02586,
+          tariff: "￥798.23",
+          designationchinese: "m.TRX",
+          percentage: "-2.56%",
+          icontext: "\ue62d",
+          img:require("../../assets/images/icon_trx.png")
+
+        },
+        
       ]
     };
   },
@@ -956,12 +1051,33 @@ export default {
       }
         for(var i = 0;i <this.List.length; i++) {
         var designations = this.List[i]
-        if(designations.designation === "BTCUSD.") {
+         if(designations.designation === "BTCUSD.") {
          designations.open = store.state.exchangeBTCUSD.open
         } else if(designations.designation === "BCHUSD.") {
          designations.open = store.state.exchangeBCHUSD.open
         } else if (designations.designation === "ETHUSD.") {
         designations.open = store.state.exchangeETHUSD.open
+        }
+        else if (designations.designation === "XRP-USDT") {
+        designations.open = store.state.exchangeXRPUSD.open
+        }
+        else if (designations.designation === "LTC-USDT") {
+        designations.open = store.state.exchangeLTCUSD.open
+        }
+        else if (designations.designation === "BSV-USDT") {
+        designations.open = store.state.exchangeBSVUSD.open
+        }
+        else if (designations.designation === "EOS-USDT") {
+        designations.open = store.state.exchangeEOSUSD.open
+        }
+        else if (designations.designation === "ETC-USDT") {
+        designations.open = store.state.exchangeETCUSD.open
+        }
+        else if (designations.designation === "LINK-USDT") {
+        designations.open = store.state.exchangeLINKUSD.open
+        }
+        else if (designations.designation === "TRX-USDT") {
+        designations.open = store.state.exchangeTRXUSD.open
         }
       }
       console.log(this.List,"this.List")
@@ -993,7 +1109,11 @@ export default {
         if(index === 0) {
           this.customer()
   
-} 
+} else if (index === 1) {
+  this.$router.push("/envelopes")
+} else if(index === 2) {
+  this.$router.push("/partnership")
+}
     },
      customer() {
       this.customerdata = true
@@ -1026,7 +1146,6 @@ export default {
     },
     getbanner() {
       this.$http.get(api.banner).then(({data})=>{
-        console.log(data,"坏了")
         this.schpng1 = data.big[0]
         this.schpng2 = data.big[1]
         this.schpng3 = data.big[2]
@@ -1086,7 +1205,7 @@ export default {
                 order[i].ask = data1.ask;
                 order[i].bid = data1.bid;
               } else {
-                return;
+                // return;
               }
             }
           } else {
@@ -1111,7 +1230,7 @@ export default {
                 this.contractsList[f].ask = data1.ask;
                 this.contractsList[f].bid = data1.bid;
               } else {
-                return;
+                // return;
               }
             }
           } else {
@@ -1125,25 +1244,38 @@ export default {
     getdata6() {
       this.$http.get(api.MarketURL).then(({ data }) => {
         this.all = data.data;
+        for(var i =0;i <this.all.length;i++) {
+        console.log(this.all[i],"this.all")
+ if(this.all[i].symbolName === "ETHUSD.") {
+           this.all[i].img = require("../../assets/images/icon_eth.png")
+        } if(this.all[i].symbolName === "BTCUSD.") {
+          this.all[i].img = require("../../assets/images/icon_btc.png")
+        }if(this.all[i].symbolName === "BCHUSD.") {
+          this.all[i].img = require("../../assets/images/icon_bch.png")
+        }
+        }
+         
         for (var i = 0; i < this.all.length; i++) {
-          if (store.state.mydata.length !=0) {
+          if (store.state.mydata.length != 0) {
             for (var j = 0; j < store.state.mydata.length; j++) {
               var data0 = this.all[i];
               var data1 = store.state.mydata[j];
+            
               if (data0.symbolName === data1.symbol) {
                 this.all[i].ask = data1.ask;
                 this.all[i].bid = data1.bid;
-              } else {
-                return;
+              } else if(!data0.ask){
+                this.all[i].ask = "0.00"
+                this.all[i].bid = "0.00"
               }
             }
           } else {
-            this.all[i].ask = "0.00";
             this.all[i].bid = "0.00";
-          }
-        }
+            this.all[i].ask = "0.00";
 
-        this.setArr(this.all);
+          }
+                this.setArr(this.all);
+        }
       });
     },
     // getuserId() {
@@ -1238,16 +1370,20 @@ export default {
       this.$router.push("/register");
     },
     Android() {
-      var u = navigator.userAgent;
-     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-     if(isAndroid) {
+    //   var u = navigator.userAgent;
+    //  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    //  var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    //  if(isAndroid) {
        
-       window.location.href = this.Androids
+    //    window.location.href = this.Androids
 
-     }else {
-       this.$toast("请下载ios版本")
-     }
+    //  }else {
+    //   //  this.$toast("请下载ios版本")
+    //   //  this.getappinfo()
+    //    window.location.href = this.ios
+
+    //  }
+    this.$router.push("/down")
 
     },
     getappinfo() {
@@ -1266,6 +1402,7 @@ export default {
   watch: {
     "$store.state.mydata2": function(newer2, old2) {
       this.homeList = newer2;
+      console.log(this.homeList,"this.homeList")
     }
   }
 };

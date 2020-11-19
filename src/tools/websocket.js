@@ -112,6 +112,8 @@ function init() {
         tt = setTimeout(function () {
             console.log('重连中...',token);
             lockReconnect = false;
+            heartCheck.reset().start();
+
         }, 4000);
     }
 

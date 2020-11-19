@@ -26,6 +26,8 @@ module.exports = {
     Registetest: baseURL2 + '/register_new',
     //图表
     ChartURL:  baseURL2 + "/chart",
+    //图表最后一根
+    Lastchart: baseURL2 + "/last_candle",
     //transtion
     AccountURL: baseURL1 + "/account",
     //transtion  删除

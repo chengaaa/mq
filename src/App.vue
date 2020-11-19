@@ -2,9 +2,9 @@
   <div id="app">
     <!-- <loading v-show="LOADING"></loading> -->
     <keep-alive>
-      <router-view v-if="$route.meta.keepAlive "></router-view>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive  "></router-view>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <tabbar class="tab" v-if="tabbarShow"></tabbar>
   </div>
 </template>
@@ -45,7 +45,7 @@ const Tabbar = () => import("./components/Tabbar");
 const Loading = () => import("./components/Loading");
 import store from "./store";
 import { mapMutations, mapState } from "vuex";
-import init from "./tools/websocket";
+import init from "./tools/websocketdemo";
 var api = require("./api/api");
 
 export default {
@@ -55,20 +55,19 @@ export default {
       userid: "",
       all: [],
       engs: "",
-      language:"",
-      CNY:null,
-      USD:null
-
+      language: "",
+      CNY: null,
+      USD: null,
     };
   },
   components: {
     Tabbar,
-    Loading
+    Loading,
   },
   computed: {
     tabbarShow() {
       return this.$store.getters.getTabbarShow;
-    }
+    },
   },
   created() {
     this.getuserId();
@@ -76,17 +75,15 @@ export default {
     this.load();
     this.fnResize();
     this.language = navigator.language;
-    console.log(this.language,"this.language")
+    console.log(this.language, "this.language");
     this.sheet();
-    this.get()
+    this.get();
 
     if (this.language === "zh-CN") {
       this.engs = "简体中文";
       // localStorage.setItem("engs", "中文");
       // localStorage.setItem("lang", "zh-CN");
-
-    } else 
-    if (this.language === "en-US") {
+    } else if (this.language === "en-US") {
       this.engs = "ENGLISH";
       // localStorage.setItem("lang", "en-US");
     } else if (this.language === "zh-TW" || this.language === "zh-HK") {
@@ -96,7 +93,6 @@ export default {
       this.engs = "简体中文";
       // localStorage.setItem("engs", "中文");
       // localStorage.setItem("lang", "zh-CN");
-
     }
     localStorage.getItem("engs")
       ? localStorage.setItem("engs", localStorage.getItem("engs"))
@@ -109,9 +105,19 @@ export default {
     ...mapMutations(["setArr"]),
     ...mapMutations(["setActions"]),
     ...mapMutations(["setActionss"]),
-    ...mapMutations(["setexchangeBCHUSD"]),
     ...mapMutations(["setexchangeBTCUSD"]),
     ...mapMutations(["setexchangeETHUSD"]),
+    ...mapMutations(["setexchangeBCHUSD"]),
+    ...mapMutations(["setexchangeXRPUSD"]),
+    ...mapMutations(["setexchangeLTCUSD"]),
+    ...mapMutations(["setexchangeBSVUSD"]),
+    ...mapMutations(["setexchangeEOSUSD"]),
+    ...mapMutations(["setexchangeETCUSD"]),
+    ...mapMutations(["setexchangeLINKUSD"]),
+    ...mapMutations(["setexchangeTRXUSD"]),
+    ...mapMutations(["setsymbolArr"]),
+    ...mapMutations(["setOpen"]),
+
     fnResize() {
       var deviceWidth =
         document.documentElement.clientWidth || window.innerWidth;
@@ -140,7 +146,7 @@ export default {
         return;
       }
     },
-   
+
     //首页的websocket
     homewebsocket() {
       this.$http;
@@ -157,7 +163,7 @@ export default {
         "wss://www.bbook8.com/pubws/"
         // "wss://www.blitzbook8.com/ws/v1/streaming?access_token=" + token2
       );
-      ws2.onopen = function() {
+      ws2.onopen = function () {
         console.log(ws2.readyState);
         // this.userid = store.state.userId;
         // var msg = JSON.stringify({
@@ -175,17 +181,17 @@ export default {
         // });
         // ws2.send(ms);
       };
-      ws2.onmessage = function(e) {
+      ws2.onmessage = function (e) {
         var mydata2 = JSON.parse(e.data).data;
-        console.log(mydata2,"是什么");
+        console.log(mydata2, "是什么");
         // store.dispatch("REAET_MYDATA2");
         store.dispatch("SAVE_MYDATA2", mydata2);
       };
-      ws2.onclose = function(e) {
+      ws2.onclose = function (e) {
         console.log("断开");
         console.log(e, "home");
 
-        ws2.onerror = function() {
+        ws2.onerror = function () {
           console.log("错误");
         };
       };
@@ -211,10 +217,14 @@ export default {
       } else {
         this.setActions(arr3);
       }
-        
-      let arrs1 = [{ name: "Delete" }, { name: "Trade" },{ name: "Price revision" }];
-      let arrs2 = [{ name: "删除" }, { name: "交易" },,{name: "修改价位"}];
-      let arrs3 = [{ name: "刪除" }, { name: "交易" },,{name: "修改價位"}];
+
+      let arrs1 = [
+        { name: "Delete" },
+        { name: "Trade" },
+        { name: "Price revision" },
+      ];
+      let arrs2 = [{ name: "删除" }, { name: "交易" }, , { name: "修改价位" }];
+      let arrs3 = [{ name: "刪除" }, { name: "交易" }, , { name: "修改價位" }];
 
       if (this.language === "zh-CN") {
         this.setActionss(arrs3);
@@ -224,7 +234,6 @@ export default {
         this.setActionss(arrs2);
       } else {
         this.setActionss(arrs3);
-
       }
     },
 
@@ -234,7 +243,7 @@ export default {
         var order = this.ordersList;
         console.log(this.ordersList, "333");
         for (var i = 0; i < order.length; i++) {
-          if (store.state.mydata.length != 0 ) {
+          if (store.state.mydata.length != 0) {
             for (var j = 0; j < store.state.mydata.length; j++) {
               var data0 = order[i];
               var data1 = store.state.mydata[j];
@@ -248,8 +257,8 @@ export default {
             order[i].ask = "0.00";
           }
         }
-        console.log(order,"order")
-        console.log(store.state.mydata,"store.state.mydata")
+        console.log(order, "order");
+        console.log(store.state.mydata, "store.state.mydata");
         this.setorder(order);
       });
     },
@@ -257,8 +266,10 @@ export default {
       this.$http.get(api.Positioncontracts).then(({ data }) => {
         this.contractsList = data.data;
         var contractsLists = this.contractsList;
+        console.log(this.contractsList, "=======");
+        console.log(contractsLists, "----------");
         for (var f = 0; f < this.contractsList.length; f++) {
-          if (store.state.mydata.length !=0 ) {
+          if (store.state.mydata.length != 0) {
             for (var j = 0; j < store.state.mydata.length; j++) {
               var data0 = this.contractsList[f];
               var data1 = store.state.mydata[j];
@@ -279,39 +290,117 @@ export default {
     getdata6() {
       this.$http.get(api.MarketURL).then(({ data }) => {
         this.all = data.data;
-        console.log(this.all, "6666 ");
+       for(var i =0;i <this.all.length;i++) {
+        console.log(this.all[i],"this.all")
+ if(this.all[i].symbolName === "ETHUSD.") {
+           this.all[i].img = require("./assets/images/icon_eth.png")
+        } if(this.all[i].symbolName === "BTCUSD.") {
+          this.all[i].img = require("./assets/images/icon_btc.png")
+        }if(this.all[i].symbolName === "BCHUSD.") {
+          this.all[i].img = require("./assets/images/icon_bch.png")
+        }
+        }
+        console.log(this.all,"all")
+
+       
+        // debugger
+        console.log(this.all, "瞎子");
         for (var i = 0; i < this.all.length; i++) {
-          if (store.state.mydata.length !=0 ) {
+          if (store.state.mydata.length != 0) {
             for (var j = 0; j < store.state.mydata.length; j++) {
               var data0 = this.all[i];
               var data1 = store.state.mydata[j];
+              
               if (data0.symbolName === data1.symbol) {
                 this.all[i].ask = data1.ask;
                 this.all[i].bid = data1.bid;
               } else {
-                return;
+               return
               }
             }
           } else {
             this.all[i].bid = "0.00";
             this.all[i].ask = "0.00";
-          }
-        }
 
-        this.setArr(this.all);
+          }
+                this.setArr(this.all);
+        }
+        console.log(store.state.arr,"啊啊啊啊啊啊啊啊啊啊啊啊啊")
       });
     },
-     get() {
-      this.$http.get(api.chart).then((data)=>{
-      var dataarrBCHUSD = data.data.BCHUSD
-      var dataarrBTCUSD = data.data.BTCUSD
-      var dataarrETHUSD = data.data.ETHUSD
-      this.setexchangeBCHUSD(dataarrBCHUSD)
-      this.setexchangeBTCUSD(dataarrBTCUSD)
-      this.setexchangeETHUSD(dataarrETHUSD)
-    
-  
-      })}
+    get() {
+      this.$http.get(api.chart).then((data) => {
+        let symbolArr = [];
+        let obj = {};
+        var arr = data.data;
+      
+        console.log(store.state.mydata2, "好利来");
+        console.log(arr, "嗯");
+        for (let key in arr) {
+          arr[key].symbol = key;
+        }
+        for (let i in arr) {
+          symbolArr.push(arr[i]);
+        }
+
+
+    symbolArr[3].imgs = require("./assets/images/icon_ltc.png")
+    symbolArr[4].imgs = require("./assets/images/icon_etc.png")
+    symbolArr[5].imgs = require("./assets/images/icon_xrp.png")
+    symbolArr[6].imgs = require("./assets/images/icon_eos.png")
+    symbolArr[7].imgs = require("./assets/images/icon_link.png")
+    symbolArr[8].imgs = require("./assets/images/icon_trx.png")
+    symbolArr[9].imgs = require("./assets/images/icon_bsv.png")
+    console.log(symbolArr,"快递啊")
+          for (var k = 0; k < symbolArr.length; k++) {
+          if (store.state.mydata2.length != 0) {
+            for (var j = 0; j < store.state.mydata2.length; j++) {
+              var symData = symbolArr[k];
+              var data1 = store.state.mydata2[j];
+              if(symData.ask !=undefined) {
+               if (symData.symbol + "." === data1.symbol) {
+                symData.ask = data1.ask;
+                symData.bid = data1.bid;
+              } 
+              } else  {
+                   symData.ask = "0.00"
+                symData.bid = "0.00"
+              }
+             
+      
+            }
+          } else {
+            symbolArr[k].bid = "0.00";
+            symbolArr[k].ask = "0.00";
+
+          }
+        } 
+         var backups = symbolArr.slice(3);
+            var three = symbolArr.slice(0, 3);
+            this.setsymbolArr(backups);
+            this.setOpen(three);
+            var dataarrBCHUSD = data.data.BCHUSD;
+            var dataarrBTCUSD = data.data.BTCUSD;
+            var dataarrETHUSD = data.data.ETHUSD;
+            var dataarrXRPUSD = data.data.XRPUSDT;
+            var dataarrLTCUSD = data.data.LTCUSDT;
+            var dataarrBSVUSD = data.data.BSVUSDT;
+            var dataarrEOSUSD = data.data.EOSUSDT;
+            var dataarrETCUSD = data.data.ETCUSDT;
+            var dataarrLINKUSD = data.data.LINKUSDT;
+            var dataarrTRXUSD = data.data.TRXUSDT;
+            this.setexchangeBCHUSD(dataarrBCHUSD);
+            this.setexchangeBTCUSD(dataarrBTCUSD);
+            this.setexchangeETHUSD(dataarrETHUSD);
+            this.setexchangeXRPUSD(dataarrXRPUSD);
+            this.setexchangeLTCUSD(dataarrLTCUSD);
+            this.setexchangeBSVUSD(dataarrBSVUSD);
+            this.setexchangeEOSUSD(dataarrEOSUSD);
+            this.setexchangeETCUSD(dataarrETCUSD);
+            this.setexchangeLINKUSD(dataarrLINKUSD);
+            this.setexchangeTRXUSD(dataarrTRXUSD);
+      });
+    },
   },
 
   watch: {
@@ -328,9 +417,11 @@ export default {
         to.path == "/transaction" ||
         to.path == "/quotation-order" ||
         to.path == "/quotation-deail" ||
-        to.path == "/account"  ||
+        to.path == "/account" ||
         to.path == "/apply" ||
-        to.path == "/echarts"
+        to.path == "/echarts" ||
+        to.path == "/envelopes" ||
+        to.path == "/partnership"
       ) {
         this.$store.commit("updateTabbarShow", true);
       } else {
@@ -351,7 +442,7 @@ export default {
             )
           : window.localStorage.setItem("engs", this.engs);
       }
-    }
-  }
+    },
+  },
 };
 </script>

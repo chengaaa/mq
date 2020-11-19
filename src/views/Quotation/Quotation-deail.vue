@@ -281,6 +281,7 @@ export default {
   computed: {
     QuotationArr: function() {
       if (this.newMydata) {
+          console.log(store.state.arr,"[][][][]")
         for (let i = 0; i < store.state.arr.length; i++) {
           for (let j = 0; j < this.newMydata.length; j++) {
             var data1 = store.state.arr[i];
@@ -332,6 +333,7 @@ export default {
               store.state.arr[i].max = store.state.exchangeBTCUSD.high;
               if(store.state.arr[i].ask > store.state.exchangeBTCUSD.high ) {
                 store.state.exchangeBTCUSD.high = store.state.arr[i].ask
+                
               }
             } else {
               store.state.arr[i].max = "0.00";

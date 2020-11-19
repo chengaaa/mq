@@ -152,9 +152,17 @@ export const m = {
     Howtorecharge: "如何充值",
     Howtocurrency: "如何提幣",
     Use: "請先註冊或登錄使用",
-    BTC : "比特幣",
-    ETH : "以太坊",
-    BCH :"比特幣現金",
+    BTC: "比特幣",
+    ETH: "以太坊",
+    BCH:"比特幣現金",
+    XRP:"瑞波幣",
+    LTC:"LTC 萊特幣",
+    BSV:"Bitcoin SV",
+    EOS:"EOS柚子",
+    ETC:"以太經典",
+    LINK:"LINK",
+    TRX:"波場幣",
+
 
     //加入官方群组
      Joinofficialgroup:"加入官方群組",

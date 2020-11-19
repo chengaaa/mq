@@ -1,7 +1,7 @@
 <template>
   <div class="history-time">
     <div class="history-timeheader">
-      <van-icon id="van-icon" name="arrow-left" color="#3278fe" @click="place" />
+      <van-icon id="van-icon" name="arrow-left" color="#c9c9c9" @click="place" />
       <h4>history</h4>
     </div>
     <div class="pad">
@@ -50,7 +50,7 @@
 <style lang="scss" scoped>
 .iconfont {
   font-size: 0.666667rem /* 50/75 */;
-  color: #3278fe;
+  color: #c9c9c9;
   line-height: 1.066667rem /* 80/75 */;
 }
 .history-time {
@@ -58,10 +58,15 @@
   padding-left: 0.1rem /* 30/75 */;
   padding-right: 0.4rem /* 30/75 */;
      font-family: 'Tahoma','Sans Serif';
+      width: 100%;
+  height: 100%;
+  position: fixed;
+  background: #262626;
   .history-timeheader {
     display: flex;
     margin-bottom: 0.8rem /* 60/75 */;
     h4 {
+      color: #c9c9c9;
       font-size: 0.533333rem /* 40/75 */;
     }
   }
@@ -69,7 +74,7 @@
 padding-left: 0.3rem;
   .history-timecontent {
     display: flex;
-    border-bottom: 1px solid #c9c9cb;
+    border-bottom: 1px solid #565656;    padding-right: 10px;
     p {
       width: 100%;
       height: 1.066667rem /* 80/75 */;
@@ -77,6 +82,7 @@ padding-left: 0.3rem;
       margin-top: 0.066667rem /* 5/75 */;
       font-size: 0.4rem /* 30/75 */;
       padding-left: 0.133333rem /* 10/75 */;
+      color: #c9c9c9;
     }
   }
     }
@@ -118,7 +124,7 @@ padding-left: 0.3rem;
 </style>
 <script>
 import { Popup } from "vant";
-import { getNowFormatDate,getUTCtime } from "../../tools/check.js";
+import { getNowFormatDate,getUTCtime,isDayLightSaving} from "../../tools/check.js";
 export default {
   data() {
     return {
@@ -147,11 +153,14 @@ export default {
       maxDate: new Date(2030, 1, 1),
       currentDate: new Date(),
       StartEnd: false,
+      difference:"",
+      diftimer:""
     };
   },
   created() {
     console.log(this.$route.params);
     console.log(this.newdate, "123");
+    this.getdiftime()
   },
   methods: {
     showdata(picker) {
@@ -185,14 +194,45 @@ export default {
       this.enddate = value2;
       this.endvalue();
     },
+      //获取时区差
+    // getdifference() {
+    // var d1 = new Date(2009, 0, 1);
+    // var d2 = new Date(2009, 6, 1);
+		// if (d1.getTimezoneOffset() != d2.getTimezoneOffset())
+		// {
+    //   // alert('夏令时'); //夏令时
+    //   this.difference = -(new Date().getTimezoneOffset() /60) 
+    //   this.diftimer = 2
+    //   console.log( this.difference)
+		// }
+		// else
+		// {
+    //  this.difference = -(new Date().getTimezoneOffset() /60) - 6
+    //   this.diftimer = 1
+
+    //   // alert(Intl.DateTimeFormat().resolvedOptions().timeZone); //非夏令时
+    // }
+    //   // var num = (new Date().getTimezoneOffset() /60) + 10
+
+
+    // }
+
+    getdiftime() {
+      if(isDayLightSaving(new Date())) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+
+        }
+    },
     //params开始时间
     startvalue() {
-      var data0 = new Date(this.newdate.setHours(new Date().getHours() + 2));
+      var data0 = new Date(this.newdate.setHours(new Date().getHours() + this.diftimer));
       this.newdate = getUTCtime(this.newdate);
     },
     //params 结束时间
     endvalue() {
-  var date9 = new Date(this.enddate.setHours(new Date().getHours() + 2));
+  var date9 = new Date(this.enddate.setHours(new Date().getHours() + this.diftimer));
       this.enddate = getUTCtime(this.enddate);
     },
     //开始时间
@@ -240,31 +280,31 @@ export default {
     //上一个月
     getMonthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + this.diftimer))
        this.newdate = getUTCtime(this.newdate)
     },
     //前一天
       getDaydate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 1));
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + this.diftimer))
        this.newdate = getUTCtime(this.newdate)
     },
     //上一周
     getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + this.diftimer))
        this.newdate = getUTCtime(this.newdate)
     },
     //上三个月
     get3Monthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 3));
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + this.diftimer))
        this.newdate = getUTCtime(this.newdate)
     },
     //上六个月
     get6Monthdate() {
       this.newdate = new Date(new Date().setMonth(new Date().getMonth() - 6));
-        this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+        this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + this.diftimer))
        this.newdate = getUTCtime(this.newdate)
     },
     //上一年
@@ -272,7 +312,7 @@ export default {
       this.newdate = new Date(
         new Date().setFullYear(new Date().getFullYear() - 1)
       );
-      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + 2))
+      this.newdate =  new Date(this.newdate.setHours(new Date().getHours() + this.diftimer))
        this.newdate = getUTCtime(this.newdate)
     },
     place() {

@@ -2,7 +2,7 @@
   <div class="echarts-page">
     <div class="navheader"  style="display: flex">
       <div class="arrow" style="width:60px">
-        <van-icon id="van-icon" name="arrow-left" color="#127df6" @click="gobacks" />
+        <!-- <van-icon id="van-icon" name="arrow-left" color="#127df6" @click="gobacks" /> -->
       </div>
     <div></div>
     <div class="selected">

@@ -77,7 +77,7 @@ export default {
     },
     gos() {
       this.$router.push({
-        name: "transaction-place",
+        name: "transaction",
         params: { symbol: this.params }
       });
       console.log("goo");

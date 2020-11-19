@@ -5,7 +5,7 @@
       <div class="h">
         <div class="history-header">
           <div class="left">
-            <van-icon id="van-icon" name="arrow-left" color="#3278fe" @click="back" />
+            <van-icon id="van-icon" name="arrow-left" color="#c9c9c9" @click="back" />
           </div>
           <div class="right-left">
             <span :class="{blue, white}" @click="Orders('Orders')">{{$t('m.Orders')}}</span>
@@ -155,6 +155,13 @@
   </div>
 </template>
 <style lang="scss" scoped>
+.page {
+   width: 100%;
+  height: 100%;
+  position: fixed;
+  background: #262626;
+  overflow: auto;
+}
 .padding {
   padding-top:.133333rem /* 10/75 */;
 }
@@ -199,14 +206,14 @@
     justify-content: space-between;
     height: 1.066667rem /* 80/75 */;
     align-items: center;
-    border-bottom: 0.013333rem /* 1/75 */ solid #eeeeee;
+    border-bottom: 0.013333rem /* 1/75 */ solid #565656;
     h2 {
       font-size: 18px;
-      color: #333333;
+      color: #c9c9c9;
     }
     span {
       font-size: 20px;
-      color: #000000;
+      color: white;
       font-weight: 700;
     }
   }
@@ -221,14 +228,14 @@
     justify-content: space-between;
     height: 1.066667rem /* 80/75 */;
     align-items: center;
-    border-bottom: 0.013333rem /* 1/75 */ solid #eeeeee;
+    border-bottom: 0.013333rem /* 1/75 */ solid #565656;
     h3 {
       font-size: 18px;
-      color: #333333;
+      color: #c9c9c9;
     }
     p {
       font-size: 20px;
-      color: #000000;
+      color: white;
       font-weight: 700;
     }
   }
@@ -261,18 +268,19 @@
 // }
 .iconfont {
   font-size: 0.533333rem /* 40/75 */;
-  color: #3278fe;
+  color: #c9c9c9;
 }
 .page {
   .h {
     position: fixed;
     width: 100%;
-    background: white;
+    // background: white;
     .history-header {
       display: flex;
       justify-content: space-between;
       padding: 0.266667rem /* 20/75 */ 0.266667rem /* 20/75 */ 0.266667rem
         /* 20/75 */ 0.01rem;
+            background: #262626;
       .van-icon {
         font-size: 0.733333rem;
         width: 40%;
@@ -285,7 +293,7 @@
           line-height: 0.666667rem /* 50/75 */;
           font-size: 0.333333rem /* 25/75 */;
           text-align: center;
-          border: 1px solid #3278fe;
+          border: 1px solid #c9c9c9;
           font-family: "Tahoma", "Sans Serif";
         }
       }
@@ -294,7 +302,7 @@
   .border {
     line-height: 0.43rem /* 30/75 */;
     padding: 0.133333rem /* 10/75 */ 0.133333rem /* 10/75 */;
-    border: 0.013333rem /* 1/75 */ solid #eeeeee;
+    border: 0.013333rem /* 1/75 */ solid #565656;
     .top {
       display: flex;
       justify-content: space-between;
@@ -311,13 +319,14 @@
         h4 {
           font-size:18px;
           font-weight: 700;
-          color: #333333;
+          color: #c9c9c9;
           // font-family: pingfang;
         }
         span {
           font-size:17px;
           font-weight: 700;
         }
+      
       }
     }
     .bot {
@@ -326,9 +335,11 @@
       font-family: "Tahoma", "Sans Serif";
       p {
         font-size: 0.32rem /* 24/75 */;
+        color: #4c4c4c;
       }
       span {
         font-size: 19px;
+        color: #c9c9c9;
       }
     }
   }
@@ -383,24 +394,24 @@
 }
 
 .blue {
-  background: #3278fe;
+  background: #4669ff;
   color: white;
 }
 .white {
-  background: white;
-  color: #3278fe;
+  background: #262626;
+  color: #c9c9c9;
 }
 .blue1 {
-  background: #3278fe;
+  background: #4669ff;
   color: white;
 }
 .white1 {
-  background: white;
-  color: #3278fe;
+  background: #262626;
+  color: #c9c9c9;
 }
 </style>
 <script>
-import { getNowFormatDate, getUTCtime, getCNAtime } from "../../tools/check.js";
+import { getNowFormatDate, getUTCtime, getCNAtime,isDayLightSaving } from "../../tools/check.js";
 import { FormatDate } from "../../tools/check.js";
 const Loading = () => import("../../components/Loading");
 import { mapState } from "vuex";
@@ -428,6 +439,10 @@ export default {
       kucun: null,
       deposit: null,
       balance: "",
+      //时区差
+      difference:"",
+      //跟服务器时间差
+      diftimer:""
      
     };
   },
@@ -438,6 +453,9 @@ export default {
     ...mapState(["LOADING"])
   },
   created() {
+    // this.isDayLightSaving()
+    // this.getdifference()
+       this.isDay()
     this.getdate();
     this.getList();
     this.getdealsList();
@@ -459,14 +477,105 @@ export default {
       (this.page2 = true), (this.page1 = false);
       this.params = D;
     },
+      isDay() {
+        if(isDayLightSaving(new Date())) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+
+        }
+      },
+   
+  //  isDayLightSaving(){
+  //       let date = new Date();
+  //       console.log(date,"========现在的时间");
+  //       let parisDateString = date.toLocaleTimeString("en-US", {
+  //           timeZone: "Europe/Paris"
+  //       });
+  //       let utcDateString = date.toLocaleTimeString("en-US", {timeZone: "UTC"});
+  //       console.log(parisDateString,"========paris分割");
+  //       console.log(utcDateString,"========utc时间分割");
+  //       let parisArr = parisDateString.split(" ");
+  //       let utcArr = utcDateString.split(" ");
+  //       let parisHour = Number(parisArr[0].split(":")[0]) ;
+  //       let utcHour = Number(utcArr[0].split(":")[0]);
+  //       console.log(parisHour,parisArr,"========法分割");
+  //       console.log(utcHour,utcArr,"========utc分割");
+  //       if (parisHour > utcHour){
+  //           if (parisHour == utcHour+2){
+  //             //是夏令时
+  //              this.difference = -(new Date().getTimezoneOffset() /60) 
+  //              this.diftimer = 2
+  //              console.log( this.difference,this.diftimer,"王哈哈哈")
+  //               // return true
+  //           }else{
+  //               this.difference = -(new Date().getTimezoneOffset() /60) 
+  //               this.diftimer = 1
+  //              console.log( this.difference,this.diftimer,"李哈哈哈")
+
+  //           }
+  //       }else{
+  //           if (parisHour+12 == utcHour+2){
+  //             //夏令时
+  //              this.difference = -(new Date().getTimezoneOffset() /60) 
+  //              this.diftimer = 2
+  //              console.log( this.difference,this.diftimer,"张哈哈哈")
+
+  //               // return true
+  //           }else{
+  //              this.difference = -(new Date().getTimezoneOffset() /60) 
+  //               this.diftimer = 1
+  //              console.log( this.difference,this.diftimer,"周哈哈哈")
+
+  //           }
+  //       }
+  //   // console.log(isDayLightSaving(),"========最后分割")
+  //   },
+
+
+
+    //获取时区差
+    // getdifference() {
+    // var d1 = new Date(2009, 0, 1);
+    // var d2 = new Date(2009, 6, 1);
+		// if (d1.getTimezoneOffset() != d2.getTimezoneOffset())
+		// {
+    //   alert('夏令时'); //夏令时z
+    //   this.difference = -(new Date().getTimezoneOffset() /60) 
+    //   this.diftimer = 2
+    //   console.log( this.difference)
+		// }
+		// else
+		// {
+    //   console.log(-new Date().getTimezoneOffset() /60,"怎么回事")
+    //  this.difference = -(new Date().getTimezoneOffset() /60) - 6
+    //   this.diftimer = 1
+    //   console.log( this.difference,"我也不知道")
+    //   // alert(Intl.DateTimeFormat().resolvedOptions().timeZone); //非夏令时
+    // }
+    //   // var num = (new Date().getTimezoneOffset() /60) + 10
+
+
+    // },
+  
     getdate() {
       //结束时间
-      var date1 = new Date(new Date().setHours(new Date().getHours() + 2));
+      // var num = (new Date().getTimezoneOffset() /60) + 10
+      // console.log(num,"en")
+   
+      var date1 = new Date(new Date().setHours(new Date().getHours() + this.diftimer));
+    //  var data1 =  new Date() + this.difference
       this.date = getUTCtime(date1);
+      console.log(date1,this.date,this.diftimer,"噢噢噢噢哦哦哦哦哦哦")
     },
+    //  getdate() {
+    //   //结束时间
+    //   var date1 = new Date(new Date().setHours(new Date().getHours() + 2));
+    //   this.date = getUTCtime(date1);
+    // },
     getWeekdate() {
       this.newdate = new Date(new Date().setDate(new Date().getDate() - 7));
-      this.newdate = new Date(this.newdate.setHours(new Date().getHours() + 2));
+      this.newdate = new Date(this.newdate.setHours(new Date().getHours() + this.diftimer));
       this.Monthdate = getUTCtime(this.newdate);
     },
     getList() {
@@ -492,11 +601,19 @@ export default {
     arrListreg() {
       this.arrList = this.arrLists.reverse();
       for (var i in this.arrList) {
-        this.arrList[i].dateTime = new Date(
+          if(isDayLightSaving(new Date(this.arrList[i].dateTime))) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+        }
+        this.arrList[i].dateTime = 
           new Date(this.arrList[i].dateTime).getTime()
-        );
+        console.log(this.arrList[i].dateTime,"嗯")
+         this.arrList[i].dateTime = (this.arrList[i].dateTime) - this.diftimer *60*60*1000 ;
+         this.arrList[i].dateTime = new Date(this.arrList[i].dateTime)
+         console.log(this.arrList[i].dateTime,"傻逼")
         this.arrList[i].dateTime = moment(this.arrList[i].dateTime)
-          .subtract(2, "h")
+        //   // .subtract(this.diftimer, "h")
           .format();
       }
     },
@@ -557,13 +674,19 @@ export default {
       });
     },
     dealListreg() {
-      this.dealList = this.dealList.reverse();
+       this.dealList = this.dealList.reverse();
       for (var i in this.dealList) {
-        this.dealList[i].dateTime = new Date(
+          if(isDayLightSaving(new Date(this.dealList[i].dateTime))) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+        }
+        this.dealList[i].dateTime = 
           new Date(this.dealList[i].dateTime).getTime()
-        );
+         this.dealList[i].dateTime = (this.dealList[i].dateTime) - this.diftimer *60*60*1000 ;
+         this.dealList[i].dateTime = new Date(this.dealList[i].dateTime)
         this.dealList[i].dateTime = moment(this.dealList[i].dateTime)
-          .subtract(2, "h")
+        //   // .subtract(this.diftimer, "h")
           .format();
       }
     },
