@@ -33,7 +33,7 @@
          margin-top: -4rem /* 300/75 */;
          .apply-title {
              margin-bottom: 3.066667rem /* 230/75 */;
-             font-size:.56rem /* 42/75 */;
+             font-size:22px;
              color: white;
              h2,p{
                margin-bottom: .32rem /* 24/75 */;
@@ -44,7 +44,7 @@
                  width: 3.4rem /* 255/75 */;
                  height: 1.2rem /* 90/75 */;
                  border-radius: 4px;
-                 font-size: .373333rem /* 28/75 */;
+                 font-size: 14px;
                  appearance: none;
              }
              :nth-child(1) {

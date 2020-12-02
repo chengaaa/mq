@@ -1,7 +1,7 @@
 <template>
   <div class="transaction-placeall">
     <div class="arrow">
-      <van-icon id="van-icon" name="arrow-left" color="blue" @click="gos" />
+      <van-icon id="van-icon" name="arrow-left" color="#457ee7" @click="gos" />
     </div>
     <div class="content-a">
       <!-- <div v-for="(item,index) in getdata" :key="index" class="concent"> -->
@@ -16,6 +16,10 @@
 </template>
 <style lang="scss" scoped>
 .transaction-placeall {
+  background: #2c2d28;
+    position: fixed;
+    width: 100%;
+    height: 100%;
   .arrow {
     padding-top: 0.4rem /* 30/75 */;
     padding-bottom: 0.4rem /* 30/75 */;
@@ -23,7 +27,7 @@
     justify-content: space-between;
     padding-left: 0.2rem /* 15/75 */;
     margin-bottom: 0.266667rem /* 20/75 */;
-    background: white;
+    background: #262626;
   }
   .content-a {
     margin-top: 0.8rem /* 60/75 */;
@@ -32,13 +36,14 @@
         display: flex;
         justify-content: space-between;
         height: 18px;
-        background: white;
+        background: #2c2d28;
         padding: 0.333333rem /* 25/75 */ 0.4rem /* 30/75 */;
-        border-bottom: 1px solid #b9b6b6;
+        border-bottom: 1px solid #585954;
         p {
             width:100%;
             font-size: .426667rem /* 32/75 */;
             font-family: 'Tahoma','Sans Serif';
+            color: #fcfcfa;
 
         }
       }
@@ -48,12 +53,12 @@
 </style>
 <style lang="scss" scoped>
 .iconfont {
-  font-size:20px;
+  font-size:24px;
   font-weight: 700;
-  color: blue;
+  color: #457ee7;
 }
 .van-icon {
-  font-size: 0.733333rem /* 55/75 */;
+  font-size: 30px;
 }
 </style>
 <script>
@@ -62,7 +67,7 @@ export default {
   data() {
     return {
       params: "",
-      isshows: ""
+      isshows: localStorage.getItem("params")
     };
   },
   created() {

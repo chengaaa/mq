@@ -122,7 +122,7 @@
           height: 2.666667rem /* 200/75 */;
           display: table-cell;
           vertical-align: middle;
-          font-size: 0.533333rem /* 40/75 */;
+          font-size: 20px;
           h1 {
             margin-bottom: 0.32rem /* 24/75 */;
           }
@@ -142,7 +142,7 @@
           border-radius: 0px;
           appearance: none;
           // outline:black;
-          font-size: 0.426667rem /* 32/75 */;
+          font-size: 16px;
               background: #262626;
               color: #c9c9c9;
         }
@@ -158,11 +158,11 @@
         display: flex;
         justify-content: space-between;
         padding-right: 0.666667rem /* 50/75 */;
-        font-size: 0.373333rem /* 28/75 */;
+        font-size: 14px;
 
         .qie {
           color: #127df6;
-          font-size: 0.4rem /* 30/75 */;
+          font-size: 16px;
         }
       }
     }
@@ -242,7 +242,7 @@
   height: 1.226667rem /* 92/75 */;
   background: #127df6;
   color: white;
-  font-size: 0.48rem /* 36/75 */;
+  font-size: 18px;
   appearance: none;
   border-radius: 4px;
 }
@@ -253,7 +253,7 @@
   height: 1.226667rem /* 92/75 */;
   background: #88befa;
   color: white;
-  font-size: 0.48rem /* 36/75 */;
+  font-size:18px;
   appearance: none;
   border-radius: 4px;
 }

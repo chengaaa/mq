@@ -3,7 +3,7 @@
     
     <div class="home-title">
       <h1 class="home-img">
-        <img src="../../assets/image/logo3.png" alt />
+        <img src="../../assets/images/logo3.png" alt />
       </h1>
     </div>
     <div >

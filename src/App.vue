@@ -10,26 +10,6 @@
 </template>
 <style lang="scss">
 @import "./common/resect.scss";
-@font-face {
-  font-family: HelveticaNeueLT-Pro-57-Cn;
-  src: url("./assets/font/HelveticaNeue-Bold.otf");
-}
-@font-face {
-  font-family: Tahoma;
-  src: url("./assets/font/tahoma.ttf");
-}
-@font-face {
-  font-family: Sans Serif;
-  src: url("./assets/font/MicrosoftSansSerif.ttf");
-}
-// @font-face {
-//   font-family: sourcehansanscn L;
-//   src: url("./assets/font/SourceHanSansCN-Light.otf");
-// }
-// @font-face {
-//   font-family: sourcehansanscn B;
-//   src: url("./assets/font/SourceHanSansCN Bold.otf");
-// }
 
 body {
   font-size: 0;
@@ -97,6 +77,18 @@ export default {
     localStorage.getItem("engs")
       ? localStorage.setItem("engs", localStorage.getItem("engs"))
       : localStorage.setItem("engs", this.engs);
+      localStorage.getItem("quan")
+      ? localStorage.setItem("quan", localStorage.getItem("quan"))
+      : localStorage.setItem("quan", "xin");
+       localStorage.getItem("transaction")
+      ? localStorage.setItem("transaction", localStorage.getItem("transaction"))
+      : localStorage.setItem("transaction", "new");
+
+  },
+  mounted() {
+       window['Appdata'] = (res) => {
+        this.Appdata(res)
+     }
   },
   methods: {
     ...mapMutations(["setdataArr"]),
@@ -117,6 +109,13 @@ export default {
     ...mapMutations(["setexchangeTRXUSD"]),
     ...mapMutations(["setsymbolArr"]),
     ...mapMutations(["setOpen"]),
+     Appdata(res){
+       console.log(res,"为什么")
+      var appdata = res
+      store.dispatch("SAVE_APPDATA", appdata);
+      console.log(appdata,"成功了")
+
+     },
 
     fnResize() {
       var deviceWidth =
@@ -343,7 +342,7 @@ export default {
           symbolArr.push(arr[i]);
         }
 
-
+          
     symbolArr[3].imgs = require("./assets/images/icon_ltc.png")
     symbolArr[4].imgs = require("./assets/images/icon_etc.png")
     symbolArr[5].imgs = require("./assets/images/icon_xrp.png")

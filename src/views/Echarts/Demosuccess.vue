@@ -131,6 +131,7 @@ export default {
         { name: "ETHUSD", id: "2" },
       ],
       bordertimes: [
+        { name: "M1" },
         { name: "M5" },
         { name: "M15" },
         { name: "M30" },
@@ -175,7 +176,6 @@ export default {
     echartss.style.height = window.innerHeight - 120 + "px";
     echartss.style.width = window.innerWidth + "px";
     this.initchart();
-   
   },
   beforeDestroy() {
     this.setInterName = null;
@@ -229,19 +229,23 @@ export default {
       this.option.series[0].data = this.param;
     },
 
-    getCountDays(){
-    var curDate = new Date();
-    var curMonth = curDate.getMonth();
-    curDate.setMonth(curMonth+1);
-    curDate.setDate(0);
-    return curDate.getDate();
+    getCountDays() {
+      var curDate = new Date();
+      var curMonth = curDate.getMonth();
+      curDate.setMonth(curMonth + 1);
+      curDate.setDate(0);
+      return curDate.getDate();
     },
     getdate() {
       this.endtime = new Date(
         new Date().setHours(new Date().getHours() + this.diftimer)
       );
       //starttime
-      if (this.bordertime === "M5") {
+      if (this.bordertime === "M1") {
+        this.starttime = new Date(
+          new Date().setMinutes(new Date().getMinutes() - 60)
+        );
+      } else if (this.bordertime === "M5") {
         this.starttime = new Date(
           new Date().setMinutes(new Date().getMinutes() - 300)
         );
@@ -313,14 +317,18 @@ export default {
           for (var j = 0; j < dayCount; j++) {
             sum += data[i - j][1];
           }
-          result.push(sum / dayCount);
+          result.push((sum / dayCount).toFixed(2));
         }
         return result;
       }
+      console.log(result, "resultresult");
     },
 
     initchart() {
-      this.Lastchart();
+      if (this.bordertime != "M1") {
+        this.Lastchart();
+      }
+
       var echartss = document.getElementById("echarts");
       this.myChart = echarts.init(document.getElementById("echarts"));
       function resizeDom(dom) {
@@ -335,7 +343,7 @@ export default {
       this.option = {
         backgroundColor: "#21202D",
         legend: {
-          data: ["日K", "MA5", "MA10", "MA20", "MA30"],
+          data: ["MA5", "MA10", "MA20", "MA30"],
           inactiveColor: "#777",
           textStyle: {
             color: "#fff",
@@ -448,6 +456,7 @@ export default {
               width: 1,
             },
           },
+         
         ],
       };
       console.log(this.option.xAxis.data, "o");
@@ -470,70 +479,56 @@ export default {
           symbol: this.bordername,
         })
 
-        .then(({ data }) => {
-          console.log(data, "图标");
-          // if (data.code === 0) {
-          this.dataArr = data;
-          console.log(this.lastdata, "888888888888888888888");
-          this.dataArr.unshift(this.lastdata);
-          console.log(this.dataArr, "dataArr");
-          this.datab = this.dataArr.reverse();
-          console.log(this.datab, "datab");
-          var arrall = [];
-          this.b = this.datab.map((item) => {
-            var open = item.open;
-            var close = item.close;
-            var lowest = item.low;
-            var highest = item.high;
-            var time = item.timestamp - 60 * 60 * this.diftimer;
-            var arr = [open, close, lowest, highest, time];
-            return arr;
-          });
-          console.log(data, "图标2");
-          this.time = this.b.map(function (item) {
-            return getNowFormatDate(new Date(item[4] * 1000));
-          });
+        .then((data) => {
+          console.log(data, "fansil");
+          if (data.status === 200) {
+            setTimeout(() => {
+              console.log(data, "图标");
+              // if (data.code === 0) {
+              console.log(this.lastdata, "888888888888888888888");
+              if (this.bordertime != "M1") {
+                data.data.unshift(this.lastdata);
+              }
+              this.dataArr = data.data;
+              console.log(this.dataArr, "dataArr");
+              this.datab = this.dataArr.reverse();
+              console.log(this.datab, "datab");
+              var arrall = [];
+              this.b = this.datab.map((item) => {
+                var open = Number(item.open).toFixed(2);
+                var close = Number(item.close).toFixed(2);
+                var lowest = Number(item.low).toFixed(2);
+                var highest = Number(item.high).toFixed(2);
+                var time = item.timestamp - 60 * 60 * this.diftimer;
+                var arr = [open, close, lowest, highest, time];
+                return arr;
+              });
+              console.log(data, "图标2");
+              this.time = this.b.map(function (item) {
+                return getNowFormatDate(new Date(item[4] * 1000));
+              });
 
-          this.param = this.b.map(function (item) {
-            // console.log(item, "item");
-            return [+item[0], +item[1], +item[2], +item[3]];
-          });
-          this.lastTime = this.time[this.time.length - 1];
-          console.log(this.param, "疯了吧");
-          console.log(getNowFormatDate(new Date(1586162580 * 1000)), "0");
-          this.option.series[0].markLine.data[0].yAxis = this.param[
-            this.param.length - 1
-          ][1];
-          this.option.xAxis.data = this.time;
-          //          this.option.xAxis= {
-          //           type: "category",
-          //           data: this.time,
-          //           axisLine: { lineStyle: { color: "#8392A5" } },
-          //                 axisLabel: {
-          //    interval:25,
-          //   //  rotate:8
-          // }  ,
-          //         },
-          this.option.series[0].data = this.param;
-          console.log(this.option.series, " this.option.series");
-          this.option.series[1].data = this.calculateMA(5, this.param);
-          this.option.series[2].data = this.calculateMA(10, this.param);
-          this.option.series[3].data = this.calculateMA(20, this.param);
-          this.option.series[4].data = this.calculateMA(30, this.param);
-
-          this.myChart.setOption(this.option);
-          resizeDom(echartss);
-          // window.addEventListener("resize", () => {
-          //   resizeDom(echartss); //重置div宽高度
-          //   myChart.resize(); //重绘echart图表
-          // });
-
-          // } else {
-          // Toast({
-          //   message: "网络错误",
-          //   duration: 1000
-          // });
-          // }
+              this.param = this.b.map(function (item) {
+                // console.log(item, "item");
+                return [+item[0], +item[1], +item[2], +item[3]];
+              });
+              this.lastTime = this.time[this.time.length - 1];
+              console.log(this.param, "疯了吧");
+              console.log(getNowFormatDate(new Date(1586162580 * 1000)), "0");
+              this.option.series[0].markLine.data[0].yAxis = this.param[
+                this.param.length - 1
+              ][1];
+              this.option.xAxis.data = this.time;
+              this.option.series[0].data = this.param;
+              console.log(this.option.series, " this.option.series");
+              this.option.series[1].data = this.calculateMA(5, this.param);
+              this.option.series[2].data = this.calculateMA(10, this.param);
+              this.option.series[3].data = this.calculateMA(20, this.param);
+              this.option.series[4].data = this.calculateMA(30, this.param);
+              this.myChart.setOption(this.option);
+              resizeDom(echartss);
+            }, 1000);
+          }
         });
 
       // this.setInterName = setInterval(() => {
@@ -589,29 +584,30 @@ export default {
   watch: {
     "$store.state.mydata": function (newer, old) {
       this.websokArr = newer;
-      console.log(this.websokArr," this.websokArr")
+      console.log(this.websokArr, " this.websokArr");
       for (var i = 0; i < this.websokArr.length; i++) {
         console.log(this.bordername, "this.bordername");
         if (this.bordername + "." === this.websokArr[i].symbol) {
           this.time[this.time.length - 1] = getNowFormatDate(
             new Date((this.websokArr[i].time - 60 * 60 * this.diftimer) * 1000)
           );
-          var close =
-            (Number(this.websokArr[i].ask) + Number(this.websokArr[i].bid)) / 2;
-          this.param[this.param.length - 1][1] = close;
-          this.param[this.param.length - 1][0] = this.param[
-            this.param.length - 1
-          ][0];
+          var close = (
+           ( Number(this.websokArr[i].ask) +
+             Number( this.websokArr[i].bid))/
+            2
+          ).toFixed(3);
+          console.log(close,"aaaaaaaaaaaa")
+          this.param[this.param.length - 1][1] =Number(close);
+          this.param[this.param.length - 1][0] = Number(this.param[this.param.length - 1][0].toFixed(3));
           if (close < this.param[this.param.length - 1][2]) {
-            this.param[this.param.length - 1][2] = close;
-            this.param[this.param.length - 1][3] = this.param[
-              this.param.length - 1
-            ][3];
+            this.param[this.param.length - 1][2] = Number(close);
+            this.param[this.param.length - 1][3] =Number ((
+              this.param[this.param.length - 1][3]
+            ).toFixed(2));
           } else if (close > this.param[this.param.length - 1][3]) {
-            this.param[this.param.length - 1][3] = close;
-            this.param[this.param.length - 1][2] = this.param[
-              this.param.length - 1
-            ][2];
+            this.param[this.param.length - 1][3] = Number(close);
+            this.param[this.param.length - 1][2] =Number( (
+              this.param[this.param.length - 1][2]).toFixed(2));
           }
           var a = new Date(this.lastTime).getTime();
           var b = this.time[this.time.length - 1];
@@ -627,6 +623,11 @@ export default {
               this.lastAdd();
             }
           }
+          if (this.bordertime == "M1") {
+            if (b - a > 60000) {
+              this.lastAdd();
+            }
+          }
           if (this.bordertime == "M30") {
             if (b - a > 1800000) {
               this.lastAdd();
@@ -637,29 +638,30 @@ export default {
               this.lastAdd();
             }
           }
-           if (this.bordertime == "H4") {
+          if (this.bordertime == "H4") {
             if (b - a > 14400000) {
               this.lastAdd();
             }
           }
-            if (this.bordertime == "D") {
+          if (this.bordertime == "D") {
             if (b - a > 86400000) {
               this.lastAdd();
             }
           }
-            if (this.bordertime == "W") {
+          if (this.bordertime == "W") {
             if (b - a > 604800000) {
               this.lastAdd();
             }
           }
-            if (this.bordertime == "M") {
-            if (b - a >  this.getCountDays()* 24*60*60*1000) {
+          if (this.bordertime == "M") {
+            if (b - a > this.getCountDays() * 24 * 60 * 60 * 1000) {
               this.lastAdd();
             }
           }
         }
         this.option.xAxis.data = this.time;
         this.option.series[0].data = this.param;
+        console.log(this.param, "9999999999999999999999999999");
         this.option.series[0].markLine.data[0].yAxis = this.param[
           this.param.length - 1
         ][1];

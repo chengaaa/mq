@@ -74,38 +74,38 @@ export default {
           imgList:[
               {
                   name:"1",
-                  url:require("../../assets/image/chongzhi1.png")
+                  url:require("../../assets/images/chongzhi1.png")
               },
                {
                   name:"2",
-                  url:require("../../assets/image/chongzhi2.png")
+                  url:require("../../assets/images/chongzhi2.png")
               },
                {
                   name:"3",
-                  url:require("../../assets/image/chongzhi3.png")
+                  url:require("../../assets/images/chongzhi3.png")
               },
                {
                   name:"4",
-                  url:require("../../assets/image/chongzhi4.png")
+                  url:require("../../assets/images/chongzhi4.png")
               },
               
           ],
           imgList2:[
               {
                   name:"5",
-                  url:require("../../assets/image/tibi1.png")
+                  url:require("../../assets/images/tibi1.png")
               },
                {
                   name:"6",
-                  url:require("../../assets/image/tibi2.png")
+                  url:require("../../assets/images/tibi2.png")
               },
                {
                   name:"7",
-                  url:require("../../assets/image/tibi3.png")
+                  url:require("../../assets/images/tibi3.png")
               },
                {
                   name:"8",
-                  url:require("../../assets/image/tibi4.png")
+                  url:require("../../assets/images/tibi4.png")
               }
           ]
         }

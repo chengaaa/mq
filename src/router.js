@@ -42,12 +42,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Home/Teachingtrade.vue'),
     },
     
-    { //加入官方群组
-      path: '/join',
-      name: 'join',
-      // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
-      component: () => import(/* webpackChunkName: "about" */ './views/Home/Join.vue'),
-    },
+    
     { //新人红包
       path: '/envelopes',
       name: 'envelopes',
@@ -81,14 +76,7 @@ const router = new Router({
       // component: () => import(/* webpackChunkName: "about" */ './views/Parents.vue'),
       component: () => import(/* webpackChunkName: "about" */ './views/Home/Apply.vue'),
     },
-    { //新闻
-      path: '/information',
-      name: 'information',
-    //   meta: {
-    //     requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-    // },
-      component: () => import(/* webpackChunkName: "about" */ './views/Information/Information.vue'),
-    },
+  
     {//交易
       path: '/transaction',
       name: 'transaction',
@@ -126,14 +114,7 @@ const router = new Router({
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-placeall.vue'),
     },
-       {//修改单价
-        path: '/transaction-modify',
-        name: 'transaction-modify',
-        meta: {
-          requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-      },
-        component: () => import(/* webpackChunkName: "about" */ './views/Transaction/Transaction-modify.vue'),
-      },
+    
     {//行情
       path: '/quotation-deail',
       name: 'quotationdeail',
@@ -143,15 +124,8 @@ const router = new Router({
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Quotation-deail2.vue'),
     },
-     {//行情
-      path: '/quotation-order',
-      name: 'quotationorder',
-      component: () => import(/* webpackChunkName: "about" */ './views/Quotation/Quotation-order.vue'),
-      meta: {
-        requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        // keepAlive: true
-    },
-  },
+     
+ 
     {//历史
       path: '/history',
       name: 'history',
@@ -180,11 +154,7 @@ const router = new Router({
     },
       component: () => import(/* webpackChunkName: "about" */ './views/Account/Account.vue')
     },
-    {//客服
-      path: '/customer',
-      name: 'customer',
-      component: () => import(/* webpackChunkName: "about" */ './views/Account/Customer.vue')
-    },
+   
      {//入金
       path: '/entry',
       name: 'entry',
@@ -234,14 +204,7 @@ const router = new Router({
     // },
       component: () => import(/* webpackChunkName: "about" */ './views/Account/Language.vue')
     },
-        {//语言
-          path: '/changepassword',
-          name: 'changepassword',
-        //   meta: {
-        //     requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        // },
-          component: () => import(/* webpackChunkName: "about" */ './views/Account/Changepassword.vue')
-        },
+       
    
     {//登录
       path: '/login',
@@ -255,11 +218,7 @@ const router = new Router({
       name: 'register',
       component: () => import(/* webpackChunkName: "about" */ './views/Register/Registertest.vue')
     },
-     {//注册
-      path: '/registercode',
-      name: 'registercode',
-      component: () => import(/* webpackChunkName: "about" */ './views/Register/Registercode.vue')
-    },
+   
     //  {//注册输入密码
     //   path: '/registerpassword',
     //   name: 'registerpassword',

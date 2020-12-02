@@ -32,7 +32,7 @@
           <div class="hello" v-for="(item, index) in accountList" :key="index">
             <div class="accountname">
               <p>{{ item.accountName }}</p>
-              <p>{{ date }}</p>
+              <!-- <p>{{ date }}</p> -->
             </div>
             <div class="balance">
               <span>{{ item.balance }}</span>
@@ -92,6 +92,13 @@
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
             </p>
           </div>
+           <div class="account-flex">
+            <img src="../../assets/images/icon_ui@2x.png" alt />
+            <p class="account-flex1" @click="toggle">
+              <span>{{$t('m.Changeui')}}</span>
+              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
+            </p>
+          </div>
         </div>
         <div class="account-bottom2">
           <div class="account-flex">
@@ -118,13 +125,7 @@
               <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
             </div>
           </div>
-           <div class="account-flex">
-            <img src="../../assets/images/icon_history.png" alt />
-            <p class="account-flex1" @click="toggle">
-              <span>切换交易界面</span>
-              <van-icon name="arrow" color="#aaaaaa" id="van-icon" />
-            </p>
-          </div>
+          
         </div>
         <div class="boder"></div>
       </div>
@@ -180,7 +181,7 @@
       <img class="img2" src="../../assets/images/logo1.png"/>
      </div>
      <div class="customerimg" v-for="(item,index) in group" :key="index">
-       <h4>{{$t('m.Contact')}}</h4>
+       <h4>{{item.group_name}}</h4>
        <img :src="item.address" alt="">
        <h4>{{$t('m.Scanning')}}</h4>
      </div>
@@ -216,19 +217,19 @@
      <div class="img3">
        <img src="../../assets/images/share_pic.png" alt="">
      </div>
-     <p>全球首家CFD数字资产交易平台</p>
+     <p>{{$t('m.Sharetitle')}}</p>
      <div class="iosand">
        <div class="margins">
-         <h5>ios用户</h5>
+         <h5>iOS {{$t('m.User')}}</h5>
          <img  :src="iosimg" alt="">
        </div>
        <div>
-         <h5>Android用户</h5>
+         <h5>Android {{$t('m.User')}}</h5>
          <img  :src="andimg" alt="">
        </div>
      </div>
-     <p class="down">扫码下载app</p>
-     <p>网址：http://www.bbook8.com</p>
+     <p class="down">{{$t('m.Scan')}}</p>
+     <p>{{$t('m.Address')}}：http://www.bbook8.com</p>
     
       <div class="pace"></div>
       </div>
@@ -267,15 +268,13 @@
    .router-link-active {
     color: white;
     font-size: 22px;
-    font-weight: 700;
     text-align: center;
-    margin-top: .266667rem /* 20/75 */;
-    width: 80%;
-    border: 1px solid;
-    margin: .533333rem /* 40/75 */ auto;
-    // height: 1.333333rem /* 100/75 */;
-    line-height: 1.333333rem /* 100/75 */;
+    margin-top: 0.266667rem;
+    width: 50%;
+    margin: 0.533333rem auto;
+    line-height: 1.333333rem;
     border-radius: 4px;
+    background: #2e7bfd;
         }
 
 #van-icon {
@@ -288,7 +287,7 @@
   align-items: center;
   p {
     color: #aaaaaa;
-    font-size: 0.32rem /* 24/75 */;
+    font-size: 12px;
   }
 }
 .background {
@@ -693,7 +692,7 @@
     text-align: center;
     // padding-top: 0.133333rem ;
     padding-bottom:0.133333rem ;
-    font-size: 16px;
+    font-size: 13px;
     color: #c9ccda;
     margin-top: 0.266667rem;
   }

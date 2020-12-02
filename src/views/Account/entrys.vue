@@ -31,8 +31,8 @@
     </div>
        
     <div class="erweima">
-      <img v-if="chain === 'USDT-ERC20'" src="../../assets/image/chongzhiERC20.jpg" alt />
-      <img v-if="chain === 'USDT-Omni'" src="../../assets/image/chongzhiOmni.jpg" alt />
+      <img v-if="chain === 'USDT-ERC20'" src="../../assets/images/chongzhiERC20.jpg" alt />
+      <img v-if="chain === 'USDT-Omni'" src="../../assets/images/chongzhiOmni.jpg" alt />
     </div>
     <div class="address">
       <h5>{{$t('m.Chargingaddress')}}</h5>

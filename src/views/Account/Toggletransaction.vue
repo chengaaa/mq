@@ -2,24 +2,24 @@
   <div class="toggle">
      <div class="toggle-title">
       <van-icon name="arrow-left" color="#3e79dc" id="van-icon" @click="home" />
-      <h2>切换交易界面</h2>
+      <h2>{{$t('m.Changeui')}}</h2>
     </div>
-    <div style="display:flex;justify-content:space-around">
-    <div class="toggle-img">
-      <h5>新</h5>
+    <div style="display:flex;justify-content:space-around;padding-top: 20px;">
+    <div class="toggle-img" @click="isQuan">
+      <h5>{{$t('m.New')}}</h5>
       <img style="width:150px" src="../../assets/images/jingdian.jpg" alt="">
-      <p style="text-align:center" @click="isQuan">
-      <img v-show="quan" style="width:15px" src="../../assets/images/circle-quan.png" alt="">
-      <img v-show="!quan" style="width:15px" src="../../assets/images/quan.png" alt="">
+      <p style="text-align:center" >
+      <img v-show="quan == 'xin'" style="width:15px" src="../../assets/images/circle-quan.png" alt="">
+      <img v-show="quan == 'jingdian'" style="width:15px" src="../../assets/images/quan.png" alt="">
       </p>
     </div>
-    <div class="toggle-img">
-      <h5>经典</h5>
+    <div class="toggle-img"  @click="isQuan2">
+      <h5>{{$t('m.Classic')}}</h5>
       <img style="width:150px" src="../../assets/images/jingdian.jpg" alt="">
-      <p style="text-align:center" @click="isQuan2">
+      <p style="text-align:center">
       
-      <img v-show="quan" style="width:15px" src="../../assets/images/quan.png" alt="">
-      <img v-show="!quan" style="width:15px" src="../../assets/images/circle-quan.png" alt="">
+      <img v-show="quan == 'xin'" style="width:15px" src="../../assets/images/quan.png" alt="">
+      <img v-show="quan == 'jingdian'" style="width:15px" src="../../assets/images/circle-quan.png" alt="">
       </p>
     </div>
     </div>
@@ -63,27 +63,27 @@
 export default {
   data() {
     return {
-      quan: window.sessionStorage.getItem("quan")
+      quan: localStorage.getItem("quan")
 
     }
   },
   created() {
-     this.quan = window.sessionStorage.getItem("quan")
+     this.quan = localStorage.getItem("quan")
+     console.log(this.quan,"aaaaaaaaaaa")
   },
   methods: {
       home() {
       this.$router.push("/account");
     },
     isQuan() {
-      this.quan = true
-      window.sessionStorage.setItem("quan",this.quan)
+      this.quan = 'xin'
+      localStorage.setItem("quan",this.quan)
       localStorage.setItem("transaction","new")
 
     },
     isQuan2() {
-      
-      this.quan = false
-      window.sessionStorage.setItem("quan",this.quan)
+      this.quan = 'jingdian'
+      localStorage.setItem("quan",this.quan)
       localStorage.setItem("transaction","classic")
 
 

@@ -232,8 +232,57 @@ export const m = {
        Share:"分享應用",
        Hideto:"立即登錄BBOOK8開啟交易",
        Yes:"確認",
-      Scanning:"掃描二維碼",
-      Contact:"聯系客服群組" 
+       Scanning:"掃描二維碼",
+       Contact:"聯系客服群組" ,
+      //新的
+       Changeui:"切換交易界面",
+       New:"新",
+       Classic:"經典",
+       High:"最高",
+       Low:"最低",
+       Tradenew:"交易",
+       Ordernew:"委托",
+       Positionnew:"持倉",
+      Currencynew:"結算幣種",
+      Freebalance:"可用資金",
+      Leverage:"實際杠桿",
+      More:"高級設置",
+      Amount:"開倉手數",
+      Contract:"手",
+      Pricenew:"限價",
+      Notset:"未設置",
+      Cancelnew:"撤單",
+      EntrustPrice:"委托價格",
+      EntrustVolume:"委托手數",
+      EntrustValue:"委托價值",
+      DealVolume:"成交手數",
+      Status:"狀態",
+    Active:"已掛單",
+    NewDone:"完成",
+    OpenPrice:"開倉均價",
+    PNL:"盈虧",
+    Volumenew:"手數",
+    Closeout:"強平價格",
+      Bond:"保證金",
+      Sltake:"止損/獲利",
+      Sharetitle:"全球首家CFD數字資產交易平臺",
+      User:"用戶",
+      Scan:"掃碼下載app",
+      Address:"網址"
+
+
+
+
+
+
+
+
+ 
+
+
+
+      
+
 
 
 

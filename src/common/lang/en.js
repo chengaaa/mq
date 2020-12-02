@@ -235,11 +235,59 @@ export const m = {
 
 
        //分享
-    Share:"Share apps",
+    Share:"Share",
     Hideto:"Login to BBook8 start trading",
     Yes:"OK",
     Scanning:"Scanning QR code",
-    Contact:"Contact customer service group" 
+    Contact:"Contact customer service group",
+
+    //新的
+    Changeui:"Change Trade UI",
+    New:"New",
+    Classic:"Classic",
+    High:"High",
+    Low:"Low",
+    Tradenew:"Trade",
+    Ordernew:"Orders",
+    Positionnew:"Positions",
+    Currencynew:"Currency",
+    Freebalance:"Free Balance",
+    Leverage:"Leverage",
+    More:"More",
+    Amount:"Amount",
+    Contract:"Contract",
+    Pricenew:"Price",
+    Notset:"Not Set",
+    Cancelnew:"Cancel",
+    EntrustPrice:"Price",
+    EntrustVolume:"Volume",
+    EntrustValue:"Value",
+    DealVolume:"Done",
+    Status:"Status",
+    Active:"Active",
+    Newdone:"Done",
+    OpenPrice:"Open Price",
+    PNL:"PNL",
+    Volumenew:"Volume",
+    Closeout:"Closeout Price",
+    Bond:"Margin",
+    Sltake:"SL/TP",
+    Sharetitle:"World first CFD digital assets trading platform",
+    User:"Users",
+    Scan:"Scan to download App",
+    Address:"Address"
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

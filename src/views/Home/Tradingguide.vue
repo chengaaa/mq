@@ -7,11 +7,11 @@
     </div>
     
     <div class="guide-top" @click="teachingtrade">
-        <img src="../../assets/image/新手交易指南-稿件2_03.png" alt="">
+        <img src="../../assets/images/新手交易指南-稿件2_03.png" alt="">
         <h3>{{$t('m.Howtotransaction')}}</h3>
     </div>
     <div class="guide-top" @click="teaching">
-        <img src="../../assets/image/新手交易指南-稿件2_06.png" alt="">
+        <img src="../../assets/images/新手交易指南-稿件2_06.png" alt="">
         <h3>{{$t('m.Teaching')}}</h3>
     </div>
     

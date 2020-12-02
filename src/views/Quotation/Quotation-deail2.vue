@@ -11,19 +11,18 @@
       <div class="border"></div>
       <!-- 简单的 -->
       <div class="pickers">
-        <van-action-sheet
+        <!-- <van-action-sheet
           :cancel-text="$t('m.Cancel')"
           v-model="show"
           :actions="actions"
           @select="onSelect"
-        />
+        /> -->
       </div>
       <div>
         <div
           class="home-last2"
           v-for="(itemsss, indexxx) in QuotationArr"
           :key="indexxx"
-          @click="selectType(itemsss.symbolName)"
         >
           <div class="home-one">
             <img :src="itemsss.img" alt="" />
@@ -32,49 +31,51 @@
                 <h3>{{ itemsss.symbolName.slice(0, 3) }}</h3>
                 <span style="color: #c9c9c9">/USDT</span>
               </div>
-              <p>比特币</p>
+              <p>{{ itemsss.designationchinese }}</p>
             </div>
           </div>
           <div class="home-two">
             <div class="low">
-              <p :id="itemsss.symbolName" :class="[itemsss.ask < itemsss.open ? 'open':'arr']">
+              <p
+                :id="itemsss.symbolName"
+                :class="[itemsss.ask < itemsss.open ? 'open' : 'arr']"
+              >
                 <!-- <span class="span1">{{itemsss.bid}}</span> -->
 
-                <span class="span1">{{
+                <!-- <span class="span1">{{
                   itemsss.bid.substring(0, itemsss.bid.indexOf("."))
                 }}</span>
                 <span class="span2">{{
                   itemsss.bid.slice(itemsss.bid.indexOf("."), -1)
                 }}</span>
-                <span class="span3">{{ itemsss.bid.substr(-1, 1) }}</span>
+                <span class="span3">{{ itemsss.bid.substr(-1, 1) }}</span> -->
+                <span class="span1">{{ itemsss.bid }}</span>
               </p>
               <h5>Low:{{ itemsss.low }}</h5>
             </div>
           </div>
           <div class="home-two">
             <div class="low">
-              <p :id="itemsss.path" :class="[itemsss.bid < itemsss.open ? 'open':'arr']">
-                <span class="span1">{{
+              <p
+                :id="itemsss.path"
+                :class="[itemsss.bid < itemsss.open ? 'open' : 'arr']"
+              >
+                <!-- <span class="span1">{{
                   itemsss.ask.substring(0, itemsss.ask.indexOf("."))
                 }}</span>
                 <span class="span2">{{
                   itemsss.ask.slice(itemsss.ask.indexOf("."), -1)
                 }}</span>
-                <span class="span3">{{ itemsss.ask.substr(-1, 1) }}</span>
+                <span class="span3">{{ itemsss.ask.substr(-1, 1) }}</span> -->
+                <span class="span1">{{ itemsss.ask }}</span>
               </p>
               <h5>High:{{ itemsss.max }}</h5>
             </div>
           </div>
         </div>
       </div>
-
       <div>
-        <div
-          class="home-last2"
-          v-for="(item, index) in symbolArr"
-          :key="index"
-          @click="selectType(item.symbol)"
-        >
+        <div class="home-last2" v-for="(item, index) in symbolArr" :key="index">
           <div class="home-one">
             <img :src="item.imgs" alt="" />
             <div class="home-one1">
@@ -82,45 +83,53 @@
                 <h3>{{ item.symbol.slice(0, 3) }}</h3>
                 <span style="color: #c9c9c9">/USDT</span>
               </div>
-              <p>比特币</p>
+              <p>{{ item.designationchinese }}</p>
             </div>
           </div>
           <div class="home-two">
             <div class="low">
-              <p :id="item.symbol" :class="[item.bid < item.open ? 'open':'arr']">
-                <span class="span1">{{
+              <p
+                :id="item.symbol"
+                :class="[item.bid < item.open ? 'open' : 'arr']"
+              >
+                <!-- <span class="span1">{{
                   item.bid.substring(0, item.bid.indexOf("."))
                 }}</span>
                 <span class="span2">{{
                   item.bid.slice(item.bid.indexOf("."), -1)
                 }}</span>
-                <span class="span3">{{ item.bid.substr(-1, 1) }}</span>
+                <span class="span3">{{ item.bid.substr(-1, 1) }}</span> -->
+                <span class="span1">{{ item.bid }}</span>
               </p>
               <h5>Low:{{ item.low }}</h5>
             </div>
           </div>
           <div class="home-two">
             <div class="low">
-              <p :id="item.symbol" :class="[item.ask < item.open ? 'open':'arr']">
-                <span class="span1">{{
+              <p
+                :id="item.symbol"
+                :class="[item.ask < item.open ? 'open' : 'arr']"
+              >
+                <!-- <span class="span1">{{
                   item.ask.substring(0, item.ask.indexOf("."))
                 }}</span>
                 <span class="span2">{{
                   item.ask.slice(item.ask.indexOf("."), -1)
                 }}</span>
-                <span class="span3">{{ item.ask.substr(-1, 1) }}</span>
+                <span class="span3">{{ item.ask.substr(-1, 1) }}</span> -->
+                <span class="span1">{{ item.ask }}</span>
               </p>
               <h5>High:{{ item.high }}</h5>
             </div>
           </div>
         </div>
       </div>
+      <div style="height: 100px"></div>
     </div>
   </keep-alive>
 </template>
 
 <style lang="scss" scoped>
-  
 .blue {
   background: #127df6;
   color: white;
@@ -156,27 +165,29 @@
       height: 0.8rem /* 60/75 */;
       margin-right: 0.266667rem /* 20/75 */;
       position: relative;
-      top: -0.1rem /* 12/75 */;
+      // top: -0.1rem /* 12/75 */;
     }
     .home-one1 {
       display: flex;
       flex-direction: column;
 
       h3 {
-        font-size: 22px;
+        font-size: 16px;
         // font-family:sourcehansanscn B;
         color: #ffffff;
       }
       span {
-        font-size: 14px;
-        line-height: 0.533333rem;
+        font-size: 13px;
+        position: relative;
+        top: 2px;
+        // line-height: 0.533333rem;
         // color: #a7a7a7;
       }
     }
     p {
       color: #ffffff;
-      font-size: 14px;
-      margin-top: 0.133333rem /* 10/75 */;
+      font-size: 12px;
+      margin-top: 2px;
       // text-align: center;
       // margin-left:0.266667rem;
     }
@@ -184,29 +195,29 @@
   .home-two {
     width: 1.933333rem /* 70/75 */;
     .span1 {
-      font-size: 22px;
+      font-size: 18px;
     }
     .span2 {
-      font-size: 28px;
+      font-size: 18px;
     }
     .span3 {
-      position: relative;
-      top: -14px;
-      left: 6px;
-      font-size: 16px;
+      // position: relative;
+      // top: -10px;
+      // left: 6px;
+      font-size: 18px;
     }
     h3 {
       font-size: 14px;
       color: white;
       // font-family: sourcehansanscn B;
     }
-  
-    .arr{
-    color:#32a53b;
-  } 
-  .open {
-  color:red;
-  }
+
+    .arr {
+      color: #32a53b;
+    }
+    .open {
+      color: red;
+    }
     p {
       color: #32a53b;
       font-size: 0.346667rem /* 26/75 */;
@@ -520,8 +531,8 @@ export default {
   created() {
     this.p();
     // this.get();
-  console.log(store.state.symbolArr, "什么什么？");
-      console.log(store.state.openArr, "哈哈哈？？？");
+    console.log(store.state.symbolArr, "什么什么？");
+    console.log(store.state.openArr, "哈哈哈？？？");
   },
   mounted() {
     this.$nextTick(() => {
@@ -547,17 +558,15 @@ export default {
             }
           }
         }
-      
 
-        
-        for(var i = 0;i < store.state.openArr.length;i++) {
-          for(var j = 0; j< store.state.arr.length;j++) {
-             var arr = store.state.arr[j] ;
+        for (var i = 0; i < store.state.openArr.length; i++) {
+          for (var j = 0; j < store.state.arr.length; j++) {
+            var arr = store.state.arr[j];
             var openArr = store.state.openArr[i];
-              var arrName = store.state.arr[j].symbolName ;
+            var arrName = store.state.arr[j].symbolName;
             var openArrname = store.state.openArr[i].symbol + ".";
-            if(arrName === openArrname ) {
-            arr.open =  openArr.open
+            if (arrName === openArrname) {
+              arr.open = openArr.open;
             }
           }
         }
@@ -656,14 +665,13 @@ export default {
           }
         }
       }
-      // store.state.arr[0].imgs = require("../../assets/images/icon_btc.png")
-      // store.state.arr[1].imgs = require("../../assets/images/icon_eth.png")
-      // store.state.arr[2].imgs = require("../../assets/images/icon_bch.png")
+      store.state.arr[0].designationchinese = this.$t("m.BCH");
+      store.state.arr[1].designationchinese = this.$t("m.ETH");
+      store.state.arr[2].designationchinese = this.$t("m.BTC");
       console.log(store.state.arr, "store.state.arr");
       return store.state.arr;
     },
     symbolArr: function () {
-      
       if (this.newMydata2) {
         for (var i = 0; i < store.state.symbolArr.length; i++) {
           for (var j = 0; j < this.newMydata2.length; j++) {
@@ -685,13 +693,13 @@ export default {
           }
         }
       }
-      // store.state.symbolArr[0].imgs = require("../../assets/images/icon_ltc.png")
-      // store.state.symbolArr[1].imgs = require("../../assets/images/icon_etc.png")
-      // store.state.symbolArr[2].imgs = require("../../assets/images/icon_xrp.png")
-      // store.state.symbolArr[3].imgs = require("../../assets/images/icon_eos.png")
-      // store.state.symbolArr[4].imgs = require("../../assets/images/icon_link.png")
-      // store.state.symbolArr[5].imgs = require("../../assets/images/icon_trx.png")
-      // store.state.symbolArr[6].imgs = require("../../assets/images/icon_bsv.png")
+      store.state.symbolArr[0].designationchinese = this.$t("m.LTC");
+      store.state.symbolArr[1].designationchinese = this.$t("m.ETC");
+      store.state.symbolArr[2].designationchinese = this.$t("m.XRP");
+      store.state.symbolArr[3].designationchinese = this.$t("m.EOS");
+      store.state.symbolArr[4].designationchinese = this.$t("m.LINK");
+      store.state.symbolArr[5].designationchinese = this.$t("m.TRX");
+      store.state.symbolArr[6].designationchinese = this.$t("m.BSV");
       console.log(store.state.symbolArr, "store.state.symbolArr");
       return store.state.symbolArr;
     },
@@ -733,12 +741,12 @@ export default {
       }
       //   Toast(item.name);
     },
-    selectType(item) {
-      console.log(item);
-      window.localStorage.setItem("params", item);
-      this.show = true;
-      this.itemw = item;
-    },
+    // selectType(item) {
+    //   console.log(item);
+    //   window.localStorage.setItem("params", item);
+    //   this.show = true;
+    //   this.itemw = item;
+    // },
 
     getuserId() {
       this.userid = store.state.userId;

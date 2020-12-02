@@ -106,24 +106,7 @@ export default {
               },
               
           ],
-          imgList2:[
-              {
-                  name:"5",
-                  url:require("../../assets/image/tibi1.png")
-              },
-               {
-                  name:"6",
-                  url:require("../../assets/image/tibi2.png")
-              },
-               {
-                  name:"7",
-                  url:require("../../assets/image/tibi3.png")
-              },
-               {
-                  name:"8",
-                  url:require("../../assets/image/tibi4.png")
-              }
-          ]
+         
         }
     },
     methods: {

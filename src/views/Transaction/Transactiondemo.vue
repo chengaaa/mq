@@ -1,5 +1,7 @@
 <template>
   <div>
+    <loading v-show="LOADING"></loading>
+
     <!-- 经典 -->
     <div class="transaction" v-show="istransaction == 'classic'">
       <div>
@@ -303,11 +305,7 @@
       </div>
     </div>
     <!-- 新的 -->
-    <div
-      style="overflow: auto"
-      class="transaction2"
-      v-show="istransaction == 'new'"
-    >
+    <div class="transaction2" v-show="istransaction == 'new'">
       <div class="home-title">
         <h1 class="home-img">
           <img src="../../assets/images/logo1.png" alt />
@@ -327,7 +325,15 @@
                 <!-- <h3 @click="all" v-else>ETHUSD</h3> -->
                 <!-- <h3 @click="all" v-for="header in headerName" :key="header.symbol">{{header.symbol}}</h3> -->
               </div>
-              <h3 class="tab-b">比特币</h3>
+              <h3 class="tab-b" v-show="headerName === 'BTCUSD.'">
+                {{ $t("m.BTC") }}
+              </h3>
+              <h3 class="tab-b" v-show="headerName === 'BCHUSD.'">
+                {{ $t("m.BCH") }}
+              </h3>
+              <h3 class="tab-b" v-show="headerName === 'ETHUSD.'">
+                {{ $t("m.ETH") }}
+              </h3>
             </div>
           </div>
 
@@ -341,23 +347,23 @@
                 v-show="items.symbolName === headerName"
                 :class="items.bid < bidnum ? 'colorred' : 'colorblue'"
               >
-                <div class="math">
+                <div :class="['math',items.bid < items.open ? 'open':'arr']">
                   <h2>{{ items.bid.substring(0, items.bid.indexOf(".")) }}</h2>
                   <span>{{ items.bid.slice(items.bid.indexOf("."), -1) }}</span>
                   <h6>{{ items.bid.substr(-1, 1) }}</h6>
                 </div>
-                <div class="max">最高{{ items.max }}</div>
+                <div class="low">{{$t('m.Low')}}:{{ items.low }}</div>
               </div>
               <div
                 v-show="items.symbolName === headerName"
                 :class="items.ask < asknum ? 'colorred' : 'colorblue'"
               >
-                <div class="math">
+                <div :class="['math',items.ask < items.open ? 'open':'arr']">
                   <h2>{{ items.ask.substring(0, items.ask.indexOf(".")) }}</h2>
                   <span>{{ items.ask.slice(items.ask.indexOf("."), -1) }}</span>
                   <h6>{{ items.ask.substr(-1, 1) }}</h6>
                 </div>
-                <div class="low">最低{{ items.low }}</div>
+                <div class="max">{{$t('m.High')}}:{{ items.max }}</div>
               </div>
             </div>
           </div>
@@ -365,51 +371,58 @@
       </div>
       <div class="transaction3-place">
         <div class="display-A place3">
-          <h6 @click="trans">交易</h6>
-          <h6 @click="entrust">委托({{ orderArr.length }})</h6>
-          <h6 @click="Position">持仓({{ contractsList.length }})</h6>
+          <h6 @click="trans">{{$t('m.Tradenew')}}</h6>
+          <h6 @click="entrust">{{$t('m.Ordernew')}}({{ orderArr.length }})</h6>
+          <h6 @click="Position">{{$t('m.Positionnew')}}({{ contractsList.length }})</h6>
         </div>
       </div>
       <div v-show="one">
         <div class="one display-A">
           <div class="one-a">
-            <h5>结算币种</h5>
+            <h5>{{$t('m.Currencynew')}}</h5>
             <p>USDT</p>
           </div>
-          <div class="one-a">
-            <h5>可用资金(USDT)</h5>
-            <p>{{ Free }}</p>
+          <div class="one-a" v-for="(item, index) in accountList" :key="index">
+            <h5>{{$t('m.Freebalance')}}</h5>
+            <p v-show="isNaN(Free) === false">{{ Free }}</p>
+            <p v-show="isNaN(Free) === true">
+              {{ Number(item.marginFree).toFixed(2) }}
+            </p>
           </div>
           <div class="one-a">
-            <h5>实际杠杆</h5>
+            <h5>{{$t('m.Leverage')}}</h5>
             <p>20X</p>
           </div>
           <div class="one-a">
             <div class="set" @click="set">
-              <h5>高级设置</h5>
-              <i class="iconfont" v-show="setting">&#xe60d;</i>
-              <i class="iconfont" v-show="!setting">&#xe635;</i>
+              <h5>{{$t('m.More')}}</h5>
+              <!-- <i class="iconfont" style="transform:rotate(180deg);position: relative;top: -30px;left: 13px" v-if="setting">&#xe635;</i> -->
+              <!-- <i class="iconfont" style="position: relative;top: 2px;left: 13px" v-if="!setting">&#xe635;</i> -->
+              <img class="rotate" v-if="!setting" src="../../assets/images/down_white@2x.png" alt="">
+              <img  v-if="setting" src="../../assets/images/down_white@2x.png" alt="">
             </div>
           </div>
         </div>
         <div class="input-place">
-          <p>开仓手数 [1 手=1 BTC]</p>
-          <input type="text" />
-          手
+          <p v-show="headerName === 'BTCUSD.'">{{$t('m.Amount')}} [1 {{$t('m.Contract')}}=1 BTC]</p>
+          <p v-show="headerName === 'BCHUSD.'">{{$t('m.Amount')}} [1 {{$t('m.Contract')}}=100 BCH]</p>
+          <p v-show="headerName === 'ETHUSD.'">{{$t('m.Amount')}} [1 {{$t('m.Contract')}}=100 ETH]</p>
+          <input type="number" v-model="Handcount" />
+          <span>{{$t('m.Contract')}}</span>
         </div>
         <!-- 高级设置 -->
         <div class="set" v-show="setting">
           <div class="setting">
-            <h6>限价</h6>
-            <input type="text" placeholder="未设置" />
+            <h6>{{$t('m.Pricenew')}}</h6>
+            <input type="number" :placeholder="$t('m.Notset')" v-model="priceNum" />
           </div>
           <div class="setting">
-            <h6>止损</h6>
-            <input type="text" placeholder="未设置" />
+            <h6>{{$t('m.StopLoss')}}</h6>
+            <input type="number" :placeholder="$t('m.Notset')" v-model="stopNum" />
           </div>
           <div class="setting">
-            <h6>获利</h6>
-            <input type="text" placeholder="未设置" />
+            <h6>{{$t('m.TakeProfit')}}</h6>
+            <input type="number" :placeholder="$t('m.Notset')" v-model="takeNum" />
           </div>
         </div>
         <div
@@ -421,7 +434,7 @@
             v-if="items.symbolName === headerName"
             :class="items.bid < bidnum ? 'colorred' : 'colorblue'"
           >
-            <div class="math">
+            <div :class="['math',items.bid < items.open ? 'open':'arr']">
               <h2>{{ items.bid.substring(0, items.bid.indexOf(".")) }}</h2>
               <span>{{ items.bid.slice(items.bid.indexOf("."), -1) }}</span>
               <h6>{{ items.bid.substr(-1, 1) }}</h6>
@@ -431,7 +444,7 @@
             v-if="items.symbolName === headerName"
             :class="items.ask < asknum ? 'colorred' : 'colorblue'"
           >
-            <div class="math">
+            <div :class="['math',items.ask < items.open ? 'open':'arr']">
               <h2>{{ items.ask.substring(0, items.ask.indexOf(".")) }}</h2>
               <span>{{ items.ask.slice(items.ask.indexOf("."), -1) }}</span>
               <h6>{{ items.ask.substr(-1, 1) }}</h6>
@@ -440,16 +453,14 @@
         </div>
         <div class="button" v-show="!setting">
           <div class="transactionplace-f2">
-            <div style="background: #fa807d; border-radius: 4px">
-              Sell by Market
-            </div>
-            <p style="background: #3f75f1; border-radius: 4px">Buy by Market</p>
+            <div @click="SellMarket" class="sellmarket">Sell by Market</div>
+            <p class="buymarket" @click="BuyMarket">Buy by Market</p>
           </div>
         </div>
         <div class="button" v-show="setting">
           <div class="transactionplace-f2">
-            <div style="background: #fa807d; border-radius: 4px">Sell</div>
-            <p style="background: #3f75f1; border-radius: 4px">Buy</p>
+            <div @click="Sellentrust" class="selltrust">Sell</div>
+            <p @click="Buyentrust" class="buytrust">Buy</p>
           </div>
         </div>
       </div>
@@ -464,63 +475,73 @@
             </div>
             <div>
               <h3>{{ item.dateTime1 }}</h3>
-              <p class="buy" @click="deletes(item.orderID)">撤单</p>
+              <p class="buy" @click="deletes(item.orderID)">{{$t('m.Cancelnew')}}</p>
             </div>
           </div>
           <div class="entrust-C display-A">
             <div>
-              <h3>委托价格</h3>
+              <h3>{{$t('m.EntrustPrice')}}</h3>
               <p>{{ item.orderPrice }}</p>
             </div>
             <div>
-              <h3>委托手数</h3>
+              <h3>{{$t('m.EntrustVolume')}}</h3>
               <p>{{ item.volume }}</p>
             </div>
             <div>
-              <h3>委托价值</h3>
+              <h3>{{$t('m.EntrustValue')}}</h3>
               <p>
-                {{ item.contractSize * item.volume }}
+                {{ (item.contractSize * item.volume).toFixed(1) }}
                 {{ item.symbol.slice(0, 3) }}
               </p>
             </div>
             <div>
-              <h3>成交手数</h3>
-              <p>{{ item.volume - item.remainingVolume }}</p>
+              <h3>{{$t('m.DealVolume')}}</h3>
+              <p>{{ (item.volume - item.remainingVolume).toFixed(1) }}</p>
             </div>
           </div>
           <div class="entrust-D display-A">
             <div>
-              <p>止损/获利</p>
+              <p @click="modifys(item.orderID, item.orderPrice)">{{$t('m.Sltake')}}</p>
             </div>
             <div>
-              <h5>状态</h5>
-              <h6>已挂单</h6>
+              <h5>{{$t('m.Status')}}</h5>
+              <h6>{{$t('m.Active')}}</h6>
             </div>
-            <div>
-              <h5>止损</h5>
-              <h6>未设置</h6>
+            <div class="center">
+              <h5>{{$t('m.StopLoss')}}</h5>
+              <span class="xiaoyu" v-show="item.stopLoss != 0">
+                <span v-if="item.orderDirection === 1">≤</span
+                ><span v-if="item.orderDirection === -1">≥</span>
+                <h6>{{ item.stopLoss }}</h6>
+              </span>
+              <span v-show="item.stopLoss == 0">{{$t('m.Notset')}}</span>
             </div>
-            <div>
-              <h5>获利</h5>
-              <h6>未设置</h6>
+            <div class="center">
+              <h5>{{$t('m.TakeProfit')}}</h5>
+              <span class="xiaoyu" v-show="item.takeProfit != 0">
+                <span v-if="item.orderDirection === -1">≤</span
+                ><span v-if="item.orderDirection === 1">≥</span>
+                <h6>{{ item.takeProfit }}</h6>
+              </span>
+              <span v-show="item.takeProfit == 0">{{$t('m.Notset')}}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="modify-Mask">
+      <div class="modify-Mask" v-show="two && modify">
         <div class="modify">
           <div class="display-A modify-a">
-            <p>止损</p>
-            <input type="text" />
+            <p>{{$t('m.StopLoss')}}</p>
+            <input type="text" v-model="modifystopNum" />
           </div>
           <div class="display-A modify-a">
-            <p>获利</p>
-            <input type="text" />
+            <p>{{$t('m.TakeProfit')}}</p>
+            <input type="text" v-model="modifytakeNum" />
           </div>
           <div class="display-A modify-b">
-            <p>取消</p>
-            <span>完成</span>
+            <p @click="cancel">{{$t('m.Cancel')}}</p>
+            <span @click="modifyOrderId">{{$t('m.Newdone')}}</span>
           </div>
         </div>
       </div>
@@ -532,65 +553,108 @@
           :key="indexs"
         >
           <div class="position-A1">
-            <h5>BTCUSD</h5>
-            <p class="buy">BUY</p>
+            <h5>{{ items.symbol.slice(0, items.symbol.indexOf(".")) }}</h5>
+            <p :class="items.orderDirection === 1 ? 'buy' : 'sell'">
+              {{ items.orderDirection === 1 ? "BUY" : "SELL" }}
+            </p>
             <span>20X</span>
           </div>
           <div class="position-B1 display-A">
             <div>
-              <h6>开仓均价</h6>
-              <p>14155.36</p>
+              <h6>{{$t('m.OpenPrice')}}</h6>
+              <p>{{ items.openPrice }}</p>
             </div>
             <div>
-              <h6>盈亏</h6>
-              <p>+1233.33 USDT</p>
+              <h6>{{$t('m.PNL')}}</h6>
+              <p
+                :class="items.data1 < 0 ? 'pnlcolor2' : 'pnlcolor1'"
+                v-if="
+                  items.data1 &&
+                  items.contractSize &&
+                  items.orderDirection === -1
+                "
+              >
+                {{ items.data1 > 0 ? "+" + items.data1 : items.data1 }}USDT
+              </p>
+              <p
+                :class="items.data2 < 0 ? 'pnlcolor2' : 'pnlcolor1'"
+                v-else-if="
+                  items.data2 &&
+                  items.contractSize &&
+                  items.orderDirection === 1
+                "
+              >
+                {{ items.data2 > 0 ? "+" + items.data2 : items.data2 }}USDT
+              </p>
+              <p :class="items.pnl < 0 ? 'pnlcolor2' : 'pnlcolor1'" v-else>
+                {{ items.pnl > 0 ? "+" + items.pnl : items.pnl }}USDT
+              </p>
+                
+              <!-- <p :class="items.pnl > 0?'pnlcolor1':'pnlcolor2'">{{ items.pnl > 0?'+'+ items.pnl:items.pnl }} USDT</p> -->
             </div>
           </div>
-
           <div class="position-C1 display-A">
             <div>
-              <h5>手数</h5>
-              <p>0.03</p>
+              <h5>{{$t('m.Volumenew')}}</h5>
+              <p>{{ items.volume }}</p>
             </div>
-            <div>
-              <h5>止损</h5>
-              <p>未设置</p>
+            <div class="center">
+              <h5>{{$t('m.StopLoss')}}</h5>
+              <span class="xiaoyu" v-show="items.stopLoss != 0">
+                <span v-if="items.orderDirection === 1">≤</span
+                ><span v-if="items.orderDirection === -1">≥</span>
+                <h6>{{ items.stopLoss }}</h6>
+              </span>
+              <span v-show="items.stopLoss == 0">{{$t('m.Notset')}}</span>
             </div>
-            <div>
-              <h5>获利</h5>
-              <p>未设置</p>
+            <div class="center">
+              <h5>{{$t('m.TakeProfit')}}</h5>
+              <span class="xiaoyu" v-show="items.takeProfit != 0">
+                <span v-if="items.orderDirection === -1">≤</span
+                ><span v-if="items.orderDirection === 1">≥</span>
+                <h6>{{ items.takeProfit }}</h6>
+              </span>
+              <span v-show="items.takeProfit == 0">{{$t('m.Notset')}}</span>
             </div>
           </div>
           <div class="position-D1 display-A">
             <div>
-              <h5>强平价格</h5>
-              <h5>保证金</h5>
+              <h5>{{$t('m.Closeout')}}</h5>
+              <h5>{{$t('m.Bond')}}</h5>
+              <h5>{{$t('m.Swap')}}</h5>
             </div>
             <div>
-              <p>7496.26</p>
-              <p>21.23</p>
+              <!-- <p v-show="items.orderDirection === 1">{{ Number(items.openPrice)  + Number( (0.3*balancerem-(Number(items.openPrice * ( (items.volume * items.contractSize ) / 20)).toFixed(2)) ) / (items.volume* items.contractSize))}}</p> -->
+              <!-- <p v-show="items.orderDirection === -1">{{Number(items.openPrice)  - Number( (0.3*balancerem-marginrem)  / (items.volume* items.contractSize))}}</p> -->
+              <!-- <p>{{Number(items.openPrice * ( (items.volume * items.contractSize ) / 20)).toFixed(2)}}</p> -->
+              <p v-if="isNaN(items.force) == false">≈{{ items.force }}</p>
+              <p v-else>≈0.00</p>
+              <p v-if="isNaN(items.bond) === false">{{ items.bond }}</p>
+              <p v-else>0.00</p>
+               <p v-if="isNaN(items.swap) === false">{{ items.swap }}</p>
+              <p v-else>0.00</p>
             </div>
           </div>
-          <p class="close">平仓</p>
+          <p
+            class="close"
+            @click="close(indexs, items.volume, items.positionId)"
+          >
+            {{$t('m.Close')}}
+          </p>
         </div>
       </div>
-      <div
-        style="color: white"
-        class="summary"
-        v-for="(item, index) in accountList"
-        :key="index"
-      >
+      <div class="summary" v-for="(item, index) in accountList" :key="index">
         <div>
           <h4>
             <img src="../../assets/images/yuan.png" alt="" />
-            <span>结余</span>
+            <span>{{$t("m.Balance")}}</span>
           </h4>
           <span>{{ item.balance }}</span>
         </div>
         <div>
           <h4>
             <img src="../../assets/images/yuan.png" alt="" />
-            <span>净值</span>
+            <span>{{$t("m.Equity")}}</span>
           </h4>
           <span v-if="item.data3">{{ Number(item.data3).toFixed(2) }}</span>
           <span v-else>{{ Number(item.equity).toFixed(2) }}</span>
@@ -598,14 +662,14 @@
         <div>
           <h4>
             <img src="../../assets/images/yuan.png" alt="" />
-            <span>预付款</span>
+            <span>{{$t("m.Margin")}}</span>
           </h4>
           <span>{{ item.margin }}</span>
         </div>
         <div>
           <h4>
             <img src="../../assets/images/yuan.png" alt="" />
-            <span>可用预付款</span>
+            <span>{{$t("m.Freemargin")}}</span>
           </h4>
           <span v-if="item.data3">{{
             (item.data3 - item.margin).toFixed(2)
@@ -615,7 +679,7 @@
         <div>
           <h4>
             <img src="../../assets/images/yuan.png" alt="" />
-            <span>预付款比率(%)</span>
+            <span>{{$t("m.Marginlevel")}}</span>
           </h4>
           <span v-if="item.margin != 0 && item.data3">{{
             ((item.data3 / item.margin) * 100).toFixed(2)
@@ -644,7 +708,18 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
+  input {
+    -webkit-user-select: auto;
+  }
+   .arr{
+    color:#32a53b;
+  } 
+  .open {
+  color:red;
+  }
+  .xiaoyu {
+    display: flex;
+  }
   .transaction {
     min-height: 17.333333rem;
     background: #eee;
@@ -915,9 +990,10 @@
   .transaction2 {
     min-height: 17.333333rem;
     background: #262626;
+    overflow: auto;
     .iconfont {
       position: relative;
-      top: 5px;
+    
     }
     .home-title {
       width: 100%;
@@ -980,11 +1056,11 @@
         .tab-a {
           display: flex;
           h3 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
           }
           span {
-            font-size: 16px;
+            font-size: 14px;
           }
         }
         .tab-b {
@@ -997,11 +1073,11 @@
           display: flex;
           justify-content: center;
           h2 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
           }
           span {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             position: relative;
             top: -3px;
@@ -1035,7 +1111,7 @@
       .place3 {
         align-items: center;
         color: #9f9f9f;
-        font-size: 18px;
+        font-size: 16px;
         h6 {
           font-weight: 700;
         }
@@ -1053,9 +1129,17 @@
           border-left: 1px solid #eeeeee;
           padding-left: 10px;
           h5 {
-            font-size: 16px;
+            font-size: 14px;
             line-height: 20px;
             width: 34px;
+          }
+          img {
+           height: 26px;
+           position: relative;
+           left: 2px;
+          }
+          .rotate {
+            transform:rotate(180deg);
           }
         }
         h5 {
@@ -1080,17 +1164,21 @@
         border: 1px solid #eee;
         margin-left: 0.4rem /* 30/75 */;
         margin-right: 0.133333rem /* 10/75 */;
+        text-align: center;
+      }
+      span {
+        color: #9a9a9a;
       }
     }
     .dataorder2 {
       .math {
         display: flex;
         h2 {
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 700;
         }
         span {
-          font-size: 24px;
+          font-size: 22px;
           font-weight: 700;
           position: relative;
           top: -3px;
@@ -1106,10 +1194,14 @@
     .set {
       .setting {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        padding-left: 50px;
+        padding-right: 50px;
         margin-bottom: 20px;
+        font-size: 14px;
         h6 {
           color: #ffffff;
+          text-align: center;
         }
         input {
           background: #262626;
@@ -1155,7 +1247,7 @@
         line-height: 40px;
         // background: red;
         text-align: center;
-        font-size: 0.466667rem /* 35/75 */;
+        font-size: 18px;
       }
       p {
         width: 45%;
@@ -1163,10 +1255,27 @@
         line-height: 40px;
         text-align: center;
         // background: blue;
-        font-size: 0.466667rem /* 35/75 */;
+        font-size: 18px;
+      }
+      .sellmarket {
+        background: #fa807d;
+        border-radius: 4px;
+      }
+      .buymarket {
+        background: #3f75f1;
+        border-radius: 4px;
+      }
+      .selltrust {
+        background: #fa807d;
+        border-radius: 4px;
+      }
+      .buytrust {
+        background: #3f75f1;
+        border-radius: 4px;
       }
     }
     .summary {
+      color: white;
       div {
         display: flex;
         justify-content: space-between;
@@ -1216,7 +1325,7 @@
             // margin-left: 10px;
           }
           h3 {
-            font-size: 16px;
+            font-size: 14px;
           }
         }
       }
@@ -1227,7 +1336,7 @@
         // margin-bottom: 40px;
         div {
           text-align: center;
-          font-size: 16px;
+          font-size: 14px;
           h3 {
             color: #9a9a9a;
             margin-bottom: 10px;
@@ -1237,9 +1346,11 @@
       .entrust-D {
         padding-bottom: 40px;
         background: #2c2d28;
+         
+
         div {
           text-align: center;
-          font-size: 16px;
+          font-size: 14px;
           p {
             background: #3f75f1;
             padding: 10px 10px;
@@ -1251,6 +1362,7 @@
             margin-bottom: 10px;
           }
         }
+        
       }
     }
     .modify-Mask {
@@ -1262,6 +1374,14 @@
       top: 0;
       .modify {
         background: #2c2d28;
+        position: absolute;
+        bottom: 50%;
+        transform: translate(0%, 25%);
+        width: 100%;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        color: #c9c9c9;
+        font-size: 16px;
 
         .modify-a {
           align-items: center;
@@ -1274,6 +1394,8 @@
           }
         }
         .modify-b {
+          margin-top: 30px;
+
           p,
           span {
             background: #ee7a7b;
@@ -1292,6 +1414,7 @@
       .position-A {
         background: #2c2d28;
         padding-bottom: 20px;
+        margin-bottom: 20px;
         .position-A1 {
           display: flex;
           color: white;
@@ -1303,7 +1426,7 @@
           padding-left: 24px;
           h5,
           span {
-            font-size: 16px;
+            font-size: 14px;
           }
           span {
             color: #4877f9;
@@ -1311,7 +1434,7 @@
           }
         }
         .position-B1 {
-          font-size: 16px;
+          font-size: 14px;
           div {
             text-align: center;
             h6 {
@@ -1321,11 +1444,13 @@
         }
         .position-C1 {
           justify-content: space-between;
-          padding: 20px 34px;
-          font-size: 16px;
+          padding: 14px 34px;
+          font-size: 14px;
+          text-align: center;
           h5 {
             color: #9a9a9a;
             margin-bottom: 10px;
+            text-align: center;
           }
         }
         .position-D1 {
@@ -1336,7 +1461,7 @@
 
           div {
             h5 {
-              font-size: 16px;
+              font-size: 14px;
               color: #9a9a9a;
               padding-top: 10px;
               padding-bottom: 10px;
@@ -1344,9 +1469,10 @@
           }
           div {
             p {
-              font-size: 16px;
+              font-size: 14px;
               padding-top: 10px;
               padding-bottom: 10px;
+              text-align: center;
             }
           }
         }
@@ -1364,7 +1490,7 @@
     }
   }
   .hongse {
-    background: #e54440;
+    background: #a0332e;
   }
   .lanse {
     background: #127df6;
@@ -1372,7 +1498,7 @@
   .colorred {
     //  :class="item.ask < num1? 'colorred':'colorblue'"
     // :class="item.bid < num2? 'colorred':'colorblue'"
-    color: #e54440;
+    color: #a0332e;
   }
   .colorblue {
     color: #127df6;
@@ -1384,7 +1510,7 @@
     height: 30px;
     line-height: 30px;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     color: #4877f9;
     margin-left: 10px;
   }
@@ -1396,13 +1522,21 @@
     display: flex;
     justify-content: space-around;
   }
+  .pnlcolor1 {
+    color: #3f5e3f;
+  }
+  .pnlcolor2 {
+    color: #a0332e;
+  }
 }
 </style>
 <script>
 import store from "../../store";
-import { getNowFormatDate } from "../../tools/check.js";
+import { getNowFormatDate,isDayLightSaving } from "../../tools/check.js";
 import { mapMutations } from "vuex";
+import { mapState } from "vuex";
 import mixin from "../../common/mixin/mixin";
+const Loading = () => import("../../components/Loading");
 var api = require("../../api/api");
 export default {
   mixins: [mixin],
@@ -1462,12 +1596,30 @@ export default {
         { name: "m.Transaction" },
         // { name: '选项', subname: '描述信息' }
       ],
+      //新的
       one: true,
       two: false,
       three: false,
+      modify: false,
       setting: false,
       Free: "",
+      //手数
+      Handcount: 0.01,
+      stopNum: "",
+      takeNum: "",
+      priceNum: "",
+      OrderType: "",
+      modifyId: "",
+      price: "",
+      modifystopNum: "",
+      modifytakeNum: "",
+      balancerem: "",
+      marginrem: "",
+      diftimer:""
     };
+  },
+  components: {
+    Loading,
   },
   created() {
     this.get();
@@ -1494,6 +1646,7 @@ export default {
   },
   deactivated() {},
   computed: {
+    ...mapState(["LOADING"]),
     datalist: function () {
       console.log(store.state.arr, "store.state.arr");
       if (this.positionList) {
@@ -1502,7 +1655,6 @@ export default {
           for (let i = 0; i < store.state.arr.length; i++) {
             var data4 = store.state.arr[i];
             var data6 = store.state.contractsLists[b];
-
             if (data6.symbol == data4.symbolName) {
               data6.ask = data4.ask;
               data6.bid = data4.bid;
@@ -1570,10 +1722,34 @@ export default {
       }
       for (let j = 0; j < store.state.contractsLists.length; j++) {
         var arr2 = store.state.contractsLists[j];
+          if(isDayLightSaving(new Date(arr2.dateTime))) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+        }
         arr2.openTime1 = getNowFormatDate(
-          new Date(new Date(arr2.openTime).getTime() - 7200000)
+          new Date(new Date(arr2.openTime).getTime() - this.diftimer *60*60*1000)
         );
         arr2.openTime1 = arr2.openTime1.split("-").join(".");
+        arr2.bond = Number(
+          arr2.openPrice * ((arr2.volume * arr2.contractSize) / 20)
+        ).toFixed(2);
+        if (this.balancerem) {
+          if (arr2.orderDirection === 1) {
+            arr2.force = Number(
+              parseFloat(arr2.openPrice) +
+                (0.3 * parseFloat(arr2.bond) - this.balancerem) /
+                  (arr2.volume * arr2.contractSize)
+            ).toFixed(2);
+          } else {
+            // arr2.force = Number(Number(arr2.openPrice) - Number((0.3*arr2.bond-this.balancerem)  / (arr2.volume * arr2.contractSize))).toFixed(2)
+            arr2.force = Number(
+              parseFloat(arr2.openPrice) -
+                (0.3 * parseFloat(arr2.bond) - this.balancerem) /
+                  (arr2.volume * arr2.contractSize)
+            ).toFixed(2);
+          }
+        }
       }
       return store.state.contractsLists;
     },
@@ -1610,12 +1786,17 @@ export default {
       }
       for (let j = 0; j < store.state.order.length; j++) {
         var data4 = store.state.order[j];
+          if(isDayLightSaving(new Date(data4.dateTime))) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+        }
         data4.dateTime1 = getNowFormatDate(
-          new Date(new Date(data4.dateTime).getTime() - 7200000)
+          new Date(new Date(data4.dateTime).getTime() - this.diftimer *60*60*1000)
         );
         data4.dateTime1 = data4.dateTime1.split("-").join(".");
         data4.expirationDate1 = getNowFormatDate(
-          new Date(new Date(data4.expirationDate).getTime() - 7200000)
+          new Date(new Date(data4.expirationDate).getTime() - this.diftimer *60*60*1000)
         );
         data4.expirationDate1 = data4.expirationDate1.split("-").join(".");
       }
@@ -1626,6 +1807,7 @@ export default {
     dataorder2: function () {
       for (let j = 0; j < this.newdata1.length; j++) {
         var data4 = this.newdata1[j];
+        console.log(data4,"data4data4data4")
         if (data4.symbolName == this.headerName) {
           this.asknum = data4.ask;
           this.bidnum = data4.bid;
@@ -1729,14 +1911,18 @@ export default {
       this.$http.get(api.AccountURL).then(({ data }) => {
         this.hal = false;
         this.accountList = [data.data];
+        this.balancerem = this.accountList[0].balance;
+        // this.marginrem = this.accountList[0].margin
+        console.log(this.balancerem, "balance");
+        console.log(this.marginrem, "margin");
         console.log(this.accountList, "000");
       });
     },
     get() {
       this.orderArr = store.state.order;
-      console.log(this.orderArr, "几个");
       this.addallList = store.state.arr;
       this.contractsList = store.state.contractsLists;
+      console.log(this.contractsList, "还有几个");
       // console.log(this.addallList, "addallList");
       this.getnewArr();
     },
@@ -1877,7 +2063,6 @@ export default {
       ) {
         // this.show = false;
         window.localStorage.setItem("orderid", this.orderID);
-
         this.$router.push("/transaction-modify");
       }
       if (
@@ -1894,16 +2079,20 @@ export default {
       this.itemw = item;
     },
     //删除
-    close(index) {
+    close(index, volume, positionId) {
+      this.$store.commit("showLoading");
       this.$http
         .post(api.CloseURL, {
-          volume: this.volume,
-          positionId: this.positionId,
+          volume: volume,
+          positionId: positionId,
           comment: "",
         })
         .then(({ data }) => {
           if (data.code == 0) {
-            store.state.contractsLists.splice(this.index, 1);
+            this.$store.commit("hideLoading");
+            this.$toast("平仓成功");
+            this.getdata();
+            // store.state.contractsLists.splice(this.index, 1);
             this.getdata1();
           }
         });
@@ -1937,9 +2126,7 @@ export default {
       //   console.log(this.newdata1[i], "0000000000000");
       //   if(this.headerName === this.newdata1[i].symbolName ){
       //     this.num3 = this.newdata1[i].ask
-
       //   }
-
       //   console.log( this.holder)
       // }
     },
@@ -1957,9 +2144,203 @@ export default {
       this.one = false;
       this.two = false;
       this.three = true;
+      this.getdata();
     },
     set() {
       this.setting = !this.setting;
+    },
+    modifys(e1, e2) {
+      this.modify = true;
+      this.modifyId = e1;
+      this.price = e2;
+    },
+    //修改订单
+    modifyOrderId() {
+      this.$http
+        .put(api.modify + "/" + this.modifyId, {
+          orderDuration: 0,
+          //  expirationDate: this.expirationDate,
+          orderPrice: this.price,
+          stopLoss: this.modifystopNum,
+          takeProfit: this.modifytakeNum,
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+            this.$toast("修改成功");
+            this.getdata();
+            this.get();
+            this.clear();
+            this.getdata1();
+            this.modify = false;
+            //  this.$router.push("/transaction")
+          }
+        });
+    },
+    cancel() {
+      this.modify = false;
+    },
+    getdata() {
+      this.$http.get(api.Positionorders).then(({ data }) => {
+        this.orderArr = data.data;
+        console.log(this.orderArr, "987654321");
+        this.setorder(this.orderArr);
+      });
+      this.$http.get(api.Positioncontracts).then(({ data }) => {
+        this.contractsList = data.data;
+        this.setcontractsList(this.contractsList);
+      });
+    },
+    BuyMarket() {
+      this.$store.commit("showLoading");
+      this.$http
+        .post(api.Deleteorder, {
+          symbol: this.headerName,
+          volume: this.Handcount,
+          orderDirection: 1,
+          orderType: 3,
+          fillType: 1,
+          stopLoss: this.stopNum,
+          takeProfit: this.takeNum,
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+            this.$store.commit("hideLoading");
+            this.$toast(this.$t("m.Orderplaced"));
+            this.clear();
+            this.getdata();
+            this.getdata1();
+            this.get();
+          } else if (data.code === 10019) {
+            this.$toast(this.$t("m.balancenot"));
+            this.$store.commit("hideLoading");
+          } else if (data.orderId == null) {
+            this.$toast(this.$t("m.Placeorderfailed"));
+          }
+        });
+    },
+    SellMarket() {
+      this.$store.commit("showLoading");
+      this.$http
+        .post(api.Deleteorder, {
+          symbol: this.headerName,
+          volume: this.Handcount,
+          orderDirection: -1,
+          orderType: 3,
+          fillType: 1,
+          stopLoss: this.stopNum,
+          takeProfit: this.takeNum,
+        })
+        .then(({ data }) => {
+          if (data.code === 0) {
+            this.$store.commit("hideLoading");
+            this.$toast(this.$t("m.Orderplaced"));
+            this.clear();
+            this.getdata();
+            this.get();
+            this.getdata1();
+          } else if (data.code === 10019) {
+            this.$store.commit("hideLoading");
+            this.$toast(this.$t("m.balancenot"));
+          } else if (data.orderId == null) {
+            this.$toast(this.$t("m.Placeorderfailed"));
+          }
+        });
+    },
+    Sellentrust() {
+      if (this.priceNum) {
+        if (this.priceNum > this.sellnum) {
+          this.OrderType = 7; //sell limit
+        }
+        if (this.priceNum < this.sellnum) {
+          this.OrderType = 9; //sell stop
+        }
+        this.getSellentrust();
+      } else {
+        this.SellMarket();
+      }
+    },
+    //buy limit  buy stop
+    Buyentrust() {
+      if (this.priceNum) {
+        if (this.priceNum < this.buynum) {
+          this.OrderType = 7; //buy limit
+        }
+        if (this.priceNum > this.buynum) {
+          this.OrderType = 9; //buy stop
+        }
+        this.getBuyentrust();
+      } else {
+        this.BuyMarket();
+      }
+    },
+
+    getSellentrust() {
+      this.$store.commit("showLoading");
+      this.$http
+        .post(api.Deleteorder, {
+          symbol: this.headerName,
+          orderDuration: 0,
+          volume: this.Handcount,
+          orderType: this.OrderType,
+          orderDirection: -1,
+          fillType: 3,
+          orderPrice: this.priceNum,
+          stopLoss: this.stopNum,
+          takeProfit: this.takeNum,
+          comment: "",
+          expirationDate: "",
+        })
+        .then(({ data }) => {
+          this.$store.commit("hideLoading");
+          if (data.code === 0) {
+            this.$toast(this.$t("m.Orderplaced"));
+            this.clear();
+            this.getdata();
+            this.get();
+            this.getdata1();
+          } else {
+            this.$toast(this.$t("m.Placeorderfailed"));
+          }
+          console.log(data);
+        });
+    },
+    getBuyentrust() {
+      this.$store.commit("showLoading");
+      this.$http
+        .post(api.Deleteorder, {
+          symbol: this.headerName,
+          orderDuration: 0,
+          volume: this.Handcount,
+          orderType: this.OrderType,
+          orderDirection: 1,
+          fillType: 3,
+          orderPrice: this.priceNum,
+          stopLoss: this.stopNum,
+          takeProfit: this.takeNum,
+          comment: "",
+          expirationDate: "",
+        })
+        .then(({ data }) => {
+          this.$store.commit("hideLoading");
+          if (data.code === 0) {
+            this.$toast(this.$t("m.Orderplaced"));
+            this.clear();
+            this.getdata();
+            this.get();
+            this.getdata1();
+          } else {
+            this.$toast(this.$t("m.Placeorderfailed"));
+          }
+          console.log(data);
+        });
+    },
+    clear() {
+      this.Handcount = 0.01;
+      this.priceNum = "";
+      this.stopNum = "";
+      this.takeNum = "";
+      this.modifystopNum = "";
+      this.modifytakeNum = "";
     },
   },
   watch: {

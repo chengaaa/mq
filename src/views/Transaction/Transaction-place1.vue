@@ -404,7 +404,7 @@
 </style>
 <script>
 import store from "../../store";
-import { getNowFormatDate,getUTCtime,FormatDate } from "../../tools/check.js";
+import { getNowFormatDate,getUTCtime,FormatDate,isDayLightSaving } from "../../tools/check.js";
 const Loading = ()=> import("../../components/Loading");
 import { mapState } from "vuex";
 var api = require("../../api/api")
@@ -486,7 +486,9 @@ export default {
       a2: "0",
       // minDate:new Date(2020,0,1),
       // maxDate: new Date(9998, 10, 1),
-      currentDate: new Date()
+      currentDate: new Date(),
+      diftimer:""
+      
     };
   },
 
@@ -715,13 +717,11 @@ Loading
         .then(({ data }) => {
           if (data.code === 0) {
            this.$store.commit('hideLoading')
-
             this.$toast(this.$t("m.Orderplaced"));
             this.$router.push("/transaction");
           } else if(data.code === 10019) {
           this.$store.commit('hideLoading')
             this.$toast(this.$t('m.balancenot'));
-          
           } else if (data.orderId == null) {
             this.$toast(this.$t('m.Placeorderfailed'))
           }
@@ -739,12 +739,10 @@ Loading
         console.log(this.num1,"this.num1")
         console.log(this.buynum,"this.buynum")
         this.$toast(this.$t("m.Stoplosstoolow"));
-
         return;
       }
       if (this.num2 < this.buynum && this.num2 != null && this.num2 != "") {
         this.$toast(this.$t("m.Takeprofittoohigh"));
-
         return;
       }
       this.$store.commit('showLoading')
@@ -762,9 +760,7 @@ Loading
         .then(({ data }) => {
           if (data.code === 0) {
       this.$store.commit('hideLoading')
-
             this.$toast(this.$t("m.Orderplaced"));
-
             this.$router.push("/transaction");
           } else if(data.code === 10019) {
             this.$toast(this.$t('m.balancenot'))
@@ -788,9 +784,13 @@ Loading
         console.log(this.OrderDuration, "88888");
       } else if (this.value === this.$t("m.Today")) {
         this.OrderDuration = 2;
-        
+          if(isDayLightSaving(new Date())) {
+               this.diftimer = 2
+        } else {
+               this.diftimer = 1
+        }
         let  tod =new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000)
-    this.expirationDate = getUTCtime(new Date(tod.getTime() + 7200000))     //  this.expirationDate = getNowFormatDate(new Date(tod.setHours( new Date().getHours()+2)))
+    this.expirationDate = getUTCtime(new Date(tod.getTime() + this.diftimer))     //  this.expirationDate = getNowFormatDate(new Date(tod.setHours( new Date().getHours()+2)))
        
       } else {
         this.datePicker = true;
@@ -818,17 +818,13 @@ Loading
         this.num3 < this.sellnum
       ) {
         this.$toast(this.$t("m.Pricetoolow"));
-
         return;
-
         if (this.num1 < this.num3) {
           this.$toast(this.$t("m.Stoplosstoolow"));
-
           return;
         }
         if (this.num2 > this.num3) {
           this.$toast(this.$t("m.Takeprofittoohigh"));
-
           return;
         }
       }
@@ -863,9 +859,7 @@ Loading
         this.num3 < this.buynum
       ) {
         this.$toast(this.$t("m.Pricetoolow"));
-
         return;
-
         if (this.num1 > this.num3) {
           this.$toast(this.$t("m.Stoplosstoohigh"));
 

@@ -334,8 +334,6 @@ body {
       display:flex;justify-content:center;margin-top:20px;
       .margins {
       margin-right: .533333rem /* 40/75 */;
-     
-
       }
       h5 {
         color:white;text-align:center;
@@ -357,15 +355,12 @@ body {
   .van-swipe {
     position: static;
   }
-  
   .swiper {
     width: 100%;
   }
     .swiper2 {
     width: 95%;
   }
-
-
   .newguide {
     height: 2.666667rem /* 200/75 */;
     background: #262626;
@@ -410,7 +405,6 @@ body {
   }
   .threeC {
     // border-bottom:2px solid white;
-
   }
   }
   .threeN {
@@ -443,7 +437,7 @@ body {
     background: #36673a
   }
   .backgreenred {
-    background: red;
+    background: #a0332e;
   }
 .app {
   // background: rgba($color: #000000, $alpha:0.5);
@@ -754,12 +748,12 @@ body {
     .home-last1 {
       display: flex;
       justify-content: space-between;
-      font-size: 0.346667rem /* 26/75 */;
+      font-size:14px;
       // color: #333333;
       height: 1.186667rem /* 89/75 */;
       line-height: 1.186667rem /* 89/75 */;
       // border-top: 1px solid #eeeeee;
-      border-bottom: 1px solid #eeeeee;
+      border-bottom: 1px solid #565656;
       // margin-left: 0.32rem /* 24/75 */;
       // margin-right: 0.32rem /* 24/75 */;
       padding-left:1.4rem /* 40/75 */ ;
@@ -773,11 +767,13 @@ body {
       padding-top: 10px;
       padding-bottom: 10px;
           background: #262626;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #565656;
       .home-one {
         display: flex;
+        flex:1;
         .display1 {
           display:flex}
+        
           img {
             width: .8rem /* 60/75 */;
             height: .8rem /* 60/75 */;
@@ -789,40 +785,43 @@ body {
           flex-direction: column;
           
           h3 {
-            font-size: 18px;//嗯
+            font-size: 16px;
             // font-family:sourcehansanscn B;
             color:white;
           }
           span {
-            font-size: 0.266667rem;
-            line-height: 0.533333rem;
+            font-size: 14px;
+   
+            // line-height: 0.533333rem;
             // color: #a7a7a7;
           }
         
         }
         p {
           // color: #a7a7a7;
-          font-size: 0.346667rem /* 26/75 */;
+          font-size: 12px;
+              margin-top: 4px;
           // margin-top: 0.133333rem /* 10/75 */;
           // text-align: center;
           // margin-left:0.266667rem;
         }
       }
       .home-two {
-        width: 1.933333rem /* 70/75 */;
-        text-align: center;
+        width: 35%;
+        text-align: left;
         h3 {
-          font-size: 18px;//嗯
+          font-size: 16px;//嗯
           color:white;
           // font-family: sourcehansanscn B;
         }
         p {
           color: #a7a7a7;
-          font-size: 0.346667rem /* 26/75 */;
+          font-size: 16px;
           margin-top: 0.133333rem /* 10/75 */;
         }
       }
       .home-three {
+        // flex: 1;
         input {
           width: 2.133333rem /* 160/75 */;
           height: 0.866667rem /* 65/75 */;
@@ -830,7 +829,7 @@ body {
           appearance: none;
           border-radius: 4px;
           color: white;
-          font-size: 0.4rem /* 30/75 */;
+          font-size: 16px;
           font-weight: 700;
           // font-family: sourcehansanscn B ;
         }

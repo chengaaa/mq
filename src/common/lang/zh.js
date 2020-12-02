@@ -234,7 +234,50 @@ export const m = {
       Hideto:"立即登录BBOOK8开启交易",
       Yes:"确认",
       Scanning:"扫描二维码",
-      Contact:"联系客服群组" 
+      Contact:"联系客服群组" ,
+      //新的
+
+      Changeui:"切换交易界面",
+      New:"新",
+      Classic:"经典",
+      High:"最高",
+      Low:"最低",
+      Tradenew:"交易",
+      Ordernew:"委托",
+      Positionnew:"持仓",
+      Currencynew:"结算币种",
+      Freebalance:"可用资金(USDT)",
+      Leverage:"实际杠杆",
+      More:"高级设置",
+      Amount:"开仓手数",
+      Contract:"手",
+      Pricenew:"限价",
+      Notset:"未设置",
+      Cancelnew:"撤单",
+      EntrustPrice:"委托价格",
+      EntrustVolume:"委托手数",
+      EntrustValue:"委托价值",
+      DealVolume:"成交手数",
+      Status:"状态",
+      Active:"已挂单",
+      Newdone:"完成",
+      OpenPrice:"开仓均价",
+      PNL:"盈亏",
+      Volumenew:"手数",
+      Closeout:"强平价格",
+      Bond:"保证金",
+      Sltake:"止损/获利",
+      Sharetitle:"全球首家CFD数字资产交易平台",
+      User:"用户",
+      Scan:"扫码下载app",
+      Address:"网址"
+
+
+      
+
+
+
+      
 
 
 

@@ -227,6 +227,7 @@ export default {
     },
     //params开始时间
     startvalue() {
+      console.log(this.newdate,"pppppppppppppppp")
       var data0 = new Date(this.newdate.setHours(new Date().getHours() + this.diftimer));
       this.newdate = getUTCtime(this.newdate);
     },
