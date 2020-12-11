@@ -71,21 +71,18 @@ export default {
     };
   },
   created() {
-    console.log(this.$store.state.arr,"state.arr");
   },
   methods: {
     choose(item) {
       this.params = item;
       window.localStorage.setItem("params",this.params)
       this.isshows = item
-      console.log(item, "choose");
     },
     gos() {
       this.$router.push({
         name: "transaction",
         params: { symbol: this.params }
       });
-      console.log("goo");
     }
   },
   computed: {

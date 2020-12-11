@@ -529,8 +529,6 @@ export default {
   created() {
     this.tokens = localStorage.getItem("token");
     // this.rate();
-    console.log(this.lang, "lang");
-    console.log(window.location, "search");
     this.rate()
     // this.CNY = localStorage.getItem("CNY")
     // this.USD = localStorage.getItem("USD")
@@ -541,12 +539,9 @@ export default {
   },
 
   beforeRouteEnter(to, from, next) {
-    console.log(to);
-    console.log(from);
     if (from.path === "/login") {
       next(vm => {
         vm.tokens = localStorage.getItem("token");
-        console.log(vm.tokens, " this.token ");
         if (vm.tokens) {
           // vm.get();
           vm.getdata3();
@@ -576,7 +571,6 @@ export default {
       }
         for(var i = 0;i <this.List.length; i++) {
         var designations = this.List[i]
-        console.log(store.state.exchangeBTCUSD,"啊啊啊啊啊啊啊啊啊啊啊啊啊啊")
         if(designations.designation === "BTCUSD.") {
          designations.open = store.state.exchangeBTCUSD.open
         } else if(designations.designation === "BCHUSD.") {
@@ -606,7 +600,6 @@ export default {
         designations.open = store.state.exchangeTRXUSD.open
         }
       }
-      console.log(this.List,"this.List")
       return this.List;
     }
   },
@@ -650,10 +643,6 @@ export default {
         this.enpng = data.en
         this.schpng = data.sch
         this.tchpng = data.tch
-        console.log(data,"1")
-        console.log(this.schpng,"2")
-        console.log(this.tchpng,"3")
-         
       })
 
     },
@@ -860,7 +849,6 @@ export default {
     },
     getappinfo() {
       this.$http.get(api.appinfo).then(({data})=>{
-         console.log(data,"你好哈")
          this.ios = data.ios.address
          this.Androids = data.android.address
 

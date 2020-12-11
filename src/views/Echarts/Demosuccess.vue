@@ -168,7 +168,6 @@ export default {
       this.bordername = this.bordername;
       return;
     }
-    console.log(this.$route.params.id, "params");
   },
   mounted() {
     this.getdate();
@@ -195,7 +194,6 @@ export default {
     },
     gobacks() {
       this.$router.go(-1);
-      console.log("go");
     },
     check() {
       this.getdate();
@@ -277,7 +275,6 @@ export default {
         this.starttime = new Date(
           new Date().setMonth(new Date().getMonth() - 60)
         );
-        console.log(this.starttime, "starttime");
       }
 
       this.starttime = new Date(
@@ -321,7 +318,6 @@ export default {
         }
         return result;
       }
-      console.log(result, "resultresult");
     },
 
     initchart() {
@@ -334,8 +330,6 @@ export default {
       function resizeDom(dom) {
         //通过窗体高宽计算容器高宽，渲染echart图表的div的宽高度已达到自适应目的
         dom.style.width = window.innerWidth + "px";
-        console.log(dom.style.width, "1");
-        console.log(dom.style.height, "2");
         dom.style.height = window.innerHeight - 130 + "px";
       }
 
@@ -459,9 +453,6 @@ export default {
          
         ],
       };
-      console.log(this.option.xAxis.data, "o");
-
-      // window.localStorage.setItem("params", this.bordername)
       this.$http
         // .get(
         //   baseURL1 +
@@ -480,19 +471,14 @@ export default {
         })
 
         .then((data) => {
-          console.log(data, "fansil");
           if (data.status === 200) {
             setTimeout(() => {
-              console.log(data, "图标");
               // if (data.code === 0) {
-              console.log(this.lastdata, "888888888888888888888");
               if (this.bordertime != "M1") {
                 data.data.unshift(this.lastdata);
               }
               this.dataArr = data.data;
-              console.log(this.dataArr, "dataArr");
               this.datab = this.dataArr.reverse();
-              console.log(this.datab, "datab");
               var arrall = [];
               this.b = this.datab.map((item) => {
                 var open = Number(item.open).toFixed(2);
@@ -503,7 +489,6 @@ export default {
                 var arr = [open, close, lowest, highest, time];
                 return arr;
               });
-              console.log(data, "图标2");
               this.time = this.b.map(function (item) {
                 return getNowFormatDate(new Date(item[4] * 1000));
               });
@@ -513,14 +498,11 @@ export default {
                 return [+item[0], +item[1], +item[2], +item[3]];
               });
               this.lastTime = this.time[this.time.length - 1];
-              console.log(this.param, "疯了吧");
-              console.log(getNowFormatDate(new Date(1586162580 * 1000)), "0");
               this.option.series[0].markLine.data[0].yAxis = this.param[
                 this.param.length - 1
               ][1];
               this.option.xAxis.data = this.time;
               this.option.series[0].data = this.param;
-              console.log(this.option.series, " this.option.series");
               this.option.series[1].data = this.calculateMA(5, this.param);
               this.option.series[2].data = this.calculateMA(10, this.param);
               this.option.series[3].data = this.calculateMA(20, this.param);
@@ -584,9 +566,7 @@ export default {
   watch: {
     "$store.state.mydata": function (newer, old) {
       this.websokArr = newer;
-      console.log(this.websokArr, " this.websokArr");
       for (var i = 0; i < this.websokArr.length; i++) {
-        console.log(this.bordername, "this.bordername");
         if (this.bordername + "." === this.websokArr[i].symbol) {
           this.time[this.time.length - 1] = getNowFormatDate(
             new Date((this.websokArr[i].time - 60 * 60 * this.diftimer) * 1000)
@@ -596,7 +576,6 @@ export default {
              Number( this.websokArr[i].bid))/
             2
           ).toFixed(3);
-          console.log(close,"aaaaaaaaaaaa")
           this.param[this.param.length - 1][1] =Number(close);
           this.param[this.param.length - 1][0] = Number(this.param[this.param.length - 1][0].toFixed(3));
           if (close < this.param[this.param.length - 1][2]) {
@@ -661,7 +640,6 @@ export default {
         }
         this.option.xAxis.data = this.time;
         this.option.series[0].data = this.param;
-        console.log(this.param, "9999999999999999999999999999");
         this.option.series[0].markLine.data[0].yAxis = this.param[
           this.param.length - 1
         ][1];
@@ -669,15 +647,8 @@ export default {
         this.option.series[2].data = this.calculateMA(10, this.param);
         this.option.series[3].data = this.calculateMA(20, this.param);
         this.option.series[4].data = this.calculateMA(30, this.param);
-        console.log(this.time[this.time.length - 1], "time");
-        console.log(
-          this.option.xAxis.data[this.option.xAxis.data.length - 1],
-          "有点"
-        );
         this.myChart.setOption(this.option);
       }
-      console.log(this.websokArr, "websokArr");
-      console.log(this.dataArr, "this.dataArr");
     },
   },
 };

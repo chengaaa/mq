@@ -54,14 +54,16 @@
        h3 {
             font-size: .453333rem /* 34/75 */;
             font-weight:700;
+            margin-top: 12px;
 
        }
    }
    .imglist {
-       margin-bottom: 1.066667rem /* 80/75 */;
+    //    margin-bottom: 1.066667rem /* 80/75 */;
        img {
            width: 100%;
            height:100%;
+        //    vertical-align: bottom;
        }
    }
 }
@@ -87,6 +89,10 @@ export default {
                {
                   name:"4",
                   url:require("../../assets/images/chongzhi4.png")
+              },
+               {
+                  name:"5",
+                  url:require("../../assets/images/chongzhi5.png")
               },
               
           ],

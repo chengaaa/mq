@@ -802,18 +802,14 @@ export default {
     this.iosimg = window.localStorage.getItem("iosimg")
     this.andimg = window.localStorage.getItem("Androidsimg")
       this.getcustomer()
-    console.log(this.iosimg,"????????")
-    console.log(this.andimg,"????????")
     var da = new Date();
     this.date = this.date.concat(
       da.getFullYear(),
       da.getMonth() + 1,
       da.getDate()
     );
-    console.log(this.date, "现在的日期");
     if (this.tokens) {
       // this.$store.commit("showLoading");
-
       this.getdata();
     } else {
       return;
@@ -855,9 +851,7 @@ export default {
     ...mapMutations(["deleteArr"]),
     ...mapMutations(["deleteorder"]),
     onConfirm(value, index) {
-      console.log("确定吗", value, index);
       if (value === "ENGLISH") {
-        console.log("下来了吗");
         this.$i18n.locale = "en-US";
         localStorage.setItem("lang", "en-US");
         this.she = value;
@@ -892,16 +886,13 @@ export default {
       // this.$router.push({ name: "account",params:{id:this.sh} });
     },
     onChange(picker, value, index) {
-      console.log("buqueding");
     },
     onCancel() {
-      console.log("取消啊");
       this.lang = false;
     },
     getcustomer() {
        this.$http.get(api.social).then(({data})=>{
             this.group = data
-            console.log(data,"data")
         })
 
     },
@@ -926,7 +917,6 @@ export default {
           },
         })
         .then(({ data }) => {
-          console.log(data, "o");
           if (data.mcode === "m0000000") {
             this.$toast(this.$t("m.Modifiedsuccess"));
             this.$router.push("/account");
@@ -961,7 +951,6 @@ export default {
       this.$http
         .get(api.AccountURL)
         .then(({ data }) => {
-          console.log(data);
           if (data.code === 0) {
             // this.$store.commit("hideLoading");
             this.accountList = [];
@@ -977,7 +966,6 @@ export default {
     },
     logout() {
       this.$http.post(api.LogoutURL).then(({ data }) => {
-        console.log(data, "ha");
         if (data.code == 0) {
           // sessionStorage.clear();
           // localStorage.clear();

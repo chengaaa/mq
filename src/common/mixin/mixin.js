@@ -18,8 +18,6 @@ export default {
                 // this.all[i].bid = "0.00"
                 //         this.all[i].bid = data1.bid
                 if (store.state.mydata.length != 0) {
-
-
                     for (var j = 0; j < store.state.mydata.length; j++) {
                         var data0 = this.all[i]
                         var data1 = store.state.mydata[j]
@@ -38,7 +36,6 @@ export default {
                     this.all[i].ask = "0.00";
                     this.all[i].bid = "0.00";
                 }
-
             }
 
             this.setArr(this.all);

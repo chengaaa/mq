@@ -411,12 +411,10 @@ export default {
           })
           // 监听数据返回
           .then(({ data }) => {
-            console.log(data,"是什么")
             // 如果登录成功
             if (data.result == 1) {
               // this.delUser();
               this.userId = data.data.user_id;
-              console.log( this.userId,"id?")
               this.setUser(this.userId);
               this.setUserId(data.data.mt5_account);
               this.setAccountName(data.data.name);
@@ -453,7 +451,6 @@ export default {
         } else {
           this.useremail = "";
         }
-        console.log(data, "ac");
         if (this.accounts) {
           this.data.account = this.accounts.accountId;
           this.setUserId(this.data.account);
@@ -474,7 +471,6 @@ export default {
                   "Bearer" + " " + data.access_token
                 );
                 // this.setToken("Bearer" + " " + data.access_token);
-                console.log(data.access_token);
                 init();
               } else {
                 this.$store.commit("hideLoading");

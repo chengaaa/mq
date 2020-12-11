@@ -5,8 +5,6 @@
       <van-icon id="van-icon" name="arrow-left" color="blue" @click="back" />
       <div class="tab">
         <h3 @click="all" v-show="headerName">{{headerName.slice(0,headerName.indexOf('.'))}}</h3>
-        <!-- <h3 @click="all" v-else>ETHUSD</h3> -->
-        <!-- <h3 @click="all" v-for="header in headerName" :key="header.symbol">{{header.symbol}}</h3> -->
         <i class="iconfont">&#xe60d;</i>
       </div>
     </div>
@@ -46,7 +44,6 @@
         <span @click="priceadd">+</span>
       </div>
     </div>
-
     <div class="transactionplace-d">
       <h6>{{$t('m.StopLoss')}}</h6>
       <div class="flex-1">
@@ -88,7 +85,6 @@
         :cancel-button-text="cancel"
       />
     </van-popup>
-
     <!-- <div class="transactionplace-e" v-for="(item,index) in newdata1" :key="index"> -->
     <div class="transactionplace-e">
       <div v-for="(items,indexs) in dataorder" :key="indexs" class="box">
@@ -140,13 +136,6 @@
   </div>
 </template>
 <style lang="scss" scoped >
-/* // .reds {
-// background: red;
-// }
-// .blues {
-// background: blue;
-
-// } */
 .colorred {
     color:red;
 }
@@ -232,16 +221,12 @@
       height: 1.333333rem /* 100/75 */;
 
       line-height: 1.333333rem /* 100/75 */;
-      // background: red;
-      // margin-bottom: .266667rem /* 20/75 */;
       border-top: 1px solid #c5c5c5;
     }
     .active {
       border-bottom: 1px solid #c5c5c5;
       height: 1.333333rem /* 100/75 */;
       line-height: 1.333333rem /* 100/75 */;
-      // background: red;
-      // margin-bottom: .266667rem /* 20/75 */;
       border-top: 1px solid #c5c5c5;
     }
   }
@@ -274,11 +259,8 @@
     font-size:.426667rem /* 32/75 */;
     border-bottom: 1px solid #c9c9cb;
      font-family: 'Tahoma','Sans Serif';
-
     h6 {
       width: 4rem /* 300/75 */;
-  
-
     }
     .flex-1 {
       flex: 1;
@@ -291,33 +273,26 @@
         line-height: 0.666667rem /* 50/75 */;
         text-align: center;
     font-size:.373333rem /* 28/75 */;
-
       }
     }
     span {
       width: 1.466667rem /* 110/75 */;
       height: 0.866667rem /* 65/75 */;
       line-height: 0.733333rem /* 55/75 */;
-      // background: blue;
       font-size: .8rem /* 60/75 */;
       text-align: center;
       color: #397aff;
-    
       border: 1.3px solid #397aff;
     }
     .border {
-      // border-right: none;
     }
   }
-
   .transactionplace-e {
     .box {
       display: flex;
       justify-content: space-around;
       font-size: 0.666667rem /* 50/75 */;
-    //   color: blue;
      font-family: 'HelveticaNeueLT-Pro-57-Cn','Sans Serif';
-
       .math {
         display: flex;
         line-height: 1.066667rem /* 80/75 */;
@@ -326,7 +301,6 @@
         }
         span {
           font-size: .773333rem /* 58/75 */;
-
         }
         h6 {
           font-size: 0.48rem /* 36/75 */;
@@ -347,7 +321,6 @@
       width: 50%;
       height: 1.2rem /* 90/75 */;
       line-height: 1.2rem /* 90/75 */;
-      // background: red;
       text-align: center;
       font-size: 0.466667rem /* 35/75 */;
     }
@@ -356,7 +329,6 @@
       height: 1.2rem /* 90/75 */;
       line-height: 1.2rem /* 90/75 */;
       text-align: center;
-      // background: blue;
       font-size: 0.466667rem /* 35/75 */;
     }
   }
@@ -495,7 +467,6 @@ export default {
   created() {
       this.headerName = window.localStorage.getItem("params");
     this.getarr();
-    console.log(localStorage.getItem("balance"),"balance")
   },
   components:{
 Loading
@@ -528,10 +499,7 @@ Loading
     getcontractSize() {
       for (let i = 0; i < this.newdata1.length; i++) {
         if (this.headerName === this.newdata1[i].symbolName) {
-          console.log(this.headerName, this.newdata1[i].symbolName);
-          console.log(this.newdata1[i], "this.newdata1[]i");
           this.contractSize = this.newdata1[i].contractSize;
-          console.log(this.contractSize, "this.contractSize ");
         }
       }
     },
@@ -539,11 +507,10 @@ Loading
       this.$router.push("/transaction-placeall");
     },
     back() {
-      this.$router.push("/transaction"),
+      this.$router.push("/transaction")
         //   params: { symbol: this.headerName }
         // });
         // this.$router.go(-1)
-        console.log("go");
     },
     show() {
       this.isShow = !this.isShow;
@@ -554,8 +521,6 @@ Loading
       this.term = false;
     },
     select(item, index) {
-      console.log(item);
-      console.log(index);
       this.unitModel = index;
       this.unitName = item.name;
       this.OrderType = item.OrderType;
@@ -565,7 +530,6 @@ Loading
       this.order = true;
       this.term = true;
       this.orderDirection = item.orderDirection;
-      console.log(this.unitName);
     },
     reduce() {
       this.num = (JSON.parse(this.num) - 0.1).toFixed(2);
@@ -583,7 +547,6 @@ Loading
       document.getElementById("number2").value = this.num * this.contractSize;
     },
     add() {
-      console.log(this.num);
       this.num = (JSON.parse(this.num) + 0.01).toFixed(2);
       document.getElementById("number2").value = this.num * this.contractSize;
     },
@@ -591,7 +554,6 @@ Loading
       this.num = (JSON.parse(this.num) + 0.1).toFixed(2);
       document.getElementById("number2").value = this.num * this.contractSize;
 
-      console.log(this.num);
     },
     numreduce() {
       if (this.num1 === 0) {
@@ -609,11 +571,9 @@ Loading
     numadd() {
       //   this.num1 += 0.1;
       this.num1 = (JSON.parse(this.num1) + 0.1).toFixed(2);
-      console.log(this.num1, "shzi");
       document.getElementById("number2").value = this.num * this.contractSize;
     },
     jianshao() {
-      console.log(this.num2);
       if (this.num2 === 0) {
         return;
       } else {
@@ -630,10 +590,6 @@ Loading
       //   this.num2 += 0.1;
       this.num2 = (JSON.parse(this.num2) + 0.1).toFixed(2);
       document.getElementById("number2").value = this.num * this.contractSize;
-
-      console.log(this.$route.params, "采纳数");
-      console.log(this.num);
-      //   console.log(headerName(), "采纳数");
     },
     price() {
       // this.num3 -= 0.1;
@@ -650,13 +606,9 @@ Loading
     getarr() {
       this.newdata1 = this.$store.state.arr;
       for(var i = 0; i < this.newdata1.length; i++) {
-        console.log(this.newdata1[i], "0000000000000");
         if(this.headerName === this.newdata1[i].symbolName ){
           this.num3 = this.newdata1[i].ask
-
         }
-
-        console.log( this.holder)
       }
     },
     getnewName() {
@@ -687,9 +639,6 @@ Loading
       //   }
     },
     sell() {
-
-      console.log("sell");
-      console.log(this.sellnum, this.buynum,"kankan");
       // if(Number(this.balances) < Number(this.sellnum)) {
       //   this.$toast("余额不足");
       //   return
@@ -728,16 +677,12 @@ Loading
         });
     },
     buy() {
-      console.log(Number(this.balances), Number(this.buynum),"yuebuzu");
-
       // if(Number(this.balances) < Number(this.buynum) || this.balances=== 0) {
       //   this.$toast("余额不足");
       //   return
 
       // }
       if (this.num1 > this.buynum) {
-        console.log(this.num1,"this.num1")
-        console.log(this.buynum,"this.buynum")
         this.$toast(this.$t("m.Stoplosstoolow"));
         return;
       }
@@ -777,11 +722,9 @@ Loading
       this.showPicker = false;
 
       this.value = value;
-      console.log(this.value);
       if (this.value === this.$t("m.Untilcancelled")) {
         this.OrderDuration = 0;
         this.expirationDate = "";
-        console.log(this.OrderDuration, "88888");
       } else if (this.value === this.$t("m.Today")) {
         this.OrderDuration = 2;
           if(isDayLightSaving(new Date())) {
@@ -795,11 +738,9 @@ Loading
       } else {
         this.datePicker = true;
         this.OrderDuration = 2;
-        console.log(this.OrderDuration, "88888");
       }
     },
     placeorder() {
-      console.log(this.num3,"placeorder");
       if (this.num3 === null || "") {
         this.$toast(this.$t("m.Pleaseenterprice"));
         return;
@@ -835,9 +776,7 @@ Loading
         this.unitName === "Buy Limit" &&
         this.num3 > this.buynum
       ) {
-        console.log("hhhhhh");
         this.$toast(this.$t("m.Pricetoohigh"));
-
         return;
 
         if (this.num1 > this.num3) {
@@ -920,7 +859,6 @@ Loading
             this.$toast(this.$t("m.Placeorderfailed"));
 
           }
-          console.log(data);
         });
     },
     onCon(value) {

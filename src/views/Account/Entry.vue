@@ -108,7 +108,6 @@ export default {
       this.$router.push("/account");
     },
     next() {
-      console.log(this.num)
       if(this.num != '' && this.num >= 0.01) {
         this.$router.push({name:"entrys",params:{id:this.num}})
       } else {
@@ -122,7 +121,6 @@ export default {
         this.show = false
 
       }
-      console.log(this.num)
     }
   }
 };

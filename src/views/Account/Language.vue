@@ -104,7 +104,6 @@ export default {
       this.show = "繁體";
 
     }
-    console.log(this.show,this.sh,"show")
   },
   methods: {
     ...mapMutations(["setActions"]),

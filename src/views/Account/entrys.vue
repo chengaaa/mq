@@ -97,7 +97,7 @@
 </style>
 <style lang="scss" scoped>
 .entry {
-  background: #1e1e1e;
+  background: #262626;
   position: fixed;
   top: 0;
   left: 0;
@@ -186,7 +186,7 @@
       height: 1.226667rem /* 92/75 */;
       border: 1px solid #367ce5;
       color: #367ce5;
-      background: #1e1e1e;
+      background: #262626;
       font-size: 0.4rem /* 30/75 */;
       border-radius: 3px;
     }
@@ -277,7 +277,6 @@ export default {
  var rand =  this.getRandomInt(0.01,0.5)
 //  this.depositAmount =Number(this.$route.params.id)
 this.depositAmount =Number((Number(this.$route.params.id) + Number(rand)).toFixed(2))
-  console.log(this.depositAmount,"this.depositAmount")
   },
   methods: {
     onCancel() {

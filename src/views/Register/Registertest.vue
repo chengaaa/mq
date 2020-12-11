@@ -417,7 +417,6 @@ export default {
     },
 
     handleClick() {
-      console.log("0");
       var username = document.getElementById("username").value;
       var code = document.getElementById("code").value;
       var phoneNumberReg = /^[1]{1}[3|5|7|8]{1}\d{9}$/;
@@ -429,7 +428,6 @@ export default {
             phone: this.data.registerName
           })
           .then(({ data }) => {
-            console.log(data, "data");
             if (data.mcode === "m0000000") {
               this.$toast(this.$t("m.Codesent"));
             } else if (data.mcode === "PUB_AUTH_0000008") {
@@ -454,7 +452,6 @@ export default {
             phone: ""
           })
           .then(({ data }) => {
-            console.log(data, "data");
             if (data.mcode === "m0000000") {
               this.$toast(this.$t("m.Codesent"));
             } else if (data.mcode === "PUB_AUTH_0000008") {
@@ -473,7 +470,6 @@ export default {
             this.Verification = true; //60s时间结束还原v-show状态并清除定时器
            this.timer = 60
             clearInterval(auth_timer);
-            console.log(this.timer,"多少")
           }
         }, 1000);
       } else if(this.a === true){
@@ -493,7 +489,6 @@ export default {
         this.$http
           .get(api.referralcode, { params: { code: this.datas.referral_code } })
           .then(({ data }) => {
-            console.log(data, "789123");
             if (data.result === 1) {
               this.open2();
             } else if (data.result === 0) {
@@ -530,7 +525,6 @@ export default {
             }
           })
           .then(({ data }) => {
-            console.log(data, "000000");
             if (data.mcode === "m0000000") {
               this.$toast(this.$t("m.Registrationsuccess"));
               this.$router.push("/login");

@@ -113,7 +113,7 @@
   color: red;
   padding-top:0.266667rem;
   font-size: 13px;
-      background: #1e1e1e;
+      background: #262626;
 
 }
 .back {
@@ -134,7 +134,7 @@
     height: 1.173333rem /* 88/75 */;
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
-    background:#1e1e1e;
+    background:#262626;
     border-bottom: 1px solid #565656;
     h2 {
       flex: 1;
@@ -155,7 +155,7 @@
     align-items: center;
     padding-left: 0.32rem /* 24/75 */;
     padding-right: 0.32rem /* 24/75 */;
-    background:#1e1e1e;
+    background:#262626;
     h5 {
       font-size: 0.426667rem /* 32/75 */;
           color: white;
@@ -169,7 +169,7 @@
         width: 80%;
          font-size: 0.4rem /* 30/75 */;
       color: #666666;
-    background:#1e1e1e;
+    background:#262626;
 
     }
     ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -185,9 +185,9 @@
   .blance {
       width: 100%;
       height:1.333333rem /* 100/75 */;
-      background: #1e1e1e;
+      background: #2d2e2a;
       display: flex;
-      padding-top: .266667rem /* 20/75 */;
+      // padding-top: .266667rem /* 20/75 */;
      
       p {
           font-size: .32rem /* 24/75 */;
@@ -202,7 +202,7 @@
   }
   .border1 {
       padding-top: 0.8rem;
-      background: #1e1e1e ;
+      background: #262626 ;
   .button {
       padding-left: .32rem /* 24/75 */;
       padding-right: .32rem /* 24/75 */;
@@ -317,7 +317,6 @@ export default {
       } else if (item.name === "USDT-ERC20") {
         this.chain = "USDT-ERC20";
       }
-      console.log(item);
     },
     sheet() {
       this.show = true;
@@ -333,7 +332,6 @@ export default {
       }
     },
     apply() {
-      console.log("99999")
           if(this.orderSn === "" || this.Amountmoney === "") {
         return
       } 
@@ -350,7 +348,6 @@ export default {
          this.userId = this.$store.state.user;
         this.login = this.$store.state.userId;
         this.bankAccountName = this.$store.state.accountName;
-        console.log(this.userId, this.login, this.bankAccountName);
         this.$http
           .post(api.WithdrawURL, {
             userId: this.userId,
@@ -365,7 +362,6 @@ export default {
           })
           .then(({ data }) => {
     this.$store.commit("hideLoading");
-            console.log(data, "aaa");
             this.tip = false
             if (data.mcode === "m0000000") {
             this.$toast(this.$toast(this.$t("m.Submitted")));

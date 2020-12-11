@@ -58,10 +58,8 @@ export default {
     ...mapMutations(["setArr"]),
     go() {
       this.$router.push({ name: "quotation" });
-      console.log("go");
     },
     detail(symbolName) {
-      console.log()
     },
     back() {
       this.refs.child.navback();

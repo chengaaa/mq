@@ -1001,8 +1001,6 @@ export default {
   created() {
     this.tokens = localStorage.getItem("token");
     // this.rate();
-    console.log(this.lang, "lang");
-    console.log(window.location, "search");
     this.rate()
     // this.CNY = localStorage.getItem("CNY")
     // this.USD = localStorage.getItem("USD")
@@ -1015,12 +1013,9 @@ export default {
   },
 
   beforeRouteEnter(to, from, next) {
-    console.log(to);
-    console.log(from);
     if (from.path === "/login") {
       next(vm => {
         vm.tokens = localStorage.getItem("token");
-        console.log(vm.tokens, " this.token ");
         if (vm.tokens) {
           // vm.get();
           vm.getdata3();
@@ -1079,7 +1074,6 @@ export default {
         designations.open = store.state.exchangeTRXUSD.open
         }
       }
-      console.log(this.List,"this.List")
       return this.List;
     }
   },
@@ -1133,7 +1127,6 @@ export default {
       getcustomer() {
        this.$http.get(api.social).then(({data})=>{
             this.group = data
-            console.log(data,"data")
         })
 
     },
@@ -1153,16 +1146,11 @@ export default {
         this.smallschpng2 = data.small[1]
         this.smallschpng3 = data.small[2]
         this.smallschpng4 = data.small[3]
-        console.log(data,"1")
-        console.log(this.schpng,"2")
-        console.log(this.tchpng,"3")
-         
       })
 
     },
     getnotice() {
   this.$http.get(api.notice).then(({data})=>{
-    console.log(data,"??????")
     this.announcement = data.announcement[0]
 
   })
@@ -1244,7 +1232,6 @@ export default {
       this.$http.get(api.MarketURL).then(({ data }) => {
         this.all = data.data;
         for(var i =0;i <this.all.length;i++) {
-        console.log(this.all[i],"this.all")
  if(this.all[i].symbolName === "ETHUSD.") {
            this.all[i].img = require("../../assets/images/icon_eth.png")
         } if(this.all[i].symbolName === "BTCUSD.") {
@@ -1387,7 +1374,6 @@ export default {
     },
     getappinfo() {
       this.$http.get(api.appinfo).then(({data})=>{
-         console.log(data,"你好哈")
          this.ios = data.ios.address
          this.Androids = data.android.address
           window.localStorage.setItem("iosimg", data.ios.qr)
@@ -1401,7 +1387,6 @@ export default {
   watch: {
     "$store.state.mydata2": function(newer2, old2) {
       this.homeList = newer2;
-      console.log(this.homeList,"this.homeList")
     }
   }
 };

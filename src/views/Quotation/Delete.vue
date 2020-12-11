@@ -68,14 +68,11 @@ export default {
   },
   methods: {
     get() {
-      console.log(store.state.arr);
       this.deleteArr = JSON.parse(JSON.stringify(store.state.arr));
-      console.log(this.deleteArr, "第一个数组");
     },
 
     deletea(index) {
        this.deleteArr.splice(index,1)
-     console.log(this.deleteArr,"777")
     }
   }
 };

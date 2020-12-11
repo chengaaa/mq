@@ -6,14 +6,10 @@
     <div class="transaction" v-show="istransaction == 'classic'">
       <div>
         <div class="transaction-A" :class="tit < 0 ? red : blue">
-          <!-- <h3 v-for="(items,index) in gettitle">{{items}}</h3> -->
-          <!-- <h3>{{tit?tit.toFixed(2):}} USD</h3> -->
-          <!-- <h3 v-else>0.00 USD</h3> -->
           <h3 v-if="this.tit">{{ tit.toFixed(2) }}</h3>
           <h3 v-else>00.00</h3>
           <span>
             <img src="../../assets/add.jpg" alt @click="transaction" />
-            <!-- <i class="iconfont" @click="transaction">&#xe644;</i> -->
           </span>
         </div>
         <div v-show="hal">
@@ -32,7 +28,6 @@
             </div>
             <div class="transaction-B1">
               <p>{{ $t("m.Freemargin") }}</p>
-
               <span>0.00</span>
             </div>
             <div class="transaction-B1">
@@ -252,10 +247,6 @@
                   </div>
                 </div>
                 <div class="right1">
-                  <!-- <div class="a">
-                <p>{{$t('m.Price')}}</p>
-                <span>-</span>
-              </div>-->
                   <div class="a">
                     <p>{{ $t("m.Date") }}</p>
                     <span v-show="item.orderDuration === 0">-</span>
@@ -269,7 +260,6 @@
                   <div class="a">
                     <p>{{ $t("m.Time") }}</p>
                     <span v-show="item.orderDuration === 0">-</span>
-
                     <span v-show="item.orderDuration === 2">{{
                       item.expirationDate1.slice(
                         item.expirationDate1.indexOf(" ")
@@ -322,8 +312,6 @@
                   {{ headerName.slice(0, 3) }}
                 </h3>
                 <span>/USDT</span>
-                <!-- <h3 @click="all" v-else>ETHUSD</h3> -->
-                <!-- <h3 @click="all" v-for="header in headerName" :key="header.symbol">{{header.symbol}}</h3> -->
               </div>
               <h3 class="tab-b" v-show="headerName === 'BTCUSD.'">
                 {{ $t("m.BTC") }}
@@ -336,7 +324,6 @@
               </h3>
             </div>
           </div>
-
           <div class="transactionplace-e">
             <div
               v-for="(items, indexs) in dataorder2"
@@ -396,8 +383,6 @@
           <div class="one-a">
             <div class="set" @click="set">
               <h5>{{$t('m.More')}}</h5>
-              <!-- <i class="iconfont" style="transform:rotate(180deg);position: relative;top: -30px;left: 13px" v-if="setting">&#xe635;</i> -->
-              <!-- <i class="iconfont" style="position: relative;top: 2px;left: 13px" v-if="!setting">&#xe635;</i> -->
               <img class="rotate" v-if="!setting" src="../../assets/images/down_white@2x.png" alt="">
               <img  v-if="setting" src="../../assets/images/down_white@2x.png" alt="">
             </div>
@@ -528,7 +513,6 @@
           </div>
         </div>
       </div>
-
       <div class="modify-Mask" v-show="two && modify">
         <div class="modify">
           <div class="display-A modify-a">
@@ -545,7 +529,6 @@
           </div>
         </div>
       </div>
-
       <div v-show="three" class="position">
         <div
           class="position-A"
@@ -589,7 +572,6 @@
               <p :class="items.pnl < 0 ? 'pnlcolor2' : 'pnlcolor1'" v-else>
                 {{ items.pnl > 0 ? "+" + items.pnl : items.pnl }}USDT
               </p>
-                
               <!-- <p :class="items.pnl > 0?'pnlcolor1':'pnlcolor2'">{{ items.pnl > 0?'+'+ items.pnl:items.pnl }} USDT</p> -->
             </div>
           </div>
@@ -624,9 +606,6 @@
               <h5>{{$t('m.Swap')}}</h5>
             </div>
             <div>
-              <!-- <p v-show="items.orderDirection === 1">{{ Number(items.openPrice)  + Number( (0.3*balancerem-(Number(items.openPrice * ( (items.volume * items.contractSize ) / 20)).toFixed(2)) ) / (items.volume* items.contractSize))}}</p> -->
-              <!-- <p v-show="items.orderDirection === -1">{{Number(items.openPrice)  - Number( (0.3*balancerem-marginrem)  / (items.volume* items.contractSize))}}</p> -->
-              <!-- <p>{{Number(items.openPrice * ( (items.volume * items.contractSize ) / 20)).toFixed(2)}}</p> -->
               <p v-if="isNaN(items.force) == false">≈{{ items.force }}</p>
               <p v-else>≈0.00</p>
               <p v-if="isNaN(items.bond) === false">{{ items.bond }}</p>
@@ -728,8 +707,6 @@
     }
     .transaction-A {
       width: 100%;
-      //    height:1.333333rem /* 100/75 */;
-      // background: #127df6;
       display: flex;
       color: #fff;
       position: fixed;
@@ -740,7 +717,6 @@
         text-align: center;
         font-family: " Sans Serif";
         font-size: 30px;
-        // font-weight: 700;
       }
       span {
         width: 0.933333rem /* 70/75 */;
@@ -749,7 +725,6 @@
       }
     }
     .transaction-B {
-      // height: 3.733333rem /* 280/75 */;
       background: white;
       font-size: 0.426667rem /* 32/75 */;
       line-height: 0.6rem /* 45/75 */;
@@ -767,7 +742,6 @@
         line-height: 1.066667rem /* 80/75 */;
         p,
         span {
-          // font-family: 'HelveticaNeueLT-Pro-57-Cn Sans Serif';
           color: #666;
           font-weight: 700;
           font-size: 17px;
@@ -776,7 +750,6 @@
           font-size: 19px;
           color: #000000;
           font-weight: 700;
-          // font-family: 'HelveticaNeueLT-Pro-57-Cn';
         }
       }
     }
@@ -813,7 +786,6 @@
       .red {
         color: #e54440;
       }
-      // height: 400px;
       background: white;
       .transaction-D1 {
         padding: 0.106667rem /* 8/75 */ 0.293333rem /* 22/75 */;
@@ -822,7 +794,6 @@
             border-bottom: none;
           }
         }
-
         .top {
           display: flex;
           font-size: 0.4rem /* 30/75 */;
@@ -844,11 +815,9 @@
               span {
                 font-size: 20px;
                 font-weight: 700;
-                // color:blue;
               }
             }
             p {
-              // font-size: 0.4rem /* 30/75 */;
               font-weight: 500;
             }
             .openPrice {
@@ -864,7 +833,6 @@
             span {
               font-size: 20px;
               font-weight: 600;
-              // color: #e54440;
             }
           }
         }
@@ -909,12 +877,10 @@
       .red {
         color: #e54440;
       }
-      // height: 400px;
       background: white;
       div:last-child {
         .top {
           border-bottom: none;
-          // background: red;
         }
       }
       .top {
@@ -937,7 +903,6 @@
             span {
               font-size: 20px;
               font-weight: 700;
-              // color:blue;
             }
           }
           p {
@@ -953,7 +918,6 @@
           span {
             font-size: 20px;
             font-weight: 600;
-            // color: #127df6;
           }
         }
       }
@@ -1029,7 +993,6 @@
         text-align: center;
         img {
           width: 4rem /* 300/75 */;
-          // height: .8rem /* 60/75 */;
           margin: 0 auto;
           position: relative;
           top: 50%;
@@ -1291,8 +1254,6 @@
       }
       img {
         height: 30px;
-        // position: relative;
-        // top: 10px;
       }
       span {
         font-size: 16px;
@@ -1306,8 +1267,6 @@
         margin-bottom: 14px;
       }
       .entrust-B {
-        // display: flex;
-        // justify-content: space-between;
         padding: 20px 15px;
         border: 1px solid rgba(89, 89, 89);
         background: #2c2d28;
@@ -1315,14 +1274,6 @@
           display: flex;
           align-items: center;
           p {
-            // border: 1px solid #4877f9;
-            // width: 55px;
-            // height: 30px;
-            // line-height: 30px;
-            // text-align: center;
-            // font-size: 18px;
-            // color: #4877f9;
-            // margin-left: 10px;
           }
           h3 {
             font-size: 14px;
@@ -1333,7 +1284,6 @@
         padding-top: 40px;
         padding-bottom: 40px;
         background: #2c2d28;
-        // margin-bottom: 40px;
         div {
           text-align: center;
           font-size: 14px;
@@ -1346,8 +1296,6 @@
       .entrust-D {
         padding-bottom: 40px;
         background: #2c2d28;
-         
-
         div {
           text-align: center;
           font-size: 14px;
@@ -1362,7 +1310,6 @@
             margin-bottom: 10px;
           }
         }
-        
       }
     }
     .modify-Mask {
@@ -1382,7 +1329,6 @@
         padding-bottom: 30px;
         color: #c9c9c9;
         font-size: 16px;
-
         .modify-a {
           align-items: center;
           margin-bottom: 15px;
@@ -1395,7 +1341,6 @@
         }
         .modify-b {
           margin-top: 30px;
-
           p,
           span {
             background: #ee7a7b;
@@ -1408,7 +1353,6 @@
         }
       }
     }
-
     .position {
       color: white;
       .position-A {
@@ -1458,7 +1402,6 @@
           padding-left: 15px;
           padding-right: 15px;
           border-top: 1px solid rgba(89, 89, 89);
-
           div {
             h5 {
               font-size: 14px;
@@ -1496,8 +1439,6 @@
     background: #127df6;
   }
   .colorred {
-    //  :class="item.ask < num1? 'colorred':'colorblue'"
-    // :class="item.bid < num2? 'colorred':'colorblue'"
     color: #a0332e;
   }
   .colorblue {
@@ -1632,7 +1573,6 @@ export default {
   mounted() {},
   brforeUpdate() {},
   activated() {
-    console.log("激活了");
     this.$nextTick(() => {
       this.get();
       this.getaccount();
@@ -1807,7 +1747,6 @@ export default {
     dataorder2: function () {
       for (let j = 0; j < this.newdata1.length; j++) {
         var data4 = this.newdata1[j];
-        console.log(data4,"data4data4data4")
         if (data4.symbolName == this.headerName) {
           this.asknum = data4.ask;
           this.bidnum = data4.bid;
@@ -1833,67 +1772,25 @@ export default {
             if (data4.symbolName === "BTCUSD.") {
               if (store.state.exchangeBTCUSD) {
                 data4.max = store.state.exchangeBTCUSD.high;
-                // if (data4.ask > store.state.exchangeBTCUSD.high) {
-                //   store.state.exchangeBTCUSD.high = data4.ask;
-                //   store.state.arr[i].max = store.state.exchangeBTCUSD.high;
-                // }
               }
-              // else {
-              //   store.state.arr[i].max = "0.00";
-              // }
               if (store.state.exchangeBTCUSD) {
                 data4.low = store.state.exchangeBTCUSD.low;
-                // if (store.state.arr[i].bid < store.state.exchangeBTCUSD.low) {
-                //   store.state.exchangeBTCUSD.low = store.state.arr[i].bid;
-                //   store.state.arr[i].low = store.state.exchangeBTCUSD.low;
-                // }
               }
-              //  else {
-              //   store.state.arr[i].low = "0.00";
-              // }
               console.log(store.state.arr, "store.state.arr");
             } else if (data4.symbolName === "ETHUSD.") {
               if (store.state.exchangeETHUSD) {
                 data4.max = store.state.exchangeETHUSD.high;
-                // if (store.state.arr[i].ask > store.state.exchangeETHUSD.high) {
-                //   store.state.exchangeETHUSD.high = store.state.arr[i].ask;
-                //   store.state.arr[i].max = store.state.exchangeETHUSD.high;
-                // }
               }
-              // else {
-              //   store.state.arr[i].max = "0.00";
-              // }
               if (store.state.exchangeETHUSD) {
                 data4.low = store.state.exchangeETHUSD.low;
-                // if (store.state.arr[i].bid < store.state.exchangeETHUSD.low) {
-                //   store.state.exchangeETHUSD.low = store.state.arr[i].bid;
-                //   store.state.arr[i].low = store.state.exchangeETHUSD.low;
-                // }
               }
-              //  else {
-              //   store.state.arr[i].low = "0.00";
-              // }
             } else if (data4.symbolName === "BCHUSD.") {
               if (store.state.exchangeBCHUSD) {
                 data4.max = store.state.exchangeBCHUSD.high;
-                // if (store.state.arr[i].ask > store.state.exchangeBCHUSD.high) {
-                //   store.state.exchangeBCHUSD.high = store.state.arr[i].ask;
-                //   store.state.arr[i].max = store.state.exchangeBCHUSD.high;
-                // }
               }
-              //  else {
-              //   store.state.arr[i].max = "0.00";
-              // }
               if (store.state.exchangeBCHUSD) {
                 data4.low = store.state.exchangeBCHUSD.low;
-                // if (store.state.arr[i].bid < store.state.exchangeBCHUSD.low) {
-                //   store.state.exchangeBCHUSD.low = store.state.arr[i].bid;
-                //   store.state.arr[i].low = store.state.exchangeBCHUSD.low;
-                // }
               }
-              // else {
-              //   store.state.arr[i].low = "0.00";
-              // }
             }
           }
         }
@@ -1913,9 +1810,6 @@ export default {
         this.accountList = [data.data];
         this.balancerem = this.accountList[0].balance;
         // this.marginrem = this.accountList[0].margin
-        console.log(this.balancerem, "balance");
-        console.log(this.marginrem, "margin");
-        console.log(this.accountList, "000");
       });
     },
     get() {
@@ -1923,7 +1817,6 @@ export default {
       this.addallList = store.state.arr;
       this.contractsList = store.state.contractsLists;
       console.log(this.contractsList, "还有几个");
-      // console.log(this.addallList, "addallList");
       this.getnewArr();
     },
     getnewArr() {

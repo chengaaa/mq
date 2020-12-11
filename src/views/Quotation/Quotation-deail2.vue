@@ -531,8 +531,6 @@ export default {
   created() {
     this.p();
     // this.get();
-    console.log(store.state.symbolArr, "什么什么？");
-    console.log(store.state.openArr, "哈哈哈？？？");
   },
   mounted() {
     this.$nextTick(() => {
@@ -553,7 +551,6 @@ export default {
             if (data1.symbolName == data2.symbol) {
               data1.ask = data2.ask;
               data1.bid = data2.bid;
-              console.log(data2, "data2");
               data1.time = moment(Date.now(data2.time)).format("HH:mm:ss");
             }
           }
@@ -623,7 +620,6 @@ export default {
             } else {
               store.state.arr[i].low = "0.00";
             }
-            console.log(store.state.arr, "store.state.arr");
           } else if (store.state.arr[i].symbolName === "ETHUSD.") {
             if (store.state.exchangeETHUSD) {
               store.state.arr[i].max = store.state.exchangeETHUSD.high;
@@ -668,7 +664,6 @@ export default {
       store.state.arr[0].designationchinese = this.$t("m.BCH");
       store.state.arr[1].designationchinese = this.$t("m.ETH");
       store.state.arr[2].designationchinese = this.$t("m.BTC");
-      console.log(store.state.arr, "store.state.arr");
       return store.state.arr;
     },
     symbolArr: function () {
@@ -700,7 +695,6 @@ export default {
       store.state.symbolArr[4].designationchinese = this.$t("m.LINK");
       store.state.symbolArr[5].designationchinese = this.$t("m.TRX");
       store.state.symbolArr[6].designationchinese = this.$t("m.BSV");
-      console.log(store.state.symbolArr, "store.state.symbolArr");
       return store.state.symbolArr;
     },
   },
@@ -722,14 +716,12 @@ export default {
       this.$router.push({ path: "/priceAdd" });
     },
     p() {
-      console.log(store.state.arr);
     },
 
     onSelect(item) {
       // 默认情况下，点击选项时不会自动关闭菜单
       // 可以通过 close-on-click-action 属性开启自动关闭
       this.show = false;
-      console.log(item);
       if (item.name === this.$t("m.Transaction")) {
         this.$router.push("/transaction-place");
       } else if (item.name === this.$t("m.Detailed")) {
@@ -750,7 +742,6 @@ export default {
 
     getuserId() {
       this.userid = store.state.userId;
-      console.log(this.userid, " this.userid");
     },
   },
   watch: {
@@ -760,7 +751,6 @@ export default {
     },
     "$store.state.mydata2": function (newer2, old2) {
       this.newMydata2 = newer2;
-      console.log(this.newMydata2, "this.newMydata2");
     },
   },
 };

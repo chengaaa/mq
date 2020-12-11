@@ -158,14 +158,11 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params);
-    console.log(this.newdate, "123");
     this.getdiftime()
   },
   methods: {
     showdata(picker) {
       this.datePicker = picker;
-      console.log(this.datePicker);
       if (this.datePicker === "start") {
         this.show = true;
       } else if (this.datePicker === "end") this.show1 = true;
@@ -227,7 +224,6 @@ export default {
     },
     //params开始时间
     startvalue() {
-      console.log(this.newdate,"pppppppppppppppp")
       var data0 = new Date(this.newdate.setHours(new Date().getHours() + this.diftimer));
       this.newdate = getUTCtime(this.newdate);
     },
@@ -243,7 +239,6 @@ export default {
         " " +
         this.value1.toTimeString().substring(0, 9);
       this.value1 = a.split("/").join(".");
-      console.log(this.value1);
     },
     //结束时间
     val2() {
@@ -255,7 +250,6 @@ export default {
     },
     choose(item) {
       this.ischoose = item.last;
-      console.log(item)
        if (item.last === "m.Lastday") {
         this.getDaydate();
          this.StartEnd = false
@@ -321,8 +315,6 @@ export default {
         name: "history",
         params: { begin: this.newdate, end: this.enddate }
       });
-      console.log("back");
-      console.log(this.newdate);
     }
   },
 };

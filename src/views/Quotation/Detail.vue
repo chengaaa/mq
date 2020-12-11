@@ -155,7 +155,6 @@ export default {
   },
   created() {
     this.list = store.state.arr;
-    console.log(this.list,"deail");
     this.listName = this.$route.params.id;
   }
 };

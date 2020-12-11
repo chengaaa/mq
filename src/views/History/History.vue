@@ -566,7 +566,6 @@ export default {
       var date1 = new Date(new Date().setHours(new Date().getHours() + this.diftimer));
     //  var data1 =  new Date() + this.difference
       this.date = getUTCtime(date1);
-      console.log(date1,this.date,this.diftimer,"噢噢噢噢哦哦哦哦哦哦")
     },
     //  getdate() {
     //   //结束时间
@@ -608,10 +607,8 @@ export default {
         }
         this.arrList[i].dateTime = 
           new Date(this.arrList[i].dateTime).getTime()
-        console.log(this.arrList[i].dateTime,"嗯")
          this.arrList[i].dateTime = (this.arrList[i].dateTime) - this.diftimer *60*60*1000 ;
          this.arrList[i].dateTime = new Date(this.arrList[i].dateTime)
-         console.log(this.arrList[i].dateTime,"傻逼")
         this.arrList[i].dateTime = moment(this.arrList[i].dateTime)
         //   // .subtract(this.diftimer, "h")
           .format();
@@ -650,14 +647,12 @@ export default {
             this.dealList = data.data;
             this.dealListreg();
             this.splices();
-            console.log(this.dealList, "this.dealList");
             this.executionsList();
           }
         })
         .catch(error => {
           if (error.status === 403) {
             this.$router.push("/apply");
-            console.log("/");
           }
         });
     },

@@ -69,7 +69,6 @@ export default {
   },
   created() {
      this.quan = localStorage.getItem("quan")
-     console.log(this.quan,"aaaaaaaaaaa")
   },
   methods: {
       home() {
