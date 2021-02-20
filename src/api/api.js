@@ -12,7 +12,7 @@ module.exports = {
     Login: baseURL2 + "/user/login_new",
     //第一层登录
     LoginURL: baseURL2 + "/user/login",
-    DeailURL: baseURL2 + "/user/detail?userId=",
+    // DeailURL: baseURL2 + "/user/detail?userId=",
     //第二层登录
     Loginmt5URL: baseURL2 + "/login",
     Loginmt5: baseURL1 + "/login",

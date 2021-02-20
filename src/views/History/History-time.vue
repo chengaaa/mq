@@ -20,7 +20,6 @@
         <input type="text" :value="value2" id="End Date" @click="showdata('end')" />
       </div>
     </div>
-    <!-- 开始时间 -->
     <van-popup v-model="show" position="bottom">
       <van-datetime-picker
         v-model="currentDate"
@@ -31,7 +30,6 @@
         @confirm="onCon"
         @cancel="show = false"
       />
-      <!-- 结束时间 -->
     </van-popup>
     <van-popup v-model="show1" position="bottom">
       <van-datetime-picker

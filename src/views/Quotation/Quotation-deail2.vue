@@ -567,39 +567,7 @@ export default {
             }
           }
         }
-        // for (let i = 0; i < store.state.arr.length; i++) {
-        //   for (let j = 0; j < this.newMydata.length; j++) {
-        //     var sym1 = store.state.arr[i];
-        //     var sym2 = this.newMydata[j];
-        //     if (sym1.symbolName == sym2.symbol) {
-        //       // console.log(this.QuotationArr[i]);
-        //       var ask = store.state.arr[i].ask;
-        //       // console.log(ask,"askaskaskaskask")
-        //       if (this.num0 < ask) {
-        //         document.getElementById(sym1.symbolName).style.color =
-        //           "#a92121";
-        //       } else if (this.num0 > ask) {
-        //         document.getElementById(sym1.symbolName).style.color =
-        //           "#32a53b";
-        //       }
-        //       this.num0 = ask;
-        //     }
-        //     //bid
-        //     if (sym1.symbolName == sym2.symbol) {
-        //       var bid = store.state.arr[i].bid;
-        //       if (this.num1 < bid) {
-        //         document.getElementById(sym1.path).style.color = "#a92121";
-        //         document.getElementById(sym1.symbolName).style.color =
-        //           "#a92121";
-        //       } else if (this.num1 > bid) {
-        //         document.getElementById(sym1.path).style.color = "#32a53b";
-        //         document.getElementById(sym1.symbolName).style.color =
-        //           "#32a53b";
-        //       }
-        //     }
-        //     this.num1 = bid;
-        //   }
-        // }
+     
         for (var i = 0; i < store.state.arr.length; i++) {
           if (store.state.arr[i].symbolName === "BTCUSD.") {
             if (store.state.exchangeBTCUSD) {
@@ -733,12 +701,7 @@ export default {
       }
       //   Toast(item.name);
     },
-    // selectType(item) {
-    //   console.log(item);
-    //   window.localStorage.setItem("params", item);
-    //   this.show = true;
-    //   this.itemw = item;
-    // },
+    
 
     getuserId() {
       this.userid = store.state.userId;

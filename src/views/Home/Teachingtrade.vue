@@ -8,21 +8,11 @@
         <h3>{{$t('m.Howtotransaction')}}？</h3>
     </div>
    
-    <!-- <div class="imglist">
-        <img  src="../../assets/image/chongzhi1.png" alt="">
-    </div> -->
+ 
     <div class="imglist">
         <img style="vertical-align: bottom;" v-for="(item,index) in imgList" :key="index" :src="item.url" alt="">
     </div>
-     <!-- <div class="teaching-title2">
-        <h3>{{$t('m.Howtocurrency')}}？</h3>
-    </div> -->
-    <!-- <div class="imglist">
-        <img  src="../../assets/image/chongzhi1.png" alt="">
-    </div> -->
-    <!-- <div class="imglist">
-        <img  v-for="(item,index) in imgList2" :key="index" :src="item.url" alt="">
-    </div> -->
+  
     </div>
 </template>
 <style lang="scss" scoped>

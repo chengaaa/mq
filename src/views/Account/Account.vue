@@ -31,7 +31,7 @@
         <div class="account-welcom">
           <div class="hello" v-for="(item, index) in accountList" :key="index">
             <div class="accountname">
-              <p>{{ item.accountName }}</p>
+              <p>{{ accountloginName }}</p>
               <!-- <p>{{ date }}</p> -->
             </div>
             <div class="balance">
@@ -41,26 +41,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="account-middledle">
-        <div
-          class="account-middle"
-          v-show="tokens"
-          v-for="(item,index) in accountList"
-          :key="index"
-        > -->
-      <!-- <div class="middle-left">
-            <h4>{{$t('m.Availableassets')}}</h4>
-            <span>98743.24</span>
-          </div>-->
-      <!-- <div class="middle-right">
-            <h4>USDT</h4>
-            <span>{{item.balance}}</span>
-          </div>
-        </div> -->
-      <!-- <div class="account-middle2" v-show="!tokens">
-          <img src="../../assets/image/logo3.png" alt />
-        </div> -->
-      <!-- </div> -->
       <div class="account-bottom">
         <div class="account-bottom1" v-show="tokens">
           <div class="account-flex">
@@ -147,7 +127,6 @@
       </div>
       <div class="zhan"></div>
     </div>
-    <!-- 语言切换 -->
     <div class="back" v-show="lang">
       <div class="back-A">
         <img
@@ -158,9 +137,6 @@
           <img class="img2" src="../../assets/images/logo1.png" />
         </div>
         <div class="picker">
-          <!-- <div class="last">简体中文</div>
-      <div class="last">繁体中文</div>
-      <div class="last">english</div> -->
           <van-picker
             show-toolbar
             :columns="columns"
@@ -173,7 +149,6 @@
         <div class="ok">{{$t('m.Yes')}}</div>
       </div>
     </div>
-    <!-- 客服帮助 -->
      <div class="back back1" v-show="customerdata">
       <div class="back-A">
       <img @click="closecustomer" class="img1" src="../../assets/images/icon_close.png"/>
@@ -187,7 +162,6 @@
      </div>
       </div>
     </div>
-    <!-- 修改密码 -->
     <div class="back backpass" v-show="changepass">
       <div class="back-A">
       <img @click="closepassword" class="img1" src="../../assets/images/icon_close.png"/>
@@ -207,7 +181,6 @@
       </div>
       
     </div>
-     <!-- 分享 -->
     <div class="back backpass" v-show="share">
       <div class="back-B">
       <img @click="closeshare" class="img1" src="../../assets/images/icon_close.png"/>
@@ -230,14 +203,9 @@
      </div>
      <p class="down">{{$t('m.Scan')}}</p>
      <p>{{$t('m.Address')}}：http://www.bbook8.com</p>
-    
       <div class="pace"></div>
       </div>
-      
     </div>
-
-    
-
   </div>
 </template>
 <style  scoped>
@@ -448,19 +416,6 @@
       position: relative;
 
       .account-middle,
-      // .account-middle2 {
-        // width: 88.4%;
-        // height: 3.066667rem /* 230/75 */;
-        // background: white;
-        // position: absolute;
-        // top: -1.4rem;
-        // border-radius: 4px;
-        // // box-shadow: 0px 5px 10px #dfe0e2;
-        // box-shadow:0px 4px 6px 0px #dfe0e2, 0px 2px 0px -2px #dfe0e2;
-        // display: flex;
-        // justify-content: center;
-        // margin-left: 0.64rem /* 48/75 */;
-        // margin-right: 0.64rem /* 48/75 */;
 
         .middle-left,
         .middle-right {
@@ -479,18 +434,14 @@
       .middle-left {
         border-right: 1px solid #eeeeee;
       }
-      // }
-      // .account-middle2 {
+    
       img {
         width: 5.5rem /* 459/75 */;
         margin: auto;
       }
-      // }
     }
     .account-bottom {
       background: #262626;
-      // padding-top: 2rem /* 150/75 */;
-      // box-sizing: content-box;
       .account-flex {
         display: flex;
         align-items: center;
@@ -498,7 +449,6 @@
         padding-right: 20px;
         border-bottom: 1px solid #565656;
         height: 50px;
-        // justify-content: space-between;
         img {
           width: 0.666667rem /* 50/75 */;
           height: 0.693333rem /* 52/75 */;
@@ -521,52 +471,33 @@
 
       .account-bottom1,
       .account-bottom2 {
-        // height:2.466667rem /* 200/75 */;
         background: #262626;
-        // padding-left: 0.64rem /* 48/75 */;
       }
       .account-bottom1 {
-        // height: 4.8rem /* 360/75 */;
         margin-bottom: 0.6rem;
-        // .account-flex:nth-child(1) {
-        //   border-bottom: 1px solid #eeeeee;
-        // }
-        //  .account-flex:nth-child(2) {
-        //   border-bottom: 1px solid #eeeeee;
-        // }
-        //  .account-flex:nth-child(3) {
-        //   border-bottom: 1px solid #eeeeee;
-        // }
       }
       .account-bottom2 {
         .account-flex:nth-child(1) {
           border-top: 1px solid #565656;
         }
       }
-
       .account-bottom3 {
         height: 1.2rem /* 90/75 */;
         line-height: 1.2rem /* 90/75 */;
         background: #ffffff;
         text-align: center;
         font-size: 0.4rem /* 30/75 */;
-    
       }
     }
   }
   .about {
     background: #262626;
-    // padding: 0.533333rem 1rem 1.333333rem /* 100/75 */ 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    // padding-top: 1.333333rem /* 100/75 */;
-    // padding-bottom:1.333333rem /* 100/75 */ ;
     margin-top: 30px;
     p {
-      // width: 80%;
       height: 30px;
       line-height: 30px;
-
       border: 1px solid #fff;
       background: #262626;
       padding: 10px 10px;
@@ -611,7 +542,6 @@
       padding-right: 0.533333rem;
       background: rgba(26, 26, 26, 0.8);
       width: 70%;
-      // height: 400px;
       border: 2px solid #ebebeb;
       text-align: right;
       border-radius: 6px;
@@ -683,22 +613,18 @@
     text-align: center;
     margin-top: .266667rem /* 20/75 */;
      img {
-          // width: 3.5rem;
     height: 3.5rem;
   }
 
   } 
   p {
     text-align: center;
-    // padding-top: 0.133333rem ;
     padding-bottom:0.133333rem ;
     font-size: 13px;
     color: #c9ccda;
     margin-top: 0.266667rem;
   }
-  .pace {
-    // height:0.666667rem;
-  }
+  
    
     }
     .iosand {
@@ -706,7 +632,6 @@
       .margins {
       margin-right: .533333rem /* 40/75 */;
      
-
       }
       h5 {
         color:white;text-align:center;
@@ -724,7 +649,6 @@
 
   .backpass {
     .back-A {
-      // height: 6.666667rem /* 500/75 */;
     }
     h3 {
       color: #2f3d7e;
@@ -783,6 +707,7 @@ export default {
       changepass:false,
       share:false,
       accountname:"",
+      accountloginName:"",
       columns: ["简体中文", "繁体中文", "ENGLISH"],
        data: {
         origin: "",
@@ -799,6 +724,7 @@ export default {
     this.setEng(this.she);
     this.tokens = localStorage.getItem("token");
     this.accountname = this.$store.state.accountName
+    this.accountloginName = localStorage.getItem("accountname")
     this.iosimg = window.localStorage.getItem("iosimg")
     this.andimg = window.localStorage.getItem("Androidsimg")
       this.getcustomer()
@@ -809,11 +735,9 @@ export default {
       da.getDate()
     );
     if (this.tokens) {
-      // this.$store.commit("showLoading");
       this.getdata();
     } else {
       return;
-      // this.$store.commit("hideLoading");
     }
   },
   components: {
@@ -956,7 +880,6 @@ export default {
             this.accountList = [];
             this.accountList.push(data.data);
             localStorage.setItem("balance", data.data.balance);
-            console.log(this.accountList, " this.accountList");
           } else {
           }
         })
@@ -967,17 +890,10 @@ export default {
     logout() {
       this.$http.post(api.LogoutURL).then(({ data }) => {
         if (data.code == 0) {
-          // sessionStorage.clear();
-          // localStorage.clear();
           localStorage.removeItem("token");
           this.delUserId();
           this.delUser();
           this.delAccountName();
-          // this.deleteOpen()
-          // this.deleteSymbol()
-          // this.deleteArr()
-          // this.deleteorder()
-          // this.delToken();
           this.$router.push("/login");
         }
       });
@@ -1020,7 +936,6 @@ export default {
     },
     customer() {
       this.customerdata = true
-      // this.$router.push("/customer");
     },
   },
 };

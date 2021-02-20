@@ -36,30 +36,7 @@
      <van-swipe-item>
     <img class="swiper" :src="schpng4" alt="">
     </van-swipe-item>
-    <!-- <van-swipe-item v-if="lang==='English'">
-      <img class="swiper" :src="enpng1" alt="">
-      </van-swipe-item>
-      <van-swipe-item v-if="lang==='English'">
-      <img class="swiper" :src="enpng2" alt="">
-      </van-swipe-item>
-      <van-swipe-item v-if="lang==='English'">
-      <img class="swiper" :src="enpng3" alt="">
-      </van-swipe-item>
-      <van-swipe-item v-if="lang==='English'">
-      <img class="swiper" :src="enpng4" alt="">
-      </van-swipe-item>
-       <van-swipe-item v-if="lang==='繁體'">
-      <img class="swiper" :src="tchpng1" alt="">
-      </van-swipe-item>
-      <van-swipe-item v-if="lang==='繁體'">
-      <img class="swiper" :src="tchpng2" alt="">
-      </van-swipe-item>
-      <van-swipe-item v-if="lang==='繁體'">
-      <img class="swiper" :src="tchpng3" alt="">
-      </van-swipe-item>
-      <van-swipe-item v-if="lang==='繁體'">
-      <img class="swiper" :src="tchpng4" alt="">
-      </van-swipe-item> -->
+   
 </van-swipe>
 </div>
    <div class="newguide" @click="tradingguide">

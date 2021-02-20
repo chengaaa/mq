@@ -309,68 +309,7 @@ export default {
       this.norecode = false;
     },
     
-    // open() {
-    //   // this.recode = false;
-    //   this.$store.commit("showLoading");
-    //   if (this.referralcode) {
-    //     this.$http
-    //       .get(api.referralcode, { params: { code: this.referralcode } })
-    //       .then(({ data }) => {
-    //         // console.log(data, "789123");
-    //         if (data.result === 1) {
-    //           this.open2();
-    //         } else if (data.result === 0) {
-    //           this.$store.commit("hideLoading");
-    //           this.norecode = true;
-    //           this.referralcode = "";
-    //         }
-    //       });
-    //   } else {
-    //     this.open2();
-    //   }
-    // },
-    // open2() {
-    //   this.$store.commit("showLoading");
-    //   this.$http
-    //     .post(api.OpenURL, {
-    //       userId: this.userId,
-    //       accountName: this.accountName,
-    //       email: "17600765487@163.com",
-    //       phone: "17600765487",
-    //       countryCode: "+86",
-    //       referral_code: this.referralcode,
-    //       user_email: this.useremail,
-    //     })
-    //     .then(({ data }) => {
-    //       console.log(data, "shazi");
-    //       if (data.mcode === "m0000000") {
-    //         this.data.account = data.data.login;
-    //         this.setUserId(this.data.account);
-    //         console.log(this.data.account, this.data.password);
-    //         this.$http
-    //           // post请求
-    //           .post(api.Loginmt5URL, {
-    //             account: this.data.account,
-    //             userId: this.userId,
-    //           })
-    //           .then(({ data }) => {
-    //             // 如果登录成功
-    //             if (data.code === 0) {
-    //               this.$toast(this.$t("m.Loginsuccessfully"));
-    //               this.$store.commit("hideLoading");
-    //               this.$router.push("/");
-    //               localStorage.setItem(
-    //                 "token",
-    //                 "Bearer" + " " + data.access_token
-    //               );
-    //               // this.setToken("Bearer" + " " + data.access_token);
-    //               console.log(data.access_token);
-    //               init();
-    //             }
-    //           });
-    //       }
-    //     });
-    // },
+ 
 
     nihao() {
       this.$http.get("https://www.freeforexapi.com/api/live?pairs=USDCNY");
@@ -425,6 +364,11 @@ export default {
                   "token",
                   "Bearer" + " " + data.data.token
                 );
+                 localStorage.setItem(
+                  "accountname",
+                  data.data.name
+                );
+
                 // this.setToken("Bearer" + " " + data.access_token);
                 init();
             } else if (data.mcode === "PUB_AUTH_0000052") {

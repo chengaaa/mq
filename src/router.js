@@ -256,15 +256,14 @@ const router = new Router({
 });
 //使用router.beforeEach,注册一个全局前置守卫,判断用户是否登录
 router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token'); 
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
     console.log("存在")
-    let token = localStorage.getItem('token'); 
     // let token = store.state.Authorization
-    console.log(token)
-    console.log(token)
       if (token) { 
         // console.log(sessionStorage.getItem('Authorization')) // 获取当前的token是否存在
           next();
+        
       }
       else if(!token){
         // next(false);
@@ -279,6 +278,16 @@ router.beforeEach((to, from, next) => {
       else {
         next();
       }
+
+      if(to.fullPath === "/login" || to.fullPath === "/register" ){
+        if(token){
+            next({
+            path:from.fullPath
+            });
+        }else {
+            next();
+        }
+    }
 })
 
 

@@ -21,9 +21,6 @@
             >
               {{ item.name }}
             </option>
-            <!-- <option >BTCUSD</option> -->
-            <!-- <option >BCHUSD</option> -->
-            <!-- <option >ETHUSD</option> -->
           </select>
         </div>
         <div class="title">
@@ -36,14 +33,6 @@
             >
               {{ item.name }}
             </option>
-            <!-- <option >M5</option>
-          <option >M15</option>
-          <option >M30</option>
-          <option >H1</option>
-          <option >H4</option>
-          <option >D</option>
-          <option >W</option>
-          <option >M</option>-->
           </select>
         </div>
         <div class="title">
